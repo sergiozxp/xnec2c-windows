@@ -67,14 +67,22 @@ void validation_dump_force_config(void)
 	calc_data.pol_type = POL_TOTAL;
 	pr_notice("validation: forced polarization to total for reproducibility\n");
 
-	/* Pin the structure viewer to its default orientation, matching the reset
-	 * button (set_view_preset for the default preset).  Viewer_Gain() and
-	 * Viewer_Noise_Value() resolve the viewing direction from structure_view's
-	 * rotation, and _meas_calc() recomputes gain_viewer at dump time via
-	 * meas_calc(), so a host-restored rotation would make the viewer columns
-	 * host-dependent.  This runs after structure_view is created in main() so
-	 * the reset lands on the live view. */
-	view_set_angles(structure_view, VIEW_DEFAULT_WR, VIEW_DEFAULT_WI);
+	/* Pin the structure viewer orientation at the rc-config values the GUI
+	 * restores from, matching the reset button (set_view_preset for the default
+	 * preset).  Viewer_Gain() and Viewer_Noise_Value() resolve the viewing
+	 * direction from structure_view's rotation, and _meas_calc() recomputes
+	 * gain_viewer at dump time via meas_calc(), so a host-restored rotation
+	 * would make the viewer columns host-dependent.  main() replays these two
+	 * rc_config fields into the rotate and incline spinbuttons when the first
+	 * deck opens, and each spinbutton's value-changed handler re-angles
+	 * structure_view from the replayed value, so pinning the view alone is
+	 * overwritten before any dump runs.  Angle the live view from the pinned
+	 * fields, which runs after structure_view is created in main(). */
+	rc_config.main_rotate_spinbutton  = (int)VIEW_DEFAULT_WR;
+	rc_config.main_incline_spinbutton = (int)VIEW_DEFAULT_WI;
+	view_set_angles(structure_view,
+		(double)rc_config.main_rotate_spinbutton,
+		(double)rc_config.main_incline_spinbutton);
 	view_reset_pan(structure_view);
 	pr_notice("validation: reset structure viewer to default orientation for reproducibility\n");
 }
