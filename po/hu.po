@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xnec2c 4.4.18\n"
 "Report-Msgid-Bugs-To: xnec2c-bugs@z.ewheeler.org\n"
-"POT-Creation-Date: 2026-08-19 15:03-0700\n"
+"POT-Creation-Date: 2026-08-19 21:25-0700\n"
 "PO-Revision-Date: 2025-12-28 20:37-0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1888,7 +1888,7 @@ msgstr "Nézőpont"
 
 # xnec2c-exempt: notation
 #: resources/xnec2c.glade:9799 resources/xnec2c.glade:10023
-#: src/freqplots/freqplots_core.c:58 src/freqplots/graphs/vswr_graph.c:55
+#: src/freqplots/freqplots_core.c:63 src/freqplots/graphs/vswr_graph.c:55
 msgid "VSWR"
 msgstr ""
 
@@ -2265,7 +2265,7 @@ msgid ""
 msgstr "Nyereség a szerkezet nézőjének irányában, a jelenlegi nézetszögeknél."
 
 #: resources/xnec2c.glade:11586 resources/xnec2c.glade:12896
-#: src/freqplots/freqplots_core.c:55
+#: src/freqplots/freqplots_core.c:60
 msgid "Gain"
 msgstr "Nyereség"
 
@@ -2426,7 +2426,7 @@ msgstr ""
 msgid "T<sub>sky</sub>"
 msgstr ""
 
-#: resources/xnec2c.glade:13249 src/rdpattern_ui.c:873
+#: resources/xnec2c.glade:13249 src/rdpattern_ui.c:870
 msgid "Radiation Patterns"
 msgstr "Sugárzási diagramok"
 
@@ -2619,97 +2619,97 @@ msgstr ""
 msgid "Transmission Line Impedance (Zo)"
 msgstr "Tápvonal impedancia (Zo)"
 
-#: src/args.c:111
+#: src/args.c:113
 msgid "Usage: xnec2c [options] [<input-file-name>]"
 msgstr "Használat: xnec2c [beállítások] [<bemeneti-fájlnév>]"
 
-#: src/args.c:116
+#: src/args.c:118
 msgid "NEC2 input file to open"
 msgstr "Megnyitandó NEC2 bemeneti fájl"
 
-#: src/args.c:120
+#: src/args.c:122
 msgid "file must exist"
 msgstr "a fájlnak léteznie kell"
 
-#: src/args.c:124
+#: src/args.c:126
 msgid "creates the file when missing"
 msgstr "létrehozza a fájlt, ha hiányzik"
 
-#: src/args.c:129
+#: src/args.c:131
 msgid "child processes; 0 disables forking"
 msgstr "gyermekfolyamatok; 0 letiltja a fork használatát"
 
-#: src/args.c:133
+#: src/args.c:135
 msgid "enable batch mode, exit after the frequency loop runs"
 msgstr "kötegelt mód engedélyezése, kilépés a frekvenciaciklus lefutása után"
 
-#: src/args.c:135
+#: src/args.c:137
 msgid "batch mode enabled, will exit after first loop\n"
 msgstr "kötegelt mód engedélyezve, kilépés az első ciklus után\n"
 
-#: src/args.c:137
+#: src/args.c:139
 msgid "disable pthreads and use the GTK loop for debugging"
 msgstr "pthreads letiltása és a GTK ciklus használata hibakereséshez"
 
-#: src/args.c:139
+#: src/args.c:141
 msgid "pthread freqloop disabled!\n"
 msgstr "pthread freqloop kikapcsolva!\n"
 
-#: src/args.c:141
+#: src/args.c:143
 msgid "print usage information and exit"
 msgstr "használati információk kiírása és kilépés"
 
-#: src/args.c:144
+#: src/args.c:146
 msgid "print xnec2c version number and exit"
 msgstr "az xnec2c verziószámának kiírása és kilépés"
 
-#: src/args.c:147
+#: src/args.c:149
 msgid "increase verbosity, can be specified multiple times"
 msgstr "a részletesség növelése, többször is megadható"
 
-#: src/args.c:150
+#: src/args.c:152
 msgid "enable debug output (-dd includes backtraces)"
 msgstr "hibakeresési kimenet engedélyezése (-dd visszakövetéseket tartalmaz)"
 
-#: src/args.c:153
+#: src/args.c:155
 msgid "suppress debug/verbose output"
 msgstr "hibakeresési/részletes kimenet elnyomása"
 
-#: src/args.c:159
+#: src/args.c:161
 msgid "math library threads per job (default: processors / jobs)"
 msgstr ""
 "Matematikai könyvtár szálai feladatonként (alapértelmezett: processzorok / "
 "feladatok)"
 
-#: src/args.c:164
+#: src/args.c:166
 msgid "activate the optimizer immediately"
 msgstr "az optimalizáló azonnali aktiválása"
 
-#: src/args.c:167
+#: src/args.c:169
 msgid "skip geometry verification checks"
 msgstr "a geometriaellenőrzések kihagyása"
 
-#: src/args.c:169
+#: src/args.c:171
 msgid "verify segments check disabled\n"
 msgstr "szegmens ellenőrzés kikapcsolva\n"
 
-#: src/args.c:171
+#: src/args.c:173
 msgid "force overlap check on large models (>1000 segments)"
 msgstr "átfedés-ellenőrzés kényszerítése nagy modelleken (>1000 szegmens)"
 
-#: src/args.c:173
+#: src/args.c:175
 msgid "forcing overlap check on large models\n"
 msgstr "átfedés ellenőrzés kényszerítése nagy modelleknél\n"
 
-#: src/args.c:175
+#: src/args.c:177
 msgid "report managed allocator live bytes per call site"
 msgstr "a felügyelt foglaló lefoglalt bájtjainak jelentése hívási helyenként"
 
-#: src/args.c:177
+#: src/args.c:179
 msgid "managed allocator leak report enabled\n"
 msgstr "felügyelt foglaló szivárgásjelentés engedélyezve\n"
 
-#: src/args.c:180
+#: src/args.c:184
 msgid ""
 "The following arguments write to an output file after the frequency loop "
 "completes.  These are useful to combine with --batch; if filenames are "
@@ -2721,51 +2721,51 @@ msgstr ""
 "fájlnevek --batch nélkül vannak megadva, engedélyezze a Fájl->Optimalizáló "
 "beállításai lehetőséget, különben nem lesznek kiírva."
 
-#: src/args.c:188
+#: src/args.c:192
 msgid "write CSV file of measurements"
 msgstr "mérések CSV-fájljának írása"
 
-#: src/args.c:192
+#: src/args.c:196
 msgid "write S1P file of S-parameters"
 msgstr "S-paraméterek S1P-fájljának írása"
 
-#: src/args.c:196
+#: src/args.c:200
 msgid "write S2P file, port-2 is max-gain"
 msgstr "S2P-fájl írása, a 2. port a maximális nyereség"
 
-#: src/args.c:200
+#: src/args.c:204
 msgid "write S2P file, port-2 is viewer-gain"
 msgstr "S2P-fájl írása, a 2. port a néző nyeresége"
 
-#: src/args.c:204
+#: src/args.c:208
 msgid "write CSV of the radiation pattern"
 msgstr "a sugárzási diagram CSV-fájljának írása"
 
-#: src/args.c:208
+#: src/args.c:212
 msgid "write CSV of currents and charges"
 msgstr "áramok és töltések CSV-fájljának írása"
 
-#: src/args.c:212
+#: src/args.c:216
 msgid "write gnuplot structure file"
 msgstr "gnuplot szerkezetfájl írása"
 
-#: src/args.c:216
+#: src/args.c:220
 msgid "write CSV of patch surface currents"
 msgstr "Patch felületi áramok CSV-fájljának írása"
 
-#: src/args.c:220
+#: src/args.c:224
 msgid "write full validation data tree"
 msgstr "teljes validációs adatfa írása"
 
-#: src/args.c:224
+#: src/args.c:228
 msgid "write PNG of the radiation pattern"
 msgstr "a sugárzási diagram PNG-fájljának írása"
 
-#: src/args.c:228
+#: src/args.c:232
 msgid "x, y, z, iso, or quad views"
 msgstr "x, y, z, iso vagy quad nézetek"
 
-#: src/args.c:235
+#: src/args.c:239
 msgid ""
 "post-sweep selected frequency; absent, keep the previous saved frequency, or "
 "center if none"
@@ -2773,60 +2773,60 @@ msgstr ""
 "frekvenciasöprés utáni kiválasztott frekvencia; hiányában az előző mentett "
 "frekvencia marad meg, vagy ennek hiányában a középső"
 
-#: src/args.c:258
+#: src/args.c:262
 msgid "config file path too long\n"
 msgstr "konfigurációs fájl elérési útja túl hosszú\n"
 
-#: src/args.c:283
+#: src/args.c:287
 #, c-format
 msgid "Detected %d CPUs\n"
 msgstr "%d CPU észlelve\n"
 
-#: src/args.c:608
+#: src/args.c:612
 #, c-format
 msgid "%s (default: %s)"
 msgstr "%s (alapértelmezett: %s)"
 
-#: src/args.c:776
+#: src/args.c:780
 #, c-format
 msgid "invalid frequency selector: %s\n"
 msgstr "érvénytelen frekvenciaválasztó: %s\n"
 
-#: src/args.c:801
+#: src/args.c:805
 #, c-format
 msgid "--%s requires an integer argument of %d or more\n"
 msgstr "a --%s kapcsolóhoz legalább %d egész argumentum szükséges\n"
 
-#: src/args.c:836
+#: src/args.c:840
 #, c-format
 msgid "--%s argument too long ( > %d char )\n"
 msgstr "a --%s argumentuma túl hosszú ( > %d karakter )\n"
 
-#: src/args.c:855
+#: src/args.c:859
 #, c-format
 msgid "config file does not exist or is not readable: %s\n"
 msgstr "konfigurációs fájl nem létezik vagy nem olvasható: %s\n"
 
 # xnec2c-exempt: symbol
-#: src/args.c:869 src/geometry.c:771 src/input.c:1825 src/input.c:1826
-#: src/mathlib.c:821 src/mathlib.c:1126 src/rdpattern_ui.c:366
+#: src/args.c:873 src/geometry.c:771 src/input.c:1857 src/input.c:1858
+#: src/mathlib.c:830 src/mathlib.c:1135 src/rdpattern_ui.c:366
 #: src/rdpattern_ui.c:374 src/rdpattern_ui.c:381 src/sy_expr.c:142
 #: src/sy_expr.c:172 src/utils.c:365 src/utils.c:725
 #, c-format
 msgid "%s"
 msgstr ""
 
-#: src/args.c:891
+#: src/args.c:895
 #, c-format
 msgid "--threads and %s=%s both state a thread count, unset one\n"
 msgstr ""
 "A --threads és a(z) %s=%s is szálszámot ad meg, állítsa vissza az egyiket\n"
 
-#: src/args.c:914
+#: src/args.c:918
 msgid "Forking disabled!\n"
 msgstr "Folyamat elágaztatás kikapcsolva!\n"
 
-#: src/args.c:1002
+#: src/args.c:1006
 #, c-format
 msgid "invalid radiation pattern PNG format: %s\n"
 msgstr "érvénytelen sugárzási diagram PNG-formátum: %s\n"
@@ -2874,17 +2874,17 @@ msgstr "Szegmenscsatlakozási hiba az sbf()-ben"
 msgid "Segment connection error in trio()"
 msgstr "Szegmenscsatlakozási hiba a trio()-ban"
 
-#: src/callback_func.c:49
+#: src/callback_func.c:50
 #, c-format
 msgid "failed to capture image for %s\n"
 msgstr "nem sikerült képet rögzíteni ehhez: %s\n"
 
-#: src/callback_func.c:55
+#: src/callback_func.c:56
 #, c-format
 msgid "failed to save image %s: %s\n"
 msgstr "nem sikerült elmenteni a képet: %s: %s\n"
 
-#: src/callback_func.c:103
+#: src/callback_func.c:104
 msgid ""
 "The frequency loop is running\n"
 "Are you sure you wish to end the calculation?"
@@ -2892,7 +2892,7 @@ msgstr ""
 "A frekvenciahurok fut\n"
 "Biztos benne, hogy befejezi a számítást?"
 
-#: src/callback_func.c:107
+#: src/callback_func.c:108
 msgid ""
 "The frequency loop is running\n"
 "Are you sure you wish to close this window?"
@@ -2900,7 +2900,7 @@ msgstr ""
 "A frekvenciahurok fut\n"
 "Biztos benne, hogy bezárja ezt az ablakot?"
 
-#: src/callback_func.c:268
+#: src/callback_func.c:269
 #, c-format
 msgid ""
 "Excitation type %d has no feedpoint: VSWR and impedance plots are hidden.\n"
@@ -2908,43 +2908,43 @@ msgstr ""
 "A(z) %d gerjesztéstípusnak nincs táppontja: a VSWR és impedancia grafikonok "
 "el vannak rejtve.\n"
 
-#: src/callback_func.c:330
+#: src/callback_func.c:331
 msgid "View Currents"
 msgstr "Áramok megtekintése"
 
-#: src/callback_func.c:332
+#: src/callback_func.c:333
 msgid "View Charges"
 msgstr "Töltések megtekintése"
 
-#: src/callback_func.c:334
+#: src/callback_func.c:335
 msgid "View Geometry"
 msgstr "Geometria megtekintése"
 
-#: src/callback_func.c:384
+#: src/callback_func.c:385
 msgid "PNG images (*.png)"
 msgstr "PNG képek (*.png)"
 
-#: src/callback_func.c:386
+#: src/callback_func.c:387
 msgid "GNUplot files (*.gplot)"
 msgstr "GNUplot fájlok (*.gplot)"
 
-#: src/callback_func.c:388
+#: src/callback_func.c:389
 msgid "NEC2 files (*.nec)"
 msgstr "NEC2 fájlok (*.nec)"
 
-#: src/callback_func.c:390
+#: src/callback_func.c:391
 msgid "Touchstone 1-port files (*.s1p)"
 msgstr "Touchstone 1-portos fájlok (*.s1p)"
 
-#: src/callback_func.c:392
+#: src/callback_func.c:393
 msgid "Touchstone 2-port files (*.s2p)"
 msgstr "Touchstone 2-portos fájlok (*.s2p)"
 
-#: src/callback_func.c:394
+#: src/callback_func.c:395
 msgid "Comma-separated CSV files (*.csv)"
 msgstr "Vesszővel elválasztott CSV fájlok (*.csv)"
 
-#: src/callbacks.c:97 src/callbacks.c:113 src/freqplots/freqplots_core.c:62
+#: src/callbacks.c:97 src/callbacks.c:113 src/freqplots/freqplots_core.c:67
 msgid "Antenna Temperature"
 msgstr "Antennahőmérséklet"
 
@@ -3375,35 +3375,35 @@ msgstr ""
 "Visszaállítja a frekvenciapásztázást az első lépésére, és eldobja az összes "
 "kiszámított eredményt."
 
-#: src/freqplots/freqplots_core.c:56
+#: src/freqplots/freqplots_core.c:61
 msgid "Gain Direction"
 msgstr "Nyereség iránya"
 
-#: src/freqplots/freqplots_core.c:57
+#: src/freqplots/freqplots_core.c:62
 msgid "Viewer Gain"
 msgstr "Nézőponti nyereség"
 
-#: src/freqplots/freqplots_core.c:59
+#: src/freqplots/freqplots_core.c:64
 msgid "Impedance (real/imag)"
 msgstr "Impedancia (valós/képzetes)"
 
-#: src/freqplots/freqplots_core.c:60
+#: src/freqplots/freqplots_core.c:65
 msgid "Impedance (mag/phase)"
 msgstr "Impedancia (magnitúdó/fázis)"
 
-#: src/freqplots/freqplots_core.c:61 src/freqplots/graphs/smith_graph.c:476
+#: src/freqplots/freqplots_core.c:66 src/freqplots/graphs/smith_graph.c:516
 msgid "Smith Chart"
 msgstr "Smith-diagram"
 
 # xnec2c-exempt: name
-#: src/freqplots/freqplots_core.c:458
+#: src/freqplots/freqplots_core.c:463
 #, c-format
 msgid ""
 "fr_plot[posn=%d fr=%d] rect[x=%d y=%d, w=%d h=%d] freq[min=%4.2f max=%4.2f n="
 "%d]\n"
 msgstr ""
 
-#: src/freqplots/freqplots_core.c:756
+#: src/freqplots/freqplots_core.c:761
 msgid ""
 "Excitation-port selector: models with more than one EX excitation list every "
 "port here.\n"
@@ -3445,7 +3445,7 @@ msgstr ""
 "    • nyers Max nyereség, Nyereség iránya, F/B\n"
 "    • Antennahőmérséklet, G/T"
 
-#: src/freqplots/freqplots_core.c:789
+#: src/freqplots/freqplots_core.c:794
 msgid ""
 "Only one feedpoint port is defined. Define additional EX excitation cards in "
 "the model to select among multiple ports here."
@@ -3453,7 +3453,7 @@ msgstr ""
 "Csak egy tápponti port van definiálva. Definiáljon további EX gerjesztési "
 "kártyákat a modellben, hogy itt több port közül választhasson."
 
-#: src/freqplots/freqplots_core.c:792
+#: src/freqplots/freqplots_core.c:797
 msgid ""
 "Enable the Net Gain plot setting to select a port; without it this graph "
 "does not follow the port."
@@ -3461,15 +3461,15 @@ msgstr ""
 "Engedélyezze a Nettó nyereség grafikon beállítást port kiválasztásához; "
 "enélkül ez a grafikon nem követi a portot."
 
-#: src/freqplots/freqplots_core.c:908
+#: src/freqplots/freqplots_core.c:913
 msgid "Not available: excitation defines no feedpoint"
 msgstr "Nem elérhető: a gerjesztés nem definiál táppontot"
 
-#: src/freqplots/freqplots_graph.c:137 src/freqplots/graphs/smith_graph.c:529
+#: src/freqplots/freqplots_graph.c:137 src/freqplots/graphs/smith_graph.c:569
 msgid "memory allocation for points failed\n"
 msgstr "memóriafoglalás a pontokhoz sikertelen\n"
 
-#: src/freqplots/freqplots_graph.c:138 src/freqplots/graphs/smith_graph.c:530
+#: src/freqplots/freqplots_graph.c:138 src/freqplots/graphs/smith_graph.c:570
 msgid "Draw_Graph():Memory allocation for points failed"
 msgstr "Draw_Graph():Memóriafoglalás a pontokhoz sikertelen"
 
@@ -3552,7 +3552,7 @@ msgstr ""
 
 # xnec2c-exempt: notation
 #: src/freqplots/graphs/smith_graph.c:387
-#: src/freqplots/graphs/smith_graph.c:462
+#: src/freqplots/graphs/smith_graph.c:502
 msgid "∞ Ω"
 msgstr ""
 
@@ -3589,16 +3589,16 @@ msgid "wavelengths → gen"
 msgstr "hullámhossz → gen"
 
 # xnec2c-exempt: notation
-#: src/freqplots/graphs/smith_graph.c:507
+#: src/freqplots/graphs/smith_graph.c:547
 #, c-format
 msgid "Z₀ = %g Ω"
 msgstr ""
 
-#: src/freqplots/graphs/smith_graph.c:514
+#: src/freqplots/graphs/smith_graph.c:554
 msgid "INDUCTIVE (+jX)"
 msgstr "INDUKTÍV (+jX)"
 
-#: src/freqplots/graphs/smith_graph.c:517
+#: src/freqplots/graphs/smith_graph.c:557
 msgid "CAPACITIVE (-jX)"
 msgstr "KAPACITÍV (-jX)"
 
@@ -4384,29 +4384,35 @@ msgstr "Szimbólumtábla inicializálása sikertelen\n"
 msgid "Failed to initialize symbol table"
 msgstr "Szimbólumtábla inicializálása sikertelen"
 
-#: src/input.c:1232
+#: src/input.c:1190
+#, c-format
+msgid "No FR card: computing one step at the NEC-2 default %g MHz\n"
+msgstr ""
+"Nincs FR-kártya: egy lépés számítása a NEC-2 alapértelmezett %g MHz-en\n"
+
+#: src/input.c:1281
 msgid "ignoring CM card in commands\n"
 msgstr "CM kártya figyelmen kívül hagyva a parancsokban\n"
 
-#: src/input.c:1233
+#: src/input.c:1282
 msgid "Ignoring CM card in commands"
 msgstr "CM kártya figyelmen kívül hagyva a parancsokban"
 
-#: src/input.c:1245
+#: src/input.c:1294
 msgid "CP card is ignored: coupling calculation not implemented\n"
 msgstr ""
 "A CP-kártya figyelmen kívül marad: a csatolásszámítás nincs megvalósítva\n"
 
-#: src/input.c:1341
+#: src/input.c:1390
 #, c-format
 msgid "Skipping duplicate FR card at %g MHz\n"
 msgstr "Duplikált FR kártya kihagyva %g MHz-nél\n"
 
-#: src/input.c:1423
+#: src/input.c:1455
 msgid "Max frequency <= Min frequency in FR card\n"
 msgstr "Max. frekvencia <= Min. frekvencia az FR kártyában\n"
 
-#: src/input.c:1424
+#: src/input.c:1456
 msgid ""
 "Max frequency <= Min frequency in FR card\n"
 "Please check FR card data and correct"
@@ -4414,7 +4420,7 @@ msgstr ""
 "Max. frekvencia <= Min. frekvencia az FR kártyában\n"
 "Kérjük ellenőrizze az FR kártya adatait és javítsa"
 
-#: src/input.c:1447
+#: src/input.c:1479
 msgid ""
 "Fix the GE/GN cards:\n"
 "The GE card specifies that a ground is present, but the GN indicates "
@@ -4423,11 +4429,11 @@ msgstr ""
 "Javítsa a GE/GN kártyákat:\n"
 "A GE kártya földsíkot jelöl, de a GN mást jelez."
 
-#: src/input.c:1461
+#: src/input.c:1493
 msgid "theta > 90 deg. with ground specified\n"
 msgstr "Theta > 90 fok megadott földsíkkal\n"
 
-#: src/input.c:1462 src/radiation.c:703
+#: src/input.c:1494 src/radiation.c:703
 msgid ""
 "Theta > 90 deg with ground specified\n"
 "Please check RP card data and correct"
@@ -4435,7 +4441,7 @@ msgstr ""
 "Theta > 90 fok megadott földsíkkal\n"
 "Kérjük ellenőrizze az RP kártya adatait és javítsa"
 
-#: src/input.c:1471
+#: src/input.c:1503
 msgid ""
 "radial wire g.s. approximation: may not be used with Sommerfeld ground "
 "option\n"
@@ -4443,7 +4449,7 @@ msgstr ""
 "radiális huzal g.s. közelítés: nem használható a Sommerfeld földsík "
 "opcióval\n"
 
-#: src/input.c:1472
+#: src/input.c:1504
 msgid ""
 "radial wire g.s. approximation\n"
 "may not be used with Sommerfeld ground option"
@@ -4451,7 +4457,7 @@ msgstr ""
 "radiális huzal g.s. közelítés\n"
 "nem használható a Sommerfeld földsík opcióval"
 
-#: src/input.c:1520
+#: src/input.c:1552
 #, c-format
 msgid ""
 "data fault on loading card no %d: itag step1 %d is greater than itag step2 "
@@ -4460,7 +4466,7 @@ msgstr ""
 "adathiba a(z) %d. terhelési kártyában: itag step1 %d nagyobb mint itag step2 "
 "%d\n"
 
-#: src/input.c:1522
+#: src/input.c:1554
 msgid ""
 "Data fault on loading card\n"
 "itag step1 is greater than itag step2"
@@ -4468,13 +4474,13 @@ msgstr ""
 "Adathiba a terhelési kártyában\n"
 "itag step1 nagyobb mint itag step2"
 
-#: src/input.c:1651
+#: src/input.c:1683
 msgid ""
 "Transmission Line impedance = 0: is not valid. Please correct NT or TL card\n"
 msgstr ""
 "Tápvonal impedancia = 0: nem érvényes. Kérjük javítsa az NT vagy TL kártyát\n"
 
-#: src/input.c:1652
+#: src/input.c:1684
 msgid ""
 "Transmission Line impedance = 0\n"
 "is not valid. Please correct NT or TL card"
@@ -4482,11 +4488,11 @@ msgstr ""
 "Tápvonal impedancia = 0\n"
 "nem érvényes. Kérjük javítsa az NT vagy TL kártyát"
 
-#: src/input.c:1663
+#: src/input.c:1695
 msgid "Segment number error in TL or NT card\n"
 msgstr "Szegmensszám hiba a TL vagy NT kártyában\n"
 
-#: src/input.c:1664
+#: src/input.c:1696
 msgid ""
 "Segment number\n"
 "error in NT or TL card"
@@ -4494,21 +4500,21 @@ msgstr ""
 "Szegmensszám\n"
 "hiba az NT vagy TL kártyában"
 
-#: src/input.c:1686
+#: src/input.c:1718
 msgid "PQ and PT cards are ignored: printing to file not implemented\n"
 msgstr ""
 "A PQ- és PT-kártya figyelmen kívül marad: a fájlba nyomtatás nincs "
 "megvalósítva\n"
 
-#: src/input.c:1690
+#: src/input.c:1722
 msgid "PL card is ignored: plotting to file not supported\n"
 msgstr "A PL-kártya figyelmen kívül marad: a fájlba rajzolás nem támogatott\n"
 
-#: src/input.c:1696
+#: src/input.c:1728
 msgid "Surface wave option (I1=1): of RP command not implemented\n"
 msgstr "Felületi hullám opció (I1=1): az RP parancsban nincs implementálva\n"
 
-#: src/input.c:1697
+#: src/input.c:1729
 msgid ""
 "Surface wave option (I1=1)\n"
 "of RP command not implemented"
@@ -4516,24 +4522,24 @@ msgstr ""
 "Felületi hullám opció (I1=1)\n"
 "az RP parancsban nincs implementálva"
 
-#: src/input.c:1722
+#: src/input.c:1754
 msgid "Average gain diagnostic enabled (use --skip-verify to disable)\n"
 msgstr ""
 "Átlagos nyereség diagnosztika engedélyezve (a --skip-verify kikapcsolja)\n"
 
-#: src/input.c:1731
+#: src/input.c:1763
 #, c-format
 msgid "Average power gain disabled: nth=%d nph=%d (both must be >= 2)\n"
 msgstr ""
 "Átlagos teljesítménynyereség kikapcsolva: nth=%d nph=%d (mindkettőnek >= 2 "
 "kell legyen)\n"
 
-#: src/input.c:1736
+#: src/input.c:1768
 #, c-format
 msgid "Average power gain calculation enabled (XNDA A=%d)\n"
 msgstr "Átlagos teljesítménynyereség számítás engedélyezve (XNDA A=%d)\n"
 
-#: src/input.c:1752
+#: src/input.c:1784
 msgid ""
 "Theta > 90 deg. with ground specified: Please check RP card data and "
 "correct\n"
@@ -4541,7 +4547,7 @@ msgstr ""
 "Theta > 90 fok megadott földsíkkal: Kérjük ellenőrizze az RP kártya adatait "
 "és javítsa\n"
 
-#: src/input.c:1753
+#: src/input.c:1785
 msgid ""
 "Theta > 90 deg. with ground specified\n"
 "Please check RP card data and correct"
@@ -4549,15 +4555,15 @@ msgstr ""
 "Theta > 90 fok megadott földsíkkal\n"
 "Kérjük ellenőrizze az RP kártya adatait és javítsa"
 
-#: src/input.c:1821
+#: src/input.c:1853
 msgid "Geometry card in command section"
 msgstr "Geometriai kártya a parancs szakaszban"
 
-#: src/input.c:1824
+#: src/input.c:1856
 msgid "Unrecognized command card"
 msgstr "Ismeretlen parancskártya"
 
-#: src/input.c:1859
+#: src/input.c:1897
 msgid ""
 "Missing or surface-wave RP card: Radiation pattern and gain calculations "
 "disabled\n"
@@ -4565,11 +4571,11 @@ msgstr ""
 "Hiányzó vagy felületi hullámos RP kártya: Sugárzási diagram és nyereség "
 "számítások kikapcsolva\n"
 
-#: src/input.c:1886
+#: src/input.c:1924
 msgid "Unexpected exit from while loop"
 msgstr "Váratlan kilépés a while ciklusból"
 
-#: src/input.c:1977
+#: src/input.c:2015
 msgid ""
 "command data card error: Unexpected EOF while reading input file - appending "
 "EN card\n"
@@ -4577,7 +4583,7 @@ msgstr ""
 "parancs adatkártya hiba: Váratlan fájlvég a bemeneti fájl olvasásakor - EN "
 "kártya hozzáfűzése\n"
 
-#: src/input.c:1978
+#: src/input.c:2016
 msgid ""
 "Command data card error\n"
 "Unexpected EOF while reading input file\n"
@@ -4587,12 +4593,12 @@ msgstr ""
 "Váratlan fájlvég a bemeneti fájl olvasásakor\n"
 "Alapértelmezett EN kártya hozzáfűzése"
 
-#: src/input.c:1995
+#: src/input.c:2033
 msgid "command data card error: card's mnemonic code too short or missing\n"
 msgstr ""
 "parancs adatkártya hiba: a kártya mnemonikus kódja túl rövid vagy hiányzik\n"
 
-#: src/input.c:1996
+#: src/input.c:2034
 msgid ""
 "Command data card error\n"
 "Mnemonic code too short or missing"
@@ -4600,7 +4606,7 @@ msgstr ""
 "Parancs adatkártya hiba\n"
 "Mnemonikus kód túl rövid vagy hiányzik"
 
-#: src/input.c:2197
+#: src/input.c:2235
 msgid ""
 "geometry data card error: Unexpected EOF while reading input file - "
 "appending GE card\n"
@@ -4608,7 +4614,7 @@ msgstr ""
 "geometriai adatkártya hiba: Váratlan fájlvég a bemeneti fájl olvasásakor - "
 "GE kártya hozzáfűzése\n"
 
-#: src/input.c:2198
+#: src/input.c:2236
 msgid ""
 "Geometry data card error\n"
 "Unexpected EOF while reading input file\n"
@@ -4618,13 +4624,13 @@ msgstr ""
 "Váratlan fájlvég a bemeneti fájl olvasásakor\n"
 "Alapértelmezett GE kártya hozzáfűzése"
 
-#: src/input.c:2215
+#: src/input.c:2253
 msgid "geometry data card error: card's mnemonic code too short or missing\n"
 msgstr ""
 "geometriai adatkártya hiba: a kártya mnemonikus kódja túl rövid vagy "
 "hiányzik\n"
 
-#: src/input.c:2216
+#: src/input.c:2254
 msgid ""
 "Geometry data card error\n"
 "Card's mnemonic code too short or missing"
@@ -4744,37 +4750,37 @@ msgstr "kilépés végzetes hiba után: pipe() sikertelen"
 msgid "exiting after fatal error: fork() failed"
 msgstr "kilépés végzetes hiba után: fork() sikertelen"
 
-#: src/main.c:834
+#: src/main.c:833
 msgid "exiting via user interrupt\n"
 msgstr "kilépés felhasználói megszakítás miatt\n"
 
-#: src/main.c:838
+#: src/main.c:837
 msgid "segmentation fault, exiting\n"
 msgstr "szegmentálási hiba, kilépés\n"
 
-#: src/main.c:842
+#: src/main.c:841
 msgid "floating point exception, exiting\n"
 msgstr "lebegőpontos kivétel, kilépés\n"
 
-#: src/main.c:846
+#: src/main.c:845
 msgid "abort signal received, exiting\n"
 msgstr "megszakítási jel érkezett, kilépés\n"
 
-#: src/main.c:850
+#: src/main.c:849
 msgid "termination request received, exiting\n"
 msgstr "leállítási kérés érkezett, kilépés\n"
 
-#: src/main.c:860
+#: src/main.c:859
 #, c-format
 msgid "not forked, ignoring SIGCHLD from pid %d\n"
 msgstr "nem elágaztatott, SIGCHLD figyelmen kívül hagyása a(z) %d pid-től\n"
 
-#: src/main.c:868
+#: src/main.c:867
 #, c-format
 msgid "child process pid %d exited\n"
 msgstr "a(z) %d pid gyermekfolyamat kilépett\n"
 
-#: src/main.c:877
+#: src/main.c:876
 #, c-format
 msgid "default exit with signal: %d\n"
 msgstr "alapértelmezett kilépés jelzéssel: %d\n"
@@ -4788,27 +4794,27 @@ msgstr ""
 "Az MKL szálkezelési könyvtár megváltoztatásához indítsa újra."
 
 # xnec2c-exempt: symbol
-#: src/mathlib.c:359 src/utils.c:729
+#: src/mathlib.c:368 src/utils.c:729
 #, c-format
 msgid "%s: %s\n"
 msgstr ""
 
-#: src/mathlib.c:364
+#: src/mathlib.c:373
 #, c-format
 msgid "%s: opened %s\n"
 msgstr "%s: megnyitva %s\n"
 
-#: src/mathlib.c:372
+#: src/mathlib.c:381
 #, c-format
 msgid "%s: library not found or nonfunctional, skipping: %s\n"
 msgstr "%s: könyvtár nem található vagy nem működő, kihagyva: %s\n"
 
-#: src/mathlib.c:397
+#: src/mathlib.c:406
 #, c-format
 msgid "  %s: unable to bind %s: %s\n"
 msgstr "  %s: nem sikerült kötni %s: %s\n"
 
-#: src/mathlib.c:425
+#: src/mathlib.c:434
 #, c-format
 msgid ""
 "%s=%s is set, so thread counts are not chosen per job, which affects "
@@ -4817,17 +4823,17 @@ msgstr ""
 "A(z) %s=%s be van állítva, ezért a szálszámok nem feladatonként kerülnek "
 "kiválasztásra, ami hatással van a teljesítményre\n"
 
-#: src/mathlib.c:445
+#: src/mathlib.c:454
 #, c-format
 msgid "%s: loaded\n"
 msgstr "%s: betöltve\n"
 
-#: src/mathlib.c:515
+#: src/mathlib.c:524
 #, c-format
 msgid "Migrated legacy mathlib index %d to ID '%s'\n"
 msgstr "Régi mathlib-index %d átmigrálva '%s' azonosítóra\n"
 
-#: src/mathlib.c:520
+#: src/mathlib.c:529
 #, c-format
 msgid ""
 "Legacy mathlib index %d out of range [0-%d], triggering first-run scan\n"
@@ -4835,31 +4841,31 @@ msgstr ""
 "Régi mathlib-index %d tartományon kívül [0-%d], első futtatás keresés "
 "indítva\n"
 
-#: src/mathlib.c:549
+#: src/mathlib.c:558
 #, c-format
 msgid "Mathlib ID '%s' not found in available libraries.\n"
 msgstr "A(z) '%s' mathlib-azonosító nem található az elérhető könyvtárakban.\n"
 
-#: src/mathlib.c:551
+#: src/mathlib.c:560
 #, c-format
 msgid "Mathlib '%s' is not available.\n"
 msgstr "A(z) '%s' mathlib nem elérhető.\n"
 
-#: src/mathlib.c:556
+#: src/mathlib.c:565
 #, c-format
 msgid "Selected first available mathlib: %s\n"
 msgstr "Az első elérhető mathlib kiválasztva: %s\n"
 
-#: src/mathlib.c:660
+#: src/mathlib.c:669
 #, c-format
 msgid "mathlib_load[%d]: mathlib.available=0, skipping: %s\n"
 msgstr "mathlib_load[%d]: mathlib.available=0, kihagyva: %s\n"
 
-#: src/mathlib.c:710
+#: src/mathlib.c:719
 msgid "Batch Math Library"
 msgstr "Kötegelt matematikakönyvtár"
 
-#: src/mathlib.c:711
+#: src/mathlib.c:720
 msgid ""
 "Selecting a batched math library has no effect unless -j is specified on the "
 "command line. (However, this selection will be saved for next time xnec2c is "
@@ -4869,20 +4875,20 @@ msgstr ""
 "a parancssorban. (Azonban ez a kiválasztás elmentésre kerül az xnec2c "
 "következő megnyitásakor.)\n"
 
-#: src/mathlib.c:750
+#: src/mathlib.c:759
 #, c-format
 msgid "%s: benchmark=%d\n"
 msgstr "%s: teljesítményteszt=%d\n"
 
-#: src/mathlib.c:821
+#: src/mathlib.c:830
 msgid "Mathlib Help"
 msgstr "Mathlib súgó"
 
-#: src/mathlib.c:857
+#: src/mathlib.c:866
 msgid "Mathlib Benchmark Help"
 msgstr "Mathlib teljesítményteszt súgó"
 
-#: src/mathlib.c:859
+#: src/mathlib.c:868
 msgid ""
 "Jobs are forked and run in parallel by xnec2c, whereas threads are used by "
 "the mathlib implementation to parallelize the linear algebra calculation of "
@@ -4981,12 +4987,12 @@ msgstr ""
 "lényeges számszám, amikor egy söprésnél kevesebb kiszámítandó frekvencia "
 "marad, mint a processzorok száma.\n"
 
-#: src/mathlib.c:958 src/mathlib.c:968 src/mathlib.c:975 src/mathlib.c:981
-#: src/mathlib.c:998 src/mathlib.c:1003 src/mathlib.c:1126
+#: src/mathlib.c:967 src/mathlib.c:977 src/mathlib.c:984 src/mathlib.c:990
+#: src/mathlib.c:1007 src/mathlib.c:1012 src/mathlib.c:1135
 msgid "Mathlib Benchmark"
 msgstr "Mathlib teljesítményteszt"
 
-#: src/mathlib.c:959
+#: src/mathlib.c:968
 #, c-format
 msgid ""
 "%s=%s states the thread count of every library that honors it, so a thread "
@@ -4997,16 +5003,16 @@ msgstr ""
 "szálteljesítményteszt minden menetben ugyanazt a számszámot méri. Állítsa "
 "vissza, majd indítsa újra a szálszámok teljesítménytesztjéhez."
 
-#: src/mathlib.c:969
+#: src/mathlib.c:978
 msgid "Benchmarks are disabled while optimization is activated."
 msgstr "Teljesítménytesztek nem elérhetők, amíg az optimalizálás aktív."
 
-#: src/mathlib.c:976
+#: src/mathlib.c:985
 msgid "You must load a NEC2 input file before running benchmarks."
 msgstr ""
 "NEC2 bemeneti fájlt kell betölteni a teljesítménytesztek futtatása előtt."
 
-#: src/mathlib.c:982
+#: src/mathlib.c:991
 msgid ""
 "Choosing a benchmark other than \"Single Job\" has no effect unless -j is "
 "specified on the command line."
@@ -5014,16 +5020,16 @@ msgstr ""
 "Az „Egyszeri feladat\"-tól eltérő teljesítményteszt kiválasztása nem hat, "
 "hacsak a -j nincs megadva a parancssorban."
 
-#: src/mathlib.c:999
+#: src/mathlib.c:1008
 msgid "You must select at least one math library to benchmark"
 msgstr ""
 "Legalább egy matematikakönyvtárat kell kiválasztani a teljesítményteszthez"
 
-#: src/mathlib.c:1004
+#: src/mathlib.c:1013
 msgid "Run the benchmark now?"
 msgstr "Biztosan elindítja a teljesítménytesztet?"
 
-#: src/mathlib.c:1005
+#: src/mathlib.c:1014
 #, c-format
 msgid ""
 "This will run a frequency loop benchmark for each detected linear algebra "
@@ -5074,22 +5080,22 @@ msgstr ""
 "\n"
 "Ez a párbeszédablak bezárul a teljesítményteszt befejezésekor."
 
-#: src/mathlib.c:1065
+#: src/mathlib.c:1074
 #, c-format
 msgid "Starting %s benchmark (%s %d)\n"
 msgstr "%s teljesítményteszt indítása (%s %d)\n"
 
-#: src/mathlib.c:1075
+#: src/mathlib.c:1084
 #, c-format
 msgid "Benchmark sweep did not run: FR_cards=%d steps_total=%d\n"
 msgstr "A teljesítményteszt-söprés nem futott le: FR_cards=%d steps_total=%d\n"
 
-#: src/mathlib.c:1109
+#: src/mathlib.c:1118
 msgid "measured once: this library keeps the thread count it was built with"
 msgstr ""
 "egyszer mérve: ez a könyvtár megtartja a fordításakor használt szálszámot"
 
-#: src/mathlib.c:1177
+#: src/mathlib.c:1186
 #, c-format
 msgid ""
 "\n"
@@ -5116,38 +5122,38 @@ msgstr ""
 "* \n"
 "* Részletekért lásd az Intel mkl_set_threading_layer() dokumentációját.\n"
 
-#: src/mathlib.c:1410
+#: src/mathlib.c:1419
 #, c-format
 msgid "%s: thread count cannot be bounded, dlsym(%s): %s\n"
 msgstr "%s: a szálszám nem korlátozható, dlsym(%s): %s\n"
 
 # xnec2c-exempt: name
-#: src/mathlib.c:1458
+#: src/mathlib.c:1467
 #, c-format
 msgid "dlsym(mkl_set_threading_layer): %s\n"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: src/matrix.c:1236
+#: src/matrix.c:1239
 #, c-format
 msgid "pivot(%d)= %16.8E\n"
 msgstr ""
 
-#: src/matrix.c:1270
+#: src/matrix.c:1273
 #, c-format
 msgid "LU Decomposition Failed: %d\n"
 msgstr "LU-dekompozíció sikertelen: %d\n"
 
-#: src/matrix.c:1326
+#: src/matrix.c:1329
 #, c-format
 msgid "symmetry error - nrow:%d ncol:%d\n"
 msgstr "szimmetriahiba - nrow:%d ncol:%d\n"
 
-#: src/matrix.c:1327
+#: src/matrix.c:1330
 msgid "Symmetry error"
 msgstr "Szimmetriahiba"
 
-#: src/matrix.c:1431
+#: src/matrix.c:1434
 #, c-format
 msgid "Solving Failed: %d\n"
 msgstr "Megoldás sikertelen: %d\n"
@@ -5160,48 +5166,48 @@ msgstr ""
 "noise_temp_resolve: noise_temp tábla nincs lefoglalva; t_sky/t_earth "
 "alapértéke 0\n"
 
-#: src/mem/mem.c:196
+#: src/mem/mem.c:185
 #, c-format
 msgid "Memory allocation denied %s: requested %lu bytes\n"
 msgstr "Memória-foglalás megtagadva %s: kért %lu bájt\n"
 
-#: src/mem/mem.c:240
+#: src/mem/mem.c:229
 #, c-format
 msgid "mem_obj_t at %p: size=%lu used=%lu addr=%p\n"
 msgstr "mem_obj_t itt: %p: méret=%lu használt=%lu cím=%p\n"
 
 # xnec2c-exempt: name
-#: src/mem/mem.c:261
+#: src/mem/mem.c:250
 #, c-format
 msgid "mem_backtrace(%p):\n"
 msgstr ""
 
-#: src/mem/mem.c:264
+#: src/mem/mem.c:253
 msgid "  m->backtrace is null, no backtrace data\n"
 msgstr "  m->backtrace null, nincs visszakövetési adat\n"
 
-#: src/mem/mem.c:290
+#: src/mem/mem.c:279
 #, c-format
 msgid "mem_clone: allocation failed for %lu bytes\n"
 msgstr "mem_clone: lefoglalás sikertelen %lu bájt esetén\n"
 
-#: src/mem/mem_track.c:204
+#: src/mem/mem_track.c:208
 #, c-format
 msgid "mem-report %s: site=%s count=%llu bytes=%llu serial=[%llu..%llu]\n"
 msgstr "mem-report %s: hely=%s darab=%llu bájt=%llu sorszám=[%llu..%llu]\n"
 
-#: src/mem/mem_track.c:209
+#: src/mem/mem_track.c:213
 #, c-format
 msgid "mem-report %s: live_blocks=%llu live_bytes=%llu distinct_sites=%llu\n"
 msgstr ""
 "mem-report %s: élő_blokkok=%llu élő_bájtok=%llu különböző_helyek=%llu\n"
 
-#: src/mem/mem_track.c:215
+#: src/mem/mem_track.c:219
 #, c-format
 msgid "mem-report %s: serial=%llu site=%s size=%lu used=%lu\n"
 msgstr "mem-report %s: sorszám=%llu hely=%s méret=%lu használt=%lu\n"
 
-#: src/mem/mem_track.c:223
+#: src/mem/mem_track.c:227
 #, c-format
 msgid "mem-report %s:   frame %d %s\n"
 msgstr "mem-report %s:   keret %d %s\n"
@@ -5318,35 +5324,35 @@ msgstr "Shader fordítási hiba: %s: %s\n"
 msgid "Shader link failed: %s + %s\n"
 msgstr "Shader linkelés sikertelen: %s + %s\n"
 
-#: src/opengl-engine/opengl_view.c:181
+#: src/opengl-engine/opengl_view.c:184
 msgid ""
 "OpenGL context error — no OpenGL implementation available on this display\n"
 msgstr ""
 "OpenGL kontexthiba – ezen a kijelzőn nem érhető el OpenGL-megvalósítás\n"
 
-#: src/opengl-engine/opengl_view.c:194
+#: src/opengl-engine/opengl_view.c:197
 msgid "Disabling OpenGL: scene shader failed\n"
 msgstr "OpenGL letiltva: scene shader meghibásodott\n"
 
-#: src/opengl-engine/opengl_view.c:209
+#: src/opengl-engine/opengl_view.c:212
 msgid "Disabling OpenGL: overlay shader failed\n"
 msgstr "OpenGL letiltva: overlay shader meghibásodott\n"
 
-#: src/opengl-engine/opengl_view.c:221
+#: src/opengl-engine/opengl_view.c:224
 msgid "Disabling OpenGL: axes renderer failed\n"
 msgstr "OpenGL letiltva: tengelyek megjelenítője meghibásodott\n"
 
-#: src/opengl-engine/opengl_view.c:250
+#: src/opengl-engine/opengl_view.c:253
 msgid "Disabling OpenGL: ground plane shader failed\n"
 msgstr "OpenGL letiltva: földsík shader meghibásodott\n"
 
-#: src/opengl-engine/opengl_view.c:272
+#: src/opengl-engine/opengl_view.c:275
 #, c-format
 msgid "Renderable count %u exceeds MAX_RENDERABLES (%d)\n"
 msgstr ""
 "A renderelhető elemek száma (%u) meghaladja a MAX_RENDERABLES (%d) értéket\n"
 
-#: src/opengl-engine/opengl_view.c:351
+#: src/opengl-engine/opengl_view.c:354
 msgid "Disabling OpenGL: peel composite shader failed\n"
 msgstr "OpenGL letiltva: peel composite shader meghibásodott\n"
 
@@ -5393,7 +5399,7 @@ msgstr "Layer depth FBO hiányos\n"
 msgid "Transparent renderables skipped: peel FBOs unavailable\n"
 msgstr "Áttetsző renderelhetők kihagyva: peel FBO-k nem elérhetők\n"
 
-#: src/opengl-engine/opengl_view_scene.c:300
+#: src/opengl-engine/opengl_view_scene.c:297
 msgid "Failed to load shaders\n"
 msgstr "Nem sikerült betölteni a shadereket\n"
 
@@ -5852,71 +5858,71 @@ msgstr ""
 "Ég és Föld zajhőmérséklet-modellek.\n"
 "Válassza a Nyereség stílus → Zajhőmérséklet lehetőséget az engedélyezéshez."
 
-#: src/rdpattern_ui.c:850
+#: src/rdpattern_ui.c:847
 msgid "Total Gain"
 msgstr "Teljes nyereség"
 
-#: src/rdpattern_ui.c:851
+#: src/rdpattern_ui.c:848
 msgid "Horizontal Polarization"
 msgstr "Vízszintes polarizáció"
 
-#: src/rdpattern_ui.c:852
+#: src/rdpattern_ui.c:849
 msgid "Vertical Polarization"
 msgstr "Függőleges polarizáció"
 
-#: src/rdpattern_ui.c:853
+#: src/rdpattern_ui.c:850
 msgid "RH Circular Polarization"
 msgstr "Jobbkezes körkörös polarizáció"
 
-#: src/rdpattern_ui.c:854
+#: src/rdpattern_ui.c:851
 msgid "LH Circular Polarization"
 msgstr "Balkezes körkörös polarizáció"
 
-#: src/rdpattern_ui.c:859
+#: src/rdpattern_ui.c:856
 msgid "Linear Power"
 msgstr "Lineáris teljesítmény"
 
-#: src/rdpattern_ui.c:860
+#: src/rdpattern_ui.c:857
 msgid "Linear Voltage"
 msgstr "Lineáris feszültség"
 
-#: src/rdpattern_ui.c:861
+#: src/rdpattern_ui.c:858
 msgid "ARRL Scale"
 msgstr "ARRL skála"
 
-#: src/rdpattern_ui.c:862
+#: src/rdpattern_ui.c:859
 msgid "Logarithmic Scale"
 msgstr "Logaritmikus skála"
 
-#: src/rdpattern_ui.c:863
+#: src/rdpattern_ui.c:860
 msgid "Noise Temperature"
 msgstr "Zajhőmérséklet"
 
-#: src/rdpattern_ui.c:864
+#: src/rdpattern_ui.c:861
 msgid "Noise Temp (log scale)"
 msgstr "Zajhőm. (log skála)"
 
-#: src/rdpattern_ui.c:876
+#: src/rdpattern_ui.c:873
 msgid "Radiation Pattern: - "
 msgstr "Sugárzási diagram: - "
 
-#: src/rdpattern_ui.c:896
+#: src/rdpattern_ui.c:893
 msgid "Near Fields:"
 msgstr "Közeli mezők:"
 
-#: src/rdpattern_ui.c:898
+#: src/rdpattern_ui.c:895
 msgid " - E Field"
 msgstr " - E mező"
 
-#: src/rdpattern_ui.c:900
+#: src/rdpattern_ui.c:897
 msgid " - H Field"
 msgstr " - H mező"
 
-#: src/rdpattern_ui.c:902
+#: src/rdpattern_ui.c:899
 msgid " - Poynting Vector"
 msgstr " - Poynting-vektor"
 
-#: src/rdpattern_ui.c:912
+#: src/rdpattern_ui.c:909
 msgid "Frequency Data Plots - "
 msgstr "Frekvenciaadatok ábrázolása - "
 
@@ -6180,7 +6186,7 @@ msgstr ""
 "validáció: a polarizáció kényszerítve teljesre a reprodukálhatóság "
 "érdekében\n"
 
-#: src/validation_dump.c:79
+#: src/validation_dump.c:87
 msgid ""
 "validation: reset structure viewer to default orientation for "
 "reproducibility\n"
@@ -6188,24 +6194,24 @@ msgstr ""
 "validáció: a szerkezetnézet visszaállítva alapértelmezett tájolásra a "
 "reprodukálhatóság érdekében\n"
 
-#: src/validation_dump.c:601 src/validation_dump.c:607
+#: src/validation_dump.c:609 src/validation_dump.c:615
 msgid "Validation Tree"
 msgstr "Validációs fa"
 
-#: src/validation_dump.c:601
+#: src/validation_dump.c:609
 msgid "Cannot save: frequency loop not done"
 msgstr "Nem menthető: a frekvenciahurok nincs befejezve"
 
-#: src/validation_dump.c:607
+#: src/validation_dump.c:615
 msgid "Cannot create output directory"
 msgstr "Nem sikerült létrehozni a kimeneti könyvtárat"
 
-#: src/validation_dump.c:639
+#: src/validation_dump.c:647
 #, c-format
 msgid "validation tree written to: %s\n"
 msgstr "validációs fa kiírva ide: %s\n"
 
-#: src/xnec2c.c:303
+#: src/xnec2c.c:307
 #, c-format
 msgid ""
 "complex dielectric constant from file: %12.5E%+12.5Ej, requested: %12.5E"
@@ -6213,16 +6219,16 @@ msgid ""
 msgstr ""
 "komplex dielektromos állandó fájlból: %12.5E%+12.5Ej, kért: %12.5E%+12.5Ej\n"
 
-#: src/xnec2c.c:306
+#: src/xnec2c.c:310
 msgid "Ground_Parameters():Error in ground parameters"
 msgstr "Ground_Parameters():Hiba a földsík paraméterekben"
 
-#: src/xnec2c.c:724
+#: src/xnec2c.c:734
 #, c-format
 msgid "%.6f MHz: %f seconds. (%s)\n"
 msgstr "%.6f MHz: %f másodperc. (%s)\n"
 
-#: src/xnec2c.c:1068
+#: src/xnec2c.c:1078
 #, c-format
 msgid ""
 "step %d raced: dispatched %.6f MHz, current %.6f MHz; will recalculate\n"
@@ -6230,81 +6236,81 @@ msgstr ""
 "%d. lépés versenyhelyzet: elküldött %.6f MHz, aktuális %.6f MHz; "
 "újraszámítás\n"
 
-#: src/xnec2c.c:1194
+#: src/xnec2c.c:1204
 #, c-format
 msgid "child %d has invalid pipe fd during forked collect\n"
 msgstr ""
 "a(z) %d. gyermekfolyamat érvénytelen cső-fájlleírót tartalmaz az "
 "elágaztatott gyűjtés során\n"
 
-#: src/xnec2c.c:1247
+#: src/xnec2c.c:1257
 msgid "Failed to read data from forked child\n"
 msgstr "Nem sikerült adatot olvasni az elágaztatott gyermekfolyamatból\n"
 
-#: src/xnec2c.c:1521
+#: src/xnec2c.c:1531
 #, c-format
 msgid "nearest step %g MHz differs from requested %g MHz\n"
 msgstr "a legközelebbi %g MHz-es lépés eltér a kért %g MHz-től\n"
 
-#: src/xnec2c.c:1525
+#: src/xnec2c.c:1535
 #, c-format
 msgid "post-sweep frequency set to %.4f MHz (VSWR %.2f)\n"
 msgstr "a frekvenciasöprés utáni frekvencia %.4f MHz-re állítva (VSWR %.2f)\n"
 
-#: src/xnec2c.c:1563
+#: src/xnec2c.c:1573
 #, c-format
 msgid "Frequency loop elapsed time: %f seconds. (%s)\n"
 msgstr "Frekvencia ciklus eltelt idő: %f másodperc. (%s)\n"
 
-#: src/xnec2c.c:1615
+#: src/xnec2c.c:1625
 #, c-format
 msgid "batch canvas %d drew no frame at %dx%d\n"
 msgstr "a kötegelt %d. vászon nem rajzolt képkockát %dx%d méretben\n"
 
-#: src/xnec2c.c:1780
+#: src/xnec2c.c:1790
 #, c-format
 msgid "radiation pattern PNG capture: no computed step for %s\n"
 msgstr "sugárzási diagram PNG-rögzítés: nincs kiszámított lépés ehhez: %s\n"
 
-#: src/xnec2c.c:1852
+#: src/xnec2c.c:1862
 #, c-format
 msgid "radiation pattern PNG capture failed for %s\n"
 msgstr "a sugárzási diagram PNG-rögzítése sikertelen ehhez: %s\n"
 
-#: src/xnec2c.c:1858
+#: src/xnec2c.c:1868
 #, c-format
 msgid "radiation pattern PNG save failed for %s: %s\n"
 msgstr "a sugárzási diagram PNG-mentése sikertelen ehhez: %s: %s\n"
 
-#: src/xnec2c.c:1863
+#: src/xnec2c.c:1873
 #, c-format
 msgid "wrote radiation pattern PNG: %s\n"
 msgstr "sugárzási diagram PNG kiírva: %s\n"
 
-#: src/xnec2c.c:1900
+#: src/xnec2c.c:1910
 #, c-format
 msgid "multiple radiation pattern PNG formats require a .png filename: %s\n"
 msgstr ""
 "több sugárzási diagram PNG-formátum esetén .png fájlnév szükséges: %s\n"
 
-#: src/xnec2c.c:2005
+#: src/xnec2c.c:2015
 #, c-format
 msgid "sweep runs %d workers of %d threads each\n"
 msgstr "A söprés %d munkaszálat futtat, egyenként %d szállal\n"
 
-#: src/xnec2c.c:2297
+#: src/xnec2c.c:2307
 msgid "failed to start Frequency_Loop_Thread\n"
 msgstr "nem sikerült elindítani a Frequency_Loop_Thread szálat\n"
 
-#: src/xnec2c.c:2476
+#: src/xnec2c.c:2486
 msgid "Frequency Sweep"
 msgstr "Frekvenciapásztázás"
 
-#: src/xnec2c.c:2477
+#: src/xnec2c.c:2487
 msgid "Recalculate the frequency sweep?"
 msgstr "Biztosan újraszámolja a frekvenciapásztázást?"
 
-#: src/xnec2c.c:2478
+#: src/xnec2c.c:2488
 msgid ""
 "The sweep is calculated in full.  Running it again discards every calculated "
 "step and computes the sweep from its first step."

@@ -1143,6 +1143,55 @@ freq_card_is_duplicate( int type, int nsteps, double flo, double fhi )
 
 /*------------------------------------------------------------------------*/
 
+/* freq_card_append()
+ *
+ * Appends one frequency loop record sweeping the given number of steps and
+ * grows the per-step arrays by those steps.  An FR card and the default card
+ * of a deck carrying none both size their sweep through this one mechanism.
+ */
+  static freq_loop_data_t *
+freq_card_append( int steps )
+{
+  calc_data.FR_cards++;
+  mem_array_realloc(&calc_data.freq_loop_data, calc_data.FR_cards);
+
+  /* Reopening a file reuses the allocation without zeroing it, so state the
+   * defaults this record carries into the frequency loop */
+  freq_loop_data_t *fld = &calc_data.freq_loop_data[calc_data.FR_cards - 1];
+  fld->freq_steps = steps;
+  fld->max_freq   = 0.0;
+
+  calc_data.steps_total += steps;
+  mem_array_realloc(&save.freq, calc_data.steps_total + 1);
+  mem_array_realloc(&save.fstep, calc_data.steps_total + 1);
+
+  return( fld );
+}
+
+/*------------------------------------------------------------------------*/
+
+/* freq_default_card()
+ *
+ * Registers the single frequency step a deck carrying no FR card computes at.
+ * The upstream Fortran initializes NFRQ to 1 and FMHZ to CVEL before reading
+ * cards (nec2dx.f), so a deck naming no frequency sweeps that one step.
+ */
+  static void
+freq_default_card( void )
+{
+  freq_loop_data_t *fld = freq_card_append( 1 );
+
+  fld->ifreq      = 0;
+  fld->min_freq   = CVEL;
+  fld->max_freq   = CVEL;
+  fld->delta_freq = 0.0;
+
+  if( !CHILD )
+    pr_notice("No FR card: computing one step at the NEC-2 default %g MHz\n", CVEL);
+}
+
+/*------------------------------------------------------------------------*/
+
 /* Read_Commands()
  *
  * Reads commands from input file and stores
@@ -1176,6 +1225,7 @@ Read_Commands( void )
   calc_data.iexk = 0;
   calc_data.iped = 0;
   save.fmhz = CVEL;
+  calc_data.freq_mhz = CVEL;
   fpat.dth   = 0.0;
   fpat.thets = 0.0;
   fpat.ixtyp = 0;
@@ -1342,43 +1392,27 @@ Read_Commands( void )
           continue;
         }
 
-        /* Count of FR cards encountered */
-        calc_data.FR_cards++;
-        mem_array_realloc(&calc_data.freq_loop_data, calc_data.FR_cards);
+        /* The child sweeps one step per card; the parent sweeps the count the
+         * card states, and one step where it states none */
+        int card_steps = 1;
+        if( !CHILD )
+        {
+          card_steps = itmp2;
+          if( card_steps <= 0 ) card_steps = 1;
+        }
 
-        /* Short cuts */
-        freq_loop_data_t *fld = calc_data.freq_loop_data;
-        int card = calc_data.FR_cards - 1;
-
-        /* Defaults */
-        fld[card].freq_steps = 1;
-        fld[card].max_freq   = 0.0;
+        freq_loop_data_t *fld = freq_card_append( card_steps );
 
         /* Store raw card identity before the child skips per-card math so the
          * duplicate scan sees identical signatures in both processes */
-        fld[card].sig = (fr_card_sig_t){ .type = itmp1, .nsteps = itmp2,
-                                         .flo = tmp1, .fhi = tmp2 };
-
-        if( !CHILD )
-        {
-          fld[card].freq_steps = itmp2;
-          if( fld[card].freq_steps <= 0) fld[card].freq_steps = 1;
-        }
-        else fld[card].freq_steps = 1;
-
-        /* Allocate normalization buffer */
-        {
-          calc_data.steps_total += fld[card].freq_steps;
-          int nrec = (calc_data.steps_total + 1);
-          mem_array_realloc(&save.freq, nrec);
-          mem_array_realloc(&save.fstep, (calc_data.steps_total + 1));
-        }
+        fld->sig = (fr_card_sig_t){ .type = itmp1, .nsteps = itmp2,
+                                    .flo = tmp1, .fhi = tmp2 };
 
         if( CHILD ) continue;
 
         /* Per FR card data */
-        fld[card].ifreq    = itmp1;
-        fld[card].min_freq = tmp1;
+        fld->ifreq    = itmp1;
+        fld->min_freq = tmp1;
 
         /* Data from first FR card only used here */
         if( calc_data.FR_cards == 1 )
@@ -1389,36 +1423,36 @@ Read_Commands( void )
 
         /* My addition, max frequency */
         if( itmp1 == 0 )
-          fld[card].max_freq = (double)tmp1 + (double)tmp2 * (double)(itmp2 - 1);
+          fld->max_freq = (double)tmp1 + (double)tmp2 * (double)(itmp2 - 1);
         else if( itmp1 == 1 )
-          fld[card].max_freq = (double)tmp1 * pow( (double)tmp2, (double)(itmp2 - 1) );
+          fld->max_freq = (double)tmp1 * pow( (double)tmp2, (double)(itmp2 - 1) );
 
         /* My addition, extra features in "fr" card. */
         /* Specifies lower and upper value of frequency range */
-        if( fld[card].ifreq == 2 )
+        if( fld->ifreq == 2 )
         {
-          fld[card].freq_steps++;
+          fld->freq_steps++;
 
           /* Linear frequency stepping */
-          if( fld[card].freq_steps > 1 )
-            fld[card].delta_freq = ( tmp2 - tmp1 ) / (double)( fld[card].freq_steps - 1 );
-          fld[card].ifreq  = 0;
-          fld[card].max_freq = (double)tmp2; /* Max frequency */
+          if( fld->freq_steps > 1 )
+            fld->delta_freq = ( tmp2 - tmp1 ) / (double)( fld->freq_steps - 1 );
+          fld->ifreq  = 0;
+          fld->max_freq = (double)tmp2; /* Max frequency */
         }
-        else if( fld[card].ifreq == 3 )
+        else if( fld->ifreq == 3 )
         {
-          fld[card].freq_steps++;
+          fld->freq_steps++;
 
           /* Multiplicative frequency stepping */
-          if( fld[card].freq_steps > 1 )
-            fld[card].delta_freq = pow( (tmp2 - tmp1), 1.0 / (double)(fld[card].freq_steps - 1) );
-          fld[card].ifreq  = 1;
-          fld[card].max_freq = (double)tmp2; /* Max frequency */
+          if( fld->freq_steps > 1 )
+            fld->delta_freq = pow( (tmp2 - tmp1), 1.0 / (double)(fld->freq_steps - 1) );
+          fld->ifreq  = 1;
+          fld->max_freq = (double)tmp2; /* Max frequency */
         }
-        else fld[card].delta_freq = tmp2;
+        else fld->delta_freq = tmp2;
 
         /* Warn user if max frequency <= min frequency */
-        if( fld[card].freq_steps > 1 && fld[card].max_freq <= fld[card].min_freq )
+        if( fld->freq_steps > 1 && fld->max_freq <= fld->min_freq )
         {
           pr_err("Max frequency <= Min frequency in FR card\n");
           Stop( ERR_OK, _("Max frequency <= Min frequency in FR card\n"
@@ -1826,6 +1860,12 @@ Read_Commands( void )
         Stop(ERR_OK, "%s", notice);
         return( FALSE );
     } /* switch( ain_num ) */
+
+    /* Match the upstream Fortran, which enters the frequency loop with NFRQ
+     * of 1 at FMHZ of CVEL when a deck carries no FR card.  Register that
+     * default before the per-step arrays below size themselves. */
+    if( calc_data.FR_cards == 0 )
+      freq_default_card();
 
     /* Per-fstep outer arrays are an invariant of the frequency loop,
      * independent of the RP/NE cards; freq_fields_xfer indexes them

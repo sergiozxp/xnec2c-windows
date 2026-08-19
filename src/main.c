@@ -777,10 +777,9 @@ Open_Input_File( gpointer arg )
       g_idle_add_once( (GSourceOnceFunc)batch_finish_no_steps, NULL );
     else
     {
-      /* Zero-step deck in a non-batch context (GUI auto-start or
-       * --optimize): no sweep to dispatch and no batch quit to schedule.
-       * The session stays interactive, matching a FALSE return from
-       * Start_Frequency_Loop for a deck carrying no FR card. */
+      /* Read_Commands registers a default FR card, so an accepted deck
+       * sweeps at least one step; a non-batch context arriving here with
+       * none has no sweep to dispatch and stays interactive. */
     }
   }
 

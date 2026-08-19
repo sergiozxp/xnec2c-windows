@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xnec2c 4.4.18\n"
 "Report-Msgid-Bugs-To: xnec2c-bugs@z.ewheeler.org\n"
-"POT-Creation-Date: 2026-08-19 15:03-0700\n"
+"POT-Creation-Date: 2026-08-19 20:35-0700\n"
 "PO-Revision-Date: 2025-12-28 20:37-0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -2417,7 +2417,7 @@ msgstr ""
 msgid "T<sub>sky</sub>"
 msgstr ""
 
-#: resources/xnec2c.glade:13249 src/rdpattern_ui.c:873
+#: resources/xnec2c.glade:13249 src/rdpattern_ui.c:870
 msgid "Radiation Patterns"
 msgstr "Strålingsdiagrammer"
 
@@ -2610,95 +2610,95 @@ msgstr ""
 msgid "Transmission Line Impedance (Zo)"
 msgstr "Transmisjonslinjeimpedans (Zo)"
 
-#: src/args.c:111
+#: src/args.c:113
 msgid "Usage: xnec2c [options] [<input-file-name>]"
 msgstr "Bruk: xnec2c [alternativer] [<inndatafilnavn>]"
 
-#: src/args.c:116
+#: src/args.c:118
 msgid "NEC2 input file to open"
 msgstr "NEC2-inndatafil som skal åpnes"
 
-#: src/args.c:120
+#: src/args.c:122
 msgid "file must exist"
 msgstr "filen må finnes"
 
-#: src/args.c:124
+#: src/args.c:126
 msgid "creates the file when missing"
 msgstr "oppretter filen når den mangler"
 
-#: src/args.c:129
+#: src/args.c:131
 msgid "child processes; 0 disables forking"
 msgstr "barneprosesser; 0 deaktiverer forking"
 
-#: src/args.c:133
+#: src/args.c:135
 msgid "enable batch mode, exit after the frequency loop runs"
 msgstr "aktiver Batch-modus, avslutt etter at frekvenssløyfen er kjørt"
 
-#: src/args.c:135
+#: src/args.c:137
 msgid "batch mode enabled, will exit after first loop\n"
 msgstr "batch-modus aktivert, vil avslutte etter første løkke\n"
 
-#: src/args.c:137
+#: src/args.c:139
 msgid "disable pthreads and use the GTK loop for debugging"
 msgstr "deaktiver pthreads og bruk GTK-sløyfen til feilsøking"
 
-#: src/args.c:139
+#: src/args.c:141
 msgid "pthread freqloop disabled!\n"
 msgstr "pthread freqloop deaktivert!\n"
 
-#: src/args.c:141
+#: src/args.c:143
 msgid "print usage information and exit"
 msgstr "skriv ut bruksinformasjon og avslutt"
 
-#: src/args.c:144
+#: src/args.c:146
 msgid "print xnec2c version number and exit"
 msgstr "skriv ut xnec2c-versjonsnummer og avslutt"
 
-#: src/args.c:147
+#: src/args.c:149
 msgid "increase verbosity, can be specified multiple times"
 msgstr "øk detaljnivået, kan angis flere ganger"
 
-#: src/args.c:150
+#: src/args.c:152
 msgid "enable debug output (-dd includes backtraces)"
 msgstr "aktiver feilsøkingsutdata (-dd inkluderer tilbakesporinger)"
 
-#: src/args.c:153
+#: src/args.c:155
 msgid "suppress debug/verbose output"
 msgstr "undertrykk feilsøkings- og detaljert utdata"
 
-#: src/args.c:159
+#: src/args.c:161
 msgid "math library threads per job (default: processors / jobs)"
 msgstr "matematikkbibliotektråder per jobb (standard: prosessorer / jobber)"
 
-#: src/args.c:164
+#: src/args.c:166
 msgid "activate the optimizer immediately"
 msgstr "aktiver optimalisereren umiddelbart"
 
-#: src/args.c:167
+#: src/args.c:169
 msgid "skip geometry verification checks"
 msgstr "hopp over verifiseringskontroller av geometri"
 
-#: src/args.c:169
+#: src/args.c:171
 msgid "verify segments check disabled\n"
 msgstr "verifiser segmenter-sjekk deaktivert\n"
 
-#: src/args.c:171
+#: src/args.c:173
 msgid "force overlap check on large models (>1000 segments)"
 msgstr "tving overlappskontroll på store modeller (>1000 segmenter)"
 
-#: src/args.c:173
+#: src/args.c:175
 msgid "forcing overlap check on large models\n"
 msgstr "tvinger overlappsjekk på store modeller\n"
 
-#: src/args.c:175
+#: src/args.c:177
 msgid "report managed allocator live bytes per call site"
 msgstr "rapporter aktive byte fra administrert allokator per kallested"
 
-#: src/args.c:177
+#: src/args.c:179
 msgid "managed allocator leak report enabled\n"
 msgstr "administrert allokatorlekkasjerapport aktivert\n"
 
-#: src/args.c:180
+#: src/args.c:184
 msgid ""
 "The following arguments write to an output file after the frequency loop "
 "completes.  These are useful to combine with --batch; if filenames are "
@@ -2709,51 +2709,51 @@ msgstr ""
 "fullført.  De er nyttige å kombinere med --batch; hvis filnavn angis uten --"
 "batch, aktiver Fil->Optimalisererinnstillinger, ellers blir de ikke skrevet."
 
-#: src/args.c:188
+#: src/args.c:192
 msgid "write CSV file of measurements"
 msgstr "skriv CSV-fil med målinger"
 
-#: src/args.c:192
+#: src/args.c:196
 msgid "write S1P file of S-parameters"
 msgstr "skriv S1P-fil med S-parametere"
 
-#: src/args.c:196
+#: src/args.c:200
 msgid "write S2P file, port-2 is max-gain"
 msgstr "skriv S2P-fil, port-2 er maksimal forsterkning"
 
-#: src/args.c:200
+#: src/args.c:204
 msgid "write S2P file, port-2 is viewer-gain"
 msgstr "skriv S2P-fil, port-2 er visningsforsterkning"
 
-#: src/args.c:204
+#: src/args.c:208
 msgid "write CSV of the radiation pattern"
 msgstr "skriv CSV med strålingsdiagrammet"
 
-#: src/args.c:208
+#: src/args.c:212
 msgid "write CSV of currents and charges"
 msgstr "skriv CSV med strømmer og ladninger"
 
-#: src/args.c:212
+#: src/args.c:216
 msgid "write gnuplot structure file"
 msgstr "skriv gnuplot-strukturfil"
 
-#: src/args.c:216
+#: src/args.c:220
 msgid "write CSV of patch surface currents"
 msgstr "skriv CSV med overflatestrømmer på Patch"
 
-#: src/args.c:220
+#: src/args.c:224
 msgid "write full validation data tree"
 msgstr "skriv fullt valideringsdatatre"
 
-#: src/args.c:224
+#: src/args.c:228
 msgid "write PNG of the radiation pattern"
 msgstr "skriv PNG med strålingsdiagrammet"
 
-#: src/args.c:228
+#: src/args.c:232
 msgid "x, y, z, iso, or quad views"
 msgstr "x-, y-, z-, iso- eller quad-visninger"
 
-#: src/args.c:235
+#: src/args.c:239
 msgid ""
 "post-sweep selected frequency; absent, keep the previous saved frequency, or "
 "center if none"
@@ -2761,59 +2761,59 @@ msgstr ""
 "valgt frekvens etter sveip; hvis den mangler, behold forrige lagrede "
 "frekvens, eller sentrum hvis ingen finnes"
 
-#: src/args.c:258
+#: src/args.c:262
 msgid "config file path too long\n"
 msgstr "konfigurasjonsfil-stien er for lang\n"
 
-#: src/args.c:283
+#: src/args.c:287
 #, c-format
 msgid "Detected %d CPUs\n"
 msgstr "Oppdaget %d CPUer\n"
 
-#: src/args.c:608
+#: src/args.c:612
 #, c-format
 msgid "%s (default: %s)"
 msgstr "%s (standardverdi: %s)"
 
-#: src/args.c:776
+#: src/args.c:780
 #, c-format
 msgid "invalid frequency selector: %s\n"
 msgstr "ugyldig frekvensvelger: %s\n"
 
-#: src/args.c:801
+#: src/args.c:805
 #, c-format
 msgid "--%s requires an integer argument of %d or more\n"
 msgstr "--%s krever et heltallsargument på %d eller mer\n"
 
-#: src/args.c:836
+#: src/args.c:840
 #, c-format
 msgid "--%s argument too long ( > %d char )\n"
 msgstr "--%s-argumentet er for langt ( > %d tegn )\n"
 
-#: src/args.c:855
+#: src/args.c:859
 #, c-format
 msgid "config file does not exist or is not readable: %s\n"
 msgstr "konfigurasjonsfil eksisterer ikke eller er ikke lesbar: %s\n"
 
 # xnec2c-exempt: symbol
-#: src/args.c:869 src/geometry.c:771 src/input.c:1825 src/input.c:1826
-#: src/mathlib.c:821 src/mathlib.c:1126 src/rdpattern_ui.c:366
+#: src/args.c:873 src/geometry.c:771 src/input.c:1857 src/input.c:1858
+#: src/mathlib.c:830 src/mathlib.c:1135 src/rdpattern_ui.c:366
 #: src/rdpattern_ui.c:374 src/rdpattern_ui.c:381 src/sy_expr.c:142
 #: src/sy_expr.c:172 src/utils.c:365 src/utils.c:725
 #, c-format
 msgid "%s"
 msgstr ""
 
-#: src/args.c:891
+#: src/args.c:895
 #, c-format
 msgid "--threads and %s=%s both state a thread count, unset one\n"
 msgstr "--threads og %s=%s angir begge et trådantall, fjern én\n"
 
-#: src/args.c:914
+#: src/args.c:918
 msgid "Forking disabled!\n"
 msgstr "Forking deaktivert!\n"
 
-#: src/args.c:1002
+#: src/args.c:1006
 #, c-format
 msgid "invalid radiation pattern PNG format: %s\n"
 msgstr "ugyldig PNG-format for strålingsdiagram: %s\n"
@@ -2860,17 +2860,17 @@ msgstr "Segmentforbindelsesfeil i sbf()"
 msgid "Segment connection error in trio()"
 msgstr "Segmentforbindelsesfeil i trio()"
 
-#: src/callback_func.c:49
+#: src/callback_func.c:50
 #, c-format
 msgid "failed to capture image for %s\n"
 msgstr "klarte ikke å fange bilde for %s\n"
 
-#: src/callback_func.c:55
+#: src/callback_func.c:56
 #, c-format
 msgid "failed to save image %s: %s\n"
 msgstr "klarte ikke å lagre bilde %s: %s\n"
 
-#: src/callback_func.c:103
+#: src/callback_func.c:104
 msgid ""
 "The frequency loop is running\n"
 "Are you sure you wish to end the calculation?"
@@ -2878,7 +2878,7 @@ msgstr ""
 "Frekvenssløyfen kjører\n"
 "Er du sikker på at du vil avslutte beregningen?"
 
-#: src/callback_func.c:107
+#: src/callback_func.c:108
 msgid ""
 "The frequency loop is running\n"
 "Are you sure you wish to close this window?"
@@ -2886,7 +2886,7 @@ msgstr ""
 "Frekvenssløyfen kjører\n"
 "Er du sikker på at du vil lukke dette vinduet?"
 
-#: src/callback_func.c:268
+#: src/callback_func.c:269
 #, c-format
 msgid ""
 "Excitation type %d has no feedpoint: VSWR and impedance plots are hidden.\n"
@@ -2894,39 +2894,39 @@ msgstr ""
 "Eksitasjonstype %d har ikke noe matepunkt: VSWR- og impedansplott er "
 "skjult.\n"
 
-#: src/callback_func.c:330
+#: src/callback_func.c:331
 msgid "View Currents"
 msgstr "Vis strømmer"
 
-#: src/callback_func.c:332
+#: src/callback_func.c:333
 msgid "View Charges"
 msgstr "Vis ladninger"
 
-#: src/callback_func.c:334
+#: src/callback_func.c:335
 msgid "View Geometry"
 msgstr "Vis geometri"
 
-#: src/callback_func.c:384
+#: src/callback_func.c:385
 msgid "PNG images (*.png)"
 msgstr "PNG-bilder (*.png)"
 
-#: src/callback_func.c:386
+#: src/callback_func.c:387
 msgid "GNUplot files (*.gplot)"
 msgstr "GNUplot-filer (*.gplot)"
 
-#: src/callback_func.c:388
+#: src/callback_func.c:389
 msgid "NEC2 files (*.nec)"
 msgstr "NEC2-filer (*.nec)"
 
-#: src/callback_func.c:390
+#: src/callback_func.c:391
 msgid "Touchstone 1-port files (*.s1p)"
 msgstr "Touchstone 1-port-filer (*.s1p)"
 
-#: src/callback_func.c:392
+#: src/callback_func.c:393
 msgid "Touchstone 2-port files (*.s2p)"
 msgstr "Touchstone 2-port-filer (*.s2p)"
 
-#: src/callback_func.c:394
+#: src/callback_func.c:395
 msgid "Comma-separated CSV files (*.csv)"
 msgstr "Kommaseparerte CSV-filer (*.csv)"
 
@@ -4364,28 +4364,33 @@ msgstr "Klarte ikke å initialisere symboltabell\n"
 msgid "Failed to initialize symbol table"
 msgstr "Klarte ikke å initialisere symboltabell"
 
-#: src/input.c:1232
+#: src/input.c:1190
+#, c-format
+msgid "No FR card: computing one step at the NEC-2 default %g MHz\n"
+msgstr "Ingen FR-kort: beregner ett trinn ved NEC-2-standardverdien %g MHz\n"
+
+#: src/input.c:1281
 msgid "ignoring CM card in commands\n"
 msgstr "ignorerer CM-kort i kommandoer\n"
 
-#: src/input.c:1233
+#: src/input.c:1282
 msgid "Ignoring CM card in commands"
 msgstr "Ignorerer CM-kort i kommandoer"
 
-#: src/input.c:1245
+#: src/input.c:1294
 msgid "CP card is ignored: coupling calculation not implemented\n"
 msgstr "CP-kort ignoreres: koplingsberegning er ikke implementert\n"
 
-#: src/input.c:1341
+#: src/input.c:1390
 #, c-format
 msgid "Skipping duplicate FR card at %g MHz\n"
 msgstr "Hopper over duplikat FR-kort ved %g MHz\n"
 
-#: src/input.c:1423
+#: src/input.c:1455
 msgid "Max frequency <= Min frequency in FR card\n"
 msgstr "Maks frekvens <= Min frekvens i FR-kort\n"
 
-#: src/input.c:1424
+#: src/input.c:1456
 msgid ""
 "Max frequency <= Min frequency in FR card\n"
 "Please check FR card data and correct"
@@ -4393,7 +4398,7 @@ msgstr ""
 "Maks frekvens <= Min frekvens i FR-kort\n"
 "Vennligst sjekk FR-kortdata og korriger"
 
-#: src/input.c:1447
+#: src/input.c:1479
 msgid ""
 "Fix the GE/GN cards:\n"
 "The GE card specifies that a ground is present, but the GN indicates "
@@ -4403,11 +4408,11 @@ msgstr ""
 "GE-kortet spesifiserer at et jordplan er til stede, men GN indikerer noe "
 "annet."
 
-#: src/input.c:1461
+#: src/input.c:1493
 msgid "theta > 90 deg. with ground specified\n"
 msgstr "theta > 90 grader med jordplan spesifisert\n"
 
-#: src/input.c:1462 src/radiation.c:703
+#: src/input.c:1494 src/radiation.c:703
 msgid ""
 "Theta > 90 deg with ground specified\n"
 "Please check RP card data and correct"
@@ -4415,7 +4420,7 @@ msgstr ""
 "Theta > 90 grader med jordplan spesifisert\n"
 "Vennligst sjekk RP-kortdata og korriger"
 
-#: src/input.c:1471
+#: src/input.c:1503
 msgid ""
 "radial wire g.s. approximation: may not be used with Sommerfeld ground "
 "option\n"
@@ -4423,7 +4428,7 @@ msgstr ""
 "radial wire g.s.-tilnærming: kan ikke brukes med Sommerfeld jordplan-"
 "alternativ\n"
 
-#: src/input.c:1472
+#: src/input.c:1504
 msgid ""
 "radial wire g.s. approximation\n"
 "may not be used with Sommerfeld ground option"
@@ -4431,7 +4436,7 @@ msgstr ""
 "radial wire g.s.-tilnærming\n"
 "kan ikke brukes med Sommerfeld jordplan-alternativ"
 
-#: src/input.c:1520
+#: src/input.c:1552
 #, c-format
 msgid ""
 "data fault on loading card no %d: itag step1 %d is greater than itag step2 "
@@ -4439,7 +4444,7 @@ msgid ""
 msgstr ""
 "datafeil på lastekort nr. %d: itag step1 %d er større enn itag step2 %d\n"
 
-#: src/input.c:1522
+#: src/input.c:1554
 msgid ""
 "Data fault on loading card\n"
 "itag step1 is greater than itag step2"
@@ -4447,14 +4452,14 @@ msgstr ""
 "Datafeil på lastekort\n"
 "itag step1 er større enn itag step2"
 
-#: src/input.c:1651
+#: src/input.c:1683
 msgid ""
 "Transmission Line impedance = 0: is not valid. Please correct NT or TL card\n"
 msgstr ""
 "Transmisjonslinje-impedans = 0: er ikke gyldig. Vennligst korriger NT- eller "
 "TL-kort\n"
 
-#: src/input.c:1652
+#: src/input.c:1684
 msgid ""
 "Transmission Line impedance = 0\n"
 "is not valid. Please correct NT or TL card"
@@ -4462,11 +4467,11 @@ msgstr ""
 "Transmisjonslinje-impedans = 0\n"
 "er ikke gyldig. Vennligst korriger NT- eller TL-kort"
 
-#: src/input.c:1663
+#: src/input.c:1695
 msgid "Segment number error in TL or NT card\n"
 msgstr "Segmentnummerfeil i TL- eller NT-kort\n"
 
-#: src/input.c:1664
+#: src/input.c:1696
 msgid ""
 "Segment number\n"
 "error in NT or TL card"
@@ -4474,20 +4479,20 @@ msgstr ""
 "Segmentnummer-\n"
 "feil i NT- eller TL-kort"
 
-#: src/input.c:1686
+#: src/input.c:1718
 msgid "PQ and PT cards are ignored: printing to file not implemented\n"
 msgstr "PQ- og PT-kort ignoreres: utskrift til fil er ikke implementert\n"
 
-#: src/input.c:1690
+#: src/input.c:1722
 msgid "PL card is ignored: plotting to file not supported\n"
 msgstr "PL-kort ignoreres: plotting til fil støttes ikke\n"
 
-#: src/input.c:1696
+#: src/input.c:1728
 msgid "Surface wave option (I1=1): of RP command not implemented\n"
 msgstr ""
 "Overflatebølge-alternativ (I1=1): av RP-kommando er ikke implementert\n"
 
-#: src/input.c:1697
+#: src/input.c:1729
 msgid ""
 "Surface wave option (I1=1)\n"
 "of RP command not implemented"
@@ -4495,25 +4500,25 @@ msgstr ""
 "Overflatebølge-alternativ (I1=1)\n"
 "av RP-kommando er ikke implementert"
 
-#: src/input.c:1722
+#: src/input.c:1754
 msgid "Average gain diagnostic enabled (use --skip-verify to disable)\n"
 msgstr ""
 "Gjennomsnittlig forsterkningsdiagnostikk aktivert (bruk --skip-verify for å "
 "deaktivere)\n"
 
-#: src/input.c:1731
+#: src/input.c:1763
 #, c-format
 msgid "Average power gain disabled: nth=%d nph=%d (both must be >= 2)\n"
 msgstr ""
 "Gjennomsnittlig effektforsterkning deaktivert: nth=%d nph=%d (begge må være "
 ">= 2)\n"
 
-#: src/input.c:1736
+#: src/input.c:1768
 #, c-format
 msgid "Average power gain calculation enabled (XNDA A=%d)\n"
 msgstr "Beregning av gjennomsnittlig effektforsterkning aktivert (XNDA A=%d)\n"
 
-#: src/input.c:1752
+#: src/input.c:1784
 msgid ""
 "Theta > 90 deg. with ground specified: Please check RP card data and "
 "correct\n"
@@ -4521,7 +4526,7 @@ msgstr ""
 "Theta > 90 grader med jordplan spesifisert: Vennligst sjekk RP-kortdata og "
 "korriger\n"
 
-#: src/input.c:1753
+#: src/input.c:1785
 msgid ""
 "Theta > 90 deg. with ground specified\n"
 "Please check RP card data and correct"
@@ -4529,15 +4534,15 @@ msgstr ""
 "Theta > 90 grader med jordplan spesifisert\n"
 "Vennligst sjekk RP-kortdata og korriger"
 
-#: src/input.c:1821
+#: src/input.c:1853
 msgid "Geometry card in command section"
 msgstr "Geometrikort i kommandoer"
 
-#: src/input.c:1824
+#: src/input.c:1856
 msgid "Unrecognized command card"
 msgstr "Ukjent kommandokort"
 
-#: src/input.c:1859
+#: src/input.c:1897
 msgid ""
 "Missing or surface-wave RP card: Radiation pattern and gain calculations "
 "disabled\n"
@@ -4545,11 +4550,11 @@ msgstr ""
 "Manglende eller overflatebølge RP-kort: Strålingsdiagram- og "
 "forsterkningsberegninger deaktivert\n"
 
-#: src/input.c:1886
+#: src/input.c:1924
 msgid "Unexpected exit from while loop"
 msgstr "Uventet avslutning fra while-løkke"
 
-#: src/input.c:1977
+#: src/input.c:2015
 msgid ""
 "command data card error: Unexpected EOF while reading input file - appending "
 "EN card\n"
@@ -4557,7 +4562,7 @@ msgstr ""
 "kommandodatakortfeil: Uventet EOF under lesing av inndatafil - legger til EN-"
 "kort\n"
 
-#: src/input.c:1978
+#: src/input.c:2016
 msgid ""
 "Command data card error\n"
 "Unexpected EOF while reading input file\n"
@@ -4567,12 +4572,12 @@ msgstr ""
 "Uventet EOF under lesing av inndatafil\n"
 "Legger til et standard EN-kort"
 
-#: src/input.c:1995
+#: src/input.c:2033
 msgid "command data card error: card's mnemonic code too short or missing\n"
 msgstr ""
 "kommandodatakortfeil: kortets mnemoniske kode er for kort eller mangler\n"
 
-#: src/input.c:1996
+#: src/input.c:2034
 msgid ""
 "Command data card error\n"
 "Mnemonic code too short or missing"
@@ -4580,7 +4585,7 @@ msgstr ""
 "Kommandodatakortfeil\n"
 "Mnemonisk kode er for kort eller mangler"
 
-#: src/input.c:2197
+#: src/input.c:2235
 msgid ""
 "geometry data card error: Unexpected EOF while reading input file - "
 "appending GE card\n"
@@ -4588,7 +4593,7 @@ msgstr ""
 "geometridatakortfeil: Uventet EOF under lesing av inndatafil - legger til GE-"
 "kort\n"
 
-#: src/input.c:2198
+#: src/input.c:2236
 msgid ""
 "Geometry data card error\n"
 "Unexpected EOF while reading input file\n"
@@ -4598,12 +4603,12 @@ msgstr ""
 "Uventet EOF under lesing av inndatafil\n"
 "Legger til et standard GE-kort"
 
-#: src/input.c:2215
+#: src/input.c:2253
 msgid "geometry data card error: card's mnemonic code too short or missing\n"
 msgstr ""
 "geometridatakortfeil: kortets mnemoniske kode er for kort eller mangler\n"
 
-#: src/input.c:2216
+#: src/input.c:2254
 msgid ""
 "Geometry data card error\n"
 "Card's mnemonic code too short or missing"
@@ -4721,37 +4726,37 @@ msgstr "avslutter etter fatal feil: pipe() mislyktes"
 msgid "exiting after fatal error: fork() failed"
 msgstr "avslutter etter fatal feil: fork() mislyktes"
 
-#: src/main.c:834
+#: src/main.c:833
 msgid "exiting via user interrupt\n"
 msgstr "avslutter via brukeravbrudd\n"
 
-#: src/main.c:838
+#: src/main.c:837
 msgid "segmentation fault, exiting\n"
 msgstr "segmenteringsfeil, avslutter\n"
 
-#: src/main.c:842
+#: src/main.c:841
 msgid "floating point exception, exiting\n"
 msgstr "flyttallsunntak, avslutter\n"
 
-#: src/main.c:846
+#: src/main.c:845
 msgid "abort signal received, exiting\n"
 msgstr "avbruddssignal mottatt, avslutter\n"
 
-#: src/main.c:850
+#: src/main.c:849
 msgid "termination request received, exiting\n"
 msgstr "avslutningsforespørsel mottatt, avslutter\n"
 
-#: src/main.c:860
+#: src/main.c:859
 #, c-format
 msgid "not forked, ignoring SIGCHLD from pid %d\n"
 msgstr "ikke forgrenet, ignorerer SIGCHLD fra pid %d\n"
 
-#: src/main.c:868
+#: src/main.c:867
 #, c-format
 msgid "child process pid %d exited\n"
 msgstr "barneprosess pid %d avsluttet\n"
 
-#: src/main.c:877
+#: src/main.c:876
 #, c-format
 msgid "default exit with signal: %d\n"
 msgstr "standard avslutning med signal: %d\n"
@@ -4765,27 +4770,27 @@ msgstr ""
 "Start på nytt for å endre MKL-trådbibliotek."
 
 # xnec2c-exempt: symbol
-#: src/mathlib.c:359 src/utils.c:729
+#: src/mathlib.c:368 src/utils.c:729
 #, c-format
 msgid "%s: %s\n"
 msgstr ""
 
-#: src/mathlib.c:364
+#: src/mathlib.c:373
 #, c-format
 msgid "%s: opened %s\n"
 msgstr "%s: åpnet %s\n"
 
-#: src/mathlib.c:372
+#: src/mathlib.c:381
 #, c-format
 msgid "%s: library not found or nonfunctional, skipping: %s\n"
 msgstr "%s: bibliotek ikke funnet eller ikke funksjonelt, hopper over: %s\n"
 
-#: src/mathlib.c:397
+#: src/mathlib.c:406
 #, c-format
 msgid "  %s: unable to bind %s: %s\n"
 msgstr "  %s: kan ikke binde %s: %s\n"
 
-#: src/mathlib.c:425
+#: src/mathlib.c:434
 #, c-format
 msgid ""
 "%s=%s is set, so thread counts are not chosen per job, which affects "
@@ -4793,17 +4798,17 @@ msgid ""
 msgstr ""
 "%s=%s er satt, så trådantall velges ikke per jobb, noe som påvirker ytelsen\n"
 
-#: src/mathlib.c:445
+#: src/mathlib.c:454
 #, c-format
 msgid "%s: loaded\n"
 msgstr "%s: lastet\n"
 
-#: src/mathlib.c:515
+#: src/mathlib.c:524
 #, c-format
 msgid "Migrated legacy mathlib index %d to ID '%s'\n"
 msgstr "Migrerte eldre mathlib-indeks %d til ID '%s'\n"
 
-#: src/mathlib.c:520
+#: src/mathlib.c:529
 #, c-format
 msgid ""
 "Legacy mathlib index %d out of range [0-%d], triggering first-run scan\n"
@@ -4811,31 +4816,31 @@ msgstr ""
 "Eldre mathlib-indeks %d utenfor område [0-%d], utløser første-gangs-"
 "skanning\n"
 
-#: src/mathlib.c:549
+#: src/mathlib.c:558
 #, c-format
 msgid "Mathlib ID '%s' not found in available libraries.\n"
 msgstr "Mathlib-ID '%s' ikke funnet i tilgjengelige biblioteker.\n"
 
-#: src/mathlib.c:551
+#: src/mathlib.c:560
 #, c-format
 msgid "Mathlib '%s' is not available.\n"
 msgstr "Mathlib '%s' er ikke tilgjengelig.\n"
 
-#: src/mathlib.c:556
+#: src/mathlib.c:565
 #, c-format
 msgid "Selected first available mathlib: %s\n"
 msgstr "Valgte første tilgjengelige mathlib: %s\n"
 
-#: src/mathlib.c:660
+#: src/mathlib.c:669
 #, c-format
 msgid "mathlib_load[%d]: mathlib.available=0, skipping: %s\n"
 msgstr "mathlib_load[%d]: mathlib.available=0, hopper over: %s\n"
 
-#: src/mathlib.c:710
+#: src/mathlib.c:719
 msgid "Batch Math Library"
 msgstr "Batch-mattebibliotek"
 
-#: src/mathlib.c:711
+#: src/mathlib.c:720
 msgid ""
 "Selecting a batched math library has no effect unless -j is specified on the "
 "command line. (However, this selection will be saved for next time xnec2c is "
@@ -4845,20 +4850,20 @@ msgstr ""
 "spesifisert på kommandolinjen. (Denne innstillingen lagres imidlertid for "
 "neste gang xnec2c åpnes.)\n"
 
-#: src/mathlib.c:750
+#: src/mathlib.c:759
 #, c-format
 msgid "%s: benchmark=%d\n"
 msgstr "%s: ytelsestest=%d\n"
 
-#: src/mathlib.c:821
+#: src/mathlib.c:830
 msgid "Mathlib Help"
 msgstr "Mathlib-hjelp"
 
-#: src/mathlib.c:857
+#: src/mathlib.c:866
 msgid "Mathlib Benchmark Help"
 msgstr "Mathlib-ytelsestesthjelp"
 
-#: src/mathlib.c:859
+#: src/mathlib.c:868
 msgid ""
 "Jobs are forked and run in parallel by xnec2c, whereas threads are used by "
 "the mathlib implementation to parallelize the linear algebra calculation of "
@@ -4952,12 +4957,12 @@ msgstr ""
 "antallet er relevant når en sveip har færre frekvenser igjen å beregne enn "
 "du har prosessorer.\n"
 
-#: src/mathlib.c:958 src/mathlib.c:968 src/mathlib.c:975 src/mathlib.c:981
-#: src/mathlib.c:998 src/mathlib.c:1003 src/mathlib.c:1126
+#: src/mathlib.c:967 src/mathlib.c:977 src/mathlib.c:984 src/mathlib.c:990
+#: src/mathlib.c:1007 src/mathlib.c:1012 src/mathlib.c:1135
 msgid "Mathlib Benchmark"
 msgstr "Mathlib-ytelsestest"
 
-#: src/mathlib.c:959
+#: src/mathlib.c:968
 #, c-format
 msgid ""
 "%s=%s states the thread count of every library that honors it, so a thread "
@@ -4968,15 +4973,15 @@ msgstr ""
 "trådreferansemåling måler det samme antallet ved hver gjennomgang. Fjern den "
 "og start på nytt for å måle trådantall."
 
-#: src/mathlib.c:969
+#: src/mathlib.c:978
 msgid "Benchmarks are disabled while optimization is activated."
 msgstr "Ytelsestester er deaktivert mens optimalisering er aktivert."
 
-#: src/mathlib.c:976
+#: src/mathlib.c:985
 msgid "You must load a NEC2 input file before running benchmarks."
 msgstr "Du må laste inn en NEC2-inndatafil før du kjører ytelsestester."
 
-#: src/mathlib.c:982
+#: src/mathlib.c:991
 msgid ""
 "Choosing a benchmark other than \"Single Job\" has no effect unless -j is "
 "specified on the command line."
@@ -4984,15 +4989,15 @@ msgstr ""
 "Å velge en annen ytelsestest enn «Enkelt jobb» har ingen effekt med mindre -"
 "j er spesifisert på kommandolinjen."
 
-#: src/mathlib.c:999
+#: src/mathlib.c:1008
 msgid "You must select at least one math library to benchmark"
 msgstr "Du må velge minst ett mattebibliotek å teste"
 
-#: src/mathlib.c:1004
+#: src/mathlib.c:1013
 msgid "Run the benchmark now?"
 msgstr "Kjøre referansemålingen nå?"
 
-#: src/mathlib.c:1005
+#: src/mathlib.c:1014
 #, c-format
 msgid ""
 "This will run a frequency loop benchmark for each detected linear algebra "
@@ -5043,22 +5048,22 @@ msgstr ""
 "\n"
 "Denne dialogen lukkes når referansemålingen er fullført."
 
-#: src/mathlib.c:1065
+#: src/mathlib.c:1074
 #, c-format
 msgid "Starting %s benchmark (%s %d)\n"
 msgstr "Starter referansemåling for %s (%s %d)\n"
 
-#: src/mathlib.c:1075
+#: src/mathlib.c:1084
 #, c-format
 msgid "Benchmark sweep did not run: FR_cards=%d steps_total=%d\n"
 msgstr "Referansemålingssveip ble ikke kjørt: FR_cards=%d steps_total=%d\n"
 
-#: src/mathlib.c:1109
+#: src/mathlib.c:1118
 msgid "measured once: this library keeps the thread count it was built with"
 msgstr ""
 "målt én gang: dette biblioteket beholder trådantallet det ble bygget med"
 
-#: src/mathlib.c:1177
+#: src/mathlib.c:1186
 #, c-format
 msgid ""
 "\n"
@@ -5085,38 +5090,38 @@ msgstr ""
 "* \n"
 "* Se Intels dokumentasjon om mkl_set_threading_layer() for mer detaljer.\n"
 
-#: src/mathlib.c:1410
+#: src/mathlib.c:1419
 #, c-format
 msgid "%s: thread count cannot be bounded, dlsym(%s): %s\n"
 msgstr "%s: trådantall kan ikke begrenses, dlsym(%s): %s\n"
 
 # xnec2c-exempt: name
-#: src/mathlib.c:1458
+#: src/mathlib.c:1467
 #, c-format
 msgid "dlsym(mkl_set_threading_layer): %s\n"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: src/matrix.c:1236
+#: src/matrix.c:1239
 #, c-format
 msgid "pivot(%d)= %16.8E\n"
 msgstr ""
 
-#: src/matrix.c:1270
+#: src/matrix.c:1273
 #, c-format
 msgid "LU Decomposition Failed: %d\n"
 msgstr "LU-dekomponering feilet: %d\n"
 
-#: src/matrix.c:1326
+#: src/matrix.c:1329
 #, c-format
 msgid "symmetry error - nrow:%d ncol:%d\n"
 msgstr "symmetrifeil - nrow:%d ncol:%d\n"
 
-#: src/matrix.c:1327
+#: src/matrix.c:1330
 msgid "Symmetry error"
 msgstr "Symmetrifeil"
 
-#: src/matrix.c:1431
+#: src/matrix.c:1434
 #, c-format
 msgid "Solving Failed: %d\n"
 msgstr "Løsning feilet: %d\n"
@@ -5129,50 +5134,50 @@ msgstr ""
 "noise_temp_resolve: noise_temp-tabell ikke tildelt; t_sky/t_earth "
 "standardisert til 0\n"
 
-#: src/mem/mem.c:196
+#: src/mem/mem.c:185
 #, c-format
 msgid "Memory allocation denied %s: requested %lu bytes\n"
 msgstr "Minneallokering nektet %s: forespurt %lu byte\n"
 
-#: src/mem/mem.c:240
+#: src/mem/mem.c:229
 #, c-format
 msgid "mem_obj_t at %p: size=%lu used=%lu addr=%p\n"
 msgstr "mem_obj_t ved %p: size=%lu used=%lu addr=%p\n"
 
 # xnec2c-exempt: name
-#: src/mem/mem.c:261
+#: src/mem/mem.c:250
 #, c-format
 msgid "mem_backtrace(%p):\n"
 msgstr ""
 
-#: src/mem/mem.c:264
+#: src/mem/mem.c:253
 msgid "  m->backtrace is null, no backtrace data\n"
 msgstr "  m->backtrace er null, ingen tilbakesporingsdata\n"
 
-#: src/mem/mem.c:290
+#: src/mem/mem.c:279
 #, c-format
 msgid "mem_clone: allocation failed for %lu bytes\n"
 msgstr "mem_clone: allokering mislyktes for %lu byte\n"
 
 # xnec2c-exempt: notation
-#: src/mem/mem_track.c:204
+#: src/mem/mem_track.c:208
 #, c-format
 msgid "mem-report %s: site=%s count=%llu bytes=%llu serial=[%llu..%llu]\n"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: src/mem/mem_track.c:209
+#: src/mem/mem_track.c:213
 #, c-format
 msgid "mem-report %s: live_blocks=%llu live_bytes=%llu distinct_sites=%llu\n"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: src/mem/mem_track.c:215
+#: src/mem/mem_track.c:219
 #, c-format
 msgid "mem-report %s: serial=%llu site=%s size=%lu used=%lu\n"
 msgstr ""
 
-#: src/mem/mem_track.c:223
+#: src/mem/mem_track.c:227
 #, c-format
 msgid "mem-report %s:   frame %d %s\n"
 msgstr "mem-report %s:   ramme %d %s\n"
@@ -5289,35 +5294,35 @@ msgstr "Skyggekompileringsfeil: %s: %s\n"
 msgid "Shader link failed: %s + %s\n"
 msgstr "Skyggekobling mislyktes: %s + %s\n"
 
-#: src/opengl-engine/opengl_view.c:181
+#: src/opengl-engine/opengl_view.c:184
 msgid ""
 "OpenGL context error — no OpenGL implementation available on this display\n"
 msgstr ""
 "OpenGL-kontekstfeil — ingen OpenGL-implementasjon tilgjengelig på denne "
 "skjermen\n"
 
-#: src/opengl-engine/opengl_view.c:194
+#: src/opengl-engine/opengl_view.c:197
 msgid "Disabling OpenGL: scene shader failed\n"
 msgstr "Deaktiverer OpenGL: scene-skygge mislyktes\n"
 
-#: src/opengl-engine/opengl_view.c:209
+#: src/opengl-engine/opengl_view.c:212
 msgid "Disabling OpenGL: overlay shader failed\n"
 msgstr "Deaktiverer OpenGL: overleggsskygge mislyktes\n"
 
-#: src/opengl-engine/opengl_view.c:221
+#: src/opengl-engine/opengl_view.c:224
 msgid "Disabling OpenGL: axes renderer failed\n"
 msgstr "Deaktiverer OpenGL: akserenderer mislyktes\n"
 
-#: src/opengl-engine/opengl_view.c:250
+#: src/opengl-engine/opengl_view.c:253
 msgid "Disabling OpenGL: ground plane shader failed\n"
 msgstr "Deaktiverer OpenGL: jordplanskygge mislyktes\n"
 
-#: src/opengl-engine/opengl_view.c:272
+#: src/opengl-engine/opengl_view.c:275
 #, c-format
 msgid "Renderable count %u exceeds MAX_RENDERABLES (%d)\n"
 msgstr "Renderingsantall %u overskrider MAX_RENDERABLES (%d)\n"
 
-#: src/opengl-engine/opengl_view.c:351
+#: src/opengl-engine/opengl_view.c:354
 msgid "Disabling OpenGL: peel composite shader failed\n"
 msgstr "Deaktiverer OpenGL: peel-kompositskygge mislyktes\n"
 
@@ -5365,7 +5370,7 @@ msgid "Transparent renderables skipped: peel FBOs unavailable\n"
 msgstr ""
 "Gjennomsiktige renderingsobjekter hoppet over: peel FBOer utilgjengelige\n"
 
-#: src/opengl-engine/opengl_view_scene.c:300
+#: src/opengl-engine/opengl_view_scene.c:297
 msgid "Failed to load shaders\n"
 msgstr "Kunne ikke laste skygger\n"
 
@@ -5820,71 +5825,71 @@ msgstr ""
 "Himmel- og jordstøytemperaturmodeller.\n"
 "Velg Forsterkningsskalering → Støytemperatur for å aktivere."
 
-#: src/rdpattern_ui.c:850
+#: src/rdpattern_ui.c:847
 msgid "Total Gain"
 msgstr "Total forsterkning"
 
-#: src/rdpattern_ui.c:851
+#: src/rdpattern_ui.c:848
 msgid "Horizontal Polarization"
 msgstr "Horisontal polarisering"
 
-#: src/rdpattern_ui.c:852
+#: src/rdpattern_ui.c:849
 msgid "Vertical Polarization"
 msgstr "Vertikal polarisering"
 
-#: src/rdpattern_ui.c:853
+#: src/rdpattern_ui.c:850
 msgid "RH Circular Polarization"
 msgstr "Høyredreid sirkulær polarisering"
 
-#: src/rdpattern_ui.c:854
+#: src/rdpattern_ui.c:851
 msgid "LH Circular Polarization"
 msgstr "Venstredreid sirkulær polarisering"
 
-#: src/rdpattern_ui.c:859
+#: src/rdpattern_ui.c:856
 msgid "Linear Power"
 msgstr "Lineær effekt"
 
-#: src/rdpattern_ui.c:860
+#: src/rdpattern_ui.c:857
 msgid "Linear Voltage"
 msgstr "Lineær spenning"
 
-#: src/rdpattern_ui.c:861
+#: src/rdpattern_ui.c:858
 msgid "ARRL Scale"
 msgstr "ARRL-skala"
 
-#: src/rdpattern_ui.c:862
+#: src/rdpattern_ui.c:859
 msgid "Logarithmic Scale"
 msgstr "Logaritmisk skala"
 
-#: src/rdpattern_ui.c:863
+#: src/rdpattern_ui.c:860
 msgid "Noise Temperature"
 msgstr "Støytemperatur"
 
-#: src/rdpattern_ui.c:864
+#: src/rdpattern_ui.c:861
 msgid "Noise Temp (log scale)"
 msgstr "Støytemp. (log-skala)"
 
-#: src/rdpattern_ui.c:876
+#: src/rdpattern_ui.c:873
 msgid "Radiation Pattern: - "
 msgstr "Strålingsdiagram: - "
 
-#: src/rdpattern_ui.c:896
+#: src/rdpattern_ui.c:893
 msgid "Near Fields:"
 msgstr "Nærfelt:"
 
-#: src/rdpattern_ui.c:898
+#: src/rdpattern_ui.c:895
 msgid " - E Field"
 msgstr " - E-felt"
 
-#: src/rdpattern_ui.c:900
+#: src/rdpattern_ui.c:897
 msgid " - H Field"
 msgstr " - H-felt"
 
-#: src/rdpattern_ui.c:902
+#: src/rdpattern_ui.c:899
 msgid " - Poynting Vector"
 msgstr " - Poynting-vektor"
 
-#: src/rdpattern_ui.c:912
+#: src/rdpattern_ui.c:909
 msgid "Frequency Data Plots - "
 msgstr "Frekvensdataplott - "
 
@@ -6142,7 +6147,7 @@ msgstr ""
 msgid "validation: forced polarization to total for reproducibility\n"
 msgstr "validation: tvang polarisering til total for reproduserbarhet\n"
 
-#: src/validation_dump.c:79
+#: src/validation_dump.c:87
 msgid ""
 "validation: reset structure viewer to default orientation for "
 "reproducibility\n"
@@ -6150,19 +6155,19 @@ msgstr ""
 "validation: tilbakestilte strukturviseren til standardorientering for "
 "reproduserbarhet\n"
 
-#: src/validation_dump.c:601 src/validation_dump.c:607
+#: src/validation_dump.c:609 src/validation_dump.c:615
 msgid "Validation Tree"
 msgstr "Valideringstre"
 
-#: src/validation_dump.c:601
+#: src/validation_dump.c:609
 msgid "Cannot save: frequency loop not done"
 msgstr "Kan ikke lagre: frekvenssløyfen er ikke ferdig"
 
-#: src/validation_dump.c:607
+#: src/validation_dump.c:615
 msgid "Cannot create output directory"
 msgstr "Kan ikke opprette utdatakatalog"
 
-#: src/validation_dump.c:639
+#: src/validation_dump.c:647
 #, c-format
 msgid "validation tree written to: %s\n"
 msgstr "valideringstre skrevet til: %s\n"
@@ -6180,12 +6185,12 @@ msgstr ""
 msgid "Ground_Parameters():Error in ground parameters"
 msgstr "Ground_Parameters():Feil i jordparametere"
 
-#: src/xnec2c.c:724
+#: src/xnec2c.c:730
 #, c-format
 msgid "%.6f MHz: %f seconds. (%s)\n"
 msgstr "%.6f MHz: %f sekunder. (%s)\n"
 
-#: src/xnec2c.c:1068
+#: src/xnec2c.c:1074
 #, c-format
 msgid ""
 "step %d raced: dispatched %.6f MHz, current %.6f MHz; will recalculate\n"
@@ -6193,78 +6198,78 @@ msgstr ""
 "trinn %d konkurrerte: sendte %.6f MHz, gjeldende %.6f MHz; vil beregne på "
 "nytt\n"
 
-#: src/xnec2c.c:1194
+#: src/xnec2c.c:1200
 #, c-format
 msgid "child %d has invalid pipe fd during forked collect\n"
 msgstr "barn %d har ugyldig rør-fd under forgrenet innsamling\n"
 
-#: src/xnec2c.c:1247
+#: src/xnec2c.c:1253
 msgid "Failed to read data from forked child\n"
 msgstr "Kunne ikke lese data fra forgrenet barneprosess\n"
 
-#: src/xnec2c.c:1521
+#: src/xnec2c.c:1527
 #, c-format
 msgid "nearest step %g MHz differs from requested %g MHz\n"
 msgstr "nærmeste trinn %g MHz avviker fra forespurte %g MHz\n"
 
-#: src/xnec2c.c:1525
+#: src/xnec2c.c:1531
 #, c-format
 msgid "post-sweep frequency set to %.4f MHz (VSWR %.2f)\n"
 msgstr "frekvens etter sveip satt til %.4f MHz (VSWR %.2f)\n"
 
-#: src/xnec2c.c:1563
+#: src/xnec2c.c:1569
 #, c-format
 msgid "Frequency loop elapsed time: %f seconds. (%s)\n"
 msgstr "Frekvensløkke medgått tid: %f sekunder. (%s)\n"
 
-#: src/xnec2c.c:1615
+#: src/xnec2c.c:1621
 #, c-format
 msgid "batch canvas %d drew no frame at %dx%d\n"
 msgstr "batch-canvas %d tegnet ingen ramme ved %dx%d\n"
 
-#: src/xnec2c.c:1780
+#: src/xnec2c.c:1786
 #, c-format
 msgid "radiation pattern PNG capture: no computed step for %s\n"
 msgstr "PNG-fangst av strålingsdiagram: ingen beregnet steg for %s\n"
 
-#: src/xnec2c.c:1852
+#: src/xnec2c.c:1858
 #, c-format
 msgid "radiation pattern PNG capture failed for %s\n"
 msgstr "PNG-fangst av strålingsdiagram mislyktes for %s\n"
 
-#: src/xnec2c.c:1858
+#: src/xnec2c.c:1864
 #, c-format
 msgid "radiation pattern PNG save failed for %s: %s\n"
 msgstr "lagring av PNG for strålingsdiagram mislyktes for %s: %s\n"
 
-#: src/xnec2c.c:1863
+#: src/xnec2c.c:1869
 #, c-format
 msgid "wrote radiation pattern PNG: %s\n"
 msgstr "skrev PNG for strålingsdiagram: %s\n"
 
-#: src/xnec2c.c:1900
+#: src/xnec2c.c:1906
 #, c-format
 msgid "multiple radiation pattern PNG formats require a .png filename: %s\n"
 msgstr "flere PNG-formater for strålingsdiagram krever et .png-filnavn: %s\n"
 
-#: src/xnec2c.c:2005
+#: src/xnec2c.c:2011
 #, c-format
 msgid "sweep runs %d workers of %d threads each\n"
 msgstr "sveip kjører %d arbeidere med %d tråder hver\n"
 
-#: src/xnec2c.c:2297
+#: src/xnec2c.c:2303
 msgid "failed to start Frequency_Loop_Thread\n"
 msgstr "kunne ikke starte Frequency_Loop_Thread\n"
 
-#: src/xnec2c.c:2476
+#: src/xnec2c.c:2482
 msgid "Frequency Sweep"
 msgstr "Frekvenssveip"
 
-#: src/xnec2c.c:2477
+#: src/xnec2c.c:2483
 msgid "Recalculate the frequency sweep?"
 msgstr "Beregne frekvenssveipet på nytt?"
 
-#: src/xnec2c.c:2478
+#: src/xnec2c.c:2484
 msgid ""
 "The sweep is calculated in full.  Running it again discards every calculated "
 "step and computes the sweep from its first step."
