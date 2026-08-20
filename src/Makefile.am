@@ -156,7 +156,7 @@ endif
 xnec2c_CFLAGS   += --pedantic
 xnec2c_CFLAGS   +=  -Wall
 xnec2c_CFLAGS   += -std=gnu11
-xnec2c_CFLAGS   += -O2 -g
+xnec2c_CFLAGS   += -g
 xnec2c_CFLAGS   += -Wformat
 xnec2c_CFLAGS   += -Werror=format-security
 xnec2c_CFLAGS   += -fPIC
