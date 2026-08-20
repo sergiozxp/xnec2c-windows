@@ -1224,7 +1224,6 @@ Read_Commands( void )
   calc_data.rkh = 1.0;
   calc_data.iexk = 0;
   calc_data.iped = 0;
-  save.fmhz = CVEL;
   calc_data.freq_mhz = CVEL;
   fpat.dth   = 0.0;
   fpat.thets = 0.0;
@@ -1417,7 +1416,6 @@ Read_Commands( void )
         /* Data from first FR card only used here */
         if( calc_data.FR_cards == 1 )
         {
-          save.fmhz = tmp1;
           calc_data.freq_mhz = tmp1;
         }
 

@@ -991,8 +991,7 @@ typedef struct
     epsr,       /* Relative dielectric constant of ground */
     sig,        /* Conductivity of ground */
     scrwlt,     /* Length of radials in ground screen approximation */
-    scrwrt,     /* Radius of wires in ground screen approximation */
-    fmhz;       /* Saved frequency of operation */
+    scrwrt;     /* Radius of wires in ground screen approximation */
 
   /* My addition, replace xtemp, ytemp etc in freq. loop */
   double
@@ -1264,7 +1263,7 @@ typedef struct
 
   double
     fmhz_save,  /* Saved value of frequency clicked on by user in plots window */
-    freq_mhz;   /* Current Frequency in MHz, moved from save_t */
+    freq_mhz;   /* Current frequency in MHz */
 
   freq_loop_data_t *freq_loop_data;
 
