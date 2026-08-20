@@ -1262,7 +1262,7 @@ typedef struct
     steps_total;  /* Total number of frequency steps */
 
   double
-    fmhz_save,  /* Saved value of frequency clicked on by user in plots window */
+    fmhz_save,  /* Selected display and green-line frequency */
     freq_mhz;   /* Current frequency in MHz */
 
   freq_loop_data_t *freq_loop_data;
@@ -1907,6 +1907,7 @@ gboolean freqplots_popup_open(fp_panel_t panel);
 void freqplots_redraw_if_showing(const fp_panel_t *panels);
 void on_freqplots_popup_destroy(GtkWidget *widget, gpointer user_data);
 gboolean on_freqplots_popup_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
+void freqplots_marker_show(void);
 /* radiation.c */
 void rdpat(void);
 /* rc_config.c */

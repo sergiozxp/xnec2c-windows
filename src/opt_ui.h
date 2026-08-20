@@ -51,16 +51,34 @@ void opt_ui_get_fitness_config(fitness_config_t *cfg);
 void opt_ui_update_status(void);
 
 /**
+ * opt_ui_update_selected_values - refresh Value from the selected frequency
+ *
+ * Writes the Value column alone and leaves every Score and the formula
+ * total standing, because moving the displayed frequency changes no
+ * optimizer input.  Value reads the best-so-far snapshot entry nearest the
+ * selection while the optimizer runs, and the computed sweep step the
+ * selection resolves to otherwise.
+ *
+ * Called on the GTK main thread.  Safe to call when no goals exist
+ * or when frequency data is unavailable.
+ */
+void opt_ui_update_selected_values(void);
+
+/**
  * opt_ui_update_values - refresh Value, Score, and formula total from NEC2 data
  *
- * When the optimizer is running, attempts to refresh from the
- * best-so-far measurement snapshot (non-blocking trylock via
- * opt_get_best_measurements).  If the lock is contended or no
- * snapshot exists yet, leaves labels untouched to avoid flashing
- * dashes.
+ * Value follows the selected frequency as in
+ * opt_ui_update_selected_values(), while each Score and the total reduce the
+ * ordinary sweep band alone, so an extra slot computed for an off-grid
+ * selection never enters a score.
  *
- * When idle, finds the frequency index matching calc_data.fmhz_save,
- * computes measurements via meas_calc(), updates each goal row's
+ * When the optimizer is running, refreshes from the best-so-far
+ * measurement snapshot (non-blocking trylock via
+ * opt_get_best_measurements).  If the lock is contended or no
+ * snapshot exists yet, leaves the row labels untouched to avoid flashing
+ * dashes and shows the total from opt_get_best_fitness().
+ *
+ * When idle, computes measurements via meas_calc(), updates each goal row's
  * Value/Score labels, and shows the total fitness score in the
  * formula display as "F = ... = Score".
  *

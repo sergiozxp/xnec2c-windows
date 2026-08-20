@@ -305,12 +305,28 @@ void on_opt_start_clicked(GtkButton *button, gpointer user_data)
 /*------------------------------------------------------------------------*/
 
 /**
+ * update_running_goal_readouts - refresh goal readouts during optimization
+ *
+ * An idle status tick refreshes the status label alone.
+ */
+static void update_running_goal_readouts(void)
+{
+	if (!opt_is_running())
+	{
+		return;
+	}
+
+	opt_ui_update_values();
+}
+
+/*------------------------------------------------------------------------*/
+
+/**
  * opt_ui_update_status - refresh status label from optimizer log state
  *
- * Also updates the formula display with the current best fitness
- * while the optimizer is running, avoiding the heavier
- * opt_ui_update_values() path that could interfere with the
- * frequency loop thread's synchronous GTK dispatches.
+ * Also refreshes the goal readouts and the formula total while the optimizer
+ * runs, so the best measurement snapshot reaches the rows through its single
+ * owner.
  */
 void opt_ui_update_status(void)
 {
@@ -338,34 +354,7 @@ void opt_ui_update_status(void)
 		log->cache_hits, log->cache_misses);
 
 	gtk_label_set_text(GTK_LABEL(status_label), buf);
-
-	/* Update per-row Value/Score from best measurement snapshot.
-	 * Uses pre-allocated buffers and trylock to avoid blocking
-	 * the GTK main thread or allocating on each timer tick. */
-	if (opt_is_running() && timer_meas != NULL)
-	{
-		int best_steps;
-		double total;
-
-		if (opt_get_best_measurements(timer_meas, timer_freq,
-			&best_steps))
-		{
-			total = update_goal_rows(timer_meas, timer_freq,
-				best_steps);
-			if (!isnan(total))
-			{
-				set_formula_with_score(total);
-			}
-			else
-			{
-				set_formula_with_score(log->best_minima);
-			}
-		}
-		else
-		{
-			set_formula_with_score(log->best_minima);
-		}
-	}
+	update_running_goal_readouts();
 }
 
 /*------------------------------------------------------------------------*/

@@ -26,6 +26,41 @@
 
 #include <math.h>
 
+/**
+ * fp_draw_freq_marker() - draw the selected frequency down one FR-card panel
+ *
+ * Draws nothing while the marker is hidden or the selected frequency falls
+ * outside the panel's span; the +/- 1e-6 absorbs floating-point error at the
+ * panel edges, for example: freq_mhz=148.000000 !<= max_fscale=147.999996
+ */
+  static void
+fp_draw_freq_marker( fp_render_t *fp, const fp_width_t *w, const theme_t *th,
+    const GdkRectangle *plot_rect, double min_fscale, double max_fscale )
+{
+  double freq_x;
+
+  if( !freqplots_marker_is_visible()
+      || calc_data.fmhz_save <= 0.0
+      || calc_data.fmhz_save < min_fscale - 1e-6
+      || calc_data.fmhz_save > max_fscale + 1e-6 )
+    return;
+
+  freq_x = (calc_data.fmhz_save - min_fscale) / (max_fscale - min_fscale);
+  freq_x *= plot_rect->width;
+
+  /* The cursor is a UI marker, not panel data; it keeps the full
+   * w_cursor width unscaled by panel density so a stacked-panel
+   * sub-pixel line never anti-aliases the marker to a dim hue,
+   * matching the unscaled Smith cursor and legacy stroke. */
+  fp_add_line(fp,
+      (int)(plot_rect->x + freq_x), plot_rect->y,
+      (int)(plot_rect->x + freq_x), plot_rect->y+plot_rect->height,
+      (fp_stroke_t){ .color = fp_cursor_color(th), .width = w->widths[FP_W_CURSOR], .z_mid = FP_Z_GREEN });
+
+} /* fp_draw_freq_marker() */
+
+/*-----------------------------------------------------------------------*/
+
 /* Plot_Graph()
  *
  * Plots graphs of two functions against a common variable
@@ -309,29 +344,8 @@ Plot_Graph(
 				RIGHT);
 		}
 
-		/* Draw a vertical line to show current freq if it was
-		* changed by a user click on the plots drawingarea
-		* The +/- 0.001 is to adjust for floating-point error,
-		* for example: freq_mhz=148.000000 !<= max_fscale=147.999996 */
-		if( calc_data.fmhz_save > 0.0
-			&& calc_data.fmhz_save >= min_fscale - 1e-6
-			&& calc_data.fmhz_save <= max_fscale + 1e-6)
-		{
-			double freq_x;
-			rgb_f_t cursor_c = fp_cursor_color(th);
-
-			freq_x = (calc_data.fmhz_save - min_fscale) / (max_fscale - min_fscale);
-			freq_x *= plot_rect->width;
-
-			/* The cursor is a UI marker, not panel data; it keeps the full
-			 * w_cursor width unscaled by panel density so a stacked-panel
-			 * sub-pixel line never anti-aliases the marker to a dim hue,
-			 * matching the unscaled Smith cursor and legacy stroke. */
-			fp_add_line(fp,
-				(int)(plot_rect->x + freq_x), plot_rect->y,
-				(int)(plot_rect->x + freq_x), plot_rect->y+plot_rect->height,
-				(fp_stroke_t){ .color = cursor_c, .width = w->widths[FP_W_CURSOR], .z_mid = FP_Z_GREEN });
-		}
+		/* Mark the selected frequency on top of this card's traces */
+		fp_draw_freq_marker( fp, w, th, plot_rect, min_fscale, max_fscale );
 
 		/* Deposit this card's click-resolution geometry.  A primary click
 		 * lerps an arbitrary frequency across the full rendered x-axis, so the

@@ -13,6 +13,16 @@
 #include "optimizers/opt_session.h"
 #include "shared.h"
 
+/* Bind each score band to its measurements, frequencies, and entry count.
+ * Pass only that count to the fitness reduction so an extra selected-frequency
+ * slot computed beyond the sweep never reaches a score. */
+typedef struct
+{
+	const measurement_t *measurement;
+	const double        *frequency_mhz;
+	int                  count;
+} opt_goal_band_t;
+
 /* Display format strings for each FIT_DIR_* value.
  * All directions use 5 args: weight_str, reduce_name, val1, val2, exp_str.
  * MINIMIZE/MAXIMIZE use 𝑛 for √(t²+1); full formula in per-row tooltip.
@@ -30,7 +40,7 @@ static const char *formula_dir_fmts[FIT_DIR_COUNT] = {
 
 /* Per-direction tooltip format strings with full formula and tension term.
  * Arg counts vary per direction; see tooltip construction in
- * update_goal_rows() for the per-direction arg lists. */
+ * update_goal_scores() for the per-direction arg lists. */
 static const char *formula_tooltip_fmts[FIT_DIR_COUNT] = {
 	[FIT_DIR_MINIMIZE] =
 		"<b>minimize</b>: penalizes <i>%s</i> above <b>%s</b>\n\n"
@@ -207,64 +217,64 @@ gboolean read_objective_from_row(opt_goal_row_t *gr,
 /*------------------------------------------------------------------------*/
 
 /**
- * update_goal_rows - update Value/Score labels from measurement arrays
- * @meas: measurement array, one per frequency step
- * @freq: frequency array in MHz
- * @steps: number of frequency steps
+ * nearest_frequency_index - locate the entry closest to a selected frequency
+ * @frequency_mhz: frequency axis in MHz holding at least @count entries
+ * @count: number of entries on the axis, greater than zero
+ * @selected_mhz: selected frequency in MHz
  *
- * Finds the frequency closest to calc_data.fmhz_save for the Value
- * column, computes per-objective scores via fitness_compute_objective,
- * and updates each goal row's labels.  Returns accumulated total
- * score for enabled objectives, or NAN if frequency data unavailable.
+ * Retains the earlier entry when two are equally distant, so a selection
+ * landing midway between two entries resolves the same way on every call.
+ * Returns an index in 0..@count-1.
  */
-double update_goal_rows(const measurement_t *meas,
-	const double *freq, int steps)
+static int nearest_frequency_index(const double *frequency_mhz, int count,
+	double selected_mhz)
+{
+	int idx;
+	int nearest;
+	double nearest_diff;
+
+	nearest = 0;
+	nearest_diff = fabs(frequency_mhz[0] - selected_mhz);
+
+	for (idx = 1; idx < count; idx++)
+	{
+		double diff = fabs(frequency_mhz[idx] - selected_mhz);
+		gboolean is_closer = diff < nearest_diff;
+
+		nearest = is_closer ? idx : nearest;
+		nearest_diff = is_closer ? diff : nearest_diff;
+	}
+
+	return nearest;
+}
+
+/*------------------------------------------------------------------------*/
+
+/**
+ * update_goal_values - write every goal row's Value from one measurement
+ * @selected: measurement taken at the selected frequency
+ *
+ * Writes the Value column alone, so changing the selected frequency refreshes
+ * the displayed measurement while the band scores stand.
+ */
+static void update_goal_values(const measurement_t *selected)
 {
 	GList *iter;
-	int idx;
-	int best_idx;
-	double best_diff;
-	double total_score;
 	gchar buf[32];
 
-	if (goal_row_list == NULL || steps <= 0
-		|| calc_data.fmhz_save <= 0.0)
-	{
-		return NAN;
-	}
-
-	/* Find frequency index closest to fmhz_save */
-	best_idx = 0;
-	best_diff = fabs(freq[0] - calc_data.fmhz_save);
-
-	for (idx = 1; idx < steps; idx++)
-	{
-		double diff = fabs(freq[idx] - calc_data.fmhz_save);
-
-		if (diff < best_diff)
-		{
-			best_diff = diff;
-			best_idx = idx;
-		}
-	}
-
-	/* Update each row's Value and Score labels, accumulate total */
-	total_score = 0.0;
 	for (iter = goal_row_list; iter != NULL; iter = iter->next)
 	{
 		opt_goal_row_t *gr = (opt_goal_row_t *)iter->data;
 		fitness_objective_t obj;
 		double raw_value;
-		double score;
 
 		if (!read_objective_from_row(gr, &obj))
 		{
 			continue;
 		}
 
-		raw_value = meas[best_idx].a[obj.meas_index];
+		raw_value = selected->a[obj.meas_index];
 
-		/* Update Value label */
 		if (raw_value == -1.0)
 		{
 			gtk_label_set_text(GTK_LABEL(gr->w[GR_VALUE]),
@@ -275,8 +285,41 @@ double update_goal_rows(const measurement_t *meas,
 			snprintf(buf, sizeof(buf), "%.4g", raw_value);
 			gtk_label_set_text(GTK_LABEL(gr->w[GR_VALUE]), buf);
 		}
+	}
+}
 
-		score = fitness_compute_objective(&obj, meas, steps, freq);
+/*------------------------------------------------------------------------*/
+
+/**
+ * update_goal_scores - write every goal row's Score, formula, and total
+ * @band: band of ordinary sweep entries the reduction runs over
+ *
+ * Reduces each objective over @band->count entries, the same bound the
+ * optimizer reduces over, and writes the Score column together with the
+ * per-row formula fragment and its tooltip.  Returns the accumulated score
+ * of the enabled objectives.
+ */
+static double update_goal_scores(const opt_goal_band_t *band)
+{
+	GList *iter;
+	double total_score;
+	gchar buf[32];
+
+	/* Update each row's Score label, accumulate total */
+	total_score = 0.0;
+	for (iter = goal_row_list; iter != NULL; iter = iter->next)
+	{
+		opt_goal_row_t *gr = (opt_goal_row_t *)iter->data;
+		fitness_objective_t obj;
+		double score;
+
+		if (!read_objective_from_row(gr, &obj))
+		{
+			continue;
+		}
+
+		score = fitness_compute_objective(&obj, band->measurement,
+			band->count, band->frequency_mhz);
 
 		if (obj.enabled)
 		{
@@ -392,93 +435,253 @@ double update_goal_rows(const measurement_t *meas,
 /*------------------------------------------------------------------------*/
 
 /**
- * opt_ui_update_values - refresh Value and Score labels from NEC2 data
+ * idle_selected_step - resolve selected Value against available idle data
  *
- * When the optimizer is running, attempts to refresh from the
- * best-so-far measurement snapshot (non-blocking trylock).
- * If the lock is contended or no snapshot exists yet, leaves
- * labels untouched to avoid flashing dashes.
- *
- * When idle, computes per-row values from NEC2 data via meas_calc()
- * and shows the total fitness score in the formula display.
+ * Returns the active step when it contains the selected frequency, including
+ * the separately computed extra slot.  Otherwise returns the nearest ordinary
+ * sweep step so an unapplied spinner edit still has a stable Value readout.
  */
-void opt_ui_update_values(void)
+static int idle_selected_step(void)
+{
+	int active_step;
+	int selected_step;
+
+	active_step = calc_data.freq_step;
+	if (active_step >= 0 && active_step <= calc_data.steps_total
+		&& save.fstep[active_step]
+		&& FREQ_EQ(save.freq[active_step], calc_data.fmhz_save))
+	{
+		selected_step = active_step;
+	}
+	else
+	{
+		/* Resolve an unapplied spinner edit against ordinary sweep data */
+		selected_step = nearest_frequency_index(save.freq,
+			calc_data.steps_total, calc_data.fmhz_save);
+	}
+
+	return selected_step;
+}
+
+/*------------------------------------------------------------------------*/
+
+/**
+ * update_idle_selected_values - write Value from the selected sweep step
+ *
+ * Computes the measurement of the step the selection resolves to, so an
+ * off-grid selection displays its own extra slot once that slot holds data.
+ */
+static void update_idle_selected_values(void)
+{
+	measurement_t selected;
+
+	if (calc_data.steps_total <= 0)
+	{
+		return;
+	}
+
+	meas_calc(&selected, idle_selected_step(), calc_data.ex_port);
+	update_goal_values(&selected);
+}
+
+/*------------------------------------------------------------------------*/
+
+/**
+ * running_best_band - view the optimizer's best-so-far snapshot as a band
+ * @band: receives the snapshot measurements, their frequencies, and count
+ *
+ * Copies the snapshot into the preallocated timer buffers through a
+ * non-blocking trylock, so the GTK main thread never waits on the optimizer
+ * thread.  Returns FALSE and leaves @band untouched when no snapshot exists
+ * yet or another thread holds its lock.
+ */
+static gboolean running_best_band(opt_goal_band_t *band)
+{
+	int best_steps;
+
+	if (timer_meas == NULL || timer_freq == NULL
+		|| !opt_get_best_measurements(timer_meas, timer_freq,
+			&best_steps))
+	{
+		return FALSE;
+	}
+
+	*band = (opt_goal_band_t){
+		.measurement = timer_meas,
+		.frequency_mhz = timer_freq,
+		.count = best_steps,
+	};
+
+	return TRUE;
+}
+
+/*------------------------------------------------------------------------*/
+
+/**
+ * update_band_selected_values - write Value from the nearest band entry
+ * @band: band to read
+ *
+ * Serves the snapshot paths, which carry ordinary sweep entries and hold no
+ * extra slot for an off-grid selected frequency.
+ */
+static void update_band_selected_values(const opt_goal_band_t *band)
+{
+	int selected;
+
+	selected = nearest_frequency_index(band->frequency_mhz, band->count,
+		calc_data.fmhz_save);
+	update_goal_values(&band->measurement[selected]);
+}
+
+/*------------------------------------------------------------------------*/
+
+/**
+ * update_running_selected_values - write Value from the best snapshot
+ *
+ * Leaves Value labels standing when the non-blocking snapshot copy misses.
+ */
+static void update_running_selected_values(void)
+{
+	opt_goal_band_t band;
+
+	if (!running_best_band(&band))
+	{
+		return;
+	}
+
+	update_band_selected_values(&band);
+}
+
+/*------------------------------------------------------------------------*/
+
+/**
+ * update_running_values - refresh every readout from the best snapshot
+ *
+ * Leaves row labels standing when the non-blocking snapshot copy misses and
+ * refreshes the formula total from the authoritative running fitness.
+ */
+static void update_running_values(void)
+{
+	opt_goal_band_t band;
+
+	if (!running_best_band(&band))
+	{
+		set_formula_with_score(opt_get_best_fitness());
+		return;
+	}
+
+	update_band_selected_values(&band);
+	set_formula_with_score(update_goal_scores(&band));
+}
+
+/*------------------------------------------------------------------------*/
+
+/**
+ * update_idle_values - refresh every readout from computed idle data
+ *
+ * Reduces each Score over the sweep steps alone, so the extra slot an
+ * off-grid selection computes reaches Value without entering a score.
+ */
+static void update_idle_values(void)
 {
 	measurement_t *meas_all = NULL;
-	double *freq_all = NULL;
+	measurement_t selected_extra;
+	const measurement_t *selected;
+	opt_goal_band_t band;
 	int idx;
+	int selected_step;
 	int steps;
-	double total_score;
 
-	if (goal_row_list == NULL)
+	steps = calc_data.steps_total;
+	if (steps <= 0)
+	{
+		return;
+	}
+
+	mem_array_alloc(&meas_all, steps);
+
+	for (idx = 0; idx < steps; idx++)
+	{
+		meas_calc(&meas_all[idx], idx, calc_data.ex_port);
+	}
+
+	selected_step = idle_selected_step();
+	if (selected_step < steps)
+	{
+		selected = &meas_all[selected_step];
+	}
+	else
+	{
+		meas_calc(&selected_extra, selected_step, calc_data.ex_port);
+		selected = &selected_extra;
+	}
+
+	update_goal_values(selected);
+	band = (opt_goal_band_t){
+		.measurement = meas_all,
+		.frequency_mhz = save.freq,
+		.count = steps,
+	};
+	set_formula_with_score(update_goal_scores(&band));
+
+	mem_array_free(&meas_all);
+}
+
+/*------------------------------------------------------------------------*/
+
+/**
+ * opt_ui_update_selected_values - refresh Value from the selected frequency
+ *
+ * Writes the Value column alone, leaving every Score and the formula total
+ * as they stand.
+ */
+void opt_ui_update_selected_values(void)
+{
+	if (goal_row_list == NULL || calc_data.fmhz_save <= 0.0)
 	{
 		return;
 	}
 
 	g_rec_mutex_lock(&freq_data_lock);
 
-	/* During optimization: try to refresh from best snapshot.
-	 * If trylock fails, leave labels untouched to avoid flashing
-	 * dashes when UI interactions trigger this function. */
 	if (opt_is_running())
 	{
-		if (timer_meas != NULL)
-		{
-			int best_steps;
+		update_running_selected_values();
+	}
+	else
+	{
+		update_idle_selected_values();
+	}
 
-			if (opt_get_best_measurements(timer_meas, timer_freq,
-				&best_steps))
-			{
-				total_score = update_goal_rows(timer_meas,
-					timer_freq, best_steps);
-				if (!isnan(total_score))
-				{
-					set_formula_with_score(total_score);
-				}
-				else
-				{
-					set_formula_with_score(
-						opt_get_best_fitness());
-				}
-			}
-		}
-		g_rec_mutex_unlock(&freq_data_lock);
+	g_rec_mutex_unlock(&freq_data_lock);
+}
+
+/*------------------------------------------------------------------------*/
+
+/**
+ * opt_ui_update_values - refresh Value, Score, and formula from NEC2 data
+ *
+ * Prepares one measurement for the selected Value and a separate ordinary
+ * sweep band for every Score, so the extra slot an off-grid selection
+ * computes displays as a Value without entering the optimizer band.
+ */
+void opt_ui_update_values(void)
+{
+	if (goal_row_list == NULL || calc_data.fmhz_save <= 0.0)
+	{
 		return;
 	}
 
-	if (calc_data.steps_total <= 0)
+	g_rec_mutex_lock(&freq_data_lock);
+
+	if (opt_is_running())
 	{
-		g_rec_mutex_unlock(&freq_data_lock);
-		return;
+		update_running_values();
 	}
-
-	if (calc_data.fmhz_save <= 0.0)
+	else
 	{
-		g_rec_mutex_unlock(&freq_data_lock);
-		return;
+		update_idle_values();
 	}
-
-	steps = calc_data.steps_total;
-
-	/* Build measurement array for all steps */
-	mem_array_alloc(&meas_all, steps);
-	mem_array_alloc(&freq_all, steps);
-
-	for (idx = 0; idx < steps; idx++)
-	{
-		meas_calc(&meas_all[idx], idx, calc_data.ex_port);
-		freq_all[idx] = save.freq[idx];
-	}
-
-	total_score = update_goal_rows(meas_all, freq_all, steps);
-
-	if (!isnan(total_score))
-	{
-		set_formula_with_score(total_score);
-	}
-
-	mem_array_free(&meas_all);
-	mem_array_free(&freq_all);
 
 	g_rec_mutex_unlock(&freq_data_lock);
 }

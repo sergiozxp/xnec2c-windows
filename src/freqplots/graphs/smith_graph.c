@@ -432,6 +432,42 @@ smith_draw_legend( fp_render_t *fp, int x, int y_bottom, int line_h, float scale
 
 /*-----------------------------------------------------------------------*/
 
+/**
+ * smith_draw_freq_marker() - draw the selected frequency on the Smith locus
+ *
+ * Draws nothing while the marker is hidden or no frequency is selected.
+ * Interpolates the completed sweep locus at the selected frequency so the
+ * marker tracks the selection without waiting on a pending solve.
+ */
+  static void
+smith_draw_freq_marker( fp_render_t *fp, const theme_t *th,
+    const double *fa, const double *fb, const double *fc, int nc,
+    int x0, int y0, int scale )
+{
+  fp_locus_bracket_t bracket;
+  double zr, zi, re, im;
+
+  if( !freqplots_marker_is_visible() || calc_data.fmhz_save <= 0.0 )
+    return;
+
+  bracket = fp_locus_bracket( fc, nc, calc_data.fmhz_save );
+  zr = fa[bracket.lo] + (fa[bracket.hi] - fa[bracket.lo]) * bracket.frac;
+  zi = fb[bracket.lo] + (fb[bracket.hi] - fb[bracket.lo]) * bracket.frac;
+
+  Calculate_Smith( zr, zi, calc_data.zo, &re, &im );
+
+  // flip plot vertically because negative imaginary is the bottom half
+  im = -im;
+
+  fp_add_filled_square( fp,
+      x0 + (gint)( re * scale / 2 ),
+      y0 + (gint)( im * scale / 2 ),
+      8, FP_Z_GREEN, fp_cursor_color(th) );
+
+} /* smith_draw_freq_marker() */
+
+/*-----------------------------------------------------------------------*/
+
 /* Plot_Graph_Smith()
  *
  * Plots graphs of two functions against a common variable
@@ -445,7 +481,7 @@ Plot_Graph_Smith(
   int plot_height, plot_y_position;
   int idx;
   GdkPoint *points = NULL;
-  int scale, x0, y0, x, y;
+  int scale, x0, y0;
   int ohm_w, ohm_h;
   double re, im;
   char z0buf[24];
@@ -570,26 +606,7 @@ Plot_Graph_Smith(
 
   mem_array_free(&points);
 
-  /* Draw a vertical line to show current freq if it was
-   * changed by a user click on the plots drawingarea */
-  if( calc_data.fmhz_save > 0.0 )
-  {
-    rgb_f_t cursor_c = fp_cursor_color(th);
-
-    /* Interpolate the completed sweep locus at the click frequency so the
-     * marker tracks the click without waiting on a pending solve */
-    fp_locus_bracket_t bracket = fp_locus_bracket( fc, nc, calc_data.fmhz_save );
-    double zr = fa[bracket.lo] + (fa[bracket.hi] - fa[bracket.lo]) * bracket.frac;
-    double zi = fb[bracket.lo] + (fb[bracket.hi] - fb[bracket.lo]) * bracket.frac;
-
-    Calculate_Smith( zr, zi, calc_data.zo, &re, &im );
-
-    // flip plot vertically because negative imaginary is the bottom half
-    im = -im;
-
-    x = x0 + (gint)( re * scale / 2 );
-    y = y0 + (gint)( im * scale / 2 );
-    fp_add_filled_square( fp, x, y, 8, FP_Z_GREEN, cursor_c );
-  }
+  /* Mark the selected frequency on top of the impedance locus */
+  smith_draw_freq_marker( fp, th, fa, fb, fc, nc, x0, y0, scale );
 
 } /* Plot_Graph_Smith() */

@@ -169,15 +169,18 @@ fetch_freq_data( void )
  * freq_display_update - record user-selected frequency and refresh display
  * @fmhz: frequency in MHz selected by the user
  *
- * Sets fmhz_save and calls opt_ui_update_values.  Does not trigger NEC2
- * computation.  Called by user_set_frequency before dispatching computation,
- * and directly by the spinbutton handler when Apply is unchecked.
+ * Sets fmhz_save, presents the selected-frequency marker, and refreshes the
+ * optimizer Value column alone, since a selection changes no optimizer input.
+ * Does not trigger NEC2 computation.  Called by user_set_frequency before
+ * dispatching computation, and directly by the spinbutton handler when Apply
+ * is unchecked.  Scores follow computed data through freq_step_refresh_ui().
  */
 void
 freq_display_update( double fmhz )
 {
   calc_data.fmhz_save = fmhz;
-  opt_ui_update_values();
+  freqplots_marker_show();
+  opt_ui_update_selected_values();
 }
 
 /**

@@ -99,8 +99,6 @@ void opt_ui_update_formula(void);
 void set_formula_with_score(double total_score);
 gboolean read_objective_from_row(opt_goal_row_t *gr,
 	fitness_objective_t *obj);
-double update_goal_rows(const measurement_t *meas,
-	const double *freq, int steps);
 void on_opt_formula_help_clicked(GtkButton *button, gpointer user_data);
 
 /* Session signal callbacks — opt_ui_session.c */

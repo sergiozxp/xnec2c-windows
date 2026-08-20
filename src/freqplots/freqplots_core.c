@@ -45,6 +45,10 @@
 
 #include <string.h>
 
+/* Selected-frequency marker presentation, shared by every plot family so the
+ * marker leaves and returns on all of them at once. */
+static gboolean marker_visible = TRUE;
+
 /* The primary frequency-plots window is the sole persistent view; popups are
  * heap views registered one per graph type and cleared to NULL when closed. */
 static freqplots_view_t  fpv_main;
@@ -1344,6 +1348,48 @@ void Plot_Frequency_Data( freqplots_view_t *view, cairo_t *cr )
 	g_rec_mutex_lock(&freq_data_lock);
 	_Plot_Frequency_Data( view, cr );
 	g_rec_mutex_unlock(&freq_data_lock);
+}
+
+/*-----------------------------------------------------------------------*/
+
+/**
+ * freqplots_marker_show() - present the selected-frequency marker
+ *
+ * Every recorded frequency selection calls this, so the marker returns after
+ * the clear gesture drops it.  Writes no frequency and requests no frame; the
+ * selection showing the marker carries its own.
+ */
+  void
+freqplots_marker_show(void)
+{
+  marker_visible = TRUE;
+}
+
+/*-----------------------------------------------------------------------*/
+
+/**
+ * freqplots_marker_hide() - drop the selected-frequency marker
+ *
+ * Serves the clear gesture, which leaves the selected frequency, the active
+ * step, and every readout derived from them in place.
+ */
+  void
+freqplots_marker_hide(void)
+{
+  marker_visible = FALSE;
+}
+
+/*-----------------------------------------------------------------------*/
+
+/**
+ * freqplots_marker_is_visible() - report whether the plots draw the marker
+ *
+ * Each plot family pairs this with its own frequency and range conditions.
+ */
+  gboolean
+freqplots_marker_is_visible(void)
+{
+  return marker_visible;
 }
 
 /*-----------------------------------------------------------------------*/

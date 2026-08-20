@@ -54,8 +54,8 @@ fp_freq_place( freqplots_view_t *v, const fp_pointer_t *p )
 
   if( p->act == FP_ACT_FREQ_CLEAR )
   {
-    // Drop the marker by clearing the frequency the plots draw it at.
-    calc_data.fmhz_save = 0.0;
+    // Drop the marker while the selected frequency stays in effect.
+    freqplots_marker_hide();
     return( FP_LEAF_DIRTY );
   }
 

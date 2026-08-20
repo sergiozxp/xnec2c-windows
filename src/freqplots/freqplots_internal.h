@@ -190,4 +190,9 @@ typedef enum {
 fp_leaf_t    fp_freq_place(freqplots_view_t *v, const fp_pointer_t *p);
 fp_leaf_t    fp_panel_resize(freqplots_view_t *v, const fp_pointer_t *p);
 
+/* Selected-frequency marker presentation (freqplots_core.c); the selection
+ * edge outside the subsystem reaches only the show capability in common.h. */
+void         freqplots_marker_hide(void);
+gboolean     freqplots_marker_is_visible(void);
+
 #endif /* FREQPLOTS_INTERNAL_H */
