@@ -36,6 +36,16 @@
 typedef struct render_ops_s render_ops_t;
 typedef struct render_surface_s render_surface_t;
 
+/* What an input capability acts upon.  The render layer names the subject a
+ * capability stands on and the engine decides whether its own frame state
+ * resolves that subject, so no frame vocabulary crosses the boundary. */
+typedef enum
+{
+  SURFACE_CAP_SUBJECT_VIEW = 0,
+  SURFACE_CAP_SUBJECT_OVERLAY_GEOMETRY,
+  SURFACE_CAP_SUBJECT_COUNT
+} surface_cap_subject_t;
+
 typedef struct render_engine_s
 {
   const render_ops_t *render;
@@ -52,6 +62,13 @@ typedef struct render_engine_s
    * re-presents its cached frame until a render request marks that frame
    * stale, so each engine names the primitive that suits it. */
   void (*queue_redraw)(render_surface_t *surface);
+
+  /* Advertise the text of an input capability acting upon a subject the
+   * caller has brought into a reportable state.  An engine presenting no
+   * notice, and one whose frame does not resolve the subject, returns FALSE,
+   * which leaves the capability unadvertised until a later frame. */
+  gboolean (*notice_capability)(render_surface_t *surface,
+      surface_cap_subject_t subject, const char *notice);
 
 } render_engine_t;
 

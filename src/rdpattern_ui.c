@@ -690,9 +690,10 @@ rdpattern_shift_scroll(GdkEventScroll *event, render_surface_t *surface)
 /*-----------------------------------------------------------------------*/
 
 /* Shift+scroll scales the structure overlay the far-field pattern carries */
-const surface_capability_t rdpattern_overlay_scale_cap = {
+surface_capability_t rdpattern_overlay_scale_cap = {
   .handler = rdpattern_shift_scroll,
-  .notice  = "Shift+Scroll to Scale Structure"
+  .notice  = "Shift+Scroll to Scale Structure",
+  .subject = SURFACE_CAP_SUBJECT_OVERLAY_GEOMETRY
 };
 
 /*-----------------------------------------------------------------------*/
@@ -700,7 +701,7 @@ const surface_capability_t rdpattern_overlay_scale_cap = {
 /* Modifier scroll capabilities the Cairo radiation-pattern surface offers;
  * cylinder geometry belongs to the OpenGL engine, so ctrl+scroll is declined */
 const surface_input_ops_t rdpattern_cairo_input = {
-  .shift = &rdpattern_overlay_scale_cap
+  .by_modifier = { [SURFACE_MOD_SHIFT] = &rdpattern_overlay_scale_cap }
 };
 
 /*-----------------------------------------------------------------------*/

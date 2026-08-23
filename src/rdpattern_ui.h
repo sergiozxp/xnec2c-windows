@@ -34,7 +34,7 @@ void rdpattern_view_changed_cb(view_t *v, gpointer user_data);
 
 /* Shift+scroll capability scaling the structure overlay, offered by every
  * engine presenting the radiation-pattern view */
-extern const surface_capability_t rdpattern_overlay_scale_cap;
+extern surface_capability_t rdpattern_overlay_scale_cap;
 
 /* Modifier scroll operations the Cairo radiation-pattern surface offers */
 extern const surface_input_ops_t rdpattern_cairo_input;

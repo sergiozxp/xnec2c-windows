@@ -103,7 +103,7 @@ void opengl_structure_set_radius_scale(double scale);
 
 /* Ctrl+scroll capability adjusting cylinder radius scale.
  * Offered by any view that presents structure geometry. */
-extern const surface_capability_t opengl_structure_wire_radius_cap;
+extern surface_capability_t opengl_structure_wire_radius_cap;
 
 /* Update shared geometry buffer using dispatch-resolved draw parameters. */
 void opengl_structure_update_shared_geometry_with_params(const struct_draw_params_t *params);

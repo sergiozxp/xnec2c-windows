@@ -33,6 +33,13 @@
 #include "../gdk_scroll.h"
 #include "../shared.h"
 
+/* GDK modifier bit carried by each member of the modifier axis, so dispatch
+ * reads an ordinal rather than naming a modifier */
+static const guint modifier_masks[SURFACE_MOD_COUNT] = {
+  [SURFACE_MOD_CTRL]  = GDK_CONTROL_MASK,
+  [SURFACE_MOD_SHIFT] = GDK_SHIFT_MASK
+};
+
 /**
  * on_button_press() - Begin a drag session from a pointer button
  * @_widget: signal source, unread: the surface carries the widget
@@ -124,28 +131,66 @@ on_motion(GtkWidget *_widget, GdkEventMotion *event, gpointer user_data)
  * @input: modifier capabilities of the scrolled surface, or NULL when none
  * @state: modifier mask carried by the scroll event
  *
- * Ctrl precedes shift where the row offers it, so a chord holding both
- * requests the ctrl capability and falls to shift where the row declines
- * ctrl.  Returns NULL when the surface declines the modifier, leaving the
- * event to the zoom path.
+ * Walks the axis in ordinal order and answers the first capability the row
+ * offers for a modifier the event carries, so a chord holding both requests
+ * the ctrl capability and falls to shift where the row declines ctrl.
+ * Returns NULL when the surface declines the modifier, leaving the event to
+ * the zoom path.
  */
   static const surface_capability_t *
 scroll_capability(const surface_input_ops_t *input, guint state)
 {
-  const surface_capability_t *cap;
+  const surface_capability_t *cap = NULL;
+  surface_modifier_t m;
 
   if( input == NULL )
-    cap = NULL;
-  else if( (state & GDK_CONTROL_MASK) != 0 && input->ctrl != NULL )
-    cap = input->ctrl;
-  else if( (state & GDK_SHIFT_MASK) != 0 )
-    cap = input->shift;
-  else
-    cap = NULL;
+    return( NULL );
+
+  for( m = 0; m < SURFACE_MOD_COUNT && cap == NULL; m++ )
+  {
+    if( (state & modifier_masks[m]) == 0 )
+      continue;
+
+    cap = input->by_modifier[m];
+  }
 
   return( cap );
 
 } /* scroll_capability() */
+
+/*-----------------------------------------------------------------------*/
+
+/**
+ * surface_notice_capabilities() - Advertise capabilities acting on a subject
+ * @surface: surface whose engine has resolved the subject
+ * @subject: subject the calling engine brought into a reportable state
+ *
+ * The guard lives on the capability, so rows borrowing one capability
+ * advertise it once between them.  An engine declining the notice leaves the
+ * guard down, which offers the capability again on a later frame.
+ */
+  void
+surface_notice_capabilities(render_surface_t *surface,
+    surface_cap_subject_t subject)
+{
+  surface_capability_t *cap;
+  surface_modifier_t m;
+
+  if( surface == NULL || surface->input == NULL )
+    return;
+
+  for( m = 0; m < SURFACE_MOD_COUNT; m++ )
+  {
+    cap = surface->input->by_modifier[m];
+
+    if( cap == NULL || cap->notice_shown || cap->subject != subject )
+      continue;
+
+    cap->notice_shown =
+      canvas_surface_notice_capability(surface, subject, cap->notice);
+  }
+
+} /* surface_notice_capabilities() */
 
 /*-----------------------------------------------------------------------*/
 

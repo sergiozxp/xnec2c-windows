@@ -164,9 +164,10 @@ opengl_structure_on_ctrl_scroll(
 
 /* Ctrl+scroll adjusts the wire radius of structure geometry, which the
  * radiation-pattern overlay presents alongside its own content */
-const surface_capability_t opengl_structure_wire_radius_cap = {
+surface_capability_t opengl_structure_wire_radius_cap = {
   .handler = opengl_structure_on_ctrl_scroll,
-  .notice  = "Ctrl+Scroll: Wire Radius"
+  .notice  = "Ctrl+Scroll: Wire Radius",
+  .subject = SURFACE_CAP_SUBJECT_VIEW
 };
 
 /*-----------------------------------------------------------------------*/
@@ -270,7 +271,7 @@ opengl_structure_ground_plane_is_active(void *_ctx)
 
 /* Modifier scroll capabilities of the structure domain */
 static const surface_input_ops_t structure_input_ops = {
-  .ctrl = &opengl_structure_wire_radius_cap
+  .by_modifier = { [SURFACE_MOD_CTRL] = &opengl_structure_wire_radius_cap }
 };
 
 /* Static view configuration */

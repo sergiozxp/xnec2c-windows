@@ -378,8 +378,10 @@ rdpattern_content_cleanup(void)
 
 /* Modifier scroll capabilities of the radiation-pattern domain */
 static const surface_input_ops_t rdpattern_input_ops = {
-  .ctrl  = &opengl_structure_wire_radius_cap,
-  .shift = &rdpattern_overlay_scale_cap
+  .by_modifier = {
+    [SURFACE_MOD_CTRL]  = &opengl_structure_wire_radius_cap,
+    [SURFACE_MOD_SHIFT] = &rdpattern_overlay_scale_cap
+  }
 };
 
 /* Static view configuration */

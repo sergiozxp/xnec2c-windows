@@ -22,29 +22,54 @@
 
 #include "render_engine.h"
 
+/* Modifier axis of scroll capabilities.  Dispatch walks it in ordinal order,
+ * so a chord holding both modifiers requests the earlier one. */
+typedef enum
+{
+  SURFACE_MOD_CTRL = 0,
+  SURFACE_MOD_SHIFT,
+  SURFACE_MOD_COUNT
+} surface_modifier_t;
+
 /* One scroll capability: the handler applying it bound to the notice
- * advertising it.  A capability is const with process lifetime and rows
- * borrow it. */
+ * advertising it.  The capability owns the guard retiring its notice, so
+ * rows borrowing one capability advertise it once between them. */
 typedef struct
 {
   gboolean (*handler)(GdkEventScroll *event, render_surface_t *surface);
 
   /* Text advertising the capability, presented on the first frame of the
-   * session that offers it by engines presenting notices; the Cairo engine
-   * presents none */
+   * session whose engine resolves the subject the capability acts upon */
   const char *notice;
+
+  /* Subject the capability acts upon, which the presenting engine gates on */
+  surface_cap_subject_t subject;
+
+  /* Raised once the notice has been advertised for this session */
+  gboolean notice_shown;
 
 } surface_capability_t;
 
-/* Modifier scroll capabilities the constructing site supplies.  A NULL
- * member declines that modifier, which the generic handler then treats as
- * an unmodified event. */
+/* Modifier scroll capabilities the constructing site supplies.  A NULL slot
+ * declines that modifier, which the generic handler then treats as an
+ * unmodified event. */
 typedef struct
 {
-  const surface_capability_t *ctrl;
-  const surface_capability_t *shift;
+  surface_capability_t *by_modifier[SURFACE_MOD_COUNT];
 
 } surface_input_ops_t;
+
+/**
+ * surface_notice_capabilities() - Advertise capabilities acting on a subject
+ * @surface: surface whose engine has resolved the subject
+ * @subject: subject the calling engine brought into a reportable state
+ *
+ * Presents the notice of every capability the surface offers for @subject,
+ * at most once per capability for the session, through the engine the
+ * surface binds.
+ */
+void surface_notice_capabilities(render_surface_t *surface,
+    surface_cap_subject_t subject);
 
 /**
  * surface_input_connect() - Wire pointer, scroll and allocation handlers
