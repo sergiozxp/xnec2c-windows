@@ -674,6 +674,11 @@ rc_config_vars_t rc_config_vars[] = {
 		.widgets = CONFIG_WIDGET_SINGLE( &freqplots_window_builder,
 			"freqplots_ant_temp_togglebutton", hook_freqplots_panel_select ) },
 
+	{ .desc = "Freqplots Solver Conditioning Toggle", .format = "%d",
+		.vars = { &rc_config.freqplots_cond_togglebutton },
+		.widgets = CONFIG_WIDGET_SINGLE( &freqplots_window_builder,
+			"freqplots_cond_togglebutton", hook_freqplots_panel_select ) },
+
 	{ .desc = "Freqplots Show Ant Temp (Ta instead of TA)", .format = "%d",
 		.vars = { &rc_config.freqplots_show_ant_temp },
 		.widgets = CONFIG_WIDGET_SINGLE( &freqplots_window_builder,

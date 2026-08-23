@@ -244,6 +244,12 @@ extern GtkEntry *structure_fstep_entry;
  * Num_Feedpoint_Ports() and indexed [port] within one fstep */
 extern impedance_data_t *impedance_data;
 
+/* Store the smallest over largest U diagonal magnitude across the symmetry
+ * blocks, one entry per frequency step.  Use 0.0 for an exactly singular
+ * factorization.  Set_Interaction_Matrix() fills it in the child; meas_calc()
+ * projects it in the parent. */
+extern double *solver_cond;
+
 /* Data for various calculations */
 extern calc_data_t calc_data;
 

@@ -1,9 +1,13 @@
 #ifndef MEASUREMENTS_H
 #define MEASUREMENTS_H 1
 
+#include <float.h>
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
+
+/* Caps reported loss at the decimal precision carried by a double. */
+#define PRECISION_LOST_MAX ((double)DBL_DIG)
 
 // The enum, and the struct measurement_t values must be in
 // the same order or this will not work!
@@ -35,6 +39,7 @@ enum MEASUREMENT_INDEXES
 	MEAS_ANT_TEMP,
 	MEAS_ANT_TEMP_TOT,
 	MEAS_GT,
+	MEAS_PRECISION_LOST,
 
 	MEAS_COUNT
 };
@@ -269,6 +274,7 @@ typedef struct
 			double gain_dev_pz, gain_dev_nz;
 			double ant_temp, ant_temp_tot;
 			double gt;
+			double precision_lost;
 		};
 
 		double a[MEAS_COUNT];

@@ -361,7 +361,7 @@ Set_Interaction_Matrix( void )
     fblock( netcx.npeq, netcx.neq, iresrv, data.ipsym);
 
   cmset( netcx.neq, cm, calc_data.rkh, calc_data.iexk );
-  factrs( netcx.npeq, netcx.neq, cm, save.ip );
+  solver_cond[calc_data.freq_step] = factrs( netcx.npeq, netcx.neq, cm, save.ip );
   netcx.ntsol = 0;
 
 } /* Set_Interaction_Matrix() */

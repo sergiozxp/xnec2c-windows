@@ -163,6 +163,8 @@ int      fp_impedance_enabled(void);
 gboolean fp_impedance_render(fp_plot_ctx_t *ctx);
 int      fp_ant_temp_enabled(void);
 gboolean fp_ant_temp_render(fp_plot_ctx_t *ctx);
+int      fp_cond_enabled(void);
+gboolean fp_cond_render(fp_plot_ctx_t *ctx);
 
 /* Per-type trace-buffer release, called once at program exit through
  * freqplots_cleanup(). */
@@ -171,6 +173,7 @@ void fp_viewer_free(void);
 void fp_vswr_free(void);
 void fp_impedance_free(void);
 void fp_ant_temp_free(void);
+void fp_cond_free(void);
 
 /* Pointer boundary decode and the router carrying a gesture to its leaf
  * (freqplots_input.c) */

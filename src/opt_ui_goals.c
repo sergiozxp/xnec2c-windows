@@ -125,10 +125,13 @@ static opt_goal_row_t *create_goal_row(int meas_index, int enabled)
 	g_signal_connect(gr->w[GR_ENABLED], "toggled",
 		G_CALLBACK(on_goal_toggled), NULL);
 
-	/* Measurement dropdown (skips MEAS_MHZ) */
+	/* List goal-eligible measurements in the dropdown */
 	gr->w[GR_METRIC] = gtk_combo_box_text_new();
-	for (i = 1; i < MEAS_COUNT; i++)
+	for (i = 0; i < MEAS_COUNT; i++)
 	{
+		if (meas_fitness_defaults[i].goal_ineligible)
+			continue;
+
 		gtk_combo_box_text_append_text(
 			GTK_COMBO_BOX_TEXT(gr->w[GR_METRIC]),
 			meas_display_names[i]);

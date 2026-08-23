@@ -10,6 +10,7 @@
  */
 
 #include "opt_ui_internal.h"
+#include "console.h"
 #include "opt_file.h"
 #include "optimizers/opt_session.h"
 
@@ -144,20 +145,64 @@ GtkWidget *make_entry(const gchar *text, gint width)
 
 /**
  * metric_combo_index_to_meas - map combo box index to MEASUREMENT_INDEXES
+ * @combo_idx: position within the goal metric dropdown
  *
- * The dropdown skips MEAS_MHZ (index 0), so combo index 0 = MEAS_ZREAL (1).
+ * Walks the goal-eligible measurements in the order the dropdown lists them.
+ *
+ * Return: the measurement the position selects.
  */
 int metric_combo_index_to_meas(int combo_idx)
 {
-	return combo_idx + 1;
+	int i, position = 0, selected = -1;
+
+	for (i = 0; i < MEAS_COUNT && selected < 0; i++)
+	{
+		if (meas_fitness_defaults[i].goal_ineligible)
+			continue;
+
+		if (position == combo_idx)
+			selected = i;
+		else
+			position++;
+	}
+
+	if (selected < 0)
+	{
+		BUG("goal metric position %d selects no measurement\n",
+			combo_idx);
+		selected = MEAS_ZREAL;
+	}
+
+	return selected;
 }
 
 /**
  * meas_to_metric_combo_index - map MEASUREMENT_INDEXES to combo box index
+ * @meas_index: MEASUREMENT_INDEXES value
+ *
+ * Return: the dropdown position holding @meas_index.
  */
 int meas_to_metric_combo_index(int meas_index)
 {
-	return meas_index - 1;
+	int i, position = 0;
+
+	if (meas_index < 0 || meas_index >= MEAS_COUNT ||
+		meas_fitness_defaults[meas_index].goal_ineligible)
+	{
+		BUG("measurement %d is unavailable as an optimization goal\n",
+			meas_index);
+		return -1;
+	}
+
+	for (i = 0; i < meas_index; i++)
+	{
+		if (meas_fitness_defaults[i].goal_ineligible)
+			continue;
+
+		position++;
+	}
+
+	return position;
 }
 
 /*------------------------------------------------------------------------*/
@@ -307,6 +352,9 @@ void opt_ui_get_fitness_config(fitness_config_t *cfg)
 		}
 
 		obj = fitness_config_add(cfg, tmp.meas_index);
+		if (obj == NULL)
+			continue;
+
 		*obj = tmp;
 	}
 }

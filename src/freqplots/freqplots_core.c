@@ -64,6 +64,7 @@ static const char *fp_panel_names[FP_PANEL_COUNT] = {
   [FP_PANEL_ZMGZPH]   = N_("Impedance (mag/phase)"),
   [FP_PANEL_SMITH]    = N_("Smith Chart"),
   [FP_PANEL_ANT_TEMP] = N_("Antenna Temperature"),
+  [FP_PANEL_COND]     = N_("Solver Conditioning"),
 };
 
 /* Per-panel selection and data-availability descriptor.  select_field points
@@ -94,6 +95,7 @@ static const fp_panel_desc_t fp_panel_desc[FP_PANEL_COUNT] = {
   [FP_PANEL_ZMGZPH]   = { &rc_config.freqplots_zmgzph_togglebutton,   "freqplots_zmgzph_togglebutton",   0,            TRUE,  TRUE,  NULL                         },
   [FP_PANEL_SMITH]    = { &rc_config.freqplots_smith_togglebutton,    "freqplots_smith_togglebutton",    0,            TRUE,  TRUE,  NULL                         },
   [FP_PANEL_ANT_TEMP] = { &rc_config.freqplots_ant_temp_togglebutton, "freqplots_ant_temp_togglebutton", ENABLE_RDPAT, FALSE, FALSE, NULL                         },
+  [FP_PANEL_COND]     = { &rc_config.freqplots_cond_togglebutton,     "freqplots_cond_togglebutton",     0,            FALSE, FALSE, NULL                         },
 };
 
 /* freqplots_panel_select_id()
@@ -205,6 +207,11 @@ static const fp_readout_field_t fp_rf_ant_temp[] = {
   { -1, FP_FIELD_ALWAYS, NULL, NULL, 0.0 },
 };
 
+static const fp_readout_field_t fp_rf_cond[] = {
+  { MEAS_PRECISION_LOST, FP_FIELD_ALWAYS, "%.1f", "", -1e30 },
+  { -1, FP_FIELD_ALWAYS, NULL, NULL, 0.0 },
+};
+
 /* Per-graph readout field set, indexed by fp_panel_t.  This is the one place
  * naming which measurement values each popup graph displays. */
 static const fp_readout_field_t *const fp_panel_readout[FP_PANEL_COUNT] = {
@@ -216,6 +223,7 @@ static const fp_readout_field_t *const fp_panel_readout[FP_PANEL_COUNT] = {
   [FP_PANEL_ZMGZPH]   = fp_rf_zmgzph,
   [FP_PANEL_SMITH]    = fp_rf_smith,
   [FP_PANEL_ANT_TEMP] = fp_rf_ant_temp,
+  [FP_PANEL_COND]     = fp_rf_cond,
 };
 
 /* True when the setting gating @cond currently selects its column.  Each arm
@@ -326,6 +334,7 @@ static const fp_plot_dispatch_t fp_plot_dispatch[] = {
   { fp_gain_enabled,      fp_gain_render      },
   { fp_viewer_enabled,    fp_viewer_render    },
   { fp_vswr_enabled,      fp_vswr_render      },
+  { fp_cond_enabled,      fp_cond_render      },
   { fp_impedance_enabled, fp_impedance_render },
   { fp_ant_temp_enabled,  fp_ant_temp_render  },
 };
@@ -1183,6 +1192,7 @@ freqplots_cleanup( void )
   fp_vswr_free();
   fp_impedance_free();
   fp_ant_temp_free();
+  fp_cond_free();
 
 } /* freqplots_cleanup() */
 

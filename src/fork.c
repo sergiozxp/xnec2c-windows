@@ -406,6 +406,8 @@ freq_fields_xfer(int fstep, int pipe_idx, pipe_fn_t pipe_fn)
     { impedance_data[fstep].zimag,     size_n_ports_dbl, 0,                      FREQ_COND_ALWAYS },
     { impedance_data[fstep].zmagn,     size_n_ports_dbl, 0,                      FREQ_COND_ALWAYS },
     { impedance_data[fstep].zphase,    size_n_ports_dbl, 0,                      FREQ_COND_ALWAYS },
+    /* Transfer interaction-matrix factorization health. */
+    { &solver_cond[fstep],             NULL,             sizeof(*solver_cond),   FREQ_COND_ALWAYS },
     /* Radiation pattern data */
     { rad_pattern[fstep].gtot,         size_nphth_dbl, 0,                        FREQ_COND_RDPAT  },
     { rad_pattern[fstep].tilt,         size_nphth_dbl, 0,                        FREQ_COND_RDPAT  },

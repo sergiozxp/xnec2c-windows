@@ -361,6 +361,7 @@ typedef struct
     freqplots_zmgzph_togglebutton,
     freqplots_smith_togglebutton,
     freqplots_ant_temp_togglebutton,
+    freqplots_cond_togglebutton,
     freqplots_show_ant_temp,
     freqplots_min_max,
     freqplots_s11,
@@ -1107,6 +1108,7 @@ typedef enum {
 	FP_PANEL_ALL = -1,
 	FP_PANEL_GAIN = 0, FP_PANEL_GAIN_DIR, FP_PANEL_VIEWER, FP_PANEL_VSWR,
 	FP_PANEL_ZRLZIM, FP_PANEL_ZMGZPH, FP_PANEL_SMITH, FP_PANEL_ANT_TEMP,
+	FP_PANEL_COND,
 	FP_PANEL_COUNT
 } fp_panel_t;
 
@@ -1872,7 +1874,7 @@ void cmsw(int j1, int j2, int i1, int i2, complex double *cmx, complex double *c
 void etmns(double p1, double p2, double p3, double p4, double p5, double p6, int ipr, complex double *e);
 int factr(int n, complex double *a, int *ip, int ndim);
 int factr_gauss_elim( int n, complex double *a, int *ip, int ndim);
-void factrs(int np, int nrow, complex double *a, int *ip);
+double factrs(int np, int nrow, complex double *a, int *ip);
 void fblock(int nrow, int ncol, int imax, int ipsym);
 int solve(int n, complex double *a, int *ip, complex double *b, int ndim);
 int solve_gauss_elim( int n, complex double *a, int *ip, complex double *b, int ndim );

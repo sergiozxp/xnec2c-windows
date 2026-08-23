@@ -207,6 +207,9 @@ complex double *cm = NULL;
 /* Needed data */
 impedance_data_t *impedance_data = NULL;
 
+/* Interaction-matrix factorization health */
+double *solver_cond = NULL;
+
 /* Data for various calculations */
 calc_data_t calc_data;
 data_t data;

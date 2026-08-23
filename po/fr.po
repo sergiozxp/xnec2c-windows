@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xnec2c 4.4.18\n"
 "Report-Msgid-Bugs-To: xnec2c-bugs@z.ewheeler.org\n"
-"POT-Creation-Date: 2026-08-19 21:25-0700\n"
+"POT-Creation-Date: 2026-08-21 17:38-0700\n"
 "PO-Revision-Date: 2025-12-27 16:01-0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -198,8 +198,8 @@ msgstr ""
 "est écrêté à la couleur la plus basse."
 
 # xnec2c-exempt: notation
-#: resources/animate.glade:192 resources/xnec2c.glade:11695
-#: resources/xnec2c.glade:13053
+#: resources/animate.glade:192 resources/xnec2c.glade:11713
+#: resources/xnec2c.glade:13071
 msgid "dB"
 msgstr ""
 
@@ -518,7 +518,7 @@ msgid "Show the bare structure geometry with no quantity coloring."
 msgstr ""
 "Afficher la géométrie brute de la structure sans coloration de grandeur."
 
-#: resources/animate.glade:1042 resources/xnec2c.glade:11222
+#: resources/animate.glade:1042 resources/xnec2c.glade:11240
 msgid "Currents"
 msgstr "Courants"
 
@@ -527,7 +527,7 @@ msgid "Animate current magnitude and direction along the wires."
 msgstr "Animer l'amplitude et la direction des courants le long des fils."
 
 # xnec2c-exempt: loanword
-#: resources/animate.glade:1059 resources/xnec2c.glade:11237
+#: resources/animate.glade:1059 resources/xnec2c.glade:11255
 msgid "Charges"
 msgstr ""
 
@@ -765,22 +765,22 @@ msgid "Arc Element (GA card)"
 msgstr "Élément d'arc (carte GA)"
 
 #: resources/xnec2c.glade:134 resources/xnec2c.glade:1169
-#: resources/xnec2c.glade:3596 resources/xnec2c.glade:14765 src/cmnd_edit.c:489
+#: resources/xnec2c.glade:3596 resources/xnec2c.glade:14783 src/cmnd_edit.c:489
 msgid "Tag Number"
 msgstr "Numéro de tag"
 
-#: resources/xnec2c.glade:147 resources/xnec2c.glade:14860
+#: resources/xnec2c.glade:147 resources/xnec2c.glade:14878
 msgid "No. Segments"
 msgstr "Nb. segments"
 
 # xnec2c-exempt: notation
 #: resources/xnec2c.glade:160 resources/xnec2c.glade:3622
-#: resources/xnec2c.glade:14956
+#: resources/xnec2c.glade:14974
 msgid "Segs % lambda"
 msgstr ""
 
 #: resources/xnec2c.glade:173 resources/xnec2c.glade:3635
-#: resources/xnec2c.glade:15052
+#: resources/xnec2c.glade:15070
 msgid "Wire Diameter"
 msgstr "Diamètre du fil"
 
@@ -797,7 +797,7 @@ msgid "End 2 Angle"
 msgstr "Angle extrémité 2"
 
 #: resources/xnec2c.glade:300 resources/xnec2c.glade:3832
-#: resources/xnec2c.glade:15117 src/cmnd_edit.c:2025
+#: resources/xnec2c.glade:15135 src/cmnd_edit.c:2025
 msgid "Conductivity S/m"
 msgstr "Conductivité S/m"
 
@@ -813,9 +813,9 @@ msgstr "Données d'arc de fil"
 #: resources/xnec2c.glade:4526 resources/xnec2c.glade:5058
 #: resources/xnec2c.glade:5694 resources/xnec2c.glade:7138
 #: resources/xnec2c.glade:8045 resources/xnec2c.glade:9051
-#: resources/xnec2c.glade:9331 resources/xnec2c.glade:13458
-#: resources/xnec2c.glade:13971 resources/xnec2c.glade:14570
-#: resources/xnec2c.glade:15406 resources/xnec2c.glade:15606
+#: resources/xnec2c.glade:9331 resources/xnec2c.glade:13476
+#: resources/xnec2c.glade:13989 resources/xnec2c.glade:14588
+#: resources/xnec2c.glade:15424 resources/xnec2c.glade:15624
 msgid "Delete Card"
 msgstr "Supprimer la carte"
 
@@ -1115,8 +1115,8 @@ msgid "5.00"
 msgstr ""
 
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:3710 resources/xnec2c.glade:11728
-#: resources/xnec2c.glade:12929
+#: resources/xnec2c.glade:3710 resources/xnec2c.glade:11746
+#: resources/xnec2c.glade:12947
 msgid "1"
 msgstr ""
 
@@ -1174,7 +1174,7 @@ msgstr "Rayon en Y (B2)"
 msgid "GH Card"
 msgstr "Carte GH"
 
-#: resources/xnec2c.glade:4239 resources/xnec2c.glade:15480
+#: resources/xnec2c.glade:4239 resources/xnec2c.glade:15498
 msgid "Interaction Approx Range (KH Card)"
 msgstr "Plage d'approximation d'interaction (carte KH)"
 
@@ -1294,8 +1294,8 @@ msgid "NX"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:5374 resources/xnec2c.glade:11252
-#: resources/xnec2c.glade:12464
+#: resources/xnec2c.glade:5374 resources/xnec2c.glade:11270
+#: resources/xnec2c.glade:12482
 msgid "X"
 msgstr ""
 
@@ -1310,8 +1310,8 @@ msgid "NY"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:5469 resources/xnec2c.glade:11267
-#: resources/xnec2c.glade:12479
+#: resources/xnec2c.glade:5469 resources/xnec2c.glade:11285
+#: resources/xnec2c.glade:12497
 msgid "Y"
 msgstr ""
 
@@ -1326,8 +1326,8 @@ msgid "NZ"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:5564 resources/xnec2c.glade:11282
-#: resources/xnec2c.glade:12494
+#: resources/xnec2c.glade:5564 resources/xnec2c.glade:11300
+#: resources/xnec2c.glade:12512
 msgid "Z"
 msgstr ""
 
@@ -1497,7 +1497,7 @@ msgstr "N° de segment, Port 1"
 msgid "Segment Num, Port 2"
 msgstr "N° de segment, Port 2"
 
-#: resources/xnec2c.glade:6851 resources/xnec2c.glade:14266
+#: resources/xnec2c.glade:6851 resources/xnec2c.glade:14284
 msgid "Segment Identity"
 msgstr "Identité du segment"
 
@@ -1792,17 +1792,17 @@ msgstr "Options de réflexion"
 msgid "Xnec2c: Frequency Data Plots"
 msgstr "Xnec2c : Graphiques des données de fréquence"
 
-#: resources/xnec2c.glade:9426 resources/xnec2c.glade:10398
-#: resources/xnec2c.glade:11953
+#: resources/xnec2c.glade:9426 resources/xnec2c.glade:10416
+#: resources/xnec2c.glade:11971
 msgid "_File"
 msgstr "_Fichier"
 
-#: resources/xnec2c.glade:9488 resources/xnec2c.glade:10460
-#: resources/xnec2c.glade:12015
+#: resources/xnec2c.glade:9488 resources/xnec2c.glade:10478
+#: resources/xnec2c.glade:12033
 msgid "Save as _gnuplot"
 msgstr "Enregistrer comme _gnuplot"
 
-#: resources/xnec2c.glade:9499 resources/xnec2c.glade:12025
+#: resources/xnec2c.glade:9499 resources/xnec2c.glade:12043
 msgid "Save as _CSV"
 msgstr "Enregistrer comme _CSV"
 
@@ -1822,41 +1822,41 @@ msgstr "Enregistrer comme S2P : Gain _max (S21)"
 msgid "Save as S2P: _Viewer Gain (S21)"
 msgstr "Enregistrer comme S2P : Gain _observateur (S21)"
 
-#: resources/xnec2c.glade:9575 resources/xnec2c.glade:10835
-#: resources/xnec2c.glade:12059
+#: resources/xnec2c.glade:9575 resources/xnec2c.glade:10853
+#: resources/xnec2c.glade:12077
 msgid "_View"
 msgstr "_Affichage"
 
-#: resources/xnec2c.glade:9584 resources/xnec2c.glade:10863
-#: resources/xnec2c.glade:12067
+#: resources/xnec2c.glade:9584 resources/xnec2c.glade:10881
+#: resources/xnec2c.glade:12085
 msgid "_Polarization"
 msgstr "_Polarisation"
 
 # xnec2c-exempt: loanword
-#: resources/xnec2c.glade:9598 resources/xnec2c.glade:10877
-#: resources/xnec2c.glade:12081
+#: resources/xnec2c.glade:9598 resources/xnec2c.glade:10895
+#: resources/xnec2c.glade:12099
 msgid "_Total"
 msgstr ""
 
 # xnec2c-exempt: loanword
-#: resources/xnec2c.glade:9609 resources/xnec2c.glade:10888
-#: resources/xnec2c.glade:12092
+#: resources/xnec2c.glade:9609 resources/xnec2c.glade:10906
+#: resources/xnec2c.glade:12110
 msgid "_Horizontal"
 msgstr ""
 
 # xnec2c-exempt: loanword
-#: resources/xnec2c.glade:9620 resources/xnec2c.glade:10899
-#: resources/xnec2c.glade:12103
+#: resources/xnec2c.glade:9620 resources/xnec2c.glade:10917
+#: resources/xnec2c.glade:12121
 msgid "_Vertical"
 msgstr ""
 
-#: resources/xnec2c.glade:9631 resources/xnec2c.glade:10910
-#: resources/xnec2c.glade:12114
+#: resources/xnec2c.glade:9631 resources/xnec2c.glade:10928
+#: resources/xnec2c.glade:12132
 msgid "_Right Hand"
 msgstr "Main _droite"
 
-#: resources/xnec2c.glade:9642 resources/xnec2c.glade:10921
-#: resources/xnec2c.glade:12125
+#: resources/xnec2c.glade:9642 resources/xnec2c.glade:10939
+#: resources/xnec2c.glade:12143
 msgid "_Left Hand"
 msgstr "Main _gauche"
 
@@ -1892,7 +1892,7 @@ msgstr "Arrondir les valeurs de fréquence sur l'axe _X"
 msgid "S_wap Left/Right Click Frequency Selection"
 msgstr "_Intervertir la sélection de fréquence clic gauche/droit"
 
-#: resources/xnec2c.glade:9754 resources/xnec2c.glade:9918
+#: resources/xnec2c.glade:9754 resources/xnec2c.glade:9936
 msgid "Max Gain"
 msgstr "Gain max"
 
@@ -1906,8 +1906,8 @@ msgid "Viewer"
 msgstr "Visualiseur"
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:9799 resources/xnec2c.glade:10023
-#: src/freqplots/freqplots_core.c:63 src/freqplots/graphs/vswr_graph.c:55
+#: resources/xnec2c.glade:9799 resources/xnec2c.glade:10041
+#: src/freqplots/freqplots_core.c:62 src/freqplots/graphs/vswr_graph.c:55
 msgid "VSWR"
 msgstr ""
 
@@ -1931,189 +1931,220 @@ msgstr ""
 msgid "G/Ta"
 msgstr ""
 
+#: resources/xnec2c.glade:9873
+msgid "Cond"
+msgstr "Cond."
+
+#: resources/xnec2c.glade:9877
+msgid ""
+"Plots the precision lost solving the antenna at each frequency, in decimal "
+"digits.\n"
+"Values appear once a frequency sweep has produced results.\n"
+"Read it against the impedance and VSWR traces: a flat low curve means those "
+"traces are sound, while a peak marks a frequency where the solve degraded, "
+"so a sharp impedance excursion at that same frequency is a numerical "
+"artefact rather than a resonance.\n"
+"A double carries about 15 digits, so a reading of 3 leaves 12 sound ones and "
+"a reading near 15 leaves none; shorten or thicken the offending segments and "
+"run the sweep again to bring the curve down."
+msgstr ""
+"Trace la précision perdue lors de la résolution de l'antenne à chaque "
+"fréquence, en chiffres décimaux.\n"
+"Les valeurs apparaissent une fois qu'un balayage en fréquence a produit des "
+"résultats.\n"
+"Lisez-la avec les tracés d'impédance et de VSWR : une courbe basse et plate "
+"signifie que ces tracés sont fiables, tandis qu'un pic marque une fréquence "
+"où la résolution s'est dégradée, de sorte qu'une excursion d'impédance "
+"marquée à cette même fréquence est un artefact numérique plutôt qu'une "
+"résonance.\n"
+"Un double conserve environ 15 chiffres, donc une valeur de 3 en laisse 12 "
+"fiables et une valeur proche de 15 n'en laisse aucun ; raccourcissez ou "
+"épaississez les segments en cause et relancez le balayage pour faire "
+"redescendre la courbe."
+
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:9902 resources/xnec2c.glade:9937
-#: resources/xnec2c.glade:9972 resources/xnec2c.glade:10007
-#: resources/xnec2c.glade:10229 resources/xnec2c.glade:10264
-#: resources/xnec2c.glade:10299 resources/xnec2c.glade:13188
+#: resources/xnec2c.glade:9920 resources/xnec2c.glade:9955
+#: resources/xnec2c.glade:9990 resources/xnec2c.glade:10025
+#: resources/xnec2c.glade:10247 resources/xnec2c.glade:10282
+#: resources/xnec2c.glade:10317 resources/xnec2c.glade:13206
 msgid " - - -"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:9953 src/freqplots/graphs/impedance_graph.c:76
+#: resources/xnec2c.glade:9971 src/freqplots/graphs/impedance_graph.c:76
 msgid "Z-imag"
 msgstr ""
 
-#: resources/xnec2c.glade:9988 src/freqplots/graphs/impedance_graph.c:74
+#: resources/xnec2c.glade:10006 src/freqplots/graphs/impedance_graph.c:74
 msgid "Z-real"
 msgstr "Z-réel"
 
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:10043
+#: resources/xnec2c.glade:10061
 msgid " - - - - "
 msgstr ""
 
-#: resources/xnec2c.glade:10059
+#: resources/xnec2c.glade:10077
 msgid "Freq MHz"
 msgstr "Fréq MHz"
 
 # xnec2c-exempt: loanword
-#: resources/xnec2c.glade:10098 resources/xnec2c.glade:10111
+#: resources/xnec2c.glade:10116 resources/xnec2c.glade:10129
 msgid "Port"
 msgstr ""
 
-#: resources/xnec2c.glade:10123
+#: resources/xnec2c.glade:10141
 msgid "Tx Line Z<sub>0</sub>"
 msgstr "Z<sub>0</sub> ligne Tx"
 
-#: resources/xnec2c.glade:10138 resources/xnec2c.glade:11743
-#: resources/xnec2c.glade:12960
+#: resources/xnec2c.glade:10156 resources/xnec2c.glade:11761
+#: resources/xnec2c.glade:12978
 msgid "Freq Loop"
 msgstr "Boucle de fréquence"
 
-#: resources/xnec2c.glade:10210 resources/xnec2c.glade:13066
+#: resources/xnec2c.glade:10228 resources/xnec2c.glade:13084
 msgid "T<sub>A</sub>(Elev.°)"
 msgstr "T<sub>A</sub>(Élév.°)"
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:10245
+#: resources/xnec2c.glade:10263
 msgid "T<sub>a</sub>"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:10280
+#: resources/xnec2c.glade:10298
 msgid "G/T<sub>a</sub>"
 msgstr ""
 
-#: resources/xnec2c.glade:10354
+#: resources/xnec2c.glade:10372
 msgid "Frequency Data Plots"
 msgstr "Graphiques des données de fréquence"
 
-#: resources/xnec2c.glade:10471
+#: resources/xnec2c.glade:10489
 msgid "Save _Currents/Charges as CSV"
 msgstr "Enregistrer _courants/charges en CSV"
 
-#: resources/xnec2c.glade:10490
+#: resources/xnec2c.glade:10508
 msgid "Optimization Settings"
 msgstr "Paramètres d'optimisation"
 
-#: resources/xnec2c.glade:10505
+#: resources/xnec2c.glade:10523
 msgid "Reload and write data on .NEC file changes"
 msgstr "Recharger et écrire les données lors de modifications du fichier .NEC"
 
-#: resources/xnec2c.glade:10512
+#: resources/xnec2c.glade:10530
 msgid "_Write files selected below, now."
 msgstr "_Écrire les fichiers sélectionnés ci-dessous, maintenant."
 
-#: resources/xnec2c.glade:10527
+#: resources/xnec2c.glade:10545
 msgid "After calculation, write <file>.csv"
 msgstr "Après calcul, écrire <file>.csv"
 
-#: resources/xnec2c.glade:10536
+#: resources/xnec2c.glade:10554
 msgid "After calculation, write <file>.s_1p"
 msgstr "Après calcul, écrire <file>.s_1p"
 
-#: resources/xnec2c.glade:10545
+#: resources/xnec2c.glade:10563
 msgid "After calculation, write <file>-_maxgain.s2p"
 msgstr "Après calcul, écrire <file>-_maxgain.s2p"
 
-#: resources/xnec2c.glade:10554
+#: resources/xnec2c.glade:10572
 msgid "After calculation, write <file>-_viewergain.s2p"
 msgstr "Après calcul, écrire <file>-_viewergain.s2p"
 
-#: resources/xnec2c.glade:10563
+#: resources/xnec2c.glade:10581
 msgid "After calculation, write <file>-_radpattern.csv"
 msgstr "Après calcul, écrire <file>-_radpattern.csv"
 
-#: resources/xnec2c.glade:10572
+#: resources/xnec2c.glade:10590
 msgid "After calculation, write <file>-_currents.csv"
 msgstr "Après calcul, écrire <file>-_currents.csv"
 
-#: resources/xnec2c.glade:10581
+#: resources/xnec2c.glade:10599
 msgid "After calculation, write <file>-_structure.gplot"
 msgstr "Après calcul, écrire <file>-_structure.gplot"
 
-#: resources/xnec2c.glade:10590
+#: resources/xnec2c.glade:10608
 msgid "After calculation, write <file>-_patch-currents.csv"
 msgstr "Après calcul, écrire <file>-_patch-currents.csv"
 
-#: resources/xnec2c.glade:10605
+#: resources/xnec2c.glade:10623
 msgid "_Math Libraries"
 msgstr "Bibliothèques _mathématiques"
 
-#: resources/xnec2c.glade:10614
+#: resources/xnec2c.glade:10632
 msgid "_Interactive"
 msgstr "_Interactif"
 
-#: resources/xnec2c.glade:10634
+#: resources/xnec2c.glade:10652
 msgid "_Batch"
 msgstr "_Lot"
 
-#: resources/xnec2c.glade:10660
+#: resources/xnec2c.glade:10678
 msgid "Mathlib _Help"
 msgstr "_Aide Mathlib"
 
-#: resources/xnec2c.glade:10673
+#: resources/xnec2c.glade:10691
 msgid "Mathlib _Benchmarks"
 msgstr "_Benchmarks Mathlib"
 
-#: resources/xnec2c.glade:10684
+#: resources/xnec2c.glade:10702
 msgid "_Selected Mathlibs"
 msgstr "Mathlibs _sélectionnées"
 
-#: resources/xnec2c.glade:10698
+#: resources/xnec2c.glade:10716
 msgid "Select All/None"
 msgstr "Sélectionner tout/aucun"
 
-#: resources/xnec2c.glade:10723
+#: resources/xnec2c.glade:10741
 msgid "_Parallel (-j N):\t\tO(N/J)"
 msgstr "_Parallèle (-j N) :\t\tO(N/J)"
 
-#: resources/xnec2c.glade:10732
+#: resources/xnec2c.glade:10750
 msgid "_Single Job (-j 1):\tO(N)"
 msgstr "Tâche _unique (-j 1) :\tO(N)"
 
-#: resources/xnec2c.glade:10741
+#: resources/xnec2c.glade:10759
 msgid "_Iterate -j N/=2:\tO(N*log2(J))"
 msgstr "_Itérer -j N/=2 :\tO(N*log2(J))"
 
-#: resources/xnec2c.glade:10750
+#: resources/xnec2c.glade:10768
 msgid "_Iterate -j N-=1:\tO(N*J)"
 msgstr "_Itérer -j N-=1 :\tO(N*J)"
 
-#: resources/xnec2c.glade:10759
+#: resources/xnec2c.glade:10777
 msgid "_Threads (-j 1, --threads N/=2):\tO(N*log2(T))"
 msgstr "_Threads (-j 1, --threads N/=2) :\\\tO(N*log2(T))"
 
-#: resources/xnec2c.glade:10774
+#: resources/xnec2c.glade:10792
 msgid "Benchmark _Help"
 msgstr "_Aide benchmark"
 
-#: resources/xnec2c.glade:10793
+#: resources/xnec2c.glade:10811
 msgid "Begin Frequency Loop at Startup"
 msgstr "Démarrer la boucle de fréquence au lancement"
 
-#: resources/xnec2c.glade:10804
+#: resources/xnec2c.glade:10822
 msgid "Confirm Quit"
 msgstr "Confirmer la sortie"
 
-#: resources/xnec2c.glade:10843
+#: resources/xnec2c.glade:10861
 msgid "_Radiation Pattern"
 msgstr "Diagramme de _rayonnement"
 
-#: resources/xnec2c.glade:10853
+#: resources/xnec2c.glade:10871
 msgid "_Frequency Plots"
 msgstr "Graphiques de _fréquence"
 
-#: resources/xnec2c.glade:10936
+#: resources/xnec2c.glade:10954
 msgid "_Visualization"
 msgstr "_Visualisation"
 
-#: resources/xnec2c.glade:10952
+#: resources/xnec2c.glade:10970
 msgid "Color Scale"
 msgstr "Échelle de couleur"
 
-#: resources/xnec2c.glade:10959
+#: resources/xnec2c.glade:10977
 msgid ""
 "Power transfer n^γ relative to this frequency step's peak.\n"
 "γ = 0.5 expands weak regions, γ = 1 is linear amplitude, γ = 2 shows the "
@@ -2129,11 +2160,11 @@ msgstr ""
 "résistance de rayonnement), |q|² à l'énergie électrostatique stockée.\n"
 "Ajuster γ dans la boîte de dialogue d'animation."
 
-#: resources/xnec2c.glade:10960
+#: resources/xnec2c.glade:10978
 msgid "_Power"
 msgstr "_Puissance"
 
-#: resources/xnec2c.glade:10971
+#: resources/xnec2c.glade:10989
 msgid ""
 "Logarithmic scale over a user-set range R below the peak.\n"
 "Reveals weak detail that linear display hides; adjust R in the animate "
@@ -2145,11 +2176,11 @@ msgstr ""
 "la boîte de dialogue d'animation."
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:10972
+#: resources/xnec2c.glade:10990
 msgid "_dB"
 msgstr ""
 
-#: resources/xnec2c.glade:10983
+#: resources/xnec2c.glade:11001
 msgid ""
 "Inverse hyperbolic sine transfer: linear below the softening knee k, "
 "logarithmic above.\n"
@@ -2160,11 +2191,11 @@ msgstr ""
 "Ajuster k dans la boîte de dialogue d'animation."
 
 # xnec2c-exempt: name
-#: resources/xnec2c.glade:10984
+#: resources/xnec2c.glade:11002
 msgid "_Asinh"
 msgstr ""
 
-#: resources/xnec2c.glade:10995
+#: resources/xnec2c.glade:11013
 msgid ""
 "μ-law companding transfer: lifts weak detail with bounded compression.\n"
 "Adjust the compression in the animate dialog."
@@ -2174,11 +2205,11 @@ msgstr ""
 "Ajuster la compression dans la boîte de dialogue d'animation."
 
 # xnec2c-exempt: name
-#: resources/xnec2c.glade:10996
+#: resources/xnec2c.glade:11014
 msgid "μ-_law"
 msgstr ""
 
-#: resources/xnec2c.glade:11007
+#: resources/xnec2c.glade:11025
 msgid ""
 "Reinhard rational soft-compressor with knee k.\n"
 "Adjust k in the animate dialog."
@@ -2187,11 +2218,11 @@ msgstr ""
 "Ajuster k dans la boîte de dialogue d'animation."
 
 # xnec2c-exempt: name
-#: resources/xnec2c.glade:11008
+#: resources/xnec2c.glade:11026
 msgid "_Reinhard"
 msgstr ""
 
-#: resources/xnec2c.glade:11019
+#: resources/xnec2c.glade:11037
 msgid ""
 "Hyperbolic tangent transfer with contrast steepness a.\n"
 "Adjust a in the animate dialog."
@@ -2199,11 +2230,11 @@ msgstr ""
 "Transfert tangente hyperbolique avec pente de contraste a.\n"
 "Ajuster a dans la boîte de dialogue d'animation."
 
-#: resources/xnec2c.glade:11020
+#: resources/xnec2c.glade:11038
 msgid "_Sigmoid"
 msgstr "_Sigmoïde"
 
-#: resources/xnec2c.glade:11031
+#: resources/xnec2c.glade:11049
 msgid ""
 "Full brightness for every magnitude; the color projection alone sets the "
 "rendering."
@@ -2211,73 +2242,73 @@ msgstr ""
 "Luminosité maximale pour toute amplitude ; la projection de couleur seule "
 "définit le rendu."
 
-#: resources/xnec2c.glade:11032
+#: resources/xnec2c.glade:11050
 msgid "_None"
 msgstr "_Aucun"
 
-#: resources/xnec2c.glade:11050
+#: resources/xnec2c.glade:11068
 msgid "Patch Flow — Animated"
 msgstr "Flux de patchs — Animé"
 
-#: resources/xnec2c.glade:11057
+#: resources/xnec2c.glade:11075
 msgid "_Reference Phase"
 msgstr "Phase de _référence"
 
-#: resources/xnec2c.glade:11068
+#: resources/xnec2c.glade:11086
 msgid "_LIC Texture"
 msgstr "Texture _LIC"
 
-#: resources/xnec2c.glade:11079 resources/xnec2c.glade:12272
+#: resources/xnec2c.glade:11097 resources/xnec2c.glade:12290
 msgid "_Wireframe"
 msgstr "_Fil de fer"
 
-#: resources/xnec2c.glade:11097
+#: resources/xnec2c.glade:11115
 msgid "Patch Flow — Static"
 msgstr "Flux de patchs — Statique"
 
-#: resources/xnec2c.glade:11104
+#: resources/xnec2c.glade:11122
 msgid "Polarization _Axis"
 msgstr "_Axe de polarisation"
 
-#: resources/xnec2c.glade:11115
+#: resources/xnec2c.glade:11133
 msgid "Peak _Magnitude"
 msgstr "_Amplitude crête"
 
-#: resources/xnec2c.glade:11130
+#: resources/xnec2c.glade:11148
 msgid "A_nimate"
 msgstr "A_nimer"
 
-#: resources/xnec2c.glade:11139 resources/xnec2c.glade:12389
+#: resources/xnec2c.glade:11157 resources/xnec2c.glade:12407
 msgid "Common _Projection"
 msgstr "_Projection commune"
 
-#: resources/xnec2c.glade:11149 resources/xnec2c.glade:12399
+#: resources/xnec2c.glade:11167 resources/xnec2c.glade:12417
 msgid "Common _Pan"
 msgstr "_Panoramique commun"
 
-#: resources/xnec2c.glade:11166
+#: resources/xnec2c.glade:11184
 msgid "_Symbol Overrides"
 msgstr "_Surcharges de symboles"
 
-#: resources/xnec2c.glade:11175
+#: resources/xnec2c.glade:11193
 msgid "Rendering _Settings..."
 msgstr "Paramètres de _rendu..."
 
-#: resources/xnec2c.glade:11186
+#: resources/xnec2c.glade:11204
 msgid "_Help"
 msgstr "_Aide"
 
-#: resources/xnec2c.glade:11195
+#: resources/xnec2c.glade:11213
 msgid "_About"
 msgstr "À _propos"
 
 # xnec2c-exempt: loanword
-#: resources/xnec2c.glade:11418
+#: resources/xnec2c.glade:11436
 msgid " Zoom"
 msgstr ""
 
-#: resources/xnec2c.glade:11585 resources/xnec2c.glade:11646
-#: resources/xnec2c.glade:11694
+#: resources/xnec2c.glade:11603 resources/xnec2c.glade:11664
+#: resources/xnec2c.glade:11712
 msgid ""
 "Gain in the direction of the structure viewer, for the current view angles."
 msgstr ""
@@ -2285,357 +2316,357 @@ msgstr ""
 "actuels."
 
 # xnec2c-exempt: loanword
-#: resources/xnec2c.glade:11586 resources/xnec2c.glade:12896
-#: src/freqplots/freqplots_core.c:60
+#: resources/xnec2c.glade:11604 resources/xnec2c.glade:12914
+#: src/freqplots/freqplots_core.c:59
 msgid "Gain"
 msgstr ""
 
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:11601 resources/xnec2c.glade:11617
-#: resources/xnec2c.glade:12909 resources/xnec2c.glade:13170
+#: resources/xnec2c.glade:11619 resources/xnec2c.glade:11635
+#: resources/xnec2c.glade:12927 resources/xnec2c.glade:13188
 msgid "0.0"
 msgstr ""
 
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:11652
+#: resources/xnec2c.glade:11670
 msgid "- - - "
 msgstr ""
 
-#: resources/xnec2c.glade:11709 resources/xnec2c.glade:12945
+#: resources/xnec2c.glade:11727 resources/xnec2c.glade:12963
 msgid "Step"
 msgstr "Pas"
 
-#: resources/xnec2c.glade:11833 resources/xnec2c.glade:12993
+#: resources/xnec2c.glade:11851 resources/xnec2c.glade:13011
 msgid "Apply Freq"
 msgstr "Appliquer Fréq"
 
-#: resources/xnec2c.glade:11853
+#: resources/xnec2c.glade:11871
 msgid "Frequency Mhz"
 msgstr "Fréquence MHz"
 
-#: resources/xnec2c.glade:11908
+#: resources/xnec2c.glade:11926
 msgid "Structure Geometry"
 msgstr "Géométrie de la structure"
 
-#: resources/xnec2c.glade:11927
+#: resources/xnec2c.glade:11945
 msgid "Xnec2c: Radiation Patterns"
 msgstr "Xnec2c : Diagrammes de rayonnement"
 
-#: resources/xnec2c.glade:12140
+#: resources/xnec2c.glade:12158
 msgid "_Gain Scaling"
 msgstr "Échelle de _gain"
 
-#: resources/xnec2c.glade:12155
+#: resources/xnec2c.glade:12173
 msgid "Linear _Power"
 msgstr "_Puissance linéaire"
 
-#: resources/xnec2c.glade:12166
+#: resources/xnec2c.glade:12184
 msgid "Linear _Voltage"
 msgstr "_Tension linéaire"
 
-#: resources/xnec2c.glade:12177
+#: resources/xnec2c.glade:12195
 msgid "_ARRL Style"
 msgstr "Style _ARRL"
 
-#: resources/xnec2c.glade:12188
+#: resources/xnec2c.glade:12206
 msgid "_Logarithmic"
 msgstr "_Logarithmique"
 
-#: resources/xnec2c.glade:12199
+#: resources/xnec2c.glade:12217
 msgid "_Noise Temperature"
 msgstr "Température de _bruit"
 
-#: resources/xnec2c.glade:12210
+#: resources/xnec2c.glade:12228
 msgid "Noise Temp (_log scale)"
 msgstr "Temp. de bruit (échelle _log)"
 
-#: resources/xnec2c.glade:12225
+#: resources/xnec2c.glade:12243
 msgid "Noise _Models"
 msgstr "_Modèles de bruit"
 
-#: resources/xnec2c.glade:12244
+#: resources/xnec2c.glade:12262
 msgid "_Gradient Key"
 msgstr "Légende de _dégradé"
 
-#: resources/xnec2c.glade:12254
+#: resources/xnec2c.glade:12272
 msgid "Draw St_yle"
 msgstr "St_yle de dessin"
 
 # xnec2c-exempt: loanword
-#: resources/xnec2c.glade:12263
+#: resources/xnec2c.glade:12281
 msgid "S_urface"
 msgstr ""
 
-#: resources/xnec2c.glade:12282
+#: resources/xnec2c.glade:12300
 msgid "_Both"
 msgstr "_Les deux"
 
-#: resources/xnec2c.glade:12297
+#: resources/xnec2c.glade:12315
 msgid "_Near Field"
 msgstr "Champ _proche"
 
-#: resources/xnec2c.glade:12312
+#: resources/xnec2c.glade:12330
 msgid "Near _E Field"
 msgstr "Champ _E proche"
 
-#: resources/xnec2c.glade:12322
+#: resources/xnec2c.glade:12340
 msgid "Near _H Field"
 msgstr "Champ _H proche"
 
-#: resources/xnec2c.glade:12332
+#: resources/xnec2c.glade:12350
 msgid "_Poynting Vector"
 msgstr "Vecteur de _Poynting"
 
-#: resources/xnec2c.glade:12341
+#: resources/xnec2c.glade:12359
 msgid "_Animate Dialog"
 msgstr "Boîte de dialogue d'_animation"
 
-#: resources/xnec2c.glade:12350
+#: resources/xnec2c.glade:12368
 msgid "_Total Field"
 msgstr "Champ _total"
 
-#: resources/xnec2c.glade:12359
+#: resources/xnec2c.glade:12377
 msgid "_Peak Value"
 msgstr "Valeur _crête"
 
-#: resources/xnec2c.glade:12370
+#: resources/xnec2c.glade:12388
 msgid "_Instantaneous (φ=0)"
 msgstr "_Instantané (φ=0)"
 
-#: resources/xnec2c.glade:12410
+#: resources/xnec2c.glade:12428
 msgid "_Overlay Structure"
 msgstr "_Superposer la structure"
 
-#: resources/xnec2c.glade:12434
+#: resources/xnec2c.glade:12452
 msgid "Gain Pattern"
 msgstr "Diagramme de gain"
 
-#: resources/xnec2c.glade:12449
+#: resources/xnec2c.glade:12467
 msgid "E/H Fields"
 msgstr "Champs E/H"
 
 # xnec2c-exempt: loanword
-#: resources/xnec2c.glade:12632
+#: resources/xnec2c.glade:12650
 msgid "Zoom % "
 msgstr ""
 
-#: resources/xnec2c.glade:12671
+#: resources/xnec2c.glade:12689
 msgid "Elev.°"
 msgstr "Élév.°"
 
-#: resources/xnec2c.glade:13013
+#: resources/xnec2c.glade:13031
 msgid "Frequency MHz"
 msgstr "Fréquence MHz"
 
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:13030
+#: resources/xnec2c.glade:13048
 msgid "0.010"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:13084 resources/xnec2c.glade:13117
-#: resources/xnec2c.glade:13152
+#: resources/xnec2c.glade:13102 resources/xnec2c.glade:13135
+#: resources/xnec2c.glade:13170
 msgid "— K"
 msgstr ""
 
-#: resources/xnec2c.glade:13099
+#: resources/xnec2c.glade:13117
 msgid "T<sub>earth</sub>"
 msgstr "T<sub>sol</sub>"
 
-#: resources/xnec2c.glade:13134
+#: resources/xnec2c.glade:13152
 msgid "T<sub>sky</sub>"
 msgstr "T<sub>ciel</sub>"
 
-#: resources/xnec2c.glade:13249 src/rdpattern_ui.c:870
+#: resources/xnec2c.glade:13267 src/rdpattern_ui.c:870
 msgid "Radiation Patterns"
 msgstr "Diagrammes de rayonnement"
 
-#: resources/xnec2c.glade:13284
+#: resources/xnec2c.glade:13302
 msgid "Scale Structure (GS card)"
 msgstr "Échelle de structure (carte GS)"
 
-#: resources/xnec2c.glade:13315
+#: resources/xnec2c.glade:13333
 msgid "Structure Scale Factor"
 msgstr "Facteur d'échelle de structure"
 
-#: resources/xnec2c.glade:13328
+#: resources/xnec2c.glade:13346
 msgid "From Tag No."
 msgstr "Du n° de tag"
 
-#: resources/xnec2c.glade:13378
+#: resources/xnec2c.glade:13396
 msgid "To Tag No."
 msgstr "Au n° de tag"
 
-#: resources/xnec2c.glade:13413
+#: resources/xnec2c.glade:13431
 msgid "Scale Structure"
 msgstr "Échelle de structure"
 
-#: resources/xnec2c.glade:13590
+#: resources/xnec2c.glade:13608
 msgid "Co-ordinate Transformation (GM card)"
 msgstr "Transformation de coordonnées (carte GM)"
 
-#: resources/xnec2c.glade:13620
+#: resources/xnec2c.glade:13638
 msgid "Tag Increment"
 msgstr "Incrément de tag"
 
-#: resources/xnec2c.glade:13651
+#: resources/xnec2c.glade:13669
 msgid "Rotate about X"
 msgstr "Rotation autour de X"
 
-#: resources/xnec2c.glade:13683
+#: resources/xnec2c.glade:13701
 msgid "Move along X"
 msgstr "Déplacement selon X"
 
-#: resources/xnec2c.glade:13715
+#: resources/xnec2c.glade:13733
 msgid "New Structures"
 msgstr "Nouvelles structures"
 
-#: resources/xnec2c.glade:13746
+#: resources/xnec2c.glade:13764
 msgid "Rotate about Y"
 msgstr "Rotation autour de Y"
 
-#: resources/xnec2c.glade:13778
+#: resources/xnec2c.glade:13796
 msgid "Move along Y"
 msgstr "Déplacement selon Y"
 
-#: resources/xnec2c.glade:13810
+#: resources/xnec2c.glade:13828
 msgid "Start From Tag"
 msgstr "Commencer au tag"
 
-#: resources/xnec2c.glade:13842
+#: resources/xnec2c.glade:13860
 msgid "Rotate about Z"
 msgstr "Rotation autour de Z"
 
-#: resources/xnec2c.glade:13874
+#: resources/xnec2c.glade:13892
 msgid "Move along Z"
 msgstr "Déplacement selon Z"
 
-#: resources/xnec2c.glade:13910
+#: resources/xnec2c.glade:13928
 msgid "Co-ordinate Transformation Data"
 msgstr "Données de transformation de coordonnées"
 
-#: resources/xnec2c.glade:14106
+#: resources/xnec2c.glade:14124
 msgid "Trans. Line Command (TL Card)"
 msgstr "Commande de ligne de transmission (carte TL)"
 
-#: resources/xnec2c.glade:14136
+#: resources/xnec2c.glade:14154
 msgid "Tag Number, End 1  "
 msgstr "N° de tag, extrémité 1  "
 
-#: resources/xnec2c.glade:14168
+#: resources/xnec2c.glade:14186
 msgid "Tag Number, End 2  "
 msgstr "N° de tag, extrémité 2  "
 
-#: resources/xnec2c.glade:14199
+#: resources/xnec2c.glade:14217
 msgid "Segment Num, End 1"
 msgstr "N° de segment, extrémité 1"
 
-#: resources/xnec2c.glade:14231
+#: resources/xnec2c.glade:14249
 msgid "Segment Num, End 2"
 msgstr "N° de segment, extrémité 2"
 
-#: resources/xnec2c.glade:14295
+#: resources/xnec2c.glade:14313
 msgid "Crossed Transmission Line"
 msgstr "Ligne de transmission croisée"
 
-#: resources/xnec2c.glade:14313
+#: resources/xnec2c.glade:14331
 msgid "Characteristic Impedance"
 msgstr "Impédance caractéristique"
 
-#: resources/xnec2c.glade:14345
+#: resources/xnec2c.glade:14363
 msgid "End 1 Y Real Part (S)"
 msgstr "Partie réelle Y extrémité 1 (S)"
 
-#: resources/xnec2c.glade:14377
+#: resources/xnec2c.glade:14395
 msgid "End 2 Y Real Part (S)"
 msgstr "Partie réelle Y extrémité 2 (S)"
 
-#: resources/xnec2c.glade:14409
+#: resources/xnec2c.glade:14427
 msgid "Length of Tx Line (m)"
 msgstr "Longueur de la ligne Tx (m)"
 
-#: resources/xnec2c.glade:14441
+#: resources/xnec2c.glade:14459
 msgid "End 1 Y Imag Part (S)"
 msgstr "Partie imaginaire Y extrémité 1 (S)"
 
-#: resources/xnec2c.glade:14473
+#: resources/xnec2c.glade:14491
 msgid "End 2 Y Imag Part (S)"
 msgstr "Partie imaginaire Y extrémité 2 (S)"
 
-#: resources/xnec2c.glade:14509
+#: resources/xnec2c.glade:14527
 msgid "Transmission Line"
 msgstr "Ligne de transmission"
 
-#: resources/xnec2c.glade:14736
+#: resources/xnec2c.glade:14754
 msgid "Wire Element (GW & GC cards)"
 msgstr "Élément filaire (cartes GW et GC)"
 
-#: resources/xnec2c.glade:14796
+#: resources/xnec2c.glade:14814
 msgid "Wire X1"
 msgstr "Fil X1"
 
-#: resources/xnec2c.glade:14828
+#: resources/xnec2c.glade:14846
 msgid "Wire X2"
 msgstr "Fil X2"
 
-#: resources/xnec2c.glade:14891
+#: resources/xnec2c.glade:14909
 msgid "Wire Y1"
 msgstr "Fil Y1"
 
-#: resources/xnec2c.glade:14924
+#: resources/xnec2c.glade:14942
 msgid "Wire Y2"
 msgstr "Fil Y2"
 
-#: resources/xnec2c.glade:14988
+#: resources/xnec2c.glade:15006
 msgid "Wire Z1"
 msgstr "Fil Z1"
 
-#: resources/xnec2c.glade:15020
+#: resources/xnec2c.glade:15038
 msgid "Wire Z2"
 msgstr "Fil Z2"
 
-#: resources/xnec2c.glade:15085
+#: resources/xnec2c.glade:15103
 msgid "Wire Length"
 msgstr "Longueur du fil"
 
-#: resources/xnec2c.glade:15156
+#: resources/xnec2c.glade:15174
 msgid "Wire Data"
 msgstr "Données du fil"
 
-#: resources/xnec2c.glade:15168
+#: resources/xnec2c.glade:15186
 msgid "Tapered Wire"
 msgstr "Fil conique"
 
-#: resources/xnec2c.glade:15210
+#: resources/xnec2c.glade:15228
 msgid "Length Taper"
 msgstr "Conicité en longueur"
 
-#: resources/xnec2c.glade:15242
+#: resources/xnec2c.glade:15260
 msgid "Diameter Seg 1"
 msgstr "Diamètre seg 1"
 
-#: resources/xnec2c.glade:15274
+#: resources/xnec2c.glade:15292
 msgid "Diameter Seg N"
 msgstr "Diamètre seg N"
 
-#: resources/xnec2c.glade:15306
+#: resources/xnec2c.glade:15324
 msgid "Diam. Taper"
 msgstr "Conicité diam."
 
-#: resources/xnec2c.glade:15342
+#: resources/xnec2c.glade:15360
 msgid "Wire Taper Data"
 msgstr "Données de conicité du fil"
 
-#: resources/xnec2c.glade:15507
+#: resources/xnec2c.glade:15525
 msgid "Impedance (Zo) Ohm"
 msgstr "Impédance (Zo) Ohm"
 
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:15522
+#: resources/xnec2c.glade:15540
 msgid "50.00"
 msgstr ""
 
-#: resources/xnec2c.glade:15545
+#: resources/xnec2c.glade:15563
 msgid "Transmission Line Impedance (Zo)"
 msgstr "Impédance de ligne de transmission (Zo)"
 
@@ -2831,7 +2862,7 @@ msgid "config file does not exist or is not readable: %s\n"
 msgstr "le fichier de configuration n'existe pas ou n'est pas lisible : %s\n"
 
 # xnec2c-exempt: symbol
-#: src/args.c:873 src/geometry.c:771 src/input.c:1857 src/input.c:1858
+#: src/args.c:873 src/geometry.c:771 src/input.c:1859 src/input.c:1860
 #: src/mathlib.c:830 src/mathlib.c:1135 src/rdpattern_ui.c:366
 #: src/rdpattern_ui.c:374 src/rdpattern_ui.c:381 src/sy_expr.c:142
 #: src/sy_expr.c:172 src/utils.c:365 src/utils.c:725
@@ -2969,7 +3000,7 @@ msgstr "Fichiers Touchstone 2 ports (*.s2p)"
 msgid "Comma-separated CSV files (*.csv)"
 msgstr "Fichiers CSV séparés par des virgules (*.csv)"
 
-#: src/callbacks.c:97 src/callbacks.c:113 src/freqplots/freqplots_core.c:67
+#: src/callbacks.c:97 src/callbacks.c:113 src/freqplots/freqplots_core.c:66
 msgid "Antenna Temperature"
 msgstr "Température d'antenne"
 
@@ -3373,12 +3404,12 @@ msgstr ""
 msgid "step size limited at z= %10.5f"
 msgstr "taille du pas limitée à z= %10.5f"
 
-#: src/fork.c:334 src/fork.c:587
+#: src/fork.c:334 src/fork.c:589
 #, c-format
 msgid "child %d  length %d  return %d\n"
 msgstr "enfant %d  longueur %d  retour %d\n"
 
-#: src/fork.c:593
+#: src/fork.c:595
 #, c-format
 msgid "early EOF?, child %d  length %d  return %d\n"
 msgstr "fin de fichier prématurée ?, enfant %d  longueur %d  retour %d\n"
@@ -3410,35 +3441,39 @@ msgstr ""
 "Réinitialiser le balayage de fréquence à sa première étape et abandonner "
 "chaque résultat calculé"
 
-#: src/freqplots/freqplots_core.c:61
+#: src/freqplots/freqplots_core.c:60
 msgid "Gain Direction"
 msgstr "Direction du gain"
 
-#: src/freqplots/freqplots_core.c:62
+#: src/freqplots/freqplots_core.c:61
 msgid "Viewer Gain"
 msgstr "Gain de l'observateur"
 
-#: src/freqplots/freqplots_core.c:64
+#: src/freqplots/freqplots_core.c:63
 msgid "Impedance (real/imag)"
 msgstr "Impédance (réel/imag)"
 
-#: src/freqplots/freqplots_core.c:65
+#: src/freqplots/freqplots_core.c:64
 msgid "Impedance (mag/phase)"
 msgstr "Impédance (mag/phase)"
 
-#: src/freqplots/freqplots_core.c:66 src/freqplots/graphs/smith_graph.c:516
+#: src/freqplots/freqplots_core.c:65 src/freqplots/graphs/smith_graph.c:512
 msgid "Smith Chart"
 msgstr "Diagramme de Smith"
 
+#: src/freqplots/freqplots_core.c:67
+msgid "Solver Conditioning"
+msgstr "Conditionnement du solveur"
+
 # xnec2c-exempt: name
-#: src/freqplots/freqplots_core.c:463
+#: src/freqplots/freqplots_core.c:471
 #, c-format
 msgid ""
 "fr_plot[posn=%d fr=%d] rect[x=%d y=%d, w=%d h=%d] freq[min=%4.2f max=%4.2f n="
 "%d]\n"
 msgstr ""
 
-#: src/freqplots/freqplots_core.c:761
+#: src/freqplots/freqplots_core.c:769
 msgid ""
 "Excitation-port selector: models with more than one EX excitation list every "
 "port here.\n"
@@ -3480,7 +3515,7 @@ msgstr ""
 "    • Gain max brut, Direction du gain, F/B\n"
 "    • Température d'antenne, G/T"
 
-#: src/freqplots/freqplots_core.c:794
+#: src/freqplots/freqplots_core.c:802
 msgid ""
 "Only one feedpoint port is defined. Define additional EX excitation cards in "
 "the model to select among multiple ports here."
@@ -3488,7 +3523,7 @@ msgstr ""
 "Un seul port d'alimentation est défini. Définir des cartes d'excitation EX "
 "supplémentaires dans le modèle pour sélectionner parmi plusieurs ports ici."
 
-#: src/freqplots/freqplots_core.c:797
+#: src/freqplots/freqplots_core.c:805
 msgid ""
 "Enable the Net Gain plot setting to select a port; without it this graph "
 "does not follow the port."
@@ -3496,15 +3531,15 @@ msgstr ""
 "Activer le paramètre du graphique Gain net pour sélectionner un port ; sans "
 "cela, ce graphique ne suit pas le port."
 
-#: src/freqplots/freqplots_core.c:913
+#: src/freqplots/freqplots_core.c:921
 msgid "Not available: excitation defines no feedpoint"
 msgstr "Non disponible : l'excitation ne définit aucun point d'alimentation"
 
-#: src/freqplots/freqplots_graph.c:137 src/freqplots/graphs/smith_graph.c:569
+#: src/freqplots/freqplots_graph.c:137 src/freqplots/graphs/smith_graph.c:565
 msgid "memory allocation for points failed\n"
 msgstr "échec de l'allocation mémoire pour les points\n"
 
-#: src/freqplots/freqplots_graph.c:138 src/freqplots/graphs/smith_graph.c:570
+#: src/freqplots/freqplots_graph.c:138 src/freqplots/graphs/smith_graph.c:566
 msgid "Draw_Graph():Memory allocation for points failed"
 msgstr "Draw_Graph():Échec de l'allocation mémoire pour les points"
 
@@ -3534,6 +3569,14 @@ msgstr ""
 #: src/freqplots/graphs/anttemp_graph.c:73
 msgid "TA (K)"
 msgstr ""
+
+#: src/freqplots/graphs/cond_graph.c:55
+msgid "Precision lost"
+msgstr "Précision perdue"
+
+#: src/freqplots/graphs/cond_graph.c:56
+msgid "Solver conditioning - precision lost in decimal digits"
+msgstr "Conditionnement du solveur - précision perdue en chiffres décimaux"
 
 #: src/freqplots/graphs/gain_graph.c:86 src/freqplots/graphs/viewer_graph.c:53
 msgid "Raw Gain dBi"
@@ -3590,7 +3633,7 @@ msgstr ""
 
 # xnec2c-exempt: notation
 #: src/freqplots/graphs/smith_graph.c:387
-#: src/freqplots/graphs/smith_graph.c:502
+#: src/freqplots/graphs/smith_graph.c:498
 msgid "∞ Ω"
 msgstr ""
 
@@ -3627,16 +3670,16 @@ msgid "wavelengths → gen"
 msgstr "longueurs d'onde → gén."
 
 # xnec2c-exempt: notation
-#: src/freqplots/graphs/smith_graph.c:547
+#: src/freqplots/graphs/smith_graph.c:543
 #, c-format
 msgid "Z₀ = %g Ω"
 msgstr ""
 
-#: src/freqplots/graphs/smith_graph.c:554
+#: src/freqplots/graphs/smith_graph.c:550
 msgid "INDUCTIVE (+jX)"
 msgstr "INDUCTIF (+jX)"
 
-#: src/freqplots/graphs/smith_graph.c:557
+#: src/freqplots/graphs/smith_graph.c:553
 msgid "CAPACITIVE (-jX)"
 msgstr "CAPACITIF (-jX)"
 
@@ -4242,7 +4285,7 @@ msgstr "b inférieur à a"
 msgid "step size limited at z = %12.5E\n"
 msgstr "taille de pas limitée à Z = %12.5E\n"
 
-#: src/input.c:148
+#: src/input.c:150
 msgid ""
 "Error reading Comments\n"
 "Unexpected EOF (End of File)"
@@ -4250,7 +4293,7 @@ msgstr ""
 "Erreur de lecture des commentaires\n"
 "EOF (fin de fichier) inattendue"
 
-#: src/input.c:162
+#: src/input.c:164
 msgid ""
 "Error reading Comments\n"
 "Comment mnemonic short or missing"
@@ -4258,7 +4301,7 @@ msgstr ""
 "Erreur de lecture des commentaires\n"
 "Mnémonique de commentaire court ou manquant"
 
-#: src/input.c:173
+#: src/input.c:175
 msgid ""
 "Read_Comments():\n"
 " Error reading input file\n"
@@ -4268,7 +4311,7 @@ msgstr ""
 " Erreur de lecture du fichier d'entrée\n"
 "Mnémonique de commentaire incorrect"
 
-#: src/input.c:213
+#: src/input.c:215
 msgid ""
 "Geometry data error\n"
 "Tag number is negative"
@@ -4276,7 +4319,7 @@ msgstr ""
 "Erreur de données de géométrie\n"
 "Le numéro de tag est négatif"
 
-#: src/input.c:220
+#: src/input.c:222
 msgid ""
 "Geometry data error\n"
 "Number of segments is less than 1"
@@ -4284,11 +4327,11 @@ msgstr ""
 "Erreur de données géométriques\n"
 "Le nombre de segments est inférieur à 1"
 
-#: src/input.c:227
+#: src/input.c:229
 msgid "warning - number of segments is greater than 1000000\n"
 msgstr "avertissement - le nombre de segments est supérieur à 1000000\n"
 
-#: src/input.c:250
+#: src/input.c:252
 #, c-format
 msgid ""
 "%s card: tag 0 selects segment %d by absolute position in the structure, not "
@@ -4300,13 +4343,13 @@ msgstr ""
 "référencez le segment dans ce tag, sauf si le positionnement absolu est "
 "voulu\n"
 
-#: src/input.c:297
+#: src/input.c:299
 #, c-format
 msgid "%s data card error: Spurious character '%c' at column %d\n"
 msgstr ""
 "erreur de carte de données %s : Caractère parasite '%c' à la colonne %d\n"
 
-#: src/input.c:299
+#: src/input.c:301
 msgid ""
 "Data card error\n"
 "Spurious character in card"
@@ -4314,33 +4357,33 @@ msgstr ""
 "Erreur de carte de données\n"
 "Caractère parasite dans la carte"
 
-#: src/input.c:370
+#: src/input.c:372
 #, c-format
 msgid "%s: expression evaluation failed for \"%s\"\n"
 msgstr "%s : échec de l'évaluation de l'expression pour \"%s\"\n"
 
-#: src/input.c:411
+#: src/input.c:413
 msgid "SY card: no line content available\n"
 msgstr "Carte SY : aucun contenu de ligne disponible\n"
 
-#: src/input.c:412
+#: src/input.c:414
 msgid "SY card: no line content available"
 msgstr "Carte SY : aucun contenu de ligne disponible"
 
-#: src/input.c:429
+#: src/input.c:431
 msgid "SY card: missing '=' in definition\n"
 msgstr "Carte SY : '=' manquant dans la définition\n"
 
-#: src/input.c:430
+#: src/input.c:432
 msgid "SY card: missing '=' in definition"
 msgstr "Carte SY : '=' manquant dans la définition"
 
-#: src/input.c:463
+#: src/input.c:465
 #, c-format
 msgid "SY card: symbol definition failed for %s=%s\n"
 msgstr "Carte SY : échec de la définition du symbole pour %s=%s\n"
 
-#: src/input.c:650
+#: src/input.c:652
 msgid ""
 "Geometry data error\n"
 "No GC card for tapered wire"
@@ -4348,27 +4391,27 @@ msgstr ""
 "Erreur de données géométriques\n"
 "Pas de carte GC pour le fil effilé"
 
-#: src/input.c:657
+#: src/input.c:659
 msgid "Geometry GC data card error"
 msgstr "Erreur de carte de données géométriques GC"
 
-#: src/input.c:673
+#: src/input.c:675
 msgid "Geometry GX data card error"
 msgstr "Erreur de carte de données géométriques GX"
 
-#: src/input.c:696
+#: src/input.c:698
 msgid "Geometry GR data card error"
 msgstr "Erreur de carte de données géométriques GR"
 
-#: src/input.c:750
+#: src/input.c:752
 msgid "No geometry data cards"
 msgstr "Aucune carte de données géométriques"
 
-#: src/input.c:761
+#: src/input.c:763
 msgid "Probable invalid segment geometry.\n"
 msgstr "Géométrie de segment probablement invalide.\n"
 
-#: src/input.c:762
+#: src/input.c:764
 msgid ""
 "Invalid segment geometry.\n"
 "See warnings in the console for detail.\n"
@@ -4378,38 +4421,38 @@ msgstr ""
 "Voir les avertissements dans la console pour plus de détails.\n"
 "Tentative de continuer..."
 
-#: src/input.c:768
+#: src/input.c:770
 msgid "Probable invalid segment geometry (see above)\n"
 msgstr "Géométrie de segment probablement invalide (voir ci-dessus)\n"
 
-#: src/input.c:772
+#: src/input.c:774
 msgid "Read_Geometry: verify_segments() passed\n"
 msgstr "Read_Geometry : verify_segments() réussi\n"
 
-#: src/input.c:809
+#: src/input.c:811
 #, c-format
 msgid "segment data error: tag=%d si=%lf, bi=%lf\n"
 msgstr "erreur de données de segment : tag=%d si=%lf, bi=%lf\n"
 
-#: src/input.c:811
+#: src/input.c:813
 msgid "Segment data error, zero-length line?  See console."
 msgstr ""
 "Erreur de données de segment, ligne de longueur nulle ? Voir la console."
 
-#: src/input.c:851
+#: src/input.c:853
 msgid "Move GM data card error"
 msgstr "Erreur de carte de données de déplacement GM"
 
-#: src/input.c:867 src/input.c:908 src/input.c:925 src/input.c:943
-#: src/input.c:951
+#: src/input.c:869 src/input.c:910 src/input.c:927 src/input.c:945
+#: src/input.c:953
 msgid "Patch data card error"
 msgstr "Erreur de carte de données patch"
 
-#: src/input.c:889
+#: src/input.c:891
 msgid "Patch data error"
 msgstr "Erreur de données patch"
 
-#: src/input.c:998
+#: src/input.c:1000
 msgid ""
 "\"GF\" card (NGF solution)\n"
 "is not supported"
@@ -4417,65 +4460,65 @@ msgstr ""
 "La carte \"GF\" (solution NGF)\n"
 "n'est pas prise en charge"
 
-#: src/input.c:1003
+#: src/input.c:1005
 msgid "Ignoring CM card in geometry"
 msgstr "Carte CM ignorée dans la géométrie"
 
-#: src/input.c:1016
+#: src/input.c:1018
 #, c-format
 msgid "geometry data card error (nwire=%d)\n"
 msgstr "erreur de carte de données géométriques (nwire=%d)\n"
 
 # xnec2c-exempt: symbol
-#: src/input.c:1017
+#: src/input.c:1019
 #, c-format
 msgid "%2s %3d %5d %10.5f %10.5f %10.5f %10.5f %10.5f %10.5f %10.5f\n"
 msgstr ""
 
-#: src/input.c:1023
+#: src/input.c:1025
 msgid "Command card in geometry section"
 msgstr "Carte de commande dans la section géométrie"
 
-#: src/input.c:1025
+#: src/input.c:1027
 msgid "Unrecognized geometry card"
 msgstr "Carte de géométrie non reconnue"
 
-#: src/input.c:1049
+#: src/input.c:1051
 msgid "Failed to initialize symbol table\n"
 msgstr "Échec de l'initialisation de la table des symboles\n"
 
-#: src/input.c:1050
+#: src/input.c:1052
 msgid "Failed to initialize symbol table"
 msgstr "Échec de l'initialisation de la table des symboles"
 
-#: src/input.c:1190
+#: src/input.c:1192
 #, c-format
 msgid "No FR card: computing one step at the NEC-2 default %g MHz\n"
 msgstr ""
 "Aucune carte FR : calcul d'un pas à la valeur par défaut NEC-2 de %g MHz\n"
 
-#: src/input.c:1281
+#: src/input.c:1283
 msgid "ignoring CM card in commands\n"
 msgstr "carte CM ignorée dans les commandes\n"
 
-#: src/input.c:1282
+#: src/input.c:1284
 msgid "Ignoring CM card in commands"
 msgstr "Carte CM ignorée dans les commandes"
 
-#: src/input.c:1294
+#: src/input.c:1296
 msgid "CP card is ignored: coupling calculation not implemented\n"
 msgstr "La carte CP est ignorée : le calcul de couplage n'est pas implémenté\n"
 
-#: src/input.c:1390
+#: src/input.c:1392
 #, c-format
 msgid "Skipping duplicate FR card at %g MHz\n"
 msgstr "Carte FR dupliquée ignorée à %g MHz\n"
 
-#: src/input.c:1455
+#: src/input.c:1457
 msgid "Max frequency <= Min frequency in FR card\n"
 msgstr "Fréquence max <= Fréquence min dans la carte FR\n"
 
-#: src/input.c:1456
+#: src/input.c:1458
 msgid ""
 "Max frequency <= Min frequency in FR card\n"
 "Please check FR card data and correct"
@@ -4483,7 +4526,7 @@ msgstr ""
 "Fréquence max <= Fréquence min dans la carte FR\n"
 "Veuillez vérifier les données de la carte FR et corriger"
 
-#: src/input.c:1479
+#: src/input.c:1481
 msgid ""
 "Fix the GE/GN cards:\n"
 "The GE card specifies that a ground is present, but the GN indicates "
@@ -4493,11 +4536,11 @@ msgstr ""
 "La carte GE spécifie qu'un plan de masse est présent, mais la carte GN "
 "indique le contraire."
 
-#: src/input.c:1493
+#: src/input.c:1495
 msgid "theta > 90 deg. with ground specified\n"
 msgstr "theta > 90 deg. avec plan de masse spécifié\n"
 
-#: src/input.c:1494 src/radiation.c:703
+#: src/input.c:1496 src/radiation.c:703
 msgid ""
 "Theta > 90 deg with ground specified\n"
 "Please check RP card data and correct"
@@ -4505,7 +4548,7 @@ msgstr ""
 "Theta > 90 deg avec plan de masse spécifié\n"
 "Veuillez vérifier les données de la carte RP et corriger"
 
-#: src/input.c:1503
+#: src/input.c:1505
 msgid ""
 "radial wire g.s. approximation: may not be used with Sommerfeld ground "
 "option\n"
@@ -4513,7 +4556,7 @@ msgstr ""
 "approximation g.s. des fils radiaux : ne peut pas être utilisée avec "
 "l'option de sol Sommerfeld\n"
 
-#: src/input.c:1504
+#: src/input.c:1506
 msgid ""
 "radial wire g.s. approximation\n"
 "may not be used with Sommerfeld ground option"
@@ -4521,7 +4564,7 @@ msgstr ""
 "approximation g.s. des fils radiaux\n"
 "ne peut pas être utilisée avec l'option de sol Sommerfeld"
 
-#: src/input.c:1552
+#: src/input.c:1554
 #, c-format
 msgid ""
 "data fault on loading card no %d: itag step1 %d is greater than itag step2 "
@@ -4530,7 +4573,7 @@ msgstr ""
 "erreur de données sur la carte de charge n° %d : itag step1 %d est supérieur "
 "à itag step2 %d\n"
 
-#: src/input.c:1554
+#: src/input.c:1556
 msgid ""
 "Data fault on loading card\n"
 "itag step1 is greater than itag step2"
@@ -4538,14 +4581,14 @@ msgstr ""
 "Erreur de données sur la carte de charge\n"
 "itag step1 est supérieur à itag step2"
 
-#: src/input.c:1683
+#: src/input.c:1685
 msgid ""
 "Transmission Line impedance = 0: is not valid. Please correct NT or TL card\n"
 msgstr ""
 "Impédance de ligne de transmission = 0 : non valide. Veuillez corriger la "
 "carte NT ou TL\n"
 
-#: src/input.c:1684
+#: src/input.c:1686
 msgid ""
 "Transmission Line impedance = 0\n"
 "is not valid. Please correct NT or TL card"
@@ -4553,11 +4596,11 @@ msgstr ""
 "Impédance de ligne de transmission = 0\n"
 "n'est pas valide. Veuillez corriger la carte NT ou TL"
 
-#: src/input.c:1695
+#: src/input.c:1697
 msgid "Segment number error in TL or NT card\n"
 msgstr "Erreur de numéro de segment dans la carte TL ou NT\n"
 
-#: src/input.c:1696
+#: src/input.c:1698
 msgid ""
 "Segment number\n"
 "error in NT or TL card"
@@ -4565,22 +4608,22 @@ msgstr ""
 "Erreur de numéro de segment\n"
 "dans la carte NT ou TL"
 
-#: src/input.c:1718
+#: src/input.c:1720
 msgid "PQ and PT cards are ignored: printing to file not implemented\n"
 msgstr ""
 "Les cartes PQ et PT sont ignorées : l'impression dans un fichier n'est pas "
 "implémentée\n"
 
-#: src/input.c:1722
+#: src/input.c:1724
 msgid "PL card is ignored: plotting to file not supported\n"
 msgstr ""
 "La carte PL est ignorée : le tracé dans un fichier n'est pas pris en charge\n"
 
-#: src/input.c:1728
+#: src/input.c:1730
 msgid "Surface wave option (I1=1): of RP command not implemented\n"
 msgstr "Option onde de surface (I1=1) : de la commande RP non implémentée\n"
 
-#: src/input.c:1729
+#: src/input.c:1731
 msgid ""
 "Surface wave option (I1=1)\n"
 "of RP command not implemented"
@@ -4588,24 +4631,24 @@ msgstr ""
 "Option onde de surface (I1=1)\n"
 "de la commande RP non implémentée"
 
-#: src/input.c:1754
+#: src/input.c:1756
 msgid "Average gain diagnostic enabled (use --skip-verify to disable)\n"
 msgstr ""
 "Diagnostic de gain moyen activé (utiliser --skip-verify pour désactiver)\n"
 
-#: src/input.c:1763
+#: src/input.c:1765
 #, c-format
 msgid "Average power gain disabled: nth=%d nph=%d (both must be >= 2)\n"
 msgstr ""
 "Gain de puissance moyen désactivé : nth=%d nph=%d (les deux doivent être >= "
 "2)\n"
 
-#: src/input.c:1768
+#: src/input.c:1770
 #, c-format
 msgid "Average power gain calculation enabled (XNDA A=%d)\n"
 msgstr "Calcul du gain de puissance moyen activé (XNDA A=%d)\n"
 
-#: src/input.c:1784
+#: src/input.c:1786
 msgid ""
 "Theta > 90 deg. with ground specified: Please check RP card data and "
 "correct\n"
@@ -4613,7 +4656,7 @@ msgstr ""
 "Theta > 90 deg. avec plan de masse spécifié : Veuillez vérifier les données "
 "de la carte RP et corriger\n"
 
-#: src/input.c:1785
+#: src/input.c:1787
 msgid ""
 "Theta > 90 deg. with ground specified\n"
 "Please check RP card data and correct"
@@ -4621,15 +4664,15 @@ msgstr ""
 "Theta > 90 deg. avec plan de masse spécifié\n"
 "Veuillez vérifier les données de la carte RP et corriger"
 
-#: src/input.c:1853
+#: src/input.c:1855
 msgid "Geometry card in command section"
 msgstr "Carte de géométrie dans la section commandes"
 
-#: src/input.c:1856
+#: src/input.c:1858
 msgid "Unrecognized command card"
 msgstr "Carte de commande non reconnue"
 
-#: src/input.c:1897
+#: src/input.c:1903
 msgid ""
 "Missing or surface-wave RP card: Radiation pattern and gain calculations "
 "disabled\n"
@@ -4637,11 +4680,11 @@ msgstr ""
 "Carte RP manquante ou onde de surface : Calculs du diagramme de rayonnement "
 "et du gain désactivés\n"
 
-#: src/input.c:1924
+#: src/input.c:1930
 msgid "Unexpected exit from while loop"
 msgstr "Sortie inattendue de la boucle while"
 
-#: src/input.c:2015
+#: src/input.c:2021
 msgid ""
 "command data card error: Unexpected EOF while reading input file - appending "
 "EN card\n"
@@ -4649,7 +4692,7 @@ msgstr ""
 "erreur de carte de données de commande : EOF inattendu lors de la lecture du "
 "fichier d'entrée - ajout de la carte EN\n"
 
-#: src/input.c:2016
+#: src/input.c:2022
 msgid ""
 "Command data card error\n"
 "Unexpected EOF while reading input file\n"
@@ -4659,13 +4702,13 @@ msgstr ""
 "EOF inattendu lors de la lecture du fichier d'entrée\n"
 "Ajout d'une carte EN par défaut"
 
-#: src/input.c:2033
+#: src/input.c:2039
 msgid "command data card error: card's mnemonic code too short or missing\n"
 msgstr ""
 "erreur de carte de données de commande : code mnémonique de la carte trop "
 "court ou manquant\n"
 
-#: src/input.c:2034
+#: src/input.c:2040
 msgid ""
 "Command data card error\n"
 "Mnemonic code too short or missing"
@@ -4673,7 +4716,7 @@ msgstr ""
 "Erreur de carte de données de commande\n"
 "Code mnémonique trop court ou manquant"
 
-#: src/input.c:2235
+#: src/input.c:2241
 msgid ""
 "geometry data card error: Unexpected EOF while reading input file - "
 "appending GE card\n"
@@ -4681,7 +4724,7 @@ msgstr ""
 "erreur de carte de données géométriques : EOF inattendu lors de la lecture "
 "du fichier d'entrée - ajout de la carte GE\n"
 
-#: src/input.c:2236
+#: src/input.c:2242
 msgid ""
 "Geometry data card error\n"
 "Unexpected EOF while reading input file\n"
@@ -4691,13 +4734,13 @@ msgstr ""
 "EOF inattendu lors de la lecture du fichier d'entrée\n"
 "Ajout d'une carte GE par défaut"
 
-#: src/input.c:2253
+#: src/input.c:2259
 msgid "geometry data card error: card's mnemonic code too short or missing\n"
 msgstr ""
 "erreur de carte de données géométriques : code mnémonique de la carte trop "
 "court ou manquant\n"
 
-#: src/input.c:2254
+#: src/input.c:2260
 msgid ""
 "Geometry data card error\n"
 "Card's mnemonic code too short or missing"
@@ -5217,16 +5260,16 @@ msgstr "élément pivot(%d)= %16.8E\n"
 msgid "LU Decomposition Failed: %d\n"
 msgstr "Échec de la décomposition LU : %d\n"
 
-#: src/matrix.c:1329
+#: src/matrix.c:1352
 #, c-format
 msgid "symmetry error - nrow:%d ncol:%d\n"
 msgstr "erreur de symétrie - nrow:%d ncol:%d\n"
 
-#: src/matrix.c:1330
+#: src/matrix.c:1353
 msgid "Symmetry error"
 msgstr "Erreur de symétrie"
 
-#: src/matrix.c:1434
+#: src/matrix.c:1457
 #, c-format
 msgid "Solving Failed: %d\n"
 msgstr "Échec de la résolution : %d\n"
@@ -5238,6 +5281,10 @@ msgid ""
 msgstr ""
 "noise_temp_resolve : table noise_temp non allouée ; t_sky/t_earth par défaut "
 "à 0\n"
+
+#: src/measurements.c:501
+msgid "Precision Lost"
+msgstr "Précision perdue"
 
 #: src/mem/mem.c:185
 #, c-format
@@ -5493,17 +5540,12 @@ msgstr ""
 msgid "opt_file_save: %s\n"
 msgstr "opt_file_save : %s\n"
 
-#: src/opt_file.c:533
-#, c-format
-msgid "opt_file_load: unknown metric in [%s]\n"
-msgstr "opt_file_load : métrique inconnue dans [%s]\n"
-
-#: src/opt_file.c:615
+#: src/opt_file.c:622
 #, c-format
 msgid "Loaded %d optimizer goals\n"
 msgstr "%d objectifs d'optimisation chargés\n"
 
-#: src/opt_file.c:651
+#: src/opt_file.c:658
 #, c-format
 msgid "opt_file_load: %s\n"
 msgstr "opt_file_load : %s\n"
@@ -5636,17 +5678,12 @@ msgstr "échec de la création de l'eventfd de réveil de l'optimiseur\n"
 msgid "failed to create Optimizer Output thread\n"
 msgstr "échec de la création du thread de sortie de l'optimiseur\n"
 
-#: src/optimizers/opt_fitness.c:345
-#, c-format
-msgid "fitness_config_add: invalid meas_index %d\n"
-msgstr "fitness_config_add : meas_index invalide %d\n"
-
-#: src/optimizers/opt_fitness.c:471
+#: src/optimizers/opt_fitness.c:484
 #, c-format
 msgid "fitness_transform: unknown direction %d\n"
 msgstr "fitness_transform : direction inconnue %d\n"
 
-#: src/optimizers/opt_fitness.c:544
+#: src/optimizers/opt_fitness.c:557
 #, c-format
 msgid "reduce_values: unknown reduction method %d\n"
 msgstr "reduce_values : méthode de réduction inconnue %d\n"
@@ -5779,17 +5816,17 @@ msgstr ""
 "Gain moyen : %.4f (%.2f dBi), rendement : %.1f%%, angle solide : %.4f * pi "
 "sr\n"
 
-#: src/rc_config.c:849
+#: src/rc_config.c:854
 #, c-format
 msgid "unable to getcwd(): %s\n"
 msgstr "impossible d'exécuter getcwd() : %s\n"
 
-#: src/rc_config.c:853
+#: src/rc_config.c:858
 #, c-format
 msgid "environment variable HOME is undefined, using %s\n"
 msgstr "la variable d'environnement HOME est indéfinie, utilisation de %s\n"
 
-#: src/rc_config.c:938
+#: src/rc_config.c:943
 #, c-format
 msgid ""
 "%s (locale=%s): only matchd %d of %lu chars, trying another locale: %s\n"
@@ -5797,27 +5834,27 @@ msgstr ""
 "%s (locale=%s) : seulement %d sur %lu caractères trouvés, essai d'une autre "
 "locale : %s\n"
 
-#: src/rc_config.c:1157
+#: src/rc_config.c:1162
 #, c-format
 msgid "window: x=%-5d y=%-5d w=%-5d h=%-5d  title: \"%s\"\n"
 msgstr "fenêtre : x=%-5d y=%-5d w=%-5d h=%-5d  titre : \"%s\"\n"
 
-#: src/rc_config.c:1191
+#: src/rc_config.c:1196
 #, c-format
 msgid "%s: EOF reading application version.\n"
 msgstr "%s : EOF lors de la lecture de la version de l'application.\n"
 
-#: src/rc_config.c:1197
+#: src/rc_config.c:1202
 #, c-format
 msgid "existing config file version differs: %s != %s\n"
 msgstr "la version du fichier de configuration existant diffère : %s != %s\n"
 
-#: src/rc_config.c:1331
+#: src/rc_config.c:1336
 #, c-format
 msgid "stat failed for %s: %s\n"
 msgstr "échec de stat pour %s : %s\n"
 
-#: src/rc_config.c:1337
+#: src/rc_config.c:1342
 #, c-format
 msgid ""
 "Fixed %s directory permissions from 0%o to 0%o from bug introduced in "
@@ -5826,47 +5863,47 @@ msgstr ""
 "Permissions du répertoire %s corrigées de 0%o à 0%o suite au bogue introduit "
 "dans 4e62893b.\n"
 
-#: src/rc_config.c:1368
+#: src/rc_config.c:1373
 #, c-format
 msgid "%s:%d: Line not parsed: %s\n"
 msgstr "%s:%d : ligne non analysée : %s\n"
 
-#: src/rc_config.c:1374
+#: src/rc_config.c:1379
 #, c-format
 msgid "%s:%d: Early end of file for %s: %s \n"
 msgstr "%s:%d : fin de fichier prématurée pour %s : %s \n"
 
-#: src/rc_config.c:1399
+#: src/rc_config.c:1404
 #, c-format
 msgid "%s:%d: parse error (%s): %s \n"
 msgstr "%s:%d : erreur d'analyse (%s) : %s \n"
 
-#: src/rc_config.c:1413
+#: src/rc_config.c:1418
 #, c-format
 msgid "Invalid sky model index %d in config, resetting to default\n"
 msgstr ""
 "Indice de modèle de ciel invalide %d dans la configuration, réinitialisation "
 "par défaut\n"
 
-#: src/rc_config.c:1419
+#: src/rc_config.c:1424
 #, c-format
 msgid "Invalid earth model index %d in config, resetting to default\n"
 msgstr ""
 "Indice de modèle de sol invalide %d dans la configuration, réinitialisation "
 "par défaut\n"
 
-#: src/rc_config.c:1425
+#: src/rc_config.c:1430
 #, c-format
 msgid "Invalid interp method %d in config, resetting to default\n"
 msgstr ""
 "Méthode d'interpolation invalide %d dans la configuration, réinitialisation "
 "par défaut\n"
 
-#: src/rc_config.c:1600
+#: src/rc_config.c:1605
 msgid "batch mode: skipping configuration save\n"
 msgstr "mode batch : sauvegarde de la configuration ignorée\n"
 
-#: src/rc_config.c:1607
+#: src/rc_config.c:1612
 #, c-format
 msgid "cannot open xnec2c's config file %s: %s\n"
 msgstr "impossible d'ouvrir le fichier de configuration de xnec2c %s : %s\n"
@@ -6292,7 +6329,7 @@ msgstr "Impossible de créer le répertoire de sortie"
 msgid "validation tree written to: %s\n"
 msgstr "arborescence de validation écrite dans : %s\n"
 
-#: src/xnec2c.c:307
+#: src/xnec2c.c:306
 #, c-format
 msgid ""
 "complex dielectric constant from file: %12.5E%+12.5Ej, requested: %12.5E"
@@ -6301,16 +6338,16 @@ msgstr ""
 "constante diélectrique complexe du fichier : %12.5E%+12.5Ej, demandée : "
 "%12.5E%+12.5Ej\n"
 
-#: src/xnec2c.c:310
+#: src/xnec2c.c:309
 msgid "Ground_Parameters():Error in ground parameters"
 msgstr "Ground_Parameters():Erreur dans les paramètres du sol"
 
-#: src/xnec2c.c:734
+#: src/xnec2c.c:733
 #, c-format
 msgid "%.6f MHz: %f seconds. (%s)\n"
 msgstr "%.6f MHz : %f secondes. (%s)\n"
 
-#: src/xnec2c.c:1078
+#: src/xnec2c.c:1077
 #, c-format
 msgid ""
 "step %d raced: dispatched %.6f MHz, current %.6f MHz; will recalculate\n"
@@ -6318,83 +6355,83 @@ msgstr ""
 "étape %d en course : distribuée %.6f MHz, actuelle %.6f MHz ; recalcul en "
 "cours\n"
 
-#: src/xnec2c.c:1204
+#: src/xnec2c.c:1203
 #, c-format
 msgid "child %d has invalid pipe fd during forked collect\n"
 msgstr ""
 "processus enfant %d a un descripteur de tube invalide lors de la collecte "
 "forkée\n"
 
-#: src/xnec2c.c:1257
+#: src/xnec2c.c:1256
 msgid "Failed to read data from forked child\n"
 msgstr "Échec de lecture des données du processus enfant\n"
 
-#: src/xnec2c.c:1531
+#: src/xnec2c.c:1530
 #, c-format
 msgid "nearest step %g MHz differs from requested %g MHz\n"
 msgstr "le pas le plus proche, %g MHz, diffère des %g MHz demandés\n"
 
-#: src/xnec2c.c:1535
+#: src/xnec2c.c:1534
 #, c-format
 msgid "post-sweep frequency set to %.4f MHz (VSWR %.2f)\n"
 msgstr "fréquence après balayage réglée à %.4f MHz (VSWR %.2f)\n"
 
-#: src/xnec2c.c:1573
+#: src/xnec2c.c:1572
 #, c-format
 msgid "Frequency loop elapsed time: %f seconds. (%s)\n"
 msgstr "Temps écoulé de la boucle de fréquence : %f secondes. (%s)\n"
 
-#: src/xnec2c.c:1625
+#: src/xnec2c.c:1624
 #, c-format
 msgid "batch canvas %d drew no frame at %dx%d\n"
 msgstr "Le canevas en mode batch %d n'a dessiné aucune trame à %dx%d\n"
 
-#: src/xnec2c.c:1790
+#: src/xnec2c.c:1789
 #, c-format
 msgid "radiation pattern PNG capture: no computed step for %s\n"
 msgstr "capture PNG du diagramme de rayonnement : aucun pas calculé pour %s\n"
 
-#: src/xnec2c.c:1862
+#: src/xnec2c.c:1861
 #, c-format
 msgid "radiation pattern PNG capture failed for %s\n"
 msgstr "échec de la capture PNG du diagramme de rayonnement pour %s\n"
 
-#: src/xnec2c.c:1868
+#: src/xnec2c.c:1867
 #, c-format
 msgid "radiation pattern PNG save failed for %s: %s\n"
 msgstr ""
 "échec de l'enregistrement PNG du diagramme de rayonnement pour %s : %s\n"
 
-#: src/xnec2c.c:1873
+#: src/xnec2c.c:1872
 #, c-format
 msgid "wrote radiation pattern PNG: %s\n"
 msgstr "PNG du diagramme de rayonnement écrit : %s\n"
 
-#: src/xnec2c.c:1910
+#: src/xnec2c.c:1909
 #, c-format
 msgid "multiple radiation pattern PNG formats require a .png filename: %s\n"
 msgstr ""
 "plusieurs formats PNG de diagramme de rayonnement nécessitent un nom de "
 "fichier .png : %s\n"
 
-#: src/xnec2c.c:2015
+#: src/xnec2c.c:2014
 #, c-format
 msgid "sweep runs %d workers of %d threads each\n"
 msgstr "le balayage exécute %d workers de %d threads chacun\n"
 
-#: src/xnec2c.c:2307
+#: src/xnec2c.c:2306
 msgid "failed to start Frequency_Loop_Thread\n"
 msgstr "échec du démarrage de Frequency_Loop_Thread\n"
 
-#: src/xnec2c.c:2486
+#: src/xnec2c.c:2485
 msgid "Frequency Sweep"
 msgstr "Balayage de fréquence"
 
-#: src/xnec2c.c:2487
+#: src/xnec2c.c:2486
 msgid "Recalculate the frequency sweep?"
 msgstr "Recalculer le balayage de fréquence ?"
 
-#: src/xnec2c.c:2488
+#: src/xnec2c.c:2487
 msgid ""
 "The sweep is calculated in full.  Running it again discards every calculated "
 "step and computes the sweep from its first step."

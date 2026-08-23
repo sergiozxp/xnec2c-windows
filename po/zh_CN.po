@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xnec2c 4.4.18\n"
 "Report-Msgid-Bugs-To: xnec2c-bugs@z.ewheeler.org\n"
-"POT-Creation-Date: 2026-08-19 20:35-0700\n"
+"POT-Creation-Date: 2026-08-21 17:38-0700\n"
 "PO-Revision-Date: 2025-12-27 16:01-0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -170,8 +170,8 @@ msgstr ""
 "R 设定可见动态范围；低于底限 10^(−R/20) 的细节将固定为底色。"
 
 # xnec2c-exempt: notation
-#: resources/animate.glade:192 resources/xnec2c.glade:11695
-#: resources/xnec2c.glade:13053
+#: resources/animate.glade:192 resources/xnec2c.glade:11713
+#: resources/xnec2c.glade:13071
 msgid "dB"
 msgstr ""
 
@@ -449,7 +449,7 @@ msgstr "无（几何）"
 msgid "Show the bare structure geometry with no quantity coloring."
 msgstr "仅显示结构几何，不按数值着色。"
 
-#: resources/animate.glade:1042 resources/xnec2c.glade:11222
+#: resources/animate.glade:1042 resources/xnec2c.glade:11240
 msgid "Currents"
 msgstr "电流"
 
@@ -457,7 +457,7 @@ msgstr "电流"
 msgid "Animate current magnitude and direction along the wires."
 msgstr "沿导线动画显示电流幅度和方向。"
 
-#: resources/animate.glade:1059 resources/xnec2c.glade:11237
+#: resources/animate.glade:1059 resources/xnec2c.glade:11255
 msgid "Charges"
 msgstr "电荷"
 
@@ -683,21 +683,21 @@ msgid "Arc Element (GA card)"
 msgstr "圆弧元素（GA 卡片）"
 
 #: resources/xnec2c.glade:134 resources/xnec2c.glade:1169
-#: resources/xnec2c.glade:3596 resources/xnec2c.glade:14765 src/cmnd_edit.c:489
+#: resources/xnec2c.glade:3596 resources/xnec2c.glade:14783 src/cmnd_edit.c:489
 msgid "Tag Number"
 msgstr "标签编号"
 
-#: resources/xnec2c.glade:147 resources/xnec2c.glade:14860
+#: resources/xnec2c.glade:147 resources/xnec2c.glade:14878
 msgid "No. Segments"
 msgstr "分段数"
 
 #: resources/xnec2c.glade:160 resources/xnec2c.glade:3622
-#: resources/xnec2c.glade:14956
+#: resources/xnec2c.glade:14974
 msgid "Segs % lambda"
 msgstr "分段数 % 波长"
 
 #: resources/xnec2c.glade:173 resources/xnec2c.glade:3635
-#: resources/xnec2c.glade:15052
+#: resources/xnec2c.glade:15070
 msgid "Wire Diameter"
 msgstr "导线直径"
 
@@ -714,7 +714,7 @@ msgid "End 2 Angle"
 msgstr "端点 2 角度"
 
 #: resources/xnec2c.glade:300 resources/xnec2c.glade:3832
-#: resources/xnec2c.glade:15117 src/cmnd_edit.c:2025
+#: resources/xnec2c.glade:15135 src/cmnd_edit.c:2025
 msgid "Conductivity S/m"
 msgstr "电导率 S/m"
 
@@ -730,9 +730,9 @@ msgstr "导线弧数据"
 #: resources/xnec2c.glade:4526 resources/xnec2c.glade:5058
 #: resources/xnec2c.glade:5694 resources/xnec2c.glade:7138
 #: resources/xnec2c.glade:8045 resources/xnec2c.glade:9051
-#: resources/xnec2c.glade:9331 resources/xnec2c.glade:13458
-#: resources/xnec2c.glade:13971 resources/xnec2c.glade:14570
-#: resources/xnec2c.glade:15406 resources/xnec2c.glade:15606
+#: resources/xnec2c.glade:9331 resources/xnec2c.glade:13476
+#: resources/xnec2c.glade:13989 resources/xnec2c.glade:14588
+#: resources/xnec2c.glade:15424 resources/xnec2c.glade:15624
 msgid "Delete Card"
 msgstr "删除卡片"
 
@@ -1034,8 +1034,8 @@ msgid "5.00"
 msgstr ""
 
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:3710 resources/xnec2c.glade:11728
-#: resources/xnec2c.glade:12929
+#: resources/xnec2c.glade:3710 resources/xnec2c.glade:11746
+#: resources/xnec2c.glade:12947
 msgid "1"
 msgstr ""
 
@@ -1093,7 +1093,7 @@ msgstr "Y 方向半径 (B2)"
 msgid "GH Card"
 msgstr "GH 卡"
 
-#: resources/xnec2c.glade:4239 resources/xnec2c.glade:15480
+#: resources/xnec2c.glade:4239 resources/xnec2c.glade:15498
 msgid "Interaction Approx Range (KH Card)"
 msgstr "交互近似范围 (KH Card)"
 
@@ -1211,8 +1211,8 @@ msgid "NX"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:5374 resources/xnec2c.glade:11252
-#: resources/xnec2c.glade:12464
+#: resources/xnec2c.glade:5374 resources/xnec2c.glade:11270
+#: resources/xnec2c.glade:12482
 msgid "X"
 msgstr ""
 
@@ -1227,8 +1227,8 @@ msgid "NY"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:5469 resources/xnec2c.glade:11267
-#: resources/xnec2c.glade:12479
+#: resources/xnec2c.glade:5469 resources/xnec2c.glade:11285
+#: resources/xnec2c.glade:12497
 msgid "Y"
 msgstr ""
 
@@ -1243,8 +1243,8 @@ msgid "NZ"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:5564 resources/xnec2c.glade:11282
-#: resources/xnec2c.glade:12494
+#: resources/xnec2c.glade:5564 resources/xnec2c.glade:11300
+#: resources/xnec2c.glade:12512
 msgid "Z"
 msgstr ""
 
@@ -1410,7 +1410,7 @@ msgstr "分段号，端口 1"
 msgid "Segment Num, Port 2"
 msgstr "分段号，端口 2"
 
-#: resources/xnec2c.glade:6851 resources/xnec2c.glade:14266
+#: resources/xnec2c.glade:6851 resources/xnec2c.glade:14284
 msgid "Segment Identity"
 msgstr "分段标识"
 
@@ -1702,17 +1702,17 @@ msgstr "反射选项"
 msgid "Xnec2c: Frequency Data Plots"
 msgstr "Xnec2c: 频率数据图"
 
-#: resources/xnec2c.glade:9426 resources/xnec2c.glade:10398
-#: resources/xnec2c.glade:11953
+#: resources/xnec2c.glade:9426 resources/xnec2c.glade:10416
+#: resources/xnec2c.glade:11971
 msgid "_File"
 msgstr "文件(_F)"
 
-#: resources/xnec2c.glade:9488 resources/xnec2c.glade:10460
-#: resources/xnec2c.glade:12015
+#: resources/xnec2c.glade:9488 resources/xnec2c.glade:10478
+#: resources/xnec2c.glade:12033
 msgid "Save as _gnuplot"
 msgstr "另存为 gnuplot(_G)"
 
-#: resources/xnec2c.glade:9499 resources/xnec2c.glade:12025
+#: resources/xnec2c.glade:9499 resources/xnec2c.glade:12043
 msgid "Save as _CSV"
 msgstr "另存为 CSV(_C)"
 
@@ -1732,38 +1732,38 @@ msgstr "另存为 S2P: 最大增益(_M) (S21)"
 msgid "Save as S2P: _Viewer Gain (S21)"
 msgstr "另存为 S2P: 观察者增益(_V) (S21)"
 
-#: resources/xnec2c.glade:9575 resources/xnec2c.glade:10835
-#: resources/xnec2c.glade:12059
+#: resources/xnec2c.glade:9575 resources/xnec2c.glade:10853
+#: resources/xnec2c.glade:12077
 msgid "_View"
 msgstr "视图(_V)"
 
-#: resources/xnec2c.glade:9584 resources/xnec2c.glade:10863
-#: resources/xnec2c.glade:12067
+#: resources/xnec2c.glade:9584 resources/xnec2c.glade:10881
+#: resources/xnec2c.glade:12085
 msgid "_Polarization"
 msgstr "极化(_P)"
 
-#: resources/xnec2c.glade:9598 resources/xnec2c.glade:10877
-#: resources/xnec2c.glade:12081
+#: resources/xnec2c.glade:9598 resources/xnec2c.glade:10895
+#: resources/xnec2c.glade:12099
 msgid "_Total"
 msgstr "总计(_T)"
 
-#: resources/xnec2c.glade:9609 resources/xnec2c.glade:10888
-#: resources/xnec2c.glade:12092
+#: resources/xnec2c.glade:9609 resources/xnec2c.glade:10906
+#: resources/xnec2c.glade:12110
 msgid "_Horizontal"
 msgstr "水平(_H)"
 
-#: resources/xnec2c.glade:9620 resources/xnec2c.glade:10899
-#: resources/xnec2c.glade:12103
+#: resources/xnec2c.glade:9620 resources/xnec2c.glade:10917
+#: resources/xnec2c.glade:12121
 msgid "_Vertical"
 msgstr "垂直(_V)"
 
-#: resources/xnec2c.glade:9631 resources/xnec2c.glade:10910
-#: resources/xnec2c.glade:12114
+#: resources/xnec2c.glade:9631 resources/xnec2c.glade:10928
+#: resources/xnec2c.glade:12132
 msgid "_Right Hand"
 msgstr "右旋(_R)"
 
-#: resources/xnec2c.glade:9642 resources/xnec2c.glade:10921
-#: resources/xnec2c.glade:12125
+#: resources/xnec2c.glade:9642 resources/xnec2c.glade:10939
+#: resources/xnec2c.glade:12143
 msgid "_Left Hand"
 msgstr "左旋(_L)"
 
@@ -1799,7 +1799,7 @@ msgstr "四舍五入 X 轴频率值(_X)"
 msgid "S_wap Left/Right Click Frequency Selection"
 msgstr "交换左键/右键点击频率选择(_W)"
 
-#: resources/xnec2c.glade:9754 resources/xnec2c.glade:9918
+#: resources/xnec2c.glade:9754 resources/xnec2c.glade:9936
 msgid "Max Gain"
 msgstr "最大增益"
 
@@ -1812,8 +1812,8 @@ msgid "Viewer"
 msgstr "观察者"
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:9799 resources/xnec2c.glade:10023
-#: src/freqplots/freqplots_core.c:58 src/freqplots/graphs/vswr_graph.c:55
+#: resources/xnec2c.glade:9799 resources/xnec2c.glade:10041
+#: src/freqplots/freqplots_core.c:62 src/freqplots/graphs/vswr_graph.c:55
 msgid "VSWR"
 msgstr ""
 
@@ -1837,187 +1837,211 @@ msgstr ""
 msgid "G/Ta"
 msgstr ""
 
+#: resources/xnec2c.glade:9873
+msgid "Cond"
+msgstr "条件数"
+
+#: resources/xnec2c.glade:9877
+msgid ""
+"Plots the precision lost solving the antenna at each frequency, in decimal "
+"digits.\n"
+"Values appear once a frequency sweep has produced results.\n"
+"Read it against the impedance and VSWR traces: a flat low curve means those "
+"traces are sound, while a peak marks a frequency where the solve degraded, "
+"so a sharp impedance excursion at that same frequency is a numerical "
+"artefact rather than a resonance.\n"
+"A double carries about 15 digits, so a reading of 3 leaves 12 sound ones and "
+"a reading near 15 leaves none; shorten or thicken the offending segments and "
+"run the sweep again to bring the curve down."
+msgstr ""
+"以十进制位数绘制天线在每个频率求解中损失的精度。\n"
+"频率扫描产生结果后才会显示数值。\n"
+"将其与阻抗和 VSWR 曲线对照读取：平坦的低值曲线表示这些曲线可信，而峰值则标示"
+"求解退化的频率，因此该频率上出现的剧烈阻抗变化是数值伪影，而非谐振。\n"
+"双精度浮点数约有15位有效数字，因此读数为3时仍保留12位可信数字，读数接近15时则"
+"不再剩余；缩短或加粗相应分段后重新运行扫描，以降低该曲线。"
+
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:9902 resources/xnec2c.glade:9937
-#: resources/xnec2c.glade:9972 resources/xnec2c.glade:10007
-#: resources/xnec2c.glade:10229 resources/xnec2c.glade:10264
-#: resources/xnec2c.glade:10299 resources/xnec2c.glade:13188
+#: resources/xnec2c.glade:9920 resources/xnec2c.glade:9955
+#: resources/xnec2c.glade:9990 resources/xnec2c.glade:10025
+#: resources/xnec2c.glade:10247 resources/xnec2c.glade:10282
+#: resources/xnec2c.glade:10317 resources/xnec2c.glade:13206
 msgid " - - -"
 msgstr ""
 
-#: resources/xnec2c.glade:9953 src/freqplots/graphs/impedance_graph.c:76
+#: resources/xnec2c.glade:9971 src/freqplots/graphs/impedance_graph.c:76
 msgid "Z-imag"
 msgstr "Z-虚部"
 
-#: resources/xnec2c.glade:9988 src/freqplots/graphs/impedance_graph.c:74
+#: resources/xnec2c.glade:10006 src/freqplots/graphs/impedance_graph.c:74
 msgid "Z-real"
 msgstr "Z-实部"
 
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:10043
+#: resources/xnec2c.glade:10061
 msgid " - - - - "
 msgstr ""
 
-#: resources/xnec2c.glade:10059
+#: resources/xnec2c.glade:10077
 msgid "Freq MHz"
 msgstr "频率 MHz"
 
-#: resources/xnec2c.glade:10098 resources/xnec2c.glade:10111
+#: resources/xnec2c.glade:10116 resources/xnec2c.glade:10129
 msgid "Port"
 msgstr "端口"
 
-#: resources/xnec2c.glade:10123
+#: resources/xnec2c.glade:10141
 msgid "Tx Line Z<sub>0</sub>"
 msgstr "传输线 Z<sub>0</sub>"
 
-#: resources/xnec2c.glade:10138 resources/xnec2c.glade:11743
-#: resources/xnec2c.glade:12960
+#: resources/xnec2c.glade:10156 resources/xnec2c.glade:11761
+#: resources/xnec2c.glade:12978
 msgid "Freq Loop"
 msgstr "频率循环"
 
-#: resources/xnec2c.glade:10210 resources/xnec2c.glade:13066
+#: resources/xnec2c.glade:10228 resources/xnec2c.glade:13084
 msgid "T<sub>A</sub>(Elev.°)"
 msgstr "T<sub>A</sub>（仰角°）"
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:10245
+#: resources/xnec2c.glade:10263
 msgid "T<sub>a</sub>"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:10280
+#: resources/xnec2c.glade:10298
 msgid "G/T<sub>a</sub>"
 msgstr ""
 
-#: resources/xnec2c.glade:10354
+#: resources/xnec2c.glade:10372
 msgid "Frequency Data Plots"
 msgstr "频率数据图"
 
-#: resources/xnec2c.glade:10471
+#: resources/xnec2c.glade:10489
 msgid "Save _Currents/Charges as CSV"
 msgstr "将电流/电荷另存为 CSV(_C)"
 
-#: resources/xnec2c.glade:10490
+#: resources/xnec2c.glade:10508
 msgid "Optimization Settings"
 msgstr "优化设置"
 
-#: resources/xnec2c.glade:10505
+#: resources/xnec2c.glade:10523
 msgid "Reload and write data on .NEC file changes"
 msgstr "在 .NEC 文件更改时重新加载并写入数据"
 
-#: resources/xnec2c.glade:10512
+#: resources/xnec2c.glade:10530
 msgid "_Write files selected below, now."
 msgstr "立即写入下面选择的文件(_W)"
 
-#: resources/xnec2c.glade:10527
+#: resources/xnec2c.glade:10545
 msgid "After calculation, write <file>.csv"
 msgstr "计算后写入 <file>.csv"
 
-#: resources/xnec2c.glade:10536
+#: resources/xnec2c.glade:10554
 msgid "After calculation, write <file>.s_1p"
 msgstr "计算后写入 <file>.s1p(_1)"
 
-#: resources/xnec2c.glade:10545
+#: resources/xnec2c.glade:10563
 msgid "After calculation, write <file>-_maxgain.s2p"
 msgstr "计算后写入 <file>-maxgain(_M).s2p"
 
-#: resources/xnec2c.glade:10554
+#: resources/xnec2c.glade:10572
 msgid "After calculation, write <file>-_viewergain.s2p"
 msgstr "计算后写入 <file>-viewergain(_V).s2p"
 
-#: resources/xnec2c.glade:10563
+#: resources/xnec2c.glade:10581
 msgid "After calculation, write <file>-_radpattern.csv"
 msgstr "计算后写入 <file>-radpattern(_R).csv"
 
-#: resources/xnec2c.glade:10572
+#: resources/xnec2c.glade:10590
 msgid "After calculation, write <file>-_currents.csv"
 msgstr "计算后写入 <file>-currents(_C).csv"
 
-#: resources/xnec2c.glade:10581
+#: resources/xnec2c.glade:10599
 msgid "After calculation, write <file>-_structure.gplot"
 msgstr "计算后写入 <file>-structure(_S).gplot"
 
-#: resources/xnec2c.glade:10590
+#: resources/xnec2c.glade:10608
 msgid "After calculation, write <file>-_patch-currents.csv"
 msgstr "计算后写入 <file>-patch-currents(_P).csv"
 
-#: resources/xnec2c.glade:10605
+#: resources/xnec2c.glade:10623
 msgid "_Math Libraries"
 msgstr "数学库(_M)"
 
-#: resources/xnec2c.glade:10614
+#: resources/xnec2c.glade:10632
 msgid "_Interactive"
 msgstr "交互式(_I)"
 
-#: resources/xnec2c.glade:10634
+#: resources/xnec2c.glade:10652
 msgid "_Batch"
 msgstr "批处理(_B)"
 
-#: resources/xnec2c.glade:10660
+#: resources/xnec2c.glade:10678
 msgid "Mathlib _Help"
 msgstr "数学库帮助(_H)"
 
-#: resources/xnec2c.glade:10673
+#: resources/xnec2c.glade:10691
 msgid "Mathlib _Benchmarks"
 msgstr "数学库基准测试(_B)"
 
-#: resources/xnec2c.glade:10684
+#: resources/xnec2c.glade:10702
 msgid "_Selected Mathlibs"
 msgstr "已选数学库(_S)"
 
-#: resources/xnec2c.glade:10698
+#: resources/xnec2c.glade:10716
 msgid "Select All/None"
 msgstr "全选/全不选"
 
-#: resources/xnec2c.glade:10723
+#: resources/xnec2c.glade:10741
 msgid "_Parallel (-j N):\t\tO(N/J)"
 msgstr "并行(_P) (-j N):\t\tO(N/J)"
 
-#: resources/xnec2c.glade:10732
+#: resources/xnec2c.glade:10750
 msgid "_Single Job (-j 1):\tO(N)"
 msgstr "单任务(_S) (-j 1):\tO(N)"
 
-#: resources/xnec2c.glade:10741
+#: resources/xnec2c.glade:10759
 msgid "_Iterate -j N/=2:\tO(N*log2(J))"
 msgstr "迭代(_I) -j N/=2:\tO(N*log2(J))"
 
-#: resources/xnec2c.glade:10750
+#: resources/xnec2c.glade:10768
 msgid "_Iterate -j N-=1:\tO(N*J)"
 msgstr "迭代(_I) -j N-=1:\tO(N*J)"
 
-#: resources/xnec2c.glade:10759
+#: resources/xnec2c.glade:10777
 msgid "_Threads (-j 1, --threads N/=2):\tO(N*log2(T))"
 msgstr "_线程 (-j 1, --threads N/=2)：\\\tO(N*log2(T))"
 
-#: resources/xnec2c.glade:10774
+#: resources/xnec2c.glade:10792
 msgid "Benchmark _Help"
 msgstr "基准测试帮助(_H)"
 
-#: resources/xnec2c.glade:10793
+#: resources/xnec2c.glade:10811
 msgid "Begin Frequency Loop at Startup"
 msgstr "启动时开始频率循环"
 
-#: resources/xnec2c.glade:10804
+#: resources/xnec2c.glade:10822
 msgid "Confirm Quit"
 msgstr "确认退出"
 
-#: resources/xnec2c.glade:10843
+#: resources/xnec2c.glade:10861
 msgid "_Radiation Pattern"
 msgstr "辐射方向图(_R)"
 
-#: resources/xnec2c.glade:10853
+#: resources/xnec2c.glade:10871
 msgid "_Frequency Plots"
 msgstr "频率图(_F)"
 
-#: resources/xnec2c.glade:10936
+#: resources/xnec2c.glade:10954
 msgid "_Visualization"
 msgstr "可视化(_V)"
 
-#: resources/xnec2c.glade:10952
+#: resources/xnec2c.glade:10970
 msgid "Color Scale"
 msgstr "色阶"
 
-#: resources/xnec2c.glade:10959
+#: resources/xnec2c.glade:10977
 msgid ""
 "Power transfer n^γ relative to this frequency step's peak.\n"
 "γ = 0.5 expands weak regions, γ = 1 is linear amplitude, γ = 2 shows the "
@@ -2032,11 +2056,11 @@ msgstr ""
 "量。\n"
 "请在动画对话框中调整 γ。"
 
-#: resources/xnec2c.glade:10960
+#: resources/xnec2c.glade:10978
 msgid "_Power"
 msgstr "幂律(_P)"
 
-#: resources/xnec2c.glade:10971
+#: resources/xnec2c.glade:10989
 msgid ""
 "Logarithmic scale over a user-set range R below the peak.\n"
 "Reveals weak detail that linear display hides; adjust R in the animate "
@@ -2045,11 +2069,11 @@ msgstr ""
 "在峰值以下用户设定的范围 R 内采用对数刻度。\n"
 "可显现线性显示所掩盖的弱信号细节；请在动画对话框中调整 R。"
 
-#: resources/xnec2c.glade:10972
+#: resources/xnec2c.glade:10990
 msgid "_dB"
 msgstr "dB(_D)"
 
-#: resources/xnec2c.glade:10983
+#: resources/xnec2c.glade:11001
 msgid ""
 "Inverse hyperbolic sine transfer: linear below the softening knee k, "
 "logarithmic above.\n"
@@ -2058,11 +2082,11 @@ msgstr ""
 "反双曲正弦变换：低于柔化拐点 k 为线性，高于 k 为对数。\n"
 "请在动画对话框中调整 k。"
 
-#: resources/xnec2c.glade:10984
+#: resources/xnec2c.glade:11002
 msgid "_Asinh"
 msgstr "Asinh(_A)"
 
-#: resources/xnec2c.glade:10995
+#: resources/xnec2c.glade:11013
 msgid ""
 "μ-law companding transfer: lifts weak detail with bounded compression.\n"
 "Adjust the compression in the animate dialog."
@@ -2070,11 +2094,11 @@ msgstr ""
 "μ律压扩变换：以有界压缩提升弱信号细节。\n"
 "请在动画对话框中调整压缩量。"
 
-#: resources/xnec2c.glade:10996
+#: resources/xnec2c.glade:11014
 msgid "μ-_law"
 msgstr "μ律(_L)"
 
-#: resources/xnec2c.glade:11007
+#: resources/xnec2c.glade:11025
 msgid ""
 "Reinhard rational soft-compressor with knee k.\n"
 "Adjust k in the animate dialog."
@@ -2082,11 +2106,11 @@ msgstr ""
 "带拐点 k 的 Reinhard 有理软压缩器。\n"
 "请在动画对话框中调整 k。"
 
-#: resources/xnec2c.glade:11008
+#: resources/xnec2c.glade:11026
 msgid "_Reinhard"
 msgstr "Reinhard(_R)"
 
-#: resources/xnec2c.glade:11019
+#: resources/xnec2c.glade:11037
 msgid ""
 "Hyperbolic tangent transfer with contrast steepness a.\n"
 "Adjust a in the animate dialog."
@@ -2094,437 +2118,437 @@ msgstr ""
 "具有对比度陡度 a 的双曲正切变换。\n"
 "请在动画对话框中调整 a。"
 
-#: resources/xnec2c.glade:11020
+#: resources/xnec2c.glade:11038
 msgid "_Sigmoid"
 msgstr "Sigmoid(_S)"
 
-#: resources/xnec2c.glade:11031
+#: resources/xnec2c.glade:11049
 msgid ""
 "Full brightness for every magnitude; the color projection alone sets the "
 "rendering."
 msgstr "所有幅度均为满亮度；渲染效果仅由色彩投影决定。"
 
-#: resources/xnec2c.glade:11032
+#: resources/xnec2c.glade:11050
 msgid "_None"
 msgstr "无(_N)"
 
-#: resources/xnec2c.glade:11050
+#: resources/xnec2c.glade:11068
 msgid "Patch Flow — Animated"
 msgstr "面片流向 — 动画"
 
-#: resources/xnec2c.glade:11057
+#: resources/xnec2c.glade:11075
 msgid "_Reference Phase"
 msgstr "参考相位(_R)"
 
-#: resources/xnec2c.glade:11068
+#: resources/xnec2c.glade:11086
 msgid "_LIC Texture"
 msgstr "LIC 纹理(_L)"
 
-#: resources/xnec2c.glade:11079 resources/xnec2c.glade:12272
+#: resources/xnec2c.glade:11097 resources/xnec2c.glade:12290
 msgid "_Wireframe"
 msgstr "线框(_W)"
 
-#: resources/xnec2c.glade:11097
+#: resources/xnec2c.glade:11115
 msgid "Patch Flow — Static"
 msgstr "面片流向 — 静态"
 
-#: resources/xnec2c.glade:11104
+#: resources/xnec2c.glade:11122
 msgid "Polarization _Axis"
 msgstr "极化轴(_A)"
 
-#: resources/xnec2c.glade:11115
+#: resources/xnec2c.glade:11133
 msgid "Peak _Magnitude"
 msgstr "峰值幅度(_M)"
 
-#: resources/xnec2c.glade:11130
+#: resources/xnec2c.glade:11148
 msgid "A_nimate"
 msgstr "动画(_n)"
 
-#: resources/xnec2c.glade:11139 resources/xnec2c.glade:12389
+#: resources/xnec2c.glade:11157 resources/xnec2c.glade:12407
 msgid "Common _Projection"
 msgstr "公共投影(_P)"
 
-#: resources/xnec2c.glade:11149 resources/xnec2c.glade:12399
+#: resources/xnec2c.glade:11167 resources/xnec2c.glade:12417
 msgid "Common _Pan"
 msgstr "通用平移(_P)"
 
-#: resources/xnec2c.glade:11166
+#: resources/xnec2c.glade:11184
 msgid "_Symbol Overrides"
 msgstr "符号覆盖(_S)"
 
-#: resources/xnec2c.glade:11175
+#: resources/xnec2c.glade:11193
 msgid "Rendering _Settings..."
 msgstr "渲染设置(_S)..."
 
-#: resources/xnec2c.glade:11186
+#: resources/xnec2c.glade:11204
 msgid "_Help"
 msgstr "帮助(_H)"
 
-#: resources/xnec2c.glade:11195
+#: resources/xnec2c.glade:11213
 msgid "_About"
 msgstr "关于(_A)"
 
-#: resources/xnec2c.glade:11418
+#: resources/xnec2c.glade:11436
 msgid " Zoom"
 msgstr " 缩放"
 
-#: resources/xnec2c.glade:11585 resources/xnec2c.glade:11646
-#: resources/xnec2c.glade:11694
+#: resources/xnec2c.glade:11603 resources/xnec2c.glade:11664
+#: resources/xnec2c.glade:11712
 msgid ""
 "Gain in the direction of the structure viewer, for the current view angles."
 msgstr "沿结构视角方向的增益，基于当前视角角度。"
 
-#: resources/xnec2c.glade:11586 resources/xnec2c.glade:12896
-#: src/freqplots/freqplots_core.c:55
+#: resources/xnec2c.glade:11604 resources/xnec2c.glade:12914
+#: src/freqplots/freqplots_core.c:59
 msgid "Gain"
 msgstr "增益"
 
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:11601 resources/xnec2c.glade:11617
-#: resources/xnec2c.glade:12909 resources/xnec2c.glade:13170
+#: resources/xnec2c.glade:11619 resources/xnec2c.glade:11635
+#: resources/xnec2c.glade:12927 resources/xnec2c.glade:13188
 msgid "0.0"
 msgstr ""
 
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:11652
+#: resources/xnec2c.glade:11670
 msgid "- - - "
 msgstr ""
 
-#: resources/xnec2c.glade:11709 resources/xnec2c.glade:12945
+#: resources/xnec2c.glade:11727 resources/xnec2c.glade:12963
 msgid "Step"
 msgstr "步进"
 
-#: resources/xnec2c.glade:11833 resources/xnec2c.glade:12993
+#: resources/xnec2c.glade:11851 resources/xnec2c.glade:13011
 msgid "Apply Freq"
 msgstr "应用频率"
 
-#: resources/xnec2c.glade:11853
+#: resources/xnec2c.glade:11871
 msgid "Frequency Mhz"
 msgstr "频率 MHz"
 
-#: resources/xnec2c.glade:11908
+#: resources/xnec2c.glade:11926
 msgid "Structure Geometry"
 msgstr "结构几何"
 
-#: resources/xnec2c.glade:11927
+#: resources/xnec2c.glade:11945
 msgid "Xnec2c: Radiation Patterns"
 msgstr "Xnec2c: 辐射方向图"
 
-#: resources/xnec2c.glade:12140
+#: resources/xnec2c.glade:12158
 msgid "_Gain Scaling"
 msgstr "增益缩放(_G)"
 
-#: resources/xnec2c.glade:12155
+#: resources/xnec2c.glade:12173
 msgid "Linear _Power"
 msgstr "线性功率(_P)"
 
-#: resources/xnec2c.glade:12166
+#: resources/xnec2c.glade:12184
 msgid "Linear _Voltage"
 msgstr "线性电压(_V)"
 
-#: resources/xnec2c.glade:12177
+#: resources/xnec2c.glade:12195
 msgid "_ARRL Style"
 msgstr "ARRL 风格(_A)"
 
-#: resources/xnec2c.glade:12188
+#: resources/xnec2c.glade:12206
 msgid "_Logarithmic"
 msgstr "对数(_L)"
 
-#: resources/xnec2c.glade:12199
+#: resources/xnec2c.glade:12217
 msgid "_Noise Temperature"
 msgstr "噪声温度(_N)"
 
-#: resources/xnec2c.glade:12210
+#: resources/xnec2c.glade:12228
 msgid "Noise Temp (_log scale)"
 msgstr "噪声温度（对数刻度）(_l)"
 
-#: resources/xnec2c.glade:12225
+#: resources/xnec2c.glade:12243
 msgid "Noise _Models"
 msgstr "噪声模型(_M)"
 
-#: resources/xnec2c.glade:12244
+#: resources/xnec2c.glade:12262
 msgid "_Gradient Key"
 msgstr "渐变图例(_G)"
 
-#: resources/xnec2c.glade:12254
+#: resources/xnec2c.glade:12272
 msgid "Draw St_yle"
 msgstr "绘制样式(_y)"
 
-#: resources/xnec2c.glade:12263
+#: resources/xnec2c.glade:12281
 msgid "S_urface"
 msgstr "曲面(_u)"
 
-#: resources/xnec2c.glade:12282
+#: resources/xnec2c.glade:12300
 msgid "_Both"
 msgstr "两者皆显示(_B)"
 
-#: resources/xnec2c.glade:12297
+#: resources/xnec2c.glade:12315
 msgid "_Near Field"
 msgstr "近场(_N)"
 
-#: resources/xnec2c.glade:12312
+#: resources/xnec2c.glade:12330
 msgid "Near _E Field"
 msgstr "近场 E 场(_E)"
 
-#: resources/xnec2c.glade:12322
+#: resources/xnec2c.glade:12340
 msgid "Near _H Field"
 msgstr "近场 H 场(_H)"
 
-#: resources/xnec2c.glade:12332
+#: resources/xnec2c.glade:12350
 msgid "_Poynting Vector"
 msgstr "坡印廷矢量(_P)"
 
-#: resources/xnec2c.glade:12341
+#: resources/xnec2c.glade:12359
 msgid "_Animate Dialog"
 msgstr "动画对话框(_A)"
 
-#: resources/xnec2c.glade:12350
+#: resources/xnec2c.glade:12368
 msgid "_Total Field"
 msgstr "总场(_T)"
 
-#: resources/xnec2c.glade:12359
+#: resources/xnec2c.glade:12377
 msgid "_Peak Value"
 msgstr "峰值(_K)"
 
-#: resources/xnec2c.glade:12370
+#: resources/xnec2c.glade:12388
 msgid "_Instantaneous (φ=0)"
 msgstr "瞬时值 (φ=0)(_I)"
 
-#: resources/xnec2c.glade:12410
+#: resources/xnec2c.glade:12428
 msgid "_Overlay Structure"
 msgstr "叠加结构(_O)"
 
-#: resources/xnec2c.glade:12434
+#: resources/xnec2c.glade:12452
 msgid "Gain Pattern"
 msgstr "增益方向图"
 
-#: resources/xnec2c.glade:12449
+#: resources/xnec2c.glade:12467
 msgid "E/H Fields"
 msgstr "E/H 场"
 
-#: resources/xnec2c.glade:12632
+#: resources/xnec2c.glade:12650
 msgid "Zoom % "
 msgstr "缩放 % "
 
-#: resources/xnec2c.glade:12671
+#: resources/xnec2c.glade:12689
 msgid "Elev.°"
 msgstr "仰角°"
 
-#: resources/xnec2c.glade:13013
+#: resources/xnec2c.glade:13031
 msgid "Frequency MHz"
 msgstr "频率 MHz"
 
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:13030
+#: resources/xnec2c.glade:13048
 msgid "0.010"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:13084 resources/xnec2c.glade:13117
-#: resources/xnec2c.glade:13152
+#: resources/xnec2c.glade:13102 resources/xnec2c.glade:13135
+#: resources/xnec2c.glade:13170
 msgid "— K"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:13099
+#: resources/xnec2c.glade:13117
 msgid "T<sub>earth</sub>"
 msgstr ""
 
 # xnec2c-exempt: notation
-#: resources/xnec2c.glade:13134
+#: resources/xnec2c.glade:13152
 msgid "T<sub>sky</sub>"
 msgstr ""
 
-#: resources/xnec2c.glade:13249 src/rdpattern_ui.c:870
+#: resources/xnec2c.glade:13267 src/rdpattern_ui.c:870
 msgid "Radiation Patterns"
 msgstr "辐射方向图"
 
-#: resources/xnec2c.glade:13284
+#: resources/xnec2c.glade:13302
 msgid "Scale Structure (GS card)"
 msgstr "缩放结构 (GS card)"
 
-#: resources/xnec2c.glade:13315
+#: resources/xnec2c.glade:13333
 msgid "Structure Scale Factor"
 msgstr "结构缩放因子"
 
-#: resources/xnec2c.glade:13328
+#: resources/xnec2c.glade:13346
 msgid "From Tag No."
 msgstr "起始标签号"
 
-#: resources/xnec2c.glade:13378
+#: resources/xnec2c.glade:13396
 msgid "To Tag No."
 msgstr "结束标签号"
 
-#: resources/xnec2c.glade:13413
+#: resources/xnec2c.glade:13431
 msgid "Scale Structure"
 msgstr "缩放结构"
 
-#: resources/xnec2c.glade:13590
+#: resources/xnec2c.glade:13608
 msgid "Co-ordinate Transformation (GM card)"
 msgstr "坐标变换 (GM card)"
 
-#: resources/xnec2c.glade:13620
+#: resources/xnec2c.glade:13638
 msgid "Tag Increment"
 msgstr "标签增量"
 
-#: resources/xnec2c.glade:13651
+#: resources/xnec2c.glade:13669
 msgid "Rotate about X"
 msgstr "绕 X 轴旋转"
 
-#: resources/xnec2c.glade:13683
+#: resources/xnec2c.glade:13701
 msgid "Move along X"
 msgstr "沿 X 轴移动"
 
-#: resources/xnec2c.glade:13715
+#: resources/xnec2c.glade:13733
 msgid "New Structures"
 msgstr "新结构"
 
-#: resources/xnec2c.glade:13746
+#: resources/xnec2c.glade:13764
 msgid "Rotate about Y"
 msgstr "绕 Y 轴旋转"
 
-#: resources/xnec2c.glade:13778
+#: resources/xnec2c.glade:13796
 msgid "Move along Y"
 msgstr "沿 Y 轴移动"
 
-#: resources/xnec2c.glade:13810
+#: resources/xnec2c.glade:13828
 msgid "Start From Tag"
 msgstr "起始标签"
 
-#: resources/xnec2c.glade:13842
+#: resources/xnec2c.glade:13860
 msgid "Rotate about Z"
 msgstr "绕 Z 轴旋转"
 
-#: resources/xnec2c.glade:13874
+#: resources/xnec2c.glade:13892
 msgid "Move along Z"
 msgstr "沿 Z 轴移动"
 
-#: resources/xnec2c.glade:13910
+#: resources/xnec2c.glade:13928
 msgid "Co-ordinate Transformation Data"
 msgstr "坐标变换数据"
 
-#: resources/xnec2c.glade:14106
+#: resources/xnec2c.glade:14124
 msgid "Trans. Line Command (TL Card)"
 msgstr "传输线命令 (TL Card)"
 
-#: resources/xnec2c.glade:14136
+#: resources/xnec2c.glade:14154
 msgid "Tag Number, End 1  "
 msgstr "标签号，端点 1  "
 
-#: resources/xnec2c.glade:14168
+#: resources/xnec2c.glade:14186
 msgid "Tag Number, End 2  "
 msgstr "标签号，端点 2  "
 
-#: resources/xnec2c.glade:14199
+#: resources/xnec2c.glade:14217
 msgid "Segment Num, End 1"
 msgstr "分段号，端点 1"
 
-#: resources/xnec2c.glade:14231
+#: resources/xnec2c.glade:14249
 msgid "Segment Num, End 2"
 msgstr "分段号，端点 2"
 
-#: resources/xnec2c.glade:14295
+#: resources/xnec2c.glade:14313
 msgid "Crossed Transmission Line"
 msgstr "交叉传输线"
 
-#: resources/xnec2c.glade:14313
+#: resources/xnec2c.glade:14331
 msgid "Characteristic Impedance"
 msgstr "特性阻抗"
 
-#: resources/xnec2c.glade:14345
+#: resources/xnec2c.glade:14363
 msgid "End 1 Y Real Part (S)"
 msgstr "端点 1 Y 实部 (S)"
 
-#: resources/xnec2c.glade:14377
+#: resources/xnec2c.glade:14395
 msgid "End 2 Y Real Part (S)"
 msgstr "端点 2 Y 实部 (S)"
 
-#: resources/xnec2c.glade:14409
+#: resources/xnec2c.glade:14427
 msgid "Length of Tx Line (m)"
 msgstr "传输线长度 (m)"
 
-#: resources/xnec2c.glade:14441
+#: resources/xnec2c.glade:14459
 msgid "End 1 Y Imag Part (S)"
 msgstr "端点 1 Y 虚部 (S)"
 
-#: resources/xnec2c.glade:14473
+#: resources/xnec2c.glade:14491
 msgid "End 2 Y Imag Part (S)"
 msgstr "端点 2 Y 虚部 (S)"
 
-#: resources/xnec2c.glade:14509
+#: resources/xnec2c.glade:14527
 msgid "Transmission Line"
 msgstr "传输线"
 
-#: resources/xnec2c.glade:14736
+#: resources/xnec2c.glade:14754
 msgid "Wire Element (GW & GC cards)"
 msgstr "导线单元 (GW & GC cards)"
 
-#: resources/xnec2c.glade:14796
+#: resources/xnec2c.glade:14814
 msgid "Wire X1"
 msgstr "导线 X1"
 
-#: resources/xnec2c.glade:14828
+#: resources/xnec2c.glade:14846
 msgid "Wire X2"
 msgstr "导线 X2"
 
-#: resources/xnec2c.glade:14891
+#: resources/xnec2c.glade:14909
 msgid "Wire Y1"
 msgstr "导线 Y1"
 
-#: resources/xnec2c.glade:14924
+#: resources/xnec2c.glade:14942
 msgid "Wire Y2"
 msgstr "导线 Y2"
 
-#: resources/xnec2c.glade:14988
+#: resources/xnec2c.glade:15006
 msgid "Wire Z1"
 msgstr "导线 Z1"
 
-#: resources/xnec2c.glade:15020
+#: resources/xnec2c.glade:15038
 msgid "Wire Z2"
 msgstr "导线 Z2"
 
-#: resources/xnec2c.glade:15085
+#: resources/xnec2c.glade:15103
 msgid "Wire Length"
 msgstr "导线长度"
 
-#: resources/xnec2c.glade:15156
+#: resources/xnec2c.glade:15174
 msgid "Wire Data"
 msgstr "导线数据"
 
-#: resources/xnec2c.glade:15168
+#: resources/xnec2c.glade:15186
 msgid "Tapered Wire"
 msgstr "锥形导线"
 
-#: resources/xnec2c.glade:15210
+#: resources/xnec2c.glade:15228
 msgid "Length Taper"
 msgstr "长度渐变"
 
-#: resources/xnec2c.glade:15242
+#: resources/xnec2c.glade:15260
 msgid "Diameter Seg 1"
 msgstr "分段 1 直径"
 
-#: resources/xnec2c.glade:15274
+#: resources/xnec2c.glade:15292
 msgid "Diameter Seg N"
 msgstr "分段 N 直径"
 
-#: resources/xnec2c.glade:15306
+#: resources/xnec2c.glade:15324
 msgid "Diam. Taper"
 msgstr "直径渐变"
 
-#: resources/xnec2c.glade:15342
+#: resources/xnec2c.glade:15360
 msgid "Wire Taper Data"
 msgstr "导线渐变数据"
 
-#: resources/xnec2c.glade:15507
+#: resources/xnec2c.glade:15525
 msgid "Impedance (Zo) Ohm"
 msgstr "阻抗 (Zo) Ohm"
 
 # xnec2c-exempt: symbol
-#: resources/xnec2c.glade:15522
+#: resources/xnec2c.glade:15540
 msgid "50.00"
 msgstr ""
 
-#: resources/xnec2c.glade:15545
+#: resources/xnec2c.glade:15563
 msgid "Transmission Line Impedance (Zo)"
 msgstr "传输线阻抗 (Zo)"
 
@@ -2711,7 +2735,7 @@ msgid "config file does not exist or is not readable: %s\n"
 msgstr "配置文件不存在或不可读：%s\n"
 
 # xnec2c-exempt: symbol
-#: src/args.c:873 src/geometry.c:771 src/input.c:1857 src/input.c:1858
+#: src/args.c:873 src/geometry.c:771 src/input.c:1859 src/input.c:1860
 #: src/mathlib.c:830 src/mathlib.c:1135 src/rdpattern_ui.c:366
 #: src/rdpattern_ui.c:374 src/rdpattern_ui.c:381 src/sy_expr.c:142
 #: src/sy_expr.c:172 src/utils.c:365 src/utils.c:725
@@ -2843,7 +2867,7 @@ msgstr "Touchstone 双端口文件 (*.s2p)"
 msgid "Comma-separated CSV files (*.csv)"
 msgstr "逗号分隔 CSV 文件 (*.csv)"
 
-#: src/callbacks.c:97 src/callbacks.c:113 src/freqplots/freqplots_core.c:62
+#: src/callbacks.c:97 src/callbacks.c:113 src/freqplots/freqplots_core.c:66
 msgid "Antenna Temperature"
 msgstr "天线温度"
 
@@ -3221,12 +3245,12 @@ msgstr ""
 msgid "step size limited at z= %10.5f"
 msgstr "步长限制于 z= %10.5f"
 
-#: src/fork.c:334 src/fork.c:587
+#: src/fork.c:334 src/fork.c:589
 #, c-format
 msgid "child %d  length %d  return %d\n"
 msgstr "子进程 %d  长度 %d  返回值 %d\n"
 
-#: src/fork.c:593
+#: src/fork.c:595
 #, c-format
 msgid "early EOF?, child %d  length %d  return %d\n"
 msgstr "提前 EOF？子进程 %d  长度 %d  返回值 %d\n"
@@ -3254,35 +3278,39 @@ msgid ""
 "result"
 msgstr "将频率扫描重置到第一步并放弃每个已计算结果"
 
-#: src/freqplots/freqplots_core.c:56
+#: src/freqplots/freqplots_core.c:60
 msgid "Gain Direction"
 msgstr "增益方向"
 
-#: src/freqplots/freqplots_core.c:57
+#: src/freqplots/freqplots_core.c:61
 msgid "Viewer Gain"
 msgstr "观察者增益"
 
-#: src/freqplots/freqplots_core.c:59
+#: src/freqplots/freqplots_core.c:63
 msgid "Impedance (real/imag)"
 msgstr "阻抗（实部/虚部）"
 
-#: src/freqplots/freqplots_core.c:60
+#: src/freqplots/freqplots_core.c:64
 msgid "Impedance (mag/phase)"
 msgstr "阻抗（幅度/相位）"
 
-#: src/freqplots/freqplots_core.c:61 src/freqplots/graphs/smith_graph.c:476
+#: src/freqplots/freqplots_core.c:65 src/freqplots/graphs/smith_graph.c:512
 msgid "Smith Chart"
 msgstr "史密斯圆图"
 
+#: src/freqplots/freqplots_core.c:67
+msgid "Solver Conditioning"
+msgstr "求解器条件数"
+
 # xnec2c-exempt: name
-#: src/freqplots/freqplots_core.c:458
+#: src/freqplots/freqplots_core.c:471
 #, c-format
 msgid ""
 "fr_plot[posn=%d fr=%d] rect[x=%d y=%d, w=%d h=%d] freq[min=%4.2f max=%4.2f n="
 "%d]\n"
 msgstr ""
 
-#: src/freqplots/freqplots_core.c:756
+#: src/freqplots/freqplots_core.c:769
 msgid ""
 "Excitation-port selector: models with more than one EX excitation list every "
 "port here.\n"
@@ -3323,28 +3351,28 @@ msgstr ""
 "    • 原始最大增益、增益方向、前后比\n"
 "    • 天线温度、G/T"
 
-#: src/freqplots/freqplots_core.c:789
+#: src/freqplots/freqplots_core.c:802
 msgid ""
 "Only one feedpoint port is defined. Define additional EX excitation cards in "
 "the model to select among multiple ports here."
 msgstr ""
 "仅定义了一个馈电点端口。请在模型中定义更多 EX 激励卡，以便在此选择多个端口。"
 
-#: src/freqplots/freqplots_core.c:792
+#: src/freqplots/freqplots_core.c:805
 msgid ""
 "Enable the Net Gain plot setting to select a port; without it this graph "
 "does not follow the port."
 msgstr "启用净增益图设置以选择端口；未启用时此图表不随端口变化。"
 
-#: src/freqplots/freqplots_core.c:908
+#: src/freqplots/freqplots_core.c:921
 msgid "Not available: excitation defines no feedpoint"
 msgstr "不可用：激励未定义馈电点"
 
-#: src/freqplots/freqplots_graph.c:137 src/freqplots/graphs/smith_graph.c:529
+#: src/freqplots/freqplots_graph.c:137 src/freqplots/graphs/smith_graph.c:565
 msgid "memory allocation for points failed\n"
 msgstr "点的内存分配失败\n"
 
-#: src/freqplots/freqplots_graph.c:138 src/freqplots/graphs/smith_graph.c:530
+#: src/freqplots/freqplots_graph.c:138 src/freqplots/graphs/smith_graph.c:566
 msgid "Draw_Graph():Memory allocation for points failed"
 msgstr "Draw_Graph()：点的内存分配失败"
 
@@ -3374,6 +3402,14 @@ msgstr ""
 #: src/freqplots/graphs/anttemp_graph.c:73
 msgid "TA (K)"
 msgstr ""
+
+#: src/freqplots/graphs/cond_graph.c:55
+msgid "Precision lost"
+msgstr "精度损失"
+
+#: src/freqplots/graphs/cond_graph.c:56
+msgid "Solver conditioning - precision lost in decimal digits"
+msgstr "求解器条件数——十进制位精度损失"
 
 #: src/freqplots/graphs/gain_graph.c:86 src/freqplots/graphs/viewer_graph.c:53
 msgid "Raw Gain dBi"
@@ -3428,7 +3464,7 @@ msgstr ""
 
 # xnec2c-exempt: notation
 #: src/freqplots/graphs/smith_graph.c:387
-#: src/freqplots/graphs/smith_graph.c:462
+#: src/freqplots/graphs/smith_graph.c:498
 msgid "∞ Ω"
 msgstr ""
 
@@ -3465,16 +3501,16 @@ msgid "wavelengths → gen"
 msgstr "波长 → 电源"
 
 # xnec2c-exempt: notation
-#: src/freqplots/graphs/smith_graph.c:507
+#: src/freqplots/graphs/smith_graph.c:543
 #, c-format
 msgid "Z₀ = %g Ω"
 msgstr ""
 
-#: src/freqplots/graphs/smith_graph.c:514
+#: src/freqplots/graphs/smith_graph.c:550
 msgid "INDUCTIVE (+jX)"
 msgstr "感性 (+jX)"
 
-#: src/freqplots/graphs/smith_graph.c:517
+#: src/freqplots/graphs/smith_graph.c:553
 msgid "CAPACITIVE (-jX)"
 msgstr "容性 (-jX)"
 
@@ -4026,7 +4062,7 @@ msgstr "b 小于 a"
 msgid "step size limited at z = %12.5E\n"
 msgstr "步长在 Z = %12.5E 处受限\n"
 
-#: src/input.c:148
+#: src/input.c:150
 msgid ""
 "Error reading Comments\n"
 "Unexpected EOF (End of File)"
@@ -4034,7 +4070,7 @@ msgstr ""
 "读取注释时出错\n"
 "意外的 EOF（文件结束）"
 
-#: src/input.c:162
+#: src/input.c:164
 msgid ""
 "Error reading Comments\n"
 "Comment mnemonic short or missing"
@@ -4042,7 +4078,7 @@ msgstr ""
 "读取注释时出错\n"
 "注释助记符过短或缺失"
 
-#: src/input.c:173
+#: src/input.c:175
 msgid ""
 "Read_Comments():\n"
 " Error reading input file\n"
@@ -4052,7 +4088,7 @@ msgstr ""
 " 读取输入文件时出错\n"
 "注释助记符不正确"
 
-#: src/input.c:213
+#: src/input.c:215
 msgid ""
 "Geometry data error\n"
 "Tag number is negative"
@@ -4060,7 +4096,7 @@ msgstr ""
 "几何数据错误\n"
 "标签号为负数"
 
-#: src/input.c:220
+#: src/input.c:222
 msgid ""
 "Geometry data error\n"
 "Number of segments is less than 1"
@@ -4068,11 +4104,11 @@ msgstr ""
 "几何数据错误\n"
 "分段数小于 1"
 
-#: src/input.c:227
+#: src/input.c:229
 msgid "warning - number of segments is greater than 1000000\n"
 msgstr "警告 - 分段数大于 1000000\n"
 
-#: src/input.c:250
+#: src/input.c:252
 #, c-format
 msgid ""
 "%s card: tag 0 selects segment %d by absolute position in the structure, not "
@@ -4082,12 +4118,12 @@ msgstr ""
 "%s 卡：标签号 0 按结构中的绝对位置选择分段 %d，而非带标签号导线内的位置；除非"
 "有意使用绝对位置，否则请为导线指定标签号，并在该标签号内引用分段\n"
 
-#: src/input.c:297
+#: src/input.c:299
 #, c-format
 msgid "%s data card error: Spurious character '%c' at column %d\n"
 msgstr "%s 数据卡错误：无效字符 '%c' 于第 %d 列\n"
 
-#: src/input.c:299
+#: src/input.c:301
 msgid ""
 "Data card error\n"
 "Spurious character in card"
@@ -4095,33 +4131,33 @@ msgstr ""
 "数据卡错误\n"
 "卡中存在无效字符"
 
-#: src/input.c:370
+#: src/input.c:372
 #, c-format
 msgid "%s: expression evaluation failed for \"%s\"\n"
 msgstr "%s：表达式求值失败 \"%s\"\n"
 
-#: src/input.c:411
+#: src/input.c:413
 msgid "SY card: no line content available\n"
 msgstr "SY 卡：无可用行内容\n"
 
-#: src/input.c:412
+#: src/input.c:414
 msgid "SY card: no line content available"
 msgstr "SY 卡：无可用行内容"
 
-#: src/input.c:429
+#: src/input.c:431
 msgid "SY card: missing '=' in definition\n"
 msgstr "SY 卡：定义中缺少 '='\n"
 
-#: src/input.c:430
+#: src/input.c:432
 msgid "SY card: missing '=' in definition"
 msgstr "SY 卡：定义中缺少 '='"
 
-#: src/input.c:463
+#: src/input.c:465
 #, c-format
 msgid "SY card: symbol definition failed for %s=%s\n"
 msgstr "SY 卡：符号定义失败 %s=%s\n"
 
-#: src/input.c:650
+#: src/input.c:652
 msgid ""
 "Geometry data error\n"
 "No GC card for tapered wire"
@@ -4129,27 +4165,27 @@ msgstr ""
 "几何数据错误\n"
 "锥形导线缺少 GC 卡"
 
-#: src/input.c:657
+#: src/input.c:659
 msgid "Geometry GC data card error"
 msgstr "几何 GC 数据卡错误"
 
-#: src/input.c:673
+#: src/input.c:675
 msgid "Geometry GX data card error"
 msgstr "几何 GX 数据卡错误"
 
-#: src/input.c:696
+#: src/input.c:698
 msgid "Geometry GR data card error"
 msgstr "几何 GR 数据卡错误"
 
-#: src/input.c:750
+#: src/input.c:752
 msgid "No geometry data cards"
 msgstr "无几何数据卡"
 
-#: src/input.c:761
+#: src/input.c:763
 msgid "Probable invalid segment geometry.\n"
 msgstr "可能存在无效的分段几何。\n"
 
-#: src/input.c:762
+#: src/input.c:764
 msgid ""
 "Invalid segment geometry.\n"
 "See warnings in the console for detail.\n"
@@ -4159,37 +4195,37 @@ msgstr ""
 "详情请查看控制台中的警告。\n"
 "正在尝试继续..."
 
-#: src/input.c:768
+#: src/input.c:770
 msgid "Probable invalid segment geometry (see above)\n"
 msgstr "可能存在无效的分段几何（见上文）\n"
 
-#: src/input.c:772
+#: src/input.c:774
 msgid "Read_Geometry: verify_segments() passed\n"
 msgstr "Read_Geometry: verify_segments() 已通过\n"
 
-#: src/input.c:809
+#: src/input.c:811
 #, c-format
 msgid "segment data error: tag=%d si=%lf, bi=%lf\n"
 msgstr "分段数据错误：tag=%d si=%lf, bi=%lf\n"
 
-#: src/input.c:811
+#: src/input.c:813
 msgid "Segment data error, zero-length line?  See console."
 msgstr "分段数据错误，零长度线段？请查看控制台。"
 
-#: src/input.c:851
+#: src/input.c:853
 msgid "Move GM data card error"
 msgstr "移动 GM 数据卡错误"
 
-#: src/input.c:867 src/input.c:908 src/input.c:925 src/input.c:943
-#: src/input.c:951
+#: src/input.c:869 src/input.c:910 src/input.c:927 src/input.c:945
+#: src/input.c:953
 msgid "Patch data card error"
 msgstr "面片数据卡错误"
 
-#: src/input.c:889
+#: src/input.c:891
 msgid "Patch data error"
 msgstr "面片数据错误"
 
-#: src/input.c:998
+#: src/input.c:1000
 msgid ""
 "\"GF\" card (NGF solution)\n"
 "is not supported"
@@ -4197,64 +4233,64 @@ msgstr ""
 "不支持 \"GF\" 卡\n"
 "（NGF 解法）"
 
-#: src/input.c:1003
+#: src/input.c:1005
 msgid "Ignoring CM card in geometry"
 msgstr "忽略几何中的 CM 卡"
 
-#: src/input.c:1016
+#: src/input.c:1018
 #, c-format
 msgid "geometry data card error (nwire=%d)\n"
 msgstr "几何数据卡错误 (nwire=%d)\n"
 
 # xnec2c-exempt: symbol
-#: src/input.c:1017
+#: src/input.c:1019
 #, c-format
 msgid "%2s %3d %5d %10.5f %10.5f %10.5f %10.5f %10.5f %10.5f %10.5f\n"
 msgstr ""
 
-#: src/input.c:1023
+#: src/input.c:1025
 msgid "Command card in geometry section"
 msgstr "几何数据段中出现命令卡"
 
-#: src/input.c:1025
+#: src/input.c:1027
 msgid "Unrecognized geometry card"
 msgstr "无法识别的几何数据卡"
 
-#: src/input.c:1049
+#: src/input.c:1051
 msgid "Failed to initialize symbol table\n"
 msgstr "初始化符号表失败\n"
 
-#: src/input.c:1050
+#: src/input.c:1052
 msgid "Failed to initialize symbol table"
 msgstr "初始化符号表失败"
 
-#: src/input.c:1190
+#: src/input.c:1192
 #, c-format
 msgid "No FR card: computing one step at the NEC-2 default %g MHz\n"
 msgstr "未提供 FR 卡：按 NEC-2 默认值 %g MHz 计算一个步长\n"
 
-#: src/input.c:1281
+#: src/input.c:1283
 msgid "ignoring CM card in commands\n"
 msgstr "忽略命令中的 CM 卡\n"
 
-#: src/input.c:1282
+#: src/input.c:1284
 msgid "Ignoring CM card in commands"
 msgstr "忽略命令中的 CM 卡"
 
-#: src/input.c:1294
+#: src/input.c:1296
 msgid "CP card is ignored: coupling calculation not implemented\n"
 msgstr "CP 卡已忽略：尚未实现耦合计算\n"
 
-#: src/input.c:1390
+#: src/input.c:1392
 #, c-format
 msgid "Skipping duplicate FR card at %g MHz\n"
 msgstr "跳过 %g MHz 处的重复 FR 卡\n"
 
-#: src/input.c:1455
+#: src/input.c:1457
 msgid "Max frequency <= Min frequency in FR card\n"
 msgstr "FR 卡中最大频率 <= 最小频率\n"
 
-#: src/input.c:1456
+#: src/input.c:1458
 msgid ""
 "Max frequency <= Min frequency in FR card\n"
 "Please check FR card data and correct"
@@ -4262,7 +4298,7 @@ msgstr ""
 "FR 卡中最大频率 <= 最小频率\n"
 "请检查 FR 卡数据并更正"
 
-#: src/input.c:1479
+#: src/input.c:1481
 msgid ""
 "Fix the GE/GN cards:\n"
 "The GE card specifies that a ground is present, but the GN indicates "
@@ -4271,11 +4307,11 @@ msgstr ""
 "修正 GE/GN 卡：\n"
 "GE 卡指定存在地面，但 GN 卡指示相反。"
 
-#: src/input.c:1493
+#: src/input.c:1495
 msgid "theta > 90 deg. with ground specified\n"
 msgstr "指定地面时 theta > 90 度\n"
 
-#: src/input.c:1494 src/radiation.c:703
+#: src/input.c:1496 src/radiation.c:703
 msgid ""
 "Theta > 90 deg with ground specified\n"
 "Please check RP card data and correct"
@@ -4283,13 +4319,13 @@ msgstr ""
 "指定地面时 Theta > 90 度\n"
 "请检查 RP 卡数据并更正"
 
-#: src/input.c:1503
+#: src/input.c:1505
 msgid ""
 "radial wire g.s. approximation: may not be used with Sommerfeld ground "
 "option\n"
 msgstr "径向导线接地系统近似：不能与 Sommerfeld 地面选项一起使用\n"
 
-#: src/input.c:1504
+#: src/input.c:1506
 msgid ""
 "radial wire g.s. approximation\n"
 "may not be used with Sommerfeld ground option"
@@ -4297,14 +4333,14 @@ msgstr ""
 "径向导线接地系统近似\n"
 "不能与 Sommerfeld 地面选项一起使用"
 
-#: src/input.c:1552
+#: src/input.c:1554
 #, c-format
 msgid ""
 "data fault on loading card no %d: itag step1 %d is greater than itag step2 "
 "%d\n"
 msgstr "加载卡 %d 数据错误：itag step1 %d 大于 itag step2 %d\n"
 
-#: src/input.c:1554
+#: src/input.c:1556
 msgid ""
 "Data fault on loading card\n"
 "itag step1 is greater than itag step2"
@@ -4312,12 +4348,12 @@ msgstr ""
 "加载卡数据错误\n"
 "itag step1 大于 itag step2"
 
-#: src/input.c:1683
+#: src/input.c:1685
 msgid ""
 "Transmission Line impedance = 0: is not valid. Please correct NT or TL card\n"
 msgstr "传输线阻抗 = 0：无效。请更正 NT 或 TL 卡\n"
 
-#: src/input.c:1684
+#: src/input.c:1686
 msgid ""
 "Transmission Line impedance = 0\n"
 "is not valid. Please correct NT or TL card"
@@ -4325,11 +4361,11 @@ msgstr ""
 "传输线阻抗 = 0\n"
 "无效。请更正 NT 或 TL 卡"
 
-#: src/input.c:1695
+#: src/input.c:1697
 msgid "Segment number error in TL or NT card\n"
 msgstr "TL 或 NT 卡中分段号错误\n"
 
-#: src/input.c:1696
+#: src/input.c:1698
 msgid ""
 "Segment number\n"
 "error in NT or TL card"
@@ -4337,19 +4373,19 @@ msgstr ""
 "NT 或 TL 卡中\n"
 "分段号错误"
 
-#: src/input.c:1718
+#: src/input.c:1720
 msgid "PQ and PT cards are ignored: printing to file not implemented\n"
 msgstr "PQ 和 PT 卡已忽略：尚未实现打印到文件\n"
 
-#: src/input.c:1722
+#: src/input.c:1724
 msgid "PL card is ignored: plotting to file not supported\n"
 msgstr "PL 卡已忽略：不支持绘制到文件\n"
 
-#: src/input.c:1728
+#: src/input.c:1730
 msgid "Surface wave option (I1=1): of RP command not implemented\n"
 msgstr "表面波选项 (I1=1)：RP 命令未实现\n"
 
-#: src/input.c:1729
+#: src/input.c:1731
 msgid ""
 "Surface wave option (I1=1)\n"
 "of RP command not implemented"
@@ -4357,27 +4393,27 @@ msgstr ""
 "表面波选项 (I1=1)\n"
 "RP 命令未实现"
 
-#: src/input.c:1754
+#: src/input.c:1756
 msgid "Average gain diagnostic enabled (use --skip-verify to disable)\n"
 msgstr "平均增益诊断已启用（使用 --skip-verify 禁用）\n"
 
-#: src/input.c:1763
+#: src/input.c:1765
 #, c-format
 msgid "Average power gain disabled: nth=%d nph=%d (both must be >= 2)\n"
 msgstr "平均功率增益已禁用：nth=%d nph=%d（两者必须 >= 2）\n"
 
-#: src/input.c:1768
+#: src/input.c:1770
 #, c-format
 msgid "Average power gain calculation enabled (XNDA A=%d)\n"
 msgstr "平均功率增益计算已启用（XNDA A=%d）\n"
 
-#: src/input.c:1784
+#: src/input.c:1786
 msgid ""
 "Theta > 90 deg. with ground specified: Please check RP card data and "
 "correct\n"
 msgstr "指定地面时 Theta > 90 度：请检查 RP 卡数据并更正\n"
 
-#: src/input.c:1785
+#: src/input.c:1787
 msgid ""
 "Theta > 90 deg. with ground specified\n"
 "Please check RP card data and correct"
@@ -4385,31 +4421,31 @@ msgstr ""
 "指定地面时 Theta > 90 度\n"
 "请检查 RP 卡数据并更正"
 
-#: src/input.c:1853
+#: src/input.c:1855
 msgid "Geometry card in command section"
 msgstr "命令段中出现几何数据卡"
 
-#: src/input.c:1856
+#: src/input.c:1858
 msgid "Unrecognized command card"
 msgstr "无法识别的命令卡"
 
-#: src/input.c:1897
+#: src/input.c:1903
 msgid ""
 "Missing or surface-wave RP card: Radiation pattern and gain calculations "
 "disabled\n"
 msgstr "缺少 RP 卡或为表面波 RP 卡：辐射方向图和增益计算已禁用\n"
 
-#: src/input.c:1924
+#: src/input.c:1930
 msgid "Unexpected exit from while loop"
 msgstr "意外退出 while 循环"
 
-#: src/input.c:2015
+#: src/input.c:2021
 msgid ""
 "command data card error: Unexpected EOF while reading input file - appending "
 "EN card\n"
 msgstr "命令数据卡错误：读取输入文件时遇到意外 EOF - 正在追加 EN 卡\n"
 
-#: src/input.c:2016
+#: src/input.c:2022
 msgid ""
 "Command data card error\n"
 "Unexpected EOF while reading input file\n"
@@ -4419,11 +4455,11 @@ msgstr ""
 "读取输入文件时遇到意外 EOF\n"
 "正在追加默认 EN 卡"
 
-#: src/input.c:2033
+#: src/input.c:2039
 msgid "command data card error: card's mnemonic code too short or missing\n"
 msgstr "命令数据卡错误：卡的助记符代码太短或缺失\n"
 
-#: src/input.c:2034
+#: src/input.c:2040
 msgid ""
 "Command data card error\n"
 "Mnemonic code too short or missing"
@@ -4431,13 +4467,13 @@ msgstr ""
 "命令数据卡错误\n"
 "助记符代码太短或缺失"
 
-#: src/input.c:2235
+#: src/input.c:2241
 msgid ""
 "geometry data card error: Unexpected EOF while reading input file - "
 "appending GE card\n"
 msgstr "几何数据卡错误：读取输入文件时遇到意外 EOF - 正在追加 GE 卡\n"
 
-#: src/input.c:2236
+#: src/input.c:2242
 msgid ""
 "Geometry data card error\n"
 "Unexpected EOF while reading input file\n"
@@ -4447,11 +4483,11 @@ msgstr ""
 "读取输入文件时遇到意外 EOF\n"
 "正在追加默认 GE 卡"
 
-#: src/input.c:2253
+#: src/input.c:2259
 msgid "geometry data card error: card's mnemonic code too short or missing\n"
 msgstr "几何数据卡错误：卡的助记符代码太短或缺失\n"
 
-#: src/input.c:2254
+#: src/input.c:2260
 msgid ""
 "Geometry data card error\n"
 "Card's mnemonic code too short or missing"
@@ -4921,16 +4957,16 @@ msgstr "主元(%d)= %16.8E\n"
 msgid "LU Decomposition Failed: %d\n"
 msgstr "LU 分解失败：%d\n"
 
-#: src/matrix.c:1329
+#: src/matrix.c:1352
 #, c-format
 msgid "symmetry error - nrow:%d ncol:%d\n"
 msgstr "对称性错误 - nrow:%d ncol:%d\n"
 
-#: src/matrix.c:1330
+#: src/matrix.c:1353
 msgid "Symmetry error"
 msgstr "对称性错误"
 
-#: src/matrix.c:1434
+#: src/matrix.c:1457
 #, c-format
 msgid "Solving Failed: %d\n"
 msgstr "求解失败：%d\n"
@@ -4940,6 +4976,10 @@ msgid ""
 "noise_temp_resolve: noise_temp table not allocated; t_sky/t_earth defaulting "
 "to 0\n"
 msgstr "noise_temp_resolve：噪声温度表未分配；t_sky/t_earth 默认为 0\n"
+
+#: src/measurements.c:501
+msgid "Precision Lost"
+msgstr "精度损失"
 
 #: src/mem/mem.c:185
 #, c-format
@@ -5195,17 +5235,12 @@ msgstr ""
 msgid "opt_file_save: %s\n"
 msgstr "opt_file_save：%s\n"
 
-#: src/opt_file.c:533
-#, c-format
-msgid "opt_file_load: unknown metric in [%s]\n"
-msgstr "opt_file_load：[%s] 中含未知指标\n"
-
-#: src/opt_file.c:615
+#: src/opt_file.c:622
 #, c-format
 msgid "Loaded %d optimizer goals\n"
 msgstr "已加载 %d 个优化目标\n"
 
-#: src/opt_file.c:651
+#: src/opt_file.c:658
 #, c-format
 msgid "opt_file_load: %s\n"
 msgstr "opt_file_load：%s\n"
@@ -5326,17 +5361,12 @@ msgstr "创建优化器唤醒 eventfd 失败\n"
 msgid "failed to create Optimizer Output thread\n"
 msgstr "创建优化器输出线程失败\n"
 
-#: src/optimizers/opt_fitness.c:345
-#, c-format
-msgid "fitness_config_add: invalid meas_index %d\n"
-msgstr "fitness_config_add：无效的 meas_index %d\n"
-
-#: src/optimizers/opt_fitness.c:471
+#: src/optimizers/opt_fitness.c:484
 #, c-format
 msgid "fitness_transform: unknown direction %d\n"
 msgstr "fitness_transform：未知方向 %d\n"
 
-#: src/optimizers/opt_fitness.c:544
+#: src/optimizers/opt_fitness.c:557
 #, c-format
 msgid "reduce_values: unknown reduction method %d\n"
 msgstr "reduce_values：未知归约方法 %d\n"
@@ -5463,84 +5493,84 @@ msgid ""
 "sr\n"
 msgstr "平均增益：%.4f（%.2f dBi），效率：%.1f%%，立体角：%.4f * pi sr\n"
 
-#: src/rc_config.c:849
+#: src/rc_config.c:854
 #, c-format
 msgid "unable to getcwd(): %s\n"
 msgstr "getcwd() 调用失败：%s\n"
 
-#: src/rc_config.c:853
+#: src/rc_config.c:858
 #, c-format
 msgid "environment variable HOME is undefined, using %s\n"
 msgstr "环境变量 HOME 未定义，使用 %s\n"
 
-#: src/rc_config.c:938
+#: src/rc_config.c:943
 #, c-format
 msgid ""
 "%s (locale=%s): only matchd %d of %lu chars, trying another locale: %s\n"
 msgstr "%s（locale=%s）：仅匹配到 %d / %lu 字符，尝试另一个 locale：%s\n"
 
-#: src/rc_config.c:1157
+#: src/rc_config.c:1162
 #, c-format
 msgid "window: x=%-5d y=%-5d w=%-5d h=%-5d  title: \"%s\"\n"
 msgstr "窗口：x=%-5d y=%-5d w=%-5d h=%-5d  标题：\"%s\"\n"
 
-#: src/rc_config.c:1191
+#: src/rc_config.c:1196
 #, c-format
 msgid "%s: EOF reading application version.\n"
 msgstr "%s：读取应用版本时遇到 EOF。\n"
 
-#: src/rc_config.c:1197
+#: src/rc_config.c:1202
 #, c-format
 msgid "existing config file version differs: %s != %s\n"
 msgstr "现有配置文件版本不同：%s != %s\n"
 
-#: src/rc_config.c:1331
+#: src/rc_config.c:1336
 #, c-format
 msgid "stat failed for %s: %s\n"
 msgstr "%s 的 stat 调用失败：%s\n"
 
-#: src/rc_config.c:1337
+#: src/rc_config.c:1342
 #, c-format
 msgid ""
 "Fixed %s directory permissions from 0%o to 0%o from bug introduced in "
 "4e62893b.\n"
 msgstr "已修复 %s 目录权限，从 0%o 更改为 0%o（因 4e62893b 引入的问题）。\n"
 
-#: src/rc_config.c:1368
+#: src/rc_config.c:1373
 #, c-format
 msgid "%s:%d: Line not parsed: %s\n"
 msgstr "%s:%d：行未解析：%s\n"
 
-#: src/rc_config.c:1374
+#: src/rc_config.c:1379
 #, c-format
 msgid "%s:%d: Early end of file for %s: %s \n"
 msgstr "%s:%d：%s 的文件提前结束：%s \n"
 
-#: src/rc_config.c:1399
+#: src/rc_config.c:1404
 #, c-format
 msgid "%s:%d: parse error (%s): %s \n"
 msgstr "%s:%d：解析错误 (%s)：%s \n"
 
-#: src/rc_config.c:1413
+#: src/rc_config.c:1418
 #, c-format
 msgid "Invalid sky model index %d in config, resetting to default\n"
 msgstr "配置中天空模型索引 %d 无效，已重置为默认值\n"
 
-#: src/rc_config.c:1419
+#: src/rc_config.c:1424
 #, c-format
 msgid "Invalid earth model index %d in config, resetting to default\n"
 msgstr "配置中地面模型索引 %d 无效，已重置为默认值\n"
 
-#: src/rc_config.c:1425
+#: src/rc_config.c:1430
 #, c-format
 msgid "Invalid interp method %d in config, resetting to default\n"
 msgstr "配置中插值方法 %d 无效，已重置为默认值\n"
 
-#: src/rc_config.c:1600
+#: src/rc_config.c:1605
 msgid "batch mode: skipping configuration save\n"
 msgstr "批处理模式：跳过配置保存\n"
 
-#: src/rc_config.c:1607
+#: src/rc_config.c:1612
 #, c-format
 msgid "cannot open xnec2c's config file %s: %s\n"
 msgstr "无法打开 xnec2c 的配置文件 %s：%s\n"
@@ -5942,100 +5972,100 @@ msgstr "无法创建输出目录"
 msgid "validation tree written to: %s\n"
 msgstr "校验树已写入：%s\n"
 
-#: src/xnec2c.c:303
+#: src/xnec2c.c:306
 #, c-format
 msgid ""
 "complex dielectric constant from file: %12.5E%+12.5Ej, requested: %12.5E"
 "%+12.5Ej\n"
 msgstr "来自文件的复介电常数：%12.5E%+12.5Ej，请求值：%12.5E%+12.5Ej\n"
 
-#: src/xnec2c.c:306
+#: src/xnec2c.c:309
 msgid "Ground_Parameters():Error in ground parameters"
 msgstr "Ground_Parameters()：地面参数错误"
 
-#: src/xnec2c.c:730
+#: src/xnec2c.c:733
 #, c-format
 msgid "%.6f MHz: %f seconds. (%s)\n"
 msgstr "%.6f MHz：%f 秒。（%s）\n"
 
-#: src/xnec2c.c:1074
+#: src/xnec2c.c:1077
 #, c-format
 msgid ""
 "step %d raced: dispatched %.6f MHz, current %.6f MHz; will recalculate\n"
 msgstr "步骤 %d 产生竞争：已分派 %.6f MHz，当前 %.6f MHz；将重新计算\n"
 
-#: src/xnec2c.c:1200
+#: src/xnec2c.c:1203
 #, c-format
 msgid "child %d has invalid pipe fd during forked collect\n"
 msgstr "子进程 %d 在分叉收集期间管道文件描述符无效\n"
 
-#: src/xnec2c.c:1253
+#: src/xnec2c.c:1256
 msgid "Failed to read data from forked child\n"
 msgstr "从分叉子进程读取数据失败\n"
 
-#: src/xnec2c.c:1527
+#: src/xnec2c.c:1530
 #, c-format
 msgid "nearest step %g MHz differs from requested %g MHz\n"
 msgstr "最近步长 %g MHz 与请求的 %g MHz 不同\n"
 
-#: src/xnec2c.c:1531
+#: src/xnec2c.c:1534
 #, c-format
 msgid "post-sweep frequency set to %.4f MHz (VSWR %.2f)\n"
 msgstr "扫描后频率设为 %.4f MHz（VSWR %.2f）\n"
 
-#: src/xnec2c.c:1569
+#: src/xnec2c.c:1572
 #, c-format
 msgid "Frequency loop elapsed time: %f seconds. (%s)\n"
 msgstr "频率循环耗时：%f 秒。（%s）\n"
 
-#: src/xnec2c.c:1621
+#: src/xnec2c.c:1624
 #, c-format
 msgid "batch canvas %d drew no frame at %dx%d\n"
 msgstr "批处理画布 %d 在 %dx%d 下未绘制任何帧\n"
 
-#: src/xnec2c.c:1786
+#: src/xnec2c.c:1789
 #, c-format
 msgid "radiation pattern PNG capture: no computed step for %s\n"
 msgstr "辐射方向图 PNG 捕获：%s 无已计算的步进\n"
 
-#: src/xnec2c.c:1858
+#: src/xnec2c.c:1861
 #, c-format
 msgid "radiation pattern PNG capture failed for %s\n"
 msgstr "%s 的辐射方向图 PNG 捕获失败\n"
 
-#: src/xnec2c.c:1864
+#: src/xnec2c.c:1867
 #, c-format
 msgid "radiation pattern PNG save failed for %s: %s\n"
 msgstr "%s 的辐射方向图 PNG 保存失败：%s\n"
 
-#: src/xnec2c.c:1869
+#: src/xnec2c.c:1872
 #, c-format
 msgid "wrote radiation pattern PNG: %s\n"
 msgstr "已写入辐射方向图 PNG：%s\n"
 
-#: src/xnec2c.c:1906
+#: src/xnec2c.c:1909
 #, c-format
 msgid "multiple radiation pattern PNG formats require a .png filename: %s\n"
 msgstr "多种辐射方向图 PNG 格式需要 .png 文件名：%s\n"
 
-#: src/xnec2c.c:2011
+#: src/xnec2c.c:2014
 #, c-format
 msgid "sweep runs %d workers of %d threads each\n"
 msgstr "扫描运行 %d 个工作线程，每个使用 %d 个线程\n"
 
-#: src/xnec2c.c:2303
+#: src/xnec2c.c:2306
 msgid "failed to start Frequency_Loop_Thread\n"
 msgstr "启动 Frequency_Loop_Thread 失败\n"
 
-#: src/xnec2c.c:2482
+#: src/xnec2c.c:2485
 msgid "Frequency Sweep"
 msgstr "频率扫描"
 
-#: src/xnec2c.c:2483
+#: src/xnec2c.c:2486
 msgid "Recalculate the frequency sweep?"
 msgstr "您要重新计算频率扫描吗？"
 
-#: src/xnec2c.c:2484
+#: src/xnec2c.c:2487
 msgid ""
 "The sweep is calculated in full.  Running it again discards every calculated "
 "step and computes the sweep from its first step."

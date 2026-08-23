@@ -105,6 +105,8 @@ input_data_free( void )
   /* Release each fstep's per-port sub-buffers and the outer impedance array. */
   Free_Impedance_Buffers();
 
+  mem_array_free( &solver_cond );
+
   mem_array_free( &netcx.zped_port );
   mem_array_free( &netcx.iseg1 );
   mem_array_free( &netcx.iseg2 );
@@ -1877,6 +1879,10 @@ Read_Commands( void )
     /* Feedpoint-port count is known only after EX cards parse; size the
      * per-port impedance array here rather than in the FR-card loop. */
     Alloc_Impedance_Buffers( calc_data.steps_total + 1, Num_Feedpoint_Ports() );
+
+    /* Reset one factorization-health record for every frequency result. */
+    mem_array_realloc( &solver_cond, calc_data.steps_total + 1 );
+    mem_array_zero( solver_cond );
 
     /* Owned by the data model, not the freqplots UI: reset the selected
      * excitation port to the first port so a stale index from a prior model

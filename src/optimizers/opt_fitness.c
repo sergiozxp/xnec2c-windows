@@ -33,6 +33,7 @@ const meas_fitness_default_t meas_fitness_defaults[MEAS_COUNT] =
 		.default_target   = 0.0,
 		.default_weight   = 0.0,
 		.default_exponent = 1.0,
+		.goal_ineligible  = true,
 	},
 
 	[MEAS_ZREAL] =
@@ -259,6 +260,11 @@ const meas_fitness_default_t meas_fitness_defaults[MEAS_COUNT] =
 		.default_weight   = 1.0,
 		.default_exponent = 2.0,
 	},
+
+	[MEAS_PRECISION_LOST] =
+	{
+		.goal_ineligible = true,
+	},
 };
 
 /*------------------------------------------------------------------------*/
@@ -342,8 +348,15 @@ fitness_objective_t *fitness_config_add(fitness_config_t *cfg, int meas_index)
 
 	if (meas_index < 0 || meas_index >= MEAS_COUNT)
 	{
-		pr_err("fitness_config_add: invalid meas_index %d\n", meas_index);
-		abort();
+		BUG("measurement index %d outside [0,%d)\n", meas_index, MEAS_COUNT);
+		return NULL;
+	}
+
+	if (meas_fitness_defaults[meas_index].goal_ineligible)
+	{
+		BUG("measurement %d is unavailable as an optimization goal\n",
+			meas_index);
+		return NULL;
 	}
 
 	mem_array_reserve(&cfg->obj, cfg->num_obj + 1, FITNESS_OBJ_INIT_CAP);

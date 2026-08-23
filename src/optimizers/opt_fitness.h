@@ -20,6 +20,8 @@
 #ifndef OPT_FITNESS_H
 #define OPT_FITNESS_H 1
 
+#include <stdbool.h>
+
 #include "../measurements.h"
 
 /** Tension constant for residual gradient past met objectives.
@@ -94,6 +96,9 @@ typedef struct
 	double                   default_target;
 	double                   default_weight;
 	double                   default_exponent;
+
+	/* Exclude the measurement from optimization goals. */
+	bool                     goal_ineligible;
 } meas_fitness_default_t;
 
 /** Per-measurement fitness defaults, indexed by MEASUREMENT_INDEXES */
@@ -149,7 +154,8 @@ void fitness_config_init(fitness_config_t *cfg);
  * @cfg: config to modify
  * @meas_index: MEASUREMENT_INDEXES value for the new objective
  *
- * Returns pointer to the new objective for further customization.
+ * Returns pointer to the new objective for further customization, or NULL
+ * when the measurement is unavailable as a goal.
  */
 fitness_objective_t *fitness_config_add(fitness_config_t *cfg, int meas_index);
 

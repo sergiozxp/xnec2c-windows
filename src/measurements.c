@@ -467,6 +467,7 @@ const char *meas_names[] = {
 	[MEAS_ANT_TEMP]        =  "ant_temp",
 	[MEAS_ANT_TEMP_TOT]   =  "ant_temp_tot",
 	[MEAS_GT]              =  "gt",
+	[MEAS_PRECISION_LOST]  =  "precision_lost",
 	[MEAS_COUNT]            =  NULL
 };
 
@@ -497,6 +498,7 @@ const char *meas_display_names[] = {
 	[MEAS_ANT_TEMP]        =  "Ta",
 	[MEAS_ANT_TEMP_TOT]   =  "TA",
 	[MEAS_GT]              =  "G/Ta",
+	[MEAS_PRECISION_LOST]  =  N_("Precision Lost"),
 	[MEAS_COUNT]            =  NULL
 };
 
@@ -527,6 +529,7 @@ const char *meas_descriptions[] = {
 	[MEAS_ANT_TEMP]        =  "Antenna noise temperature Ta from sky/earth brightness (K)",
 	[MEAS_ANT_TEMP_TOT]   =  "Total system noise temperature TA including ohmic loss (K)",
 	[MEAS_GT]              =  "Gain-to-antenna-temperature ratio (dB), excludes loss",
+	[MEAS_PRECISION_LOST]  =  "Decimal digits of precision lost solving the antenna",
 	[MEAS_COUNT]            =  NULL
 };
 
@@ -549,6 +552,11 @@ static void _meas_calc(measurement_t *m, int idx, int port)
 		m->a[i] = -1;
 
 	m->mhz = save.freq[idx];
+
+	/* Precision lost in decimal digits, capped at what a double carries */
+	double u_ratio = solver_cond[idx];
+	m->precision_lost = (fpclassify(u_ratio) == FP_ZERO) ?
+		PRECISION_LOST_MAX : fmin(-log10(u_ratio), PRECISION_LOST_MAX);
 
 	/* Feedpoint-less excitations leave the per-port impedance buffers
 	 * NULL, so impedance-derived fields keep the invalid value (-1)

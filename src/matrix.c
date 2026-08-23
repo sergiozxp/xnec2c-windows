@@ -1159,10 +1159,10 @@ int factr_gauss_elim( int n, complex double *a, int *ip, int ndim)
   complex double arj, *scm = NULL;
   mem_array_alloc(&scm, data.np2m);
 
-  // Notice: Un-transposition of the matrix for Gauss elimination 
+  // Notice: Un-transposition of the matrix for Gauss elimination
   // was previously performed in this function from the original NEC2
   // code but has been moved to the factr() function because the LAPACK
-  // and OpenBLAS calls need it too.  See the for(i,j) nested loop at the 
+  // and OpenBLAS calls need it too.  See the for(i,j) nested loop at the
   // top of factr().
 
   iflg=FALSE;
@@ -1279,13 +1279,34 @@ int factr( int n, complex double *a, int *ip, int ndim)
 
 /*-----------------------------------------------------------------------*/
 
+/* lu_diag_ratio() returns the smallest over largest |u(i,i)| of a factored */
+/* block, or zero when a diagonal is exactly zero.  The Gauss path and every */
+/* loadable library leave U at a[i+i*ndim], so the scan runs once per block */
+/* outside the elimination loops. */
+static double lu_diag_ratio( int n, const complex double *a, int ndim )
+{
+  double lo = HUGE_VAL, hi = 0.0, elmag;
+  int i;
+
+  for( i = 0; i < n; i++ )
+  {
+    elmag = cabs( a[i+i*ndim] );
+    lo = (elmag < lo) ? elmag : lo;
+    hi = (elmag > hi) ? elmag : hi;
+  }
+
+  return (fpclassify( hi ) == FP_ZERO) ? 0.0 : lo/ hi;
+}
+
 /* factrs, for symmetric structure, transforms submatricies to form */
 /* matricies of the symmetric modes and calls routine to factor */
 /* matricies.  if no symmetry, the routine is called to factor the */
 /* complete matrix. */
-  void
+/* Returns the smallest pivot ratio over the factored blocks. */
+  double
 factrs( int np, int nrow, complex double *a, int *ip )
 {
+  double ratio = 1.0;
   int kk, ka;
 
   smat.nop = nrow/np;
@@ -1293,8 +1314,10 @@ factrs( int np, int nrow, complex double *a, int *ip )
   {
     ka= kk* np;
     factr( np, &a[ka], &ip[ka], nrow );
+    ratio = fmin( ratio, lu_diag_ratio( np, &a[ka], nrow ) );
   }
-  return;
+
+  return ratio;
 }
 
 /*-----------------------------------------------------------------------*/

@@ -9868,6 +9868,24 @@ Save NEC2 Editor data first?
                     <property name="position">7</property>
                   </packing>
                 </child>
+                <child>
+                  <object class="GtkToggleButton" id="freqplots_cond_togglebutton">
+                    <property name="label" translatable="yes">Cond</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="tooltip-text" translatable="yes">Plots the precision lost solving the antenna at each frequency, in decimal digits.
+Values appear once a frequency sweep has produced results.
+Read it against the impedance and VSWR traces: a flat low curve means those traces are sound, while a peak marks a frequency where the solve degraded, so a sharp impedance excursion at that same frequency is a numerical artefact rather than a resonance.
+A double carries about 15 digits, so a reading of 3 leaves 12 sound ones and a reading near 15 leaves none; shorten or thicken the offending segments and run the sweep again to bring the curve down.</property>
+                    <signal name="toggled" handler="on_config_widget_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">8</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>

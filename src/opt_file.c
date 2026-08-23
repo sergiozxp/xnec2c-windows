@@ -530,7 +530,14 @@ static void load_goal_groups(GKeyFile *kf)
 		g_free(str);
 		if (idx < 0 || idx >= MEAS_COUNT)
 		{
-			pr_err("opt_file_load: unknown metric in [%s]\n",
+			BUG("opt_file_load: unknown metric in [%s]\n",
+				groups[i]);
+			continue;
+		}
+
+		if (meas_fitness_defaults[idx].goal_ineligible)
+		{
+			BUG("metric is not an optimization goal in [%s]\n",
 				groups[i]);
 			continue;
 		}

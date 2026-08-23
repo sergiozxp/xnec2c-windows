@@ -129,6 +129,9 @@ static int test_max_gain_idx[NUM_POL];
 static impedance_data_t test_impedance[1];
 static rad_pattern_t test_rad_pattern[1];
 
+/* Well-conditioned factorization, so the projection reports no loss. */
+static double test_solver_cond[1] = { 1.0 };
+
 /**
  * setup_globals() - point the NEC result globals at one synthetic case
  * @tc: case supplying feedpoint impedance and gain
@@ -160,6 +163,7 @@ static void setup_globals(const touchstone_case_t *tc)
 	test_rad_pattern[0].efficiency = 1.0;
 
 	impedance_data = test_impedance;
+	solver_cond = test_solver_cond;
 	rad_pattern = test_rad_pattern;
 	save.freq = test_freq;
 	save.fstep = test_fstep;

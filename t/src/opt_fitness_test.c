@@ -612,6 +612,10 @@ static void test_defaults_table(void)
 	/* Verify all measurement defaults have sensible values */
 	for (i = 0; i < MEAS_COUNT; i++)
 	{
+		/* Measurements barred from goals carry no goal defaults */
+		if (meas_fitness_defaults[i].goal_ineligible)
+			continue;
+
 		ASSERT_TRUE(meas_fitness_defaults[i].default_exponent > 0.0,
 			"default exponent positive");
 		ASSERT_TRUE(meas_fitness_defaults[i].default_reduce >= 0
