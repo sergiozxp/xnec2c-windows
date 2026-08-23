@@ -98,9 +98,10 @@ opengl_structure_set_radius_scale(double scale)
  * @event: scroll event
  * @surface: surface of the scrolled view
  *
- * Shared by the structure and rdpattern input rows.
+ * Reached through the wire-radius capability, which the structure and
+ * rdpattern input rows both offer.
  */
-  gboolean
+  static gboolean
 opengl_structure_on_ctrl_scroll(
     GdkEventScroll *event, render_surface_t *surface)
 {
@@ -161,7 +162,12 @@ opengl_structure_on_ctrl_scroll(
 
 /*-----------------------------------------------------------------------*/
 
-const char opengl_structure_ctrl_scroll_notice[] = "Ctrl+Scroll: Wire Radius";
+/* Ctrl+scroll adjusts the wire radius of structure geometry, which the
+ * radiation-pattern overlay presents alongside its own content */
+const surface_capability_t opengl_structure_wire_radius_cap = {
+  .handler = opengl_structure_on_ctrl_scroll,
+  .notice  = "Ctrl+Scroll: Wire Radius"
+};
 
 /*-----------------------------------------------------------------------*/
 
@@ -262,11 +268,9 @@ opengl_structure_ground_plane_is_active(void *_ctx)
 
 /*-----------------------------------------------------------------------*/
 
-/* Modifier scroll operations of the structure domain */
+/* Modifier scroll capabilities of the structure domain */
 static const surface_input_ops_t structure_input_ops = {
-  .on_shift_scroll     = NULL,
-  .on_ctrl_scroll      = opengl_structure_on_ctrl_scroll,
-  .ctrl_scroll_notice  = opengl_structure_ctrl_scroll_notice
+  .ctrl = &opengl_structure_wire_radius_cap
 };
 
 /* Static view configuration */

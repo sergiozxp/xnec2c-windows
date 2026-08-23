@@ -38,19 +38,23 @@
 #include "../structure_ui.h"
 #include "../themes/theme.h"
 
-/* Last render_check result for the rdpattern view; updated by render() on every call */
+/* Last render_check result for the rdpattern view; render() stores it on each rdpattern call */
 static render_check_result_t last_rdpat_check;
 
 /**
- * render_check_rdpat() - Return cached rdpattern precondition result
+ * render_last_rdpattern_check() - Return the stored rdpattern precondition result
  *
- * Returns a pointer to the result of the most recent render(VIEW_RDPATTERN)
- * call.  Consumers (overlay provider, shift-scroll handler, draw handlers)
- * read mode and overlay_active from this cache instead of re-evaluating
- * content-selection flags.  Valid after the first rdpattern render() call.
+ * Returns the result of the most recent render(VIEW_RDPATTERN) call, which
+ * render() resolves while holding freq_data_lock.  The overlay shift-scroll
+ * handler in rdpattern_ui.c reads mode and overlay_active from here holding
+ * no lock; both sites run on the GTK main thread, so the read meets no
+ * concurrent writer.
+ *
+ * mode is assigned only after every precondition passes, so a call that
+ * produced no frame leaves RENDER_MODE_NONE for the reader to decline.
  */
 const render_check_result_t *
-render_check_rdpat(void)
+render_last_rdpattern_check(void)
 {
   return &last_rdpat_check;
 }

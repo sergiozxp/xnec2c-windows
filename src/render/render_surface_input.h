@@ -22,21 +22,27 @@
 
 #include "render_engine.h"
 
-/* Modifier scroll operations the constructing site supplies.  A NULL member
- * declines that modifier, which the generic handler then treats as an
- * unmodified event. */
+/* One scroll capability: the handler applying it bound to the notice
+ * advertising it.  A capability is const with process lifetime and rows
+ * borrow it. */
 typedef struct
 {
-  gboolean (*on_shift_scroll)(GdkEventScroll *event, render_surface_t *surface);
-  gboolean (*on_ctrl_scroll)(GdkEventScroll *event, render_surface_t *surface);
+  gboolean (*handler)(GdkEventScroll *event, render_surface_t *surface);
 
-  /* Notice advertising the ctrl+scroll capability, presented on the first
-   * frame of the session that offers it */
-  const char *ctrl_scroll_notice;
+  /* Text advertising the capability, presented on the first frame of the
+   * session that offers it by engines presenting notices; the Cairo engine
+   * presents none */
+  const char *notice;
 
-  /* Notice advertising the shift+scroll capability, presented on the first
-   * frame of the session carrying the overlay geometry it scales */
-  const char *shift_scroll_notice;
+} surface_capability_t;
+
+/* Modifier scroll capabilities the constructing site supplies.  A NULL
+ * member declines that modifier, which the generic handler then treats as
+ * an unmodified event. */
+typedef struct
+{
+  const surface_capability_t *ctrl;
+  const surface_capability_t *shift;
 
 } surface_input_ops_t;
 

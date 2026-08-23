@@ -631,33 +631,31 @@ rdpattern_view_changed_cb(view_t *v, gpointer _user_data)
 
 /**
  * rdpattern_overlay_shift_scroll() - Adjust overlay structure scale from scroll input
- * @dir:      GDK_SCROLL_UP or GDK_SCROLL_DOWN
- * @vp_w:     viewport width in pixels
- * @vp_h:     viewport height in pixels
- * @zoom_pct: current overlay scale as percentage (rdpattern_overlay_scale_adj * 100.0)
+ * @dir:  GDK_SCROLL_UP or GDK_SCROLL_DOWN, the caller admitting no other
+ *        direction
+ * @view: view whose viewport dimensions scale the increment
  *
- * Reads the cached dispatch result to gate on overlay_active and far-field mode.
+ * Reads the stored dispatch result to gate on overlay_active and far-field mode.
  * Mutates rc_config.rdpattern_overlay_scale_adj and queues a rdpattern redraw.
  * Returns TRUE when the event was consumed.
  */
-  gboolean
-rdpattern_overlay_shift_scroll(GdkScrollDirection dir,
-    int vp_w, int vp_h, double zoom_pct)
+  static gboolean
+rdpattern_overlay_shift_scroll(GdkScrollDirection dir, const view_t *view)
 {
-  const render_check_result_t *rc = render_check_rdpat();
+  const render_check_result_t *rc = render_last_rdpattern_check();
   double scale;
 
   if( !rc->overlay_active || rc->mode != RENDER_MODE_FARFIELD )
     return FALSE;
 
-  scale = compute_zoom_scale(vp_w, vp_h, zoom_pct);
+  scale = compute_zoom_scale(view->width, view->height,
+      rc_config.rdpattern_overlay_scale_adj * 100.0);
 
+  /* The caller admits up and down alone, leaving down as the else */
   if( dir == GDK_SCROLL_UP )
     rc_config.rdpattern_overlay_scale_adj *= (1.0 + 0.1 * scale);
-  else if( dir == GDK_SCROLL_DOWN )
-    rc_config.rdpattern_overlay_scale_adj /= (1.0 + 0.1 * scale);
   else
-    return FALSE;
+    rc_config.rdpattern_overlay_scale_adj /= (1.0 + 0.1 * scale);
 
   Queue_Radiation_Redraw(TRUE);
 
@@ -666,43 +664,43 @@ rdpattern_overlay_shift_scroll(GdkScrollDirection dir,
 
 /*-----------------------------------------------------------------------*/
 
-/* Notice advertising the shift+scroll overlay-scale capability */
-const char rdpattern_shift_scroll_notice[] = "Shift+Scroll to Scale Structure";
-
 /**
  * rdpattern_shift_scroll() - Scale the overlay structure from a scroll event
  * @event: scroll event carrying the shift modifier
  * @surface: surface of the scrolled view, naming the viewport the scale reads
  */
-  gboolean
+  static gboolean
 rdpattern_shift_scroll(GdkEventScroll *event, render_surface_t *surface)
 {
-  const view_t *view;
   scroll_step_t s;
 
   if( surface == NULL )
     return( FALSE );
 
-  view = surface->view;
   s = scroll_step_from_deltas((GdkEvent *)event);
 
   if( !s.active ||
       (s.direction != GDK_SCROLL_UP && s.direction != GDK_SCROLL_DOWN) )
     return( FALSE );
 
-  return( rdpattern_overlay_shift_scroll(s.direction,
-        view->width, view->height,
-        rc_config.rdpattern_overlay_scale_adj * 100.0) );
+  return( rdpattern_overlay_shift_scroll(s.direction, surface->view) );
 
 } /* rdpattern_shift_scroll() */
 
 /*-----------------------------------------------------------------------*/
 
-/* Modifier scroll operations the Cairo radiation-pattern surface offers;
+/* Shift+scroll scales the structure overlay the far-field pattern carries */
+const surface_capability_t rdpattern_overlay_scale_cap = {
+  .handler = rdpattern_shift_scroll,
+  .notice  = "Shift+Scroll to Scale Structure"
+};
+
+/*-----------------------------------------------------------------------*/
+
+/* Modifier scroll capabilities the Cairo radiation-pattern surface offers;
  * cylinder geometry belongs to the OpenGL engine, so ctrl+scroll is declined */
 const surface_input_ops_t rdpattern_cairo_input = {
-  .on_shift_scroll     = rdpattern_shift_scroll,
-  .shift_scroll_notice = rdpattern_shift_scroll_notice
+  .shift = &rdpattern_overlay_scale_cap
 };
 
 /*-----------------------------------------------------------------------*/

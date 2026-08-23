@@ -376,12 +376,10 @@ rdpattern_content_cleanup(void)
 
 /*-----------------------------------------------------------------------*/
 
-/* Modifier scroll operations of the radiation-pattern domain */
+/* Modifier scroll capabilities of the radiation-pattern domain */
 static const surface_input_ops_t rdpattern_input_ops = {
-  .on_shift_scroll     = rdpattern_shift_scroll,
-  .shift_scroll_notice = rdpattern_shift_scroll_notice,
-  .on_ctrl_scroll      = opengl_structure_on_ctrl_scroll,
-  .ctrl_scroll_notice  = opengl_structure_ctrl_scroll_notice
+  .ctrl  = &opengl_structure_wire_radius_cap,
+  .shift = &rdpattern_overlay_scale_cap
 };
 
 /* Static view configuration */

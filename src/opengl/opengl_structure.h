@@ -22,6 +22,7 @@
 
 #include "common.h"
 #include "../render/render_dispatch.h"
+#include "../render/render_surface_input.h"
 
 /* Flow direction visualization mode for patch currents */
 typedef enum
@@ -100,13 +101,9 @@ extern const render_ops_t gl_ops;
 double opengl_structure_get_radius_scale(void);
 void opengl_structure_set_radius_scale(double scale);
 
-/* Ctrl+scroll handler for adjusting cylinder radius scale.
- * Usable by any view that presents structure geometry. */
-gboolean opengl_structure_on_ctrl_scroll(
-    GdkEventScroll *event, render_surface_t *surface);
-
-/* Notice advertising the ctrl+scroll radius capability */
-extern const char opengl_structure_ctrl_scroll_notice[];
+/* Ctrl+scroll capability adjusting cylinder radius scale.
+ * Offered by any view that presents structure geometry. */
+extern const surface_capability_t opengl_structure_wire_radius_cap;
 
 /* Update shared geometry buffer using dispatch-resolved draw parameters. */
 void opengl_structure_update_shared_geometry_with_params(const struct_draw_params_t *params);

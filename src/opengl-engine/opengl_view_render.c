@@ -101,10 +101,10 @@ gl_view_show_ctrl_notice(gl_view_state_t *state)
   static gboolean ctrl_shown = FALSE;
   const surface_input_ops_t *input = state->base.input;
 
-  if( input == NULL )
+  if( input == NULL || input->ctrl == NULL )
     return;
 
-  gl_view_notice_once(state, input->ctrl_scroll_notice, &ctrl_shown);
+  gl_view_notice_once(state, input->ctrl->notice, &ctrl_shown);
 
 } /* gl_view_show_ctrl_notice() */
 
@@ -123,10 +123,11 @@ gl_view_show_scale_notice(gl_view_state_t *state)
   const surface_input_ops_t *input = state->base.input;
   const gl_view_content_t *overlay = state->overlay_content;
 
-  if( input == NULL || overlay == NULL || overlay->batch_count <= 0 )
+  if( input == NULL || overlay == NULL || overlay->batch_count <= 0 ||
+      input->shift == NULL )
     return;
 
-  gl_view_notice_once(state, input->shift_scroll_notice, &scale_shown);
+  gl_view_notice_once(state, input->shift->notice, &scale_shown);
 
 } /* gl_view_show_scale_notice() */
 

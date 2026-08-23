@@ -120,31 +120,48 @@ on_motion(GtkWidget *_widget, GdkEventMotion *event, gpointer user_data)
 /*-----------------------------------------------------------------------*/
 
 /**
- * on_scroll() - Apply a modifier operation or adjust the primary zoom
- * @_widget: signal source, unread: the surface carries the widget
- * @event: scroll event
- * @user_data: surface presenting the scrolled widget
+ * scroll_capability() - Select the capability a modifier state requests
+ * @input: modifier capabilities of the scrolled surface, or NULL when none
+ * @state: modifier mask carried by the scroll event
  *
- * A modifier the surface declines leaves the event to the zoom path below.
+ * Ctrl precedes shift where the row offers it, so a chord holding both
+ * requests the ctrl capability and falls to shift where the row declines
+ * ctrl.  Returns NULL when the surface declines the modifier, leaving the
+ * event to the zoom path.
+ */
+  static const surface_capability_t *
+scroll_capability(const surface_input_ops_t *input, guint state)
+{
+  const surface_capability_t *cap;
+
+  if( input == NULL )
+    cap = NULL;
+  else if( (state & GDK_CONTROL_MASK) != 0 && input->ctrl != NULL )
+    cap = input->ctrl;
+  else if( (state & GDK_SHIFT_MASK) != 0 )
+    cap = input->shift;
+  else
+    cap = NULL;
+
+  return( cap );
+
+} /* scroll_capability() */
+
+/*-----------------------------------------------------------------------*/
+
+/**
+ * surface_zoom_scroll() - Adjust the primary zoom from a scroll event
+ * @view: view whose bound spin button owns the zoom
+ * @event: scroll event
+ *
  * Zoom travels through the view's bound spin button, whose value-changed
- * handler owns the view zoom.
+ * handler owns the view zoom.  Returns TRUE when the event was consumed.
  */
   static gboolean
-on_scroll(GtkWidget *_widget, GdkEventScroll *event, gpointer user_data)
+surface_zoom_scroll(const view_t *view, GdkEventScroll *event)
 {
-  render_surface_t *surface = (render_surface_t *)user_data;
-  const surface_input_ops_t *input = surface->input;
-  const view_t *view = surface->view;
   double value, scale;
   scroll_step_t s;
-
-  if( input != NULL && (event->state & GDK_CONTROL_MASK) &&
-      input->on_ctrl_scroll != NULL )
-    return( input->on_ctrl_scroll(event, surface) );
-
-  if( input != NULL && (event->state & GDK_SHIFT_MASK) &&
-      input->on_shift_scroll != NULL )
-    return( input->on_shift_scroll(event, surface) );
 
   s = scroll_step_from_deltas((GdkEvent *)event);
 
@@ -166,6 +183,28 @@ on_scroll(GtkWidget *_widget, GdkEventScroll *event, gpointer user_data)
   gtk_spin_button_set_value(view->zoom_spin, value);
 
   return( TRUE );
+
+} /* surface_zoom_scroll() */
+
+/*-----------------------------------------------------------------------*/
+
+/**
+ * on_scroll() - Apply a modifier capability or adjust the primary zoom
+ * @_widget: signal source, unread: the surface carries the widget
+ * @event: scroll event
+ * @user_data: surface presenting the scrolled widget
+ *
+ * A modifier the surface declines leaves the event to the zoom path.
+ */
+  static gboolean
+on_scroll(GtkWidget *_widget, GdkEventScroll *event, gpointer user_data)
+{
+  render_surface_t *surface = (render_surface_t *)user_data;
+  const surface_capability_t *cap =
+    scroll_capability(surface->input, event->state);
+
+  return( cap != NULL ? cap->handler(event, surface)
+                      : surface_zoom_scroll(surface->view, event) );
 
 } /* on_scroll() */
 

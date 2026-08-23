@@ -30,34 +30,11 @@ void ant_temp_entry_set_unresolved(GtkWidget *entry);
 double Scale_Gain(double gain, int fstep, int idx);
 double Inverse_Scale_Gain(double scaled_val);
 
-/**
- * rdpattern_overlay_shift_scroll() - Adjust overlay structure scale from scroll input
- * @dir:      GDK_SCROLL_UP or GDK_SCROLL_DOWN
- * @vp_w:     viewport width in pixels
- * @vp_h:     viewport height in pixels
- * @zoom_pct: current overlay scale as percentage (rdpattern_overlay_scale_adj * 100.0)
- *
- * Gates on cached dispatch result: overlay_active and RENDER_MODE_FARFIELD.
- * Mutates rc_config.rdpattern_overlay_scale_adj and queues a rdpattern redraw.
- * Returns TRUE when the event was consumed, FALSE otherwise.
- */
 void rdpattern_view_changed_cb(view_t *v, gpointer user_data);
 
-gboolean rdpattern_overlay_shift_scroll(GdkScrollDirection dir,
-    int vp_w, int vp_h, double zoom_pct);
-
-/**
- * rdpattern_shift_scroll() - Scale the overlay structure from a scroll event
- * @event: scroll event carrying the shift modifier
- * @surface: surface of the scrolled view, naming the viewport the scale reads
- *
- * Serves the shift+scroll row of every engine presenting the pattern view.
- */
-gboolean rdpattern_shift_scroll(GdkEventScroll *event,
-    render_surface_t *surface);
-
-/* Notice advertising the shift+scroll overlay-scale capability */
-extern const char rdpattern_shift_scroll_notice[];
+/* Shift+scroll capability scaling the structure overlay, offered by every
+ * engine presenting the radiation-pattern view */
+extern const surface_capability_t rdpattern_overlay_scale_cap;
 
 /* Modifier scroll operations the Cairo radiation-pattern surface offers */
 extern const surface_input_ops_t rdpattern_cairo_input;

@@ -166,14 +166,15 @@ typedef struct render_ops_s
 render_check_result_t render_check(view_type_t view_type);
 
 /**
- * render_check_rdpat() - Return cached rdpattern precondition result
+ * render_last_rdpattern_check() - Return the stored rdpattern precondition result
  *
- * Returns a pointer to the render_check_result_t from the most recent
- * render() call for VIEW_RDPATTERN.  Consumers read mode and overlay_active
- * from this cache instead of re-evaluating content-selection flags.  Valid
- * after the first rdpattern render() call.
+ * Returns the render_check_result_t from the most recent render() call for
+ * VIEW_RDPATTERN, which render() resolves under freq_data_lock.  The overlay
+ * shift-scroll handler reads mode and overlay_active from it holding no
+ * lock; both sites run on the GTK main thread.  Before the first rdpattern
+ * render() the stored mode is RENDER_MODE_NONE.
  */
-const render_check_result_t *render_check_rdpat(void);
+const render_check_result_t *render_last_rdpattern_check(void);
 
 /**
  * render_overlay_model_scale() - Resolve the effective overlay model scale
