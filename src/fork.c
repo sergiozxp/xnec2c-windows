@@ -358,6 +358,7 @@ static size_t size_npm_dbl(void)        { return (size_t)data.npm  * sizeof(doub
 static size_t size_np3m_cdbl(void)      { return (size_t)data.np3m * sizeof(complex double); }
 static size_t size_nphth_dbl(void)      { return (size_t)(fpat.nph * fpat.nth) * sizeof(double); }
 static size_t size_nphth_int(void)      { return (size_t)(fpat.nph * fpat.nth) * sizeof(int); }
+static size_t size_nphth_phasor(void)   { return (size_t)(fpat.nph * fpat.nth) * sizeof(ff_phasor_t); }
 static size_t size_n_ports_dbl(void)    { return (size_t)Num_Feedpoint_Ports() * sizeof(double); }
 static size_t size_nf_points(void)      { return (size_t)(fpat.nrx * fpat.nry * fpat.nrz) * sizeof(near_field_point_t); }
 static size_t size_patch_flow(void)     { return (size_t)data.m  * 4 * sizeof(float); }
@@ -419,6 +420,7 @@ freq_fields_xfer(int fstep, int pipe_idx, pipe_fn_t pipe_fn)
     { rad_pattern[fstep].max_gain_idx, NULL,           NUM_POL * sizeof(int),    FREQ_COND_RDPAT  },
     { rad_pattern[fstep].min_gain_idx, NULL,           NUM_POL * sizeof(int),    FREQ_COND_RDPAT  },
     { rad_pattern[fstep].sens,         size_nphth_int, 0,                        FREQ_COND_RDPAT  },
+    { rad_pattern[fstep].phasor,       size_nphth_phasor, 0,                     FREQ_COND_RDPAT  },
     { &rad_pattern[fstep].efficiency,  NULL,           sizeof(double),           FREQ_COND_RDPAT  },
     /* Per-fstep noise temperature table (allocated alongside rad_pattern[]) */
     { &noise_temp[fstep],              NULL,              sizeof(noise_temp_t),  FREQ_COND_RDPAT  },

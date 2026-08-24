@@ -117,13 +117,13 @@ ff_presentation_recompute(int fstep)
   double color_gain = (actual_gain < COLOR_MIN_GAIN) ? COLOR_MIN_GAIN : actual_gain;
   r_min = Scale_Gain_Resolved(color_gain, fstep, idx, t_sky, t_earth);
 
-  /* Noise-mode rotation parameters */
-  double rot_tht_mg = 0.0, rot_phi_mg = 0.0, rot_elev = 0.0;
+  /* Noise-mode rotation parameters; the rotation is published on fp so the
+   * far-zone field resolver carries its tangents into this same frame. */
+  fp->rotation = (ff_rotation_t){ 0 };
   if( noise_mode )
   {
-    rot_tht_mg = rad_pattern[fstep].max_gain_tht[pol] * (double)TORAD;
-    rot_phi_mg = rad_pattern[fstep].max_gain_phi[pol] * (double)TORAD;
-    rot_elev   = rc_config.ant_temp_elevation * (double)TORAD;
+    fp->rotation.axis_phi = rad_pattern[fstep].max_gain_phi[pol] * (double)TORAD;
+    fp->rotation.angle    = rc_config.ant_temp_elevation * (double)TORAD;
   }
 
   pts_idx = 0;
@@ -138,14 +138,14 @@ ff_presentation_recompute(int fstep)
 
       fp->vertices[pts_idx].r = r;
 
-      if( noise_mode && rot_elev != 0.0 )
+      if( ff_rotation_tilted(&fp->rotation) )
       {
         /* Reconstruct angles from integer step to avoid accumulation drift */
         double theta_r = (fpat.thets + nth * fpat.dth) * (double)TORAD;
         double phi_r   = (fpat.phis  + nph * fpat.dph) * (double)TORAD;
         double xr, yr, zr;
         ant_temp_rotate_point(theta_r, phi_r,
-            rot_tht_mg, rot_phi_mg, rot_elev,
+            fp->rotation.axis_phi, fp->rotation.angle,
             &xr, &yr, &zr);
         fp->vertices[pts_idx].x = r * xr;
         fp->vertices[pts_idx].y = r * yr;

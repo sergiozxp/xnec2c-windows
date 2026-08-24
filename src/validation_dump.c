@@ -112,12 +112,13 @@ static void dump_measurements(FILE *fp)
 
 /* rdpat.csv
  * mhz, fstep, phi_idx, theta_idx, phi, theta,
- * gtot, tilt, axrt, gain_horiz, gain_vert, gain_rhcp, gain_lhcp, sens */
+ * gtot, tilt, axrt, gain_horiz, gain_vert, gain_rhcp, gain_lhcp, sens,
+ * polarization_factor_total, eth_mag, eth_ang, eph_mag, eph_ang */
 static void dump_rdpat(FILE *fp)
 {
 	fprintf(fp, "mhz,fstep,phi_idx,theta_idx,phi,theta,"
 		"gtot,tilt,axrt,gain_horiz,gain_vert,gain_rhcp,gain_lhcp,sens,"
-		"polarization_factor_total\n");
+		"polarization_factor_total,eth_mag,eth_ang,eph_mag,eph_ang\n");
 
 	if (!isFlagSet(ENABLE_RDPAT))
 		return;
@@ -140,9 +141,11 @@ static void dump_rdpat(FILE *fp)
 			for (int nth = 0; nth < fpat.nth; nth++)
 			{
 				double gtot = rad_pattern[fs].gtot[idx];
+				const ff_phasor_t *ph = &rad_pattern[fs].phasor[idx];
 
 				fprintf(fp, "%.6f,%d,%d,%d,%.17g,%.17g,"
-					"%.17g,%.17g,%.17g,%.17g,%.17g,%.17g,%.17g,%d,%.17g\n",
+					"%.17g,%.17g,%.17g,%.17g,%.17g,%.17g,%.17g,%d,%.17g,"
+					"%.17g,%.17g,%.17g,%.17g\n",
 					save.freq[fs], fs, nph, nth,
 					phi * TODEG, theta * TODEG,
 					gtot,
@@ -153,7 +156,9 @@ static void dump_rdpat(FILE *fp)
 					gtot + Polarization_Factor(POL_RHCP,  fs, idx),
 					gtot + Polarization_Factor(POL_LHCP,  fs, idx),
 					rad_pattern[fs].sens[idx],
-					Polarization_Factor(POL_TOTAL, fs, idx));
+					Polarization_Factor(POL_TOTAL, fs, idx),
+					cabs(ph->eth), carg(ph->eth),
+					cabs(ph->eph), carg(ph->eph));
 
 				theta += dth;
 				idx++;
@@ -397,9 +402,9 @@ static void dump_nf_pre(FILE *fp)
 		if (!save.fstep[fs] || !NF_FSTEP_AVAILABLE(fs))
 			continue;
 
-		nf_frame_t ef = chroma_proj_frame_nearfield(fs, NF_CHAN_E);
-		nf_frame_t hf = chroma_proj_frame_nearfield(fs, NF_CHAN_H);
-		nf_frame_t pf = chroma_proj_frame_nearfield(fs, NF_CHAN_POV);
+		field_frame_t ef = chroma_proj_frame_nearfield(fs, NF_CHAN_E);
+		field_frame_t hf = chroma_proj_frame_nearfield(fs, NF_CHAN_H);
+		field_frame_t pf = chroma_proj_frame_nearfield(fs, NF_CHAN_POV);
 
 		/* Peak Poynting magnitude over the static real vectors */
 		near_field_t *nf = &near_field_fstep[fs];
@@ -417,9 +422,9 @@ static void dump_nf_pre(FILE *fp)
 
 		for (int i = 0; i < npts; i++)
 		{
-			nf_vector_t e = ef.vecs ? ef.vecs[i] : (nf_vector_t){0};
-			nf_vector_t h = hf.vecs ? hf.vecs[i] : (nf_vector_t){0};
-			nf_vector_t p = pf.vecs ? pf.vecs[i] : (nf_vector_t){0};
+			field_vector_t e = ef.vecs ? ef.vecs[i] : (field_vector_t){0};
+			field_vector_t h = hf.vecs ? hf.vecs[i] : (field_vector_t){0};
+			field_vector_t p = pf.vecs ? pf.vecs[i] : (field_vector_t){0};
 			rgb_f_t ec = ef.colors ? ef.colors[i] : (rgb_f_t){0};
 			rgb_f_t hc = hf.colors ? hf.colors[i] : (rgb_f_t){0};
 			rgb_f_t pc = pf.colors ? pf.colors[i] : (rgb_f_t){0};

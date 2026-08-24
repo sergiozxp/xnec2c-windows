@@ -95,38 +95,30 @@ static inline double ant_temp_z_world(
 }
 
 /**
- * ant_temp_rotate_point() - Rodrigues rotation of a pattern cell direction
- * @tht:      NEC theta of the cell (radians)
- * @phi:      NEC phi of the cell (radians)
- * @tht_mg:   NEC theta of the max-gain direction (radians)
+ * ant_temp_rotate_vector() - Rodrigues rotation of a pattern-space vector
+ * @vx:       x component to rotate
+ * @vy:       y component to rotate
+ * @vz:       z component to rotate
  * @phi_mg:   NEC phi of the max-gain direction (radians)
  * @elev_rad: desired boresight elevation above horizontal (radians)
  * @xr:       output rotated x component
  * @yr:       output rotated y component
  * @zr:       output rotated z component
  *
- * Applies the same Rodrigues rotation as ant_temp_z_world() but returns
- * the full rotated Cartesian direction vector.  Used by the noise-mode
- * renderer to place pattern cells at visually rotated positions so the
- * sky/earth boundary appears horizontal while the pattern tilts upward.
+ * Carries the noise-mode display rotation as a linear operator over any
+ * Cartesian vector.  Cell directions take it through ant_temp_rotate_point();
+ * the far-zone field tangents take it directly, so a drawn arrow points in
+ * the frame of the surface it attaches to.
  *
  * Rotation axis: k = (-sin phi_mg, cos phi_mg, 0)
  * Rotation angle: elev_rad
  * Formula: v' = v cos E + (k x v) sin E + k (k . v)(1 - cos E)
  */
-static inline void ant_temp_rotate_point(
-		double tht, double phi,
-		double tht_mg, double phi_mg,
-		double elev_rad,
+static inline void ant_temp_rotate_vector(
+		double vx, double vy, double vz,
+		double phi_mg, double elev_rad,
 		double *xr, double *yr, double *zr)
 {
-	/* Original Cartesian direction from spherical (θ, φ) */
-	double st = sin(tht), ct = cos(tht);
-	double sp = sin(phi), cp = cos(phi);
-	double vx = st * cp;
-	double vy = st * sp;
-	double vz = ct;
-
 	/* Rotation axis k = (-sin φ_mg, cos φ_mg, 0) */
 	double kx = -sin(phi_mg);
 	double ky =  cos(phi_mg);
@@ -145,6 +137,34 @@ static inline void ant_temp_rotate_point(
 	*xr = vx * ce + cx * se + kx * dot * (1.0 - ce);
 	*yr = vy * ce + cy * se + ky * dot * (1.0 - ce);
 	*zr = vz * ce + cz * se;
+}
+
+/**
+ * ant_temp_rotate_point() - Rodrigues rotation of a pattern cell direction
+ * @tht:      NEC theta of the cell (radians)
+ * @phi:      NEC phi of the cell (radians)
+ * @phi_mg:   NEC phi of the max-gain direction (radians)
+ * @elev_rad: desired boresight elevation above horizontal (radians)
+ * @xr:       output rotated x component
+ * @yr:       output rotated y component
+ * @zr:       output rotated z component
+ *
+ * Applies the same Rodrigues rotation as ant_temp_z_world() but returns
+ * the full rotated Cartesian direction vector.  Used by the noise-mode
+ * renderer to place pattern cells at visually rotated positions so the
+ * sky/earth boundary appears horizontal while the pattern tilts upward.
+ */
+static inline void ant_temp_rotate_point(
+		double tht, double phi,
+		double phi_mg,
+		double elev_rad,
+		double *xr, double *yr, double *zr)
+{
+	/* Original Cartesian direction from spherical (θ, φ) */
+	double st = sin(tht), ct = cos(tht);
+	double sp = sin(phi), cp = cos(phi);
+
+	ant_temp_rotate_vector(st * cp, st * sp, ct, phi_mg, elev_rad, xr, yr, zr);
 }
 
 /* Interpolation / resolution method for noise temperature models.

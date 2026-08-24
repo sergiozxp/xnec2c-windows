@@ -810,6 +810,13 @@ rdpat( void )
         rad_pattern[fstep].tilt[idx] = tilta;
         rad_pattern[fstep].sens[idx] = isens;
 
+        /* Save the far-zone phasors the quantities above derive from.  The
+         * wavelength factor expresses them in volts per meter at the pattern
+         * reference; ffld leaves the exp(-jkr)/r propagation factor out and
+         * this store keeps it out. */
+        rad_pattern[fstep].phasor[idx].eth = eth * data.wlam;
+        rad_pattern[fstep].phasor[idx].eph = eph * data.wlam;
+
         /* Find and save max value of gain and direction */
         for( pol = 0; pol < NUM_POL; pol++ )
         {

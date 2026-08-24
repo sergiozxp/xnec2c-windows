@@ -22,14 +22,7 @@
 
 #include "../common.h"
 #include "../prerender/prerender_state.h"
-
-/* One draw's resolved arrays for one channel, chroma-owned and parallel:
- * geometry displacement beside its palette color, both derived at draw. */
-typedef struct
-{
-  const nf_vector_t *vecs;    /* [npts] pre-scaled displacement (geometry) */
-  const rgb_f_t     *colors;  /* [npts] palette colors, parallel to vecs */
-} nf_frame_t;
+#include "chroma_field.h"
 
 /**
  * nf_poynting() - Poynting magnitude |E×H| from two real vectors
@@ -73,9 +66,9 @@ double nf_real_vector(const near_field_point_t *p, nf_channel_t chan,
  *
  * Sibling of chroma_proj_frame_wire.  Grows the channel's geometry and color
  * buffers, gates composition on an input edge, and returns the resolved
- * frame.  Returns { NULL, NULL } when the step is unavailable.
+ * frame.  Returns an empty frame when the step is unavailable.
  */
-nf_frame_t chroma_proj_frame_nearfield(int fstep, nf_channel_t chan);
+field_frame_t chroma_proj_frame_nearfield(int fstep, nf_channel_t chan);
 
 /**
  * chroma_nf_free() - Release every channel's resolver buffers

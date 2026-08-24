@@ -33,17 +33,17 @@ static int rdpat_triangle_count = 0;
 static lit_color_point_t *rdpat_lines = NULL;
 static int rdpat_line_count = 0;
 
-/* Near-field line buffer */
-static lit_color_point_t *nf_lines = NULL;
-static int nf_line_count = 0;
+/* Field vector line buffer */
+static lit_color_point_t *field_vector_lines = NULL;
+static int field_vector_line_count = 0;
 
 /* Generation counters for change detection */
 static unsigned int rdpat_ff_generation = 0;
-static unsigned int rdpat_nf_generation = 0;
+static unsigned int rdpat_field_vector_generation = 0;
 
 /*-----------------------------------------------------------------------*/
 
-/** nf_line_append() - Fill two consecutive color_point_t entries as a line segment
+/** field_vector_line_append() - Fill two consecutive color_point_t entries as a line segment
  * @buf: vertex buffer
  * @line_idx: starting index in buf
  * @origin: line start point
@@ -53,7 +53,7 @@ static unsigned int rdpat_nf_generation = 0;
  * Returns line_idx advanced by 2.
  */
   static int
-nf_line_append(
+field_vector_line_append(
     lit_color_point_t *buf, int line_idx,
     point_f_3d_t origin, point_f_3d_t endpoint, rgba_f_t color)
 {
@@ -73,45 +73,44 @@ nf_line_append(
 
 /*-----------------------------------------------------------------------*/
 
-/** opengl_rdpattern_generate_nf_field_lines() - Convert prerendered NF vectors to GL line geometry
- * @origins:  sample point positions [npts]
- * @npts:     number of near-field sample points
- * @fields:   dispatch-resolved vector sets (precomputed displacement + color)
- * @n_fields: number of active field sets (0-3)
- * @dr:       normalization scale distance (for endpoint computation)
+/** opengl_rdpattern_generate_field_vector_lines() - Convert resolved vectors to GL line geometry
+ * @sets:   dispatch-resolved vector sets (origins, displacement, color)
+ * @n_sets: number of active sets
  *
- * Iterates each field set, emitting one line per sample point per set.
+ * Iterates each set, emitting one line per vector from its own origin.
  * Zero field-type branching — backend receives only data to iterate.
  * Returns total line count, or -1 on empty input.
  */
   int
-opengl_rdpattern_generate_nf_field_lines(
-    const near_field_point_t *origins, int npts,
-    const nf_field_set_t *fields, int n_fields,
-    double dr)
+opengl_rdpattern_generate_field_vector_lines(
+    const field_vector_set_t *sets, int n_sets)
 {
   int fi, idx, line_idx;
   int total_lines;
 
-  if( n_fields <= 0 || npts <= 0 )
+  total_lines = 0;
+  for( fi = 0; fi < n_sets; fi++ )
+    total_lines += sets[fi].npts;
+
+  if( total_lines <= 0 )
     return( -1 );
 
-  total_lines = n_fields * npts;
-  mem_array_realloc(&nf_lines, (size_t)total_lines * 2);
+  mem_array_realloc(&field_vector_lines, (size_t)total_lines * 2);
 
   line_idx = 0;
 
-  for( fi = 0; fi < n_fields; fi++ )
+  for( fi = 0; fi < n_sets; fi++ )
   {
-    const nf_vector_t *vecs = fields[fi].vecs;
-    const rgb_f_t *colors = fields[fi].colors;
+    const point_3d_t *origins = sets[fi].origins;
+    const field_vector_t *vecs = sets[fi].vecs;
+    const rgb_f_t *colors = sets[fi].colors;
 
-    for( idx = 0; idx < npts; idx++ )
+    for( idx = 0; idx < sets[fi].npts; idx++ )
     {
       point_f_3d_t org = {
-        (float)origins[idx].px,
-        (float)origins[idx].py,
-        (float)origins[idx].pz
+        (float)origins[idx].x,
+        (float)origins[idx].y,
+        (float)origins[idx].z
       };
 
       point_f_3d_t end = {
@@ -124,16 +123,17 @@ opengl_rdpattern_generate_nf_field_lines(
         colors[idx].r, colors[idx].g, colors[idx].b, 1.0f
       };
 
-      line_idx = nf_line_append(nf_lines, line_idx, org, end, col);
+      line_idx = field_vector_line_append(field_vector_lines, line_idx,
+          org, end, col);
     }
   }
 
-  nf_line_count = total_lines;
-  rdpat_nf_generation++;
+  field_vector_line_count = total_lines;
+  rdpat_field_vector_generation++;
 
-  return( nf_line_count );
+  return( field_vector_line_count );
 
-} /* opengl_rdpattern_generate_nf_field_lines() */
+} /* opengl_rdpattern_generate_field_vector_lines() */
 
 /*-----------------------------------------------------------------------*/
 
@@ -414,14 +414,14 @@ opengl_rdpattern_generate_triangles(
 
 /*-----------------------------------------------------------------------*/
 
-/** opengl_rdpattern_get_nf_lines() - Return near-field line vertex buffer and line count
+/** opengl_rdpattern_get_field_vector_lines() - Return vector line buffer and line count
  * @count: output line count
  */
   lit_color_point_t*
-opengl_rdpattern_get_nf_lines(int *count)
+opengl_rdpattern_get_field_vector_lines(int *count)
 {
-  *count = nf_line_count;
-  return( nf_lines );
+  *count = field_vector_line_count;
+  return( field_vector_lines );
 }
 
 /*-----------------------------------------------------------------------*/
@@ -448,12 +448,12 @@ opengl_rdpattern_get_ff_generation(void)
 
 /*-----------------------------------------------------------------------*/
 
-/** opengl_rdpattern_get_nf_generation() - Return current near-field generation counter
+/** opengl_rdpattern_get_field_vector_generation() - Return current vector generation counter
  */
   unsigned int
-opengl_rdpattern_get_nf_generation(void)
+opengl_rdpattern_get_field_vector_generation(void)
 {
-  return( rdpat_nf_generation );
+  return( rdpat_field_vector_generation );
 }
 
 /*-----------------------------------------------------------------------*/
@@ -469,8 +469,8 @@ opengl_rdpattern_geometry_cleanup(void)
   mem_array_free(&rdpat_lines);
   rdpat_line_count = 0;
 
-  mem_array_free(&nf_lines);
-  nf_line_count = 0;
+  mem_array_free(&field_vector_lines);
+  field_vector_line_count = 0;
 
 }
 

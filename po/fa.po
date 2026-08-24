@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xnec2c 4.4.18\n"
 "Report-Msgid-Bugs-To: xnec2c-bugs@z.ewheeler.org\n"
-"POT-Creation-Date: 2026-08-21 17:38-0700\n"
+"POT-Creation-Date: 2026-08-23 22:47-0700\n"
 "PO-Revision-Date: 2026-06-26 14:17-0700\n"
 "Last-Translator: Auto-translated\n"
 "Language-Team: fa\n"
@@ -34,11 +34,11 @@ msgstr "نرم‌افزار کد الکترومغناطیس عددی"
 msgid "nec2;em;simulator;"
 msgstr "nec2;em;شبیه‌ساز;"
 
-#: resources/animate.glade:78
+#: resources/animate.glade:85
 msgid "Animated"
 msgstr "متحرک"
 
-#: resources/animate.glade:85
+#: resources/animate.glade:92
 msgid ""
 "Hue shows the peak magnitude s(n); brightness follows the traveling wave |"
 "cos(arg z + φ)|, floored so nulls stay visible.\n"
@@ -50,11 +50,11 @@ msgstr ""
 "\n"
 "متحرک: نواحی روشن هم‌زمان با پیشرفت فاز در طول ساختار جابه‌جا می‌شوند."
 
-#: resources/animate.glade:86
+#: resources/animate.glade:93
 msgid "Instantaneous"
 msgstr "لحظه‌ای"
 
-#: resources/animate.glade:96
+#: resources/animate.glade:103
 msgid ""
 "Diverging hue shows the instantaneous sign of the displayed quantity: cold "
 "negative, hot positive; brightness carries the magnitude s(n).\n"
@@ -66,11 +66,11 @@ msgstr ""
 "\n"
 "متحرک: نواحی با پیشرفت فاز قطب عوض می‌کنند."
 
-#: resources/animate.glade:97
+#: resources/animate.glade:104
 msgid "Polarity"
 msgstr "قطبیت"
 
-#: resources/animate.glade:107
+#: resources/animate.glade:114
 msgid ""
 "Cyclic hue wheel shows the phase angle arg z + φ; brightness carries the "
 "magnitude s(n).\n"
@@ -82,11 +82,11 @@ msgstr ""
 "\n"
 "متحرک: کل چرخ با پیشرفت فاز می‌چرخد."
 
-#: resources/animate.glade:108
+#: resources/animate.glade:115
 msgid "Phase Hue"
 msgstr "رنگ‌مایه فاز"
 
-#: resources/animate.glade:118
+#: resources/animate.glade:125
 msgid ""
 "Diverging hue shows the instantaneous charge sign; brightness carries the "
 "current envelope s(|I|).\n"
@@ -98,15 +98,15 @@ msgstr ""
 "\n"
 "متحرک: یک نمای از بار و جریان که یک‌چهارم چرخه از هم فاصله دارند."
 
-#: resources/animate.glade:119
+#: resources/animate.glade:126
 msgid "Current + Charge"
 msgstr "جریان + بار"
 
-#: resources/animate.glade:136
+#: resources/animate.glade:143
 msgid "Static"
 msgstr "ایستا"
 
-#: resources/animate.glade:143
+#: resources/animate.glade:150
 msgid ""
 "Rainbow ramp of this frequency step's peak magnitude s(n) at full "
 "brightness.\n"
@@ -117,11 +117,11 @@ msgstr ""
 "\n"
 "ایستا: خط پایه ناوردا نسبت به فاز؛ رنگ‌ها هنگام پخش ثابت می‌مانند."
 
-#: resources/animate.glade:144
+#: resources/animate.glade:151
 msgid "Amplitude"
 msgstr "دامنه"
 
-#: resources/animate.glade:154
+#: resources/animate.glade:161
 msgid ""
 "Hue ramps the per-region standing-wave ratio: cold traveling, hot standing; "
 "brightness carries the magnitude s(n).\n"
@@ -133,11 +133,11 @@ msgstr ""
 "\n"
 "ایستا: خوانشی ناوردا نسبت به فاز؛ رنگ‌ها هنگام پخش ثابت می‌مانند."
 
-#: resources/animate.glade:155
+#: resources/animate.glade:162
 msgid "Standing/Traveling"
 msgstr "ایستاده/سیار"
 
-#: resources/animate.glade:165
+#: resources/animate.glade:172
 msgid ""
 "Hue ramps each segment's contribution to the selected far-field direction; "
 "brightness carries the magnitude s(n).\n"
@@ -149,11 +149,11 @@ msgstr ""
 "\n"
 "ایستا: خوانشی ناوردا نسبت به فاز؛ رنگ‌ها هنگام پخش ثابت می‌مانند."
 
-#: resources/animate.glade:166
+#: resources/animate.glade:173
 msgid "Far-field Contribution"
 msgstr "سهم میدان دور"
 
-#: resources/animate.glade:180
+#: resources/animate.glade:187
 msgid ""
 "Power-law transfer n^γ of the normalized magnitude.\n"
 "\n"
@@ -168,11 +168,11 @@ msgstr ""
 "را نشان می‌دهد — |I|² متناسب با توان اتلافی هر بخش است (و سهم آن در توان "
 "تشعشعی از طریق مقاومت تشعشعی)، |q|² متناسب با انرژی الکتریکی ذخیره‌شده است."
 
-#: resources/animate.glade:181
+#: resources/animate.glade:188
 msgid "Power"
 msgstr "توان"
 
-#: resources/animate.glade:191
+#: resources/animate.glade:198
 msgid ""
 "Logarithmic transfer over a user range R, the RF-standard 20·log₁₀ amplitude "
 "decibels.\n"
@@ -186,12 +186,12 @@ msgstr ""
 "پایینی برش می‌خورند."
 
 # xnec2c-exempt: notation
-#: resources/animate.glade:192 resources/xnec2c.glade:11713
+#: resources/animate.glade:199 resources/xnec2c.glade:11713
 #: resources/xnec2c.glade:13071
 msgid "dB"
 msgstr ""
 
-#: resources/animate.glade:202
+#: resources/animate.glade:209
 msgid ""
 "Inverse hyperbolic sine: linear below the knee k, logarithmic above.\n"
 "\n"
@@ -204,11 +204,11 @@ msgstr ""
 "مانند مقیاس ابزار لگاریتمی-خطی."
 
 # xnec2c-exempt: name
-#: resources/animate.glade:203
+#: resources/animate.glade:210
 msgid "Asinh"
 msgstr ""
 
-#: resources/animate.glade:213
+#: resources/animate.glade:220
 msgid ""
 "μ-law companding, the telephony-standard bounded log curve.\n"
 "\n"
@@ -221,11 +221,11 @@ msgstr ""
 "کلاسیک است."
 
 # xnec2c-exempt: name
-#: resources/animate.glade:214
+#: resources/animate.glade:221
 msgid "μ-law"
 msgstr ""
 
-#: resources/animate.glade:224
+#: resources/animate.glade:231
 msgid ""
 "Reinhard rational compressor (1+k)·n/(n+k), the photographic HDR tone-map.\n"
 "\n"
@@ -237,11 +237,11 @@ msgstr ""
 "تعیین می‌کند."
 
 # xnec2c-exempt: name
-#: resources/animate.glade:225
+#: resources/animate.glade:232
 msgid "Reinhard"
 msgstr ""
 
-#: resources/animate.glade:235
+#: resources/animate.glade:242
 msgid ""
 "Hyperbolic tangent soft limiter tanh(a·n)/tanh(a).\n"
 "\n"
@@ -253,11 +253,11 @@ msgstr ""
 "کنتراست میان‌گستره را افزایش می‌دهد و به‌آرامی به‌سوی اوج اشباع می‌شود، مانند "
 "فشرده‌سازی تقویت‌کننده؛ a شیب را تعیین می‌کند."
 
-#: resources/animate.glade:236
+#: resources/animate.glade:243
 msgid "Sigmoid"
 msgstr "سیگموئید"
 
-#: resources/animate.glade:246
+#: resources/animate.glade:253
 msgid ""
 "Identity: every magnitude renders at full brightness.\n"
 "\n"
@@ -267,16 +267,16 @@ msgstr ""
 "\n"
 "تنها فرافکنی رنگ اطلاعات را حمل می‌کند."
 
-#: resources/animate.glade:247 resources/settings/cairo_settings.glade:56
+#: resources/animate.glade:254 resources/settings/cairo_settings.glade:56
 msgid "None"
 msgstr "هیچ‌کدام"
 
-#: resources/animate.glade:259 src/rdpattern_ui.c:366 src/rdpattern_ui.c:374
+#: resources/animate.glade:266 src/rdpattern_ui.c:366 src/rdpattern_ui.c:374
 #: src/rdpattern_ui.c:381
 msgid "Near Field Animation"
 msgstr "انیمیشن میدان نزدیک"
 
-#: resources/animate.glade:351
+#: resources/animate.glade:358
 msgid ""
 "Scrub the animation phase manually.\n"
 "\n"
@@ -287,27 +287,27 @@ msgstr ""
 "در حین اجرای انیمیشن غیرفعال است."
 
 # xnec2c-exempt: notation
-#: resources/animate.glade:368
+#: resources/animate.glade:375
 msgid "φ 0°"
 msgstr ""
 
-#: resources/animate.glade:382
+#: resources/animate.glade:389
 msgid "Phase"
 msgstr "فاز"
 
-#: resources/animate.glade:405
+#: resources/animate.glade:412
 msgid "Frames/Sec"
 msgstr "فریم/ثانیه"
 
-#: resources/animate.glade:418
+#: resources/animate.glade:425
 msgid "Animate Freq (Hz)"
 msgstr "فرکانس انیمیشن (Hz)"
 
-#: resources/animate.glade:491
+#: resources/animate.glade:498
 msgid "Color projection:"
 msgstr "فرافکنی رنگ:"
 
-#: resources/animate.glade:505
+#: resources/animate.glade:512
 msgid ""
 "Select which physical quantity drives the hue and how brightness follows the "
 "excitation phase.\n"
@@ -325,11 +325,11 @@ msgstr ""
 "\n"
 "نگه‌داشتن نشانگر روی یک گزینه، پیش‌نمایش زنده آن را نشان می‌دهد."
 
-#: resources/animate.glade:532
+#: resources/animate.glade:539
 msgid "Scale family:"
 msgstr "خانواده مقیاس:"
 
-#: resources/animate.glade:546
+#: resources/animate.glade:553
 msgid ""
 "Select the magnitude-to-color transfer family.\n"
 "\n"
@@ -344,11 +344,11 @@ msgstr ""
 "\n"
 "نگه‌داشتن نشانگر روی یک گزینه، پیش‌نمایش زنده آن را نشان می‌دهد."
 
-#: resources/animate.glade:585
+#: resources/animate.glade:592
 msgid "Gamma:"
 msgstr "گاما:"
 
-#: resources/animate.glade:602
+#: resources/animate.glade:609
 msgid ""
 "Gamma exponent of the power transfer.\n"
 "\n"
@@ -359,11 +359,11 @@ msgstr ""
 "γ = 0.5 نواحی ضعیف را گسترش می‌دهد، γ = 1 خطی است، γ = 2 متناسب با توان "
 "اتلاف‌شده جریان‌ها است."
 
-#: resources/animate.glade:624
+#: resources/animate.glade:631
 msgid "Range (dB):"
 msgstr "گستره (dB):"
 
-#: resources/animate.glade:641
+#: resources/animate.glade:648
 msgid ""
 "Dynamic range R below the step peak mapped onto the color strip.\n"
 "\n"
@@ -372,47 +372,47 @@ msgstr ""
 "گستره پویای R زیر اوج گام که به نوار رنگ نگاشت می‌شود.\n"
 "کف آن 10^(−R/20) اوج است."
 
-#: resources/animate.glade:663
+#: resources/animate.glade:670
 msgid "Softening:"
 msgstr "نرم‌سازی:"
 
-#: resources/animate.glade:680
+#: resources/animate.glade:687
 msgid "Softening knee k: linear below k, logarithmic above."
 msgstr "زانوی نرم‌سازی k: زیر k خطی، بالای آن لگاریتمی."
 
-#: resources/animate.glade:702
+#: resources/animate.glade:709
 msgid "Compression (dB):"
 msgstr "فشرده‌سازی (dB):"
 
-#: resources/animate.glade:719
+#: resources/animate.glade:726
 msgid "Compression strength in dB; higher values lift weak detail."
 msgstr "قدرت فشرده‌سازی بر حسب dB؛ مقادیر بالاتر جزئیات ضعیف را برجسته می‌کند."
 
-#: resources/animate.glade:741
+#: resources/animate.glade:748
 msgid "Knee:"
 msgstr "زانو:"
 
-#: resources/animate.glade:758
+#: resources/animate.glade:765
 msgid "Knee k of the rational soft-compressor."
 msgstr "زانوی k فشرده‌ساز نرم گویا."
 
-#: resources/animate.glade:780
+#: resources/animate.glade:787
 msgid "Contrast:"
 msgstr "کنتراست:"
 
-#: resources/animate.glade:797
+#: resources/animate.glade:804
 msgid "Contrast steepness a of the tanh transfer."
 msgstr "شیب کنتراست a در تبدیل tanh."
 
-#: resources/animate.glade:830
+#: resources/animate.glade:837
 msgid "Color gradient of the active projection and scale family."
 msgstr "گرادیان رنگ فرافکنی و خانواده مقیاس فعال."
 
-#: resources/animate.glade:848
+#: resources/animate.glade:855
 msgid "Brightness floor:"
 msgstr "کف روشنایی:"
 
-#: resources/animate.glade:866
+#: resources/animate.glade:873
 msgid ""
 "Minimum brightness under animation so elements cool toward this level "
 "instead of vanishing to black."
@@ -420,11 +420,11 @@ msgstr ""
 "حداقل روشنایی هنگام انیمیشن، به‌طوری‌که عناصر به‌جای محو شدن به سیاه، تا این "
 "سطح خنک می‌شوند."
 
-#: resources/animate.glade:877
+#: resources/animate.glade:884
 msgid "Width from amplitude"
 msgstr "پهنا از دامنه"
 
-#: resources/animate.glade:882
+#: resources/animate.glade:889
 msgid ""
 "Scale wire segment width by the scaled amplitude envelope s(n), so strong "
 "regions draw thick and nulls draw thin."
@@ -432,15 +432,15 @@ msgstr ""
 "پهنای بخش سیم را متناسب با پوش دامنه مقیاس‌شده s(n) تغییر می‌دهد، به‌طوری‌که "
 "نواحی قوی ضخیم و نقاط صفر نازک رسم شوند."
 
-#: resources/animate.glade:908
+#: resources/animate.glade:915
 msgid "Overlays:"
 msgstr "روکش‌ها:"
 
-#: resources/animate.glade:919
+#: resources/animate.glade:926
 msgid "Nodes/antinodes"
 msgstr "گره‌ها/پادگره‌ها"
 
-#: resources/animate.glade:924
+#: resources/animate.glade:931
 msgid ""
 "Mark current nulls (plus tick) and peaks (cross tick) on wire segments.\n"
 "\n"
@@ -453,11 +453,11 @@ msgstr ""
 "نشانه‌ها از پوش ناوردا نسبت به فاز مشتق می‌شوند، بنابراین هنگام انیمیشن موج "
 "ثابت می‌مانند."
 
-#: resources/animate.glade:935
+#: resources/animate.glade:942
 msgid "Comet"
 msgstr "دنباله‌دار"
 
-#: resources/animate.glade:940
+#: resources/animate.glade:947
 msgid ""
 "Ride a bright head on the instantaneous positive crest so wave motion reads "
 "along each wire."
@@ -465,11 +465,11 @@ msgstr ""
 "سری روشن را روی قله لحظه‌ای مثبت سوار می‌کند تا حرکت موج در طول هر سیم خوانده "
 "شود."
 
-#: resources/animate.glade:973
+#: resources/animate.glade:980
 msgid "Reset"
 msgstr "بازنشانی"
 
-#: resources/animate.glade:979
+#: resources/animate.glade:986
 msgid ""
 "Restore the color projection, scale family, and every family brightness "
 "parameter to their defaults."
@@ -477,7 +477,7 @@ msgstr ""
 "فرافکنی رنگ، خانواده مقیاس، و پارامتر روشنایی هر خانواده را به پیش‌فرض‌های خود "
 "بازمی‌گرداند."
 
-#: resources/animate.glade:994
+#: resources/animate.glade:1001
 msgid ""
 "<b>Color</b> <i>— currents, charges, and fields shade the wires, patches, "
 "and near-field vectors</i>"
@@ -485,67 +485,67 @@ msgstr ""
 "<b>رنگ</b> <i>— جریان‌ها، بارها، و میدان‌ها سیم‌ها، پچ‌ها، و بردارهای میدان "
 "نزدیک را سایه‌دار می‌کنند</i>"
 
-#: resources/animate.glade:1025
+#: resources/animate.glade:1032
 msgid "None (geometry)"
 msgstr "هیچ‌کدام (هندسه)"
 
-#: resources/animate.glade:1029
+#: resources/animate.glade:1036
 msgid "Show the bare structure geometry with no quantity coloring."
 msgstr "نمایش هندسه ساختار بدون هیچ رنگ‌آمیزی کمیتی."
 
-#: resources/animate.glade:1042 resources/xnec2c.glade:11240
+#: resources/animate.glade:1049 resources/xnec2c.glade:11240
 msgid "Currents"
 msgstr "جریان‌ها"
 
-#: resources/animate.glade:1046
+#: resources/animate.glade:1053
 msgid "Animate current magnitude and direction along the wires."
 msgstr "انیمیشن دامنه و جهت جریان در طول سیم‌ها."
 
-#: resources/animate.glade:1059 resources/xnec2c.glade:11255
+#: resources/animate.glade:1066 resources/xnec2c.glade:11255
 msgid "Charges"
 msgstr "بارها"
 
-#: resources/animate.glade:1063
+#: resources/animate.glade:1070
 msgid "Animate charge magnitude along the wires."
 msgstr "انیمیشن دامنه بار در طول سیم‌ها."
 
-#: resources/animate.glade:1080
+#: resources/animate.glade:1087
 msgid "Display"
 msgstr "نمایش"
 
-#: resources/animate.glade:1111
+#: resources/animate.glade:1118
 msgid "Flow direction:"
 msgstr "جهت جریان:"
 
-#: resources/animate.glade:1124
+#: resources/animate.glade:1131
 msgid "Reference phase (animated)"
 msgstr "فاز مرجع (متحرک)"
 
-#: resources/animate.glade:1125
+#: resources/animate.glade:1132
 msgid "LIC texture (animated)"
 msgstr "بافت LIC (متحرک)"
 
-#: resources/animate.glade:1126
+#: resources/animate.glade:1133
 msgid "Wireframe (animated)"
 msgstr "چارچوب سیمی (متحرک)"
 
-#: resources/animate.glade:1127
+#: resources/animate.glade:1134
 msgid "Polarization axis (static)"
 msgstr "محور قطبش (ایستا)"
 
-#: resources/animate.glade:1128
+#: resources/animate.glade:1135
 msgid "Peak magnitude (static)"
 msgstr "دامنه اوج (ایستا)"
 
-#: resources/animate.glade:1144
+#: resources/animate.glade:1151
 msgid "Patches"
 msgstr "پچ‌ها"
 
-#: resources/animate.glade:1172
+#: resources/animate.glade:1179
 msgid "Near E field"
 msgstr "میدان E نزدیک"
 
-#: resources/animate.glade:1176
+#: resources/animate.glade:1183
 msgid ""
 "Show the near electric field vectors while animating.\n"
 "\n"
@@ -554,11 +554,11 @@ msgstr ""
 "نمایش بردارهای میدان الکتریکی نزدیک هنگام انیمیشن.\n"
 "با باز کردن پنجره الگوی تشعشع فعال کنید."
 
-#: resources/animate.glade:1188
+#: resources/animate.glade:1195
 msgid "Near H field"
 msgstr "میدان H نزدیک"
 
-#: resources/animate.glade:1192
+#: resources/animate.glade:1199
 msgid ""
 "Show the near magnetic field vectors while animating.\n"
 "\n"
@@ -567,11 +567,11 @@ msgstr ""
 "نمایش بردارهای میدان مغناطیسی نزدیک هنگام انیمیشن.\n"
 "با باز کردن پنجره الگوی تشعشع فعال کنید."
 
-#: resources/animate.glade:1204
+#: resources/animate.glade:1211
 msgid "Poynting vector"
 msgstr "بردار پوینتینگ"
 
-#: resources/animate.glade:1208
+#: resources/animate.glade:1215
 msgid ""
 "Show the Poynting power-flow vectors while animating.\n"
 "\n"
@@ -580,9 +580,65 @@ msgstr ""
 "نمایش بردارهای شار توان پوینتینگ هنگام انیمیشن.\n"
 "با باز کردن پنجره الگوی تشعشع فعال کنید."
 
-#: resources/animate.glade:1224
+#: resources/animate.glade:1231
 msgid "Near Field"
 msgstr "میدان نزدیک"
+
+#: resources/animate.glade:1259
+msgid "Far E field"
+msgstr "میدان دور E"
+
+#: resources/animate.glade:1263
+msgid ""
+"Draw the far-zone electric field as arrows tangent to the gain surface while "
+"animating.\n"
+"\n"
+"Enable by opening the radiation pattern window."
+msgstr ""
+"میدان الکتریکی دور را هنگام پخش انیمیشن به صورت پیکان‌هایی مماس بر سطح بهره "
+"رسم می‌کند.\n"
+"\n"
+"با باز کردن پنجره الگوی تشعشع فعال کنید."
+
+#: resources/animate.glade:1276
+msgid "Far H field"
+msgstr "میدان دور H"
+
+#: resources/animate.glade:1280
+msgid ""
+"Draw the far-zone magnetic field instead, a quarter turn from the electric "
+"field in the tangent plane and in step with it in time.\n"
+"\n"
+"Enable by opening the radiation pattern window."
+msgstr ""
+"در عوض میدان مغناطیسی دور را، با ربع دور اختلاف نسبت به میدان الکتریکی در "
+"صفحه مماس و هم‌گام با آن در زمان، رسم می‌کند.\n"
+"\n"
+"با باز کردن پنجره الگوی تشعشع فعال کنید."
+
+#: resources/animate.glade:1293
+msgid "World reference"
+msgstr "مرجع جهانی"
+
+#: resources/animate.glade:1309
+msgid "Ludwig-3 reference"
+msgstr "مرجع Ludwig-3"
+
+#: resources/animate.glade:1334
+msgid "Arrow length:"
+msgstr "طول پیکان:"
+
+#: resources/animate.glade:1351
+msgid ""
+"Longest arrow a cell draws, as a fraction of that cell's own pattern radius, "
+"so the arrows track whichever gain scale shapes the surface."
+msgstr ""
+"بلندترین پیکانی که هر سلول رسم می‌کند، به صورت کسری از شعاع الگوی همان سلول "
+"است، به‌طوری‌که پیکان‌ها از هر مقیاس بهره‌ای که سطح را شکل می‌دهد پیروی کنند."
+
+#: resources/animate.glade:1373
+msgid "Far Field"
+msgstr "میدان دور"
 
 #: resources/settings/cairo_settings.glade:34
 msgid "Anti-aliasing"
@@ -2408,7 +2464,7 @@ msgstr "T<sub>خاک</sub>"
 msgid "T<sub>sky</sub>"
 msgstr "T<sub>آسمان</sub>"
 
-#: resources/xnec2c.glade:13267 src/rdpattern_ui.c:870
+#: resources/xnec2c.glade:13267 src/rdpattern_ui.c:869
 msgid "Radiation Patterns"
 msgstr "الگوهای تشعشع"
 
@@ -2852,17 +2908,17 @@ msgstr "خطای اتصال بخش در sbf()"
 msgid "Segment connection error in trio()"
 msgstr "خطای اتصال بخش در trio()"
 
-#: src/callback_func.c:50
+#: src/callback_func.c:51
 #, c-format
 msgid "failed to capture image for %s\n"
 msgstr "گرفتن تصویر برای %s ناموفق بود\n"
 
-#: src/callback_func.c:56
+#: src/callback_func.c:57
 #, c-format
 msgid "failed to save image %s: %s\n"
 msgstr "ذخیره تصویر %s ناموفق بود: %s\n"
 
-#: src/callback_func.c:104
+#: src/callback_func.c:105
 msgid ""
 "The frequency loop is running\n"
 "Are you sure you wish to end the calculation?"
@@ -2870,7 +2926,7 @@ msgstr ""
 "حلقه فرکانسی در حال اجراست\n"
 "آیا مطمئن هستید که می‌خواهید محاسبه را پایان دهید؟"
 
-#: src/callback_func.c:108
+#: src/callback_func.c:109
 msgid ""
 "The frequency loop is running\n"
 "Are you sure you wish to close this window?"
@@ -2878,53 +2934,53 @@ msgstr ""
 "حلقه فرکانسی در حال اجراست\n"
 "آیا مطمئن هستید که می‌خواهید این پنجره را ببندید؟"
 
-#: src/callback_func.c:269
+#: src/callback_func.c:270
 #, c-format
 msgid ""
 "Excitation type %d has no feedpoint: VSWR and impedance plots are hidden.\n"
 msgstr "نوع تحریک %d نقطه تغذیه ندارد: نمودارهای VSWR و امپدانس پنهان هستند.\n"
 
-#: src/callback_func.c:331
+#: src/callback_func.c:332
 msgid "View Currents"
 msgstr "نمایش جریان‌ها"
 
-#: src/callback_func.c:333
+#: src/callback_func.c:334
 msgid "View Charges"
 msgstr "نمایش بارها"
 
-#: src/callback_func.c:335
+#: src/callback_func.c:336
 msgid "View Geometry"
 msgstr "نمایش هندسه"
 
-#: src/callback_func.c:385
+#: src/callback_func.c:386
 msgid "PNG images (*.png)"
 msgstr "تصاویر PNG (*.png)"
 
-#: src/callback_func.c:387
+#: src/callback_func.c:388
 msgid "GNUplot files (*.gplot)"
 msgstr "فایل‌های GNUplot (*.gplot)"
 
-#: src/callback_func.c:389
+#: src/callback_func.c:390
 msgid "NEC2 files (*.nec)"
 msgstr "فایل‌های NEC2 (*.nec)"
 
-#: src/callback_func.c:391
+#: src/callback_func.c:392
 msgid "Touchstone 1-port files (*.s1p)"
 msgstr "فایل‌های Touchstone تک‌پورتی (*.s1p)"
 
-#: src/callback_func.c:393
+#: src/callback_func.c:394
 msgid "Touchstone 2-port files (*.s2p)"
 msgstr "فایل‌های Touchstone دوپورتی (*.s2p)"
 
-#: src/callback_func.c:395
+#: src/callback_func.c:396
 msgid "Comma-separated CSV files (*.csv)"
 msgstr "فایل‌های CSV جداشده با کاما (*.csv)"
 
-#: src/callbacks.c:97 src/callbacks.c:113 src/freqplots/freqplots_core.c:66
+#: src/callbacks.c:98 src/callbacks.c:114 src/freqplots/freqplots_core.c:66
 msgid "Antenna Temperature"
 msgstr "دمای آنتن"
 
-#: src/callbacks.c:98
+#: src/callbacks.c:99
 msgid ""
 "Ground plane detected in model. Ta results will overcount ground effects. "
 "Free-space models are standard for antenna temperature evaluation."
@@ -2932,7 +2988,7 @@ msgstr ""
 "صفحه زمین در مدل شناسایی شد. نتایج Ta اثرات زمین را بیش از حد حساب می‌کند. "
 "مدل‌های فضای آزاد برای ارزیابی دمای آنتن استاندارد هستند."
 
-#: src/callbacks.c:114
+#: src/callbacks.c:115
 #, c-format
 msgid ""
 "Max gain at θ=%.0f° (%.0f° from XY plane). Convention assumes beam in XY "
@@ -2941,12 +2997,12 @@ msgstr ""
 "حداکثر بهره در θ=%.0f° (%.0f° از صفحه XY). قرارداد فرض می‌کند پرتو در صفحه XY "
 "است با زاویه ارتفاع مشاهده تنظیم‌شده توسط دکمه چرخشی."
 
-#: src/callbacks.c:182 src/callbacks.c:520 src/callbacks.c:1950
-#: src/callbacks.c:2774
+#: src/callbacks.c:183 src/callbacks.c:521 src/callbacks.c:1951
+#: src/callbacks.c:2814
 msgid "Are you sure you wish to quit xnec2c?"
 msgstr "آیا مطمئن هستید که می‌خواهید از xnec2c خارج شوید؟"
 
-#: src/callbacks.c:286
+#: src/callbacks.c:287
 msgid ""
 "A new NEC2 input file may not be created\n"
 "while the Frequency Loop is running"
@@ -2954,7 +3010,7 @@ msgstr ""
 "امکان ایجاد فایل ورودی NEC2 جدید\n"
 "در حین اجرای حلقه فرکانسی وجود ندارد"
 
-#: src/callbacks.c:323
+#: src/callbacks.c:324
 msgid ""
 "A new NEC2 input file may not be opened\n"
 "while the Frequency Loop is running"
@@ -2962,21 +3018,21 @@ msgstr ""
 "امکان باز کردن فایل ورودی NEC2 جدید\n"
 "در حین اجرای حلقه فرکانسی وجود ندارد"
 
-#: src/callbacks.c:442
+#: src/callbacks.c:443
 msgid "xnec2c geometry optimizer"
 msgstr "بهینه‌ساز هندسه xnec2c"
 
-#: src/callbacks.c:443
+#: src/callbacks.c:444
 msgid ""
 "xnec2c was built without inotify support: the optimizer cannot be enabled."
 msgstr ""
 "xnec2c بدون پشتیبانی از inotify ساخته شده است: بهینه‌ساز قابل فعال‌سازی نیست."
 
-#: src/callbacks.c:464
+#: src/callbacks.c:465
 msgid "Xnec2c Optimizer"
 msgstr "بهینه‌ساز Xnec2c"
 
-#: src/callbacks.c:464
+#: src/callbacks.c:465
 msgid ""
 "No files are selected for writing. However, xnec2c will still reload and "
 "recalculate the input file on modification when triggered by inotify.Select "
@@ -2986,16 +3042,34 @@ msgstr ""
 "تغییر توسط inotify بارگذاری و محاسبه مجدد می‌کند. فایل‌ها را برای نوشتن در "
 "«فایل ← تنظیمات بهینه‌سازی» انتخاب کنید."
 
-#: src/callbacks.c:997 src/callbacks.c:1317 src/callbacks.c:2800
+#: src/callbacks.c:998 src/callbacks.c:1318 src/callbacks.c:2840
 msgid "Are you sure you wish to close this window?"
 msgstr "آیا مطمئن هستید که می‌خواهید این پنجره را ببندید؟"
 
-#: src/callbacks.c:1825
+#: src/callbacks.c:1826
 msgid "OpenGL is not available on this display; cannot enable renderer.\n"
 msgstr ""
 "OpenGL در این نمایشگر در دسترس نیست؛ امکان فعال‌سازی رندرر وجود ندارد.\n"
 
-#: src/callbacks.c:2059
+#: src/callbacks.c:2038
+msgid ""
+"Read the vertical and horizontal gain selections against the spherical "
+"basis, so vertical is the theta direction and horizontal is the phi "
+"direction."
+msgstr ""
+"انتخاب‌های بهره عمودی و افقی را بر پایه کروی بخوانید، به‌طوری‌که عمودی جهت θ و "
+"افقی جهت φ است."
+
+#: src/callbacks.c:2042
+msgid ""
+"Read the vertical and horizontal gain selections against the Ludwig-3 co-"
+"polar and cross-polar directions, which hold one orientation across the "
+"whole pattern."
+msgstr ""
+"انتخاب‌های بهره عمودی و افقی را بر جهت‌های هم‌قطبش و متقاطع‌قطبش Ludwig-3 "
+"بخوانید که یک جهت‌گیری را در کل الگو حفظ می‌کنند."
+
+#: src/callbacks.c:2081
 msgid ""
 "Select how the animated patch current flow is rendered.\n"
 "Mirrors the Visualization menu setting in the main window."
@@ -3003,12 +3077,23 @@ msgstr ""
 "انتخاب نحوه رندر جریان متحرک پچ‌ها.\n"
 "منعکس‌کننده تنظیم منوی تجسم در پنجره اصلی است."
 
-#: src/callbacks.c:2061
+#: src/callbacks.c:2083
 msgid ""
 "Patch flow animation requires surface patches (SP/SM cards) in the model."
 msgstr "انیمیشن شارش پچ نیاز به پچ‌های سطحی (کارت‌های SP/SM) در مدل دارد."
 
-#: src/callbacks.c:2076
+#: src/callbacks.c:2098
+msgid ""
+"The polarization reference turns the vertical and horizontal gain pair "
+"only.  Select vertical or horizontal polarization in the radiation pattern "
+"window to use it; the total and circular selections read alike under either "
+"reference."
+msgstr ""
+"مرجع قطبش تنها جفت بهره عمودی و افقی را تغییر می‌دهد. برای استفاده از آن، "
+"قطبش عمودی یا افقی را در پنجره الگوی تشعشع انتخاب کنید؛ انتخاب‌های کل و "
+"دایروی زیر هر دو مرجع یکسان خوانده می‌شوند."
+
+#: src/callbacks.c:2116
 msgid ""
 "The animation window drives the near-field vectors from the phase slider; "
 "close it to choose the static peak or instantaneous baseline."
@@ -3016,11 +3101,11 @@ msgstr ""
 "پنجره انیمیشن بردارهای میدان نزدیک را از لغزنده فاز هدایت می‌کند؛ برای انتخاب "
 "اوج ایستا یا خط پایه لحظه‌ای آن را ببندید."
 
-#: src/callbacks.c:2606
+#: src/callbacks.c:2646
 msgid "Animation"
 msgstr "انیمیشن"
 
-#: src/callbacks.c:2607
+#: src/callbacks.c:2647
 msgid ""
 "Animation requires wire currents or charges, surface patches (SP/SM NEC "
 "cards), or near-field data (NE/NH NEC cards)"
@@ -3028,11 +3113,11 @@ msgstr ""
 "انیمیشن نیاز به جریان یا بار سیم‌ها، پچ‌های سطحی (کارت‌های NEC: SP/SM)، یا "
 "داده‌های میدان نزدیک (کارت‌های NEC: NE/NH) دارد"
 
-#: src/callbacks.c:2736
+#: src/callbacks.c:2776
 msgid "No open NEC2 input file"
 msgstr "فایل ورودی NEC2 باز نیست"
 
-#: src/callbacks.c:2831 src/callbacks.c:2861
+#: src/callbacks.c:2871 src/callbacks.c:2901
 msgid ""
 "NEC2 Editor's data may not be saved\n"
 "while the Frequency Loop is running"
@@ -3040,11 +3125,11 @@ msgstr ""
 "داده‌های ویرایشگر NEC2 در حین اجرای حلقه فرکانسی\n"
 "قابل ذخیره نیست"
 
-#: src/callbacks.c:2843 src/callbacks.c:2869
+#: src/callbacks.c:2883 src/callbacks.c:2909
 msgid "untitled.nec"
 msgstr "بدون‌عنوان.nec"
 
-#: src/callbacks.c:3334 src/callbacks.c:3354 src/callbacks.c:3374
+#: src/callbacks.c:3374 src/callbacks.c:3394 src/callbacks.c:3414
 #: src/geom_edit.c:455 src/geom_edit.c:1327 src/geom_edit.c:1582
 msgid ""
 "Frequency (FR) cards not yet processed.\n"
@@ -3273,15 +3358,15 @@ msgstr "افزایش در R (m)"
 msgid "invalid color tone %d, using power\n"
 msgstr "تن رنگ نامعتبر %d، استفاده از توان\n"
 
-#: src/config_hooks.c:87
+#: src/config_hooks.c:91
 msgid "This overlay derives from wire-current segments; this model has none."
 msgstr "این روکش از بخش‌های جریان سیم مشتق می‌شود؛ این مدل هیچ‌کدام را ندارد."
 
-#: src/config_hooks.c:112
+#: src/config_hooks.c:116
 msgid "Highlight the moving wave crest as a bright comet head."
 msgstr "قله موج متحرک را به‌صورت سر روشن دنباله‌دار برجسته می‌کند."
 
-#: src/config_hooks.c:113
+#: src/config_hooks.c:117
 msgid ""
 "Comet rides the animated wave crest; this projection is a static read with "
 "no moving phase."
@@ -3289,7 +3374,7 @@ msgstr ""
 "دنباله‌دار روی قله موج متحرک سوار می‌شود؛ این فرافکنی خوانشی ایستا بدون فاز "
 "متحرک است."
 
-#: src/config_hooks.c:116
+#: src/config_hooks.c:120
 msgid "Mark current nodes (cyan) and antinodes (red) along the wires."
 msgstr ""
 "گره‌های جریان (فیروزه‌ای) و پادگره‌ها (قرمز) را در طول سیم‌ها علامت‌گذاری می‌کند."
@@ -3307,12 +3392,12 @@ msgstr ""
 msgid "step size limited at z= %10.5f"
 msgstr "اندازه گام محدود شد در z= %10.5f"
 
-#: src/fork.c:334 src/fork.c:589
+#: src/fork.c:334 src/fork.c:591
 #, c-format
 msgid "child %d  length %d  return %d\n"
 msgstr "فرزند %d  طول %d  بازگشت %d\n"
 
-#: src/fork.c:595
+#: src/fork.c:597
 #, c-format
 msgid "early EOF?, child %d  length %d  return %d\n"
 msgstr "پایان زودهنگام فایل؟، فرزند %d  طول %d  بازگشت %d\n"
@@ -5350,7 +5435,7 @@ msgstr "Peel accumulation FBO ناقص است\n"
 msgid "Layer depth FBO incomplete\n"
 msgstr "Layer depth FBO ناقص است\n"
 
-#: src/opengl-engine/opengl_view_render.c:413
+#: src/opengl-engine/opengl_view_render.c:427
 msgid "Transparent renderables skipped: peel FBOs unavailable\n"
 msgstr "اشیاء شفاف قابل رندر رد شدند: peel FBOs در دسترس نیست\n"
 
@@ -5358,7 +5443,7 @@ msgstr "اشیاء شفاف قابل رندر رد شدند: peel FBOs در دس
 msgid "Failed to load shaders\n"
 msgstr "بارگذاری shader‌ها ناموفق بود\n"
 
-#: src/opengl/opengl_rdpattern.c:342
+#: src/opengl/opengl_rdpattern.c:354
 #, c-format
 msgid "rdpattern: invalid draw style %d, using surface\n"
 msgstr "rdpattern: سبک رسم نامعتبر %d، استفاده از سطح\n"
@@ -5631,14 +5716,14 @@ msgstr "var '%s' عدم تطابق اندازه round_result\n"
 msgid "var '%s' round_result has element <= 0\n"
 msgstr "var '%s' round_result دارای عنصر <= 0 است\n"
 
-#: src/radiation.c:878
+#: src/radiation.c:885
 #, c-format
 msgid "Average gain %.4f exceeds expected %.4f; check RP theta/phi ranges\n"
 msgstr ""
 "بهره میانگین %.4f از مقدار مورد انتظار %.4f تجاوز کرد؛ بازه‌های RP theta/phi "
 "را بررسی کنید\n"
 
-#: src/radiation.c:882
+#: src/radiation.c:889
 #, c-format
 msgid ""
 "Average gain: %.4f (%.2f dBi), efficiency: %.1f%%, solid angle: %.4f * pi "
@@ -5646,85 +5731,85 @@ msgid ""
 msgstr ""
 "بهره میانگین: %.4f (%.2f dBi)، بازده: %.1f%%، زاویه جامد: %.4f * pi sr\n"
 
-#: src/rc_config.c:854
+#: src/rc_config.c:885
 #, c-format
 msgid "unable to getcwd(): %s\n"
 msgstr "getcwd() ناموفق بود: %s\n"
 
-#: src/rc_config.c:858
+#: src/rc_config.c:889
 #, c-format
 msgid "environment variable HOME is undefined, using %s\n"
 msgstr "متغیر محیطی HOME تعریف نشده است، استفاده از %s\n"
 
-#: src/rc_config.c:943
+#: src/rc_config.c:974
 #, c-format
 msgid ""
 "%s (locale=%s): only matchd %d of %lu chars, trying another locale: %s\n"
 msgstr ""
 "%s (locale=%s): تنها %d از %lu کاراکتر تطبیق یافت، تلاش با locale دیگر: %s\n"
 
-#: src/rc_config.c:1162
+#: src/rc_config.c:1193
 #, c-format
 msgid "window: x=%-5d y=%-5d w=%-5d h=%-5d  title: \"%s\"\n"
 msgstr "پنجره: x=%-5d y=%-5d w=%-5d h=%-5d  عنوان: \"%s\"\n"
 
-#: src/rc_config.c:1196
+#: src/rc_config.c:1227
 #, c-format
 msgid "%s: EOF reading application version.\n"
 msgstr "%s: EOF در خواندن نسخه برنامه.\n"
 
-#: src/rc_config.c:1202
+#: src/rc_config.c:1233
 #, c-format
 msgid "existing config file version differs: %s != %s\n"
 msgstr "نسخه فایل پیکربندی موجود متفاوت است: %s != %s\n"
 
-#: src/rc_config.c:1336
+#: src/rc_config.c:1367
 #, c-format
 msgid "stat failed for %s: %s\n"
 msgstr "stat برای %s ناموفق بود: %s\n"
 
-#: src/rc_config.c:1342
+#: src/rc_config.c:1373
 #, c-format
 msgid ""
 "Fixed %s directory permissions from 0%o to 0%o from bug introduced in "
 "4e62893b.\n"
 msgstr "مجوزهای پوشه %s از 0%o به 0%o اصلاح شد (باگ معرفی‌شده در 4e62893b).\n"
 
-#: src/rc_config.c:1373
+#: src/rc_config.c:1404
 #, c-format
 msgid "%s:%d: Line not parsed: %s\n"
 msgstr "%s:%d: خط تجزیه نشد: %s\n"
 
-#: src/rc_config.c:1379
+#: src/rc_config.c:1410
 #, c-format
 msgid "%s:%d: Early end of file for %s: %s \n"
 msgstr "%s:%d: پایان زودهنگام فایل برای %s: %s \n"
 
-#: src/rc_config.c:1404
+#: src/rc_config.c:1435
 #, c-format
 msgid "%s:%d: parse error (%s): %s \n"
 msgstr "%s:%d: خطای تجزیه (%s): %s \n"
 
-#: src/rc_config.c:1418
+#: src/rc_config.c:1449
 #, c-format
 msgid "Invalid sky model index %d in config, resetting to default\n"
 msgstr "شاخص مدل آسمان نامعتبر %d در پیکربندی، بازنشانی به پیش‌فرض\n"
 
-#: src/rc_config.c:1424
+#: src/rc_config.c:1455
 #, c-format
 msgid "Invalid earth model index %d in config, resetting to default\n"
 msgstr "شاخص مدل زمین نامعتبر %d در پیکربندی، بازنشانی به پیش‌فرض\n"
 
-#: src/rc_config.c:1430
+#: src/rc_config.c:1461
 #, c-format
 msgid "Invalid interp method %d in config, resetting to default\n"
 msgstr "روش درون‌یابی نامعتبر %d در پیکربندی، بازنشانی به پیش‌فرض\n"
 
-#: src/rc_config.c:1605
+#: src/rc_config.c:1636
 msgid "batch mode: skipping configuration save\n"
 msgstr "حالت دسته‌ای: رد شدن از ذخیره پیکربندی\n"
 
-#: src/rc_config.c:1612
+#: src/rc_config.c:1643
 #, c-format
 msgid "cannot open xnec2c's config file %s: %s\n"
 msgstr "فایل پیکربندی xnec2c قابل باز شدن نیست %s: %s\n"
@@ -5792,71 +5877,71 @@ msgstr ""
 "مدل‌های دمای نویز آسمان و زمین.\n"
 "برای فعال‌سازی، «سبک بهره» → «دمای نویز» را انتخاب کنید."
 
-#: src/rdpattern_ui.c:847
+#: src/rdpattern_ui.c:846
 msgid "Total Gain"
 msgstr "بهره کل"
 
-#: src/rdpattern_ui.c:848
+#: src/rdpattern_ui.c:847
 msgid "Horizontal Polarization"
 msgstr "قطبش افقی"
 
-#: src/rdpattern_ui.c:849
+#: src/rdpattern_ui.c:848
 msgid "Vertical Polarization"
 msgstr "قطبش عمودی"
 
-#: src/rdpattern_ui.c:850
+#: src/rdpattern_ui.c:849
 msgid "RH Circular Polarization"
 msgstr "قطبش دایروی راست‌گرد"
 
-#: src/rdpattern_ui.c:851
+#: src/rdpattern_ui.c:850
 msgid "LH Circular Polarization"
 msgstr "قطبش دایروی چپ‌گرد"
 
-#: src/rdpattern_ui.c:856
+#: src/rdpattern_ui.c:855
 msgid "Linear Power"
 msgstr "توان خطی"
 
-#: src/rdpattern_ui.c:857
+#: src/rdpattern_ui.c:856
 msgid "Linear Voltage"
 msgstr "ولتاژ خطی"
 
-#: src/rdpattern_ui.c:858
+#: src/rdpattern_ui.c:857
 msgid "ARRL Scale"
 msgstr "مقیاس ARRL"
 
-#: src/rdpattern_ui.c:859
+#: src/rdpattern_ui.c:858
 msgid "Logarithmic Scale"
 msgstr "مقیاس لگاریتمی"
 
-#: src/rdpattern_ui.c:860
+#: src/rdpattern_ui.c:859
 msgid "Noise Temperature"
 msgstr "دمای نویز"
 
-#: src/rdpattern_ui.c:861
+#: src/rdpattern_ui.c:860
 msgid "Noise Temp (log scale)"
 msgstr "دمای نویز (مقیاس لگاریتمی)"
 
-#: src/rdpattern_ui.c:873
+#: src/rdpattern_ui.c:872
 msgid "Radiation Pattern: - "
 msgstr "الگوی تشعشع: - "
 
-#: src/rdpattern_ui.c:893
+#: src/rdpattern_ui.c:892
 msgid "Near Fields:"
 msgstr "میدان‌های نزدیک:"
 
-#: src/rdpattern_ui.c:895
+#: src/rdpattern_ui.c:894
 msgid " - E Field"
 msgstr " - میدان E"
 
-#: src/rdpattern_ui.c:897
+#: src/rdpattern_ui.c:896
 msgid " - H Field"
 msgstr " - میدان H"
 
-#: src/rdpattern_ui.c:899
+#: src/rdpattern_ui.c:898
 msgid " - Poynting Vector"
 msgstr " - بردار پوینتینگ"
 
-#: src/rdpattern_ui.c:909
+#: src/rdpattern_ui.c:908
 msgid "Frequency Data Plots - "
 msgstr "نمودارهای داده فرکانسی - "
 
@@ -6118,19 +6203,19 @@ msgid ""
 msgstr ""
 "صحه‌گذاری: نمایشگر ساختار برای تکرارپذیری به جهت‌گیری پیش‌فرض بازنشانی شد\n"
 
-#: src/validation_dump.c:609 src/validation_dump.c:615
+#: src/validation_dump.c:614 src/validation_dump.c:620
 msgid "Validation Tree"
 msgstr "درخت صحه‌گذاری"
 
-#: src/validation_dump.c:609
+#: src/validation_dump.c:614
 msgid "Cannot save: frequency loop not done"
 msgstr "امکان ذخیره وجود ندارد: حلقه فرکانسی هنوز پایان نیافته است"
 
-#: src/validation_dump.c:615
+#: src/validation_dump.c:620
 msgid "Cannot create output directory"
 msgstr "امکان ایجاد پوشه خروجی وجود ندارد"
 
-#: src/validation_dump.c:647
+#: src/validation_dump.c:652
 #, c-format
 msgid "validation tree written to: %s\n"
 msgstr "درخت صحه‌گذاری در %s نوشته شد\n"

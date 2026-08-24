@@ -96,6 +96,26 @@ typedef struct
  * Tier 3 — Per-frequency prerender
  *----------------------------------------------------------------------*/
 
+/* Noise-mode display rotation the presentation applied to the pattern cells:
+ * a Rodrigues rotation about the horizontal axis normal to the max-gain
+ * azimuth.  A zero angle leaves the pattern in the untilted basis. */
+typedef struct
+{
+  double axis_phi;  /* NEC phi of the max-gain direction (radians) */
+  double angle;     /* Boresight elevation the pattern is tilted to (radians) */
+} ff_rotation_t;
+
+/** ff_rotation_tilted() - Whether the display rotation moves the pattern
+ * @rot: rotation the presentation recorded
+ *
+ * The presentation places its vertices and the far-zone resolver places its
+ * tangents in one frame, so both read the tilt from this one answer.
+ */
+static inline gboolean ff_rotation_tilted(const ff_rotation_t *rot)
+{
+  return rot->angle != 0.0;
+}
+
 /* Per-frequency far-field prerender.
  * Grid dimensions: fpat.nth / fpat.nph (Tier 0, not stored).
  * Topology (va/vb) is Tier 1 in geom_pre.theta_topo / phi_topo.
@@ -106,6 +126,7 @@ typedef struct
   float       r_min;
   float       overlay_base_scale; /* Structure-to-pattern scale without scale_adj */
   uint32_t    generation;     /* Incremented by ff_presentation_recompute() */
+  ff_rotation_t rotation;     /* Applied to vertices by ff_presentation_recompute() */
   point_3d_t *vertices;       /* [fpat.nth * fpat.nph] */
   rgb_f_t    *theta_rgb;      /* [geom_pre.n_theta_edges] */
   rgb_f_t    *phi_rgb;        /* [geom_pre.n_phi_edges] */
@@ -115,14 +136,15 @@ typedef struct
   presentation_cache_key_t cache_key;
 } ff_pre_t;
 
-/* Near-field vector displacement from sample origin.
- * Origin coordinates in near_field_fstep[fstep].points[i] (Tier 2).
+/* Field vector displacement from its origin, shared by the near-field sample
+ * grid and the far-zone pattern grid.  The origins travel beside it in the
+ * vector set its resolver publishes.
  * Geometry only: a forked child holds no palette, so color is resolved
  * in the parent at draw beside this displacement, never stored here. */
 typedef struct
 {
   float dx, dy, dz;
-} nf_vector_t;
+} field_vector_t;
 
 /* Near-field channel discriminant, one field set per member */
 typedef enum { NF_CHAN_E = 0, NF_CHAN_H, NF_CHAN_POV, NF_CHAN_NUM } nf_channel_t;

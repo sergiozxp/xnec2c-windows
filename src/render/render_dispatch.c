@@ -429,6 +429,15 @@ render(render_surface_t *surface)
 
       ok = ops->draw_farfield(surface, r.fstep, &ff);
 
+      /* Deposit the animated far-zone field onto the surface just drawn */
+      if( ok )
+      {
+        field_vector_set_t field_set = {0};
+
+        if( render_farfield_vectors(r.fstep, &ff, &field_set) > 0 )
+          ok = ops->draw_field_vectors(surface, &field_set, 1, ff.pattern_radius);
+      }
+
       /* Resolve gradient legend for farfield mode; surface and version
        * travel as a cohesive result through the vtable to backends. */
       if( ok )
@@ -445,10 +454,8 @@ render(render_surface_t *surface)
     case RENDER_MODE_NEARFIELD:
     {
       near_field_t *nf = &near_field_fstep[r.fstep];
-      int npts = fpat.nrx * fpat.nry * fpat.nrz;
-      nf_field_set_t fields[NF_FIELD_SETS_MAX] = {{0}};
-      int n_fields = render_nearfield_fields(r.fstep, fields);
-      double dr = geom_pre.nf_dr_norm;
+      field_vector_set_t sets[NF_FIELD_SETS_MAX] = {{0}};
+      int n_sets = render_nearfield_fields(r.fstep, sets);
 
       /* Near-field overlay: structure in meters, same space as field vectors */
       float nf_overlay_extent = (float)nf->r_max;
@@ -461,11 +468,8 @@ render(render_surface_t *surface)
         ops->draw_structure_overlay(surface, nf_overlay_extent, &sparams);
       }
 
-      if( n_fields > 0 )
-      {
-        ok = ops->draw_nearfield(surface, nf->points, npts,
-            fields, n_fields, dr, nf->r_max);
-      }
+      if( n_sets > 0 )
+        ok = ops->draw_field_vectors(surface, sets, n_sets, nf->r_max);
       else
         ok = FALSE;
 

@@ -486,6 +486,13 @@ typedef struct
    * holds an nf_static_mode_t peak/snapshot selection. */
   int nf_static_mode;
 
+  /* Far-zone animated field (animate dialog): the drawn quantity holds an
+   * ff_quantity_t, the polarization reference an ff_frame_t, and the length
+   * ratio the longest arrow a cell draws as a fraction of its own radius. */
+  int ff_quantity;
+  int ff_frame;
+  double ff_vector_length_ratio;
+
   /* Animated color projection (animate dialog, chroma_proj_t) */
   int anim_color_proj;
 
@@ -723,6 +730,17 @@ typedef struct
 /* Near-field static-baseline selector for the peak/snapshot mode; the
  * rc_config.nf_static_mode field is the single source, read at draw. */
 typedef enum { NF_STATIC_PEAK = 0, NF_STATIC_SNAPSHOT } nf_static_mode_t;
+
+/* Far-zone drawn quantity selector; the rc_config.ff_quantity field is the
+ * single source, read at draw.  The magnetic field is the electric field
+ * turned a quarter turn in the tangent plane, so one phasor pair serves both. */
+typedef enum { FF_QTY_EFIELD = 0, FF_QTY_HFIELD } ff_quantity_t;
+
+/* Reference the far-zone linear polarization pair is taken against; the
+ * rc_config.ff_frame field is the single source, read at draw.  The world
+ * basis holds theta_hat and phi_hat, Ludwig-3 turns the pair by the cell
+ * azimuth so the co-polar direction holds still across the pattern. */
+typedef enum { FF_FRAME_WORLD = 0, FF_FRAME_LUDWIG3 } ff_frame_t;
 
 /* Per-sample near-field E/H amplitude, phase, and coordinates.  The phasor
  * (amplitude + phase) is the sole stored near-field truth; the real vectors
@@ -1282,6 +1300,14 @@ typedef struct
 
 } impedance_data_t;
 
+/* Far-zone field phasors at one pattern cell, volts/meter at the pattern
+ * reference; the exp(-jkr)/r propagation factor is excluded, matching ffld. */
+typedef struct
+{
+  complex double eth;   /* E(theta) */
+  complex double eph;   /* E(phi)   */
+} ff_phasor_t;
+
 /* Radiation pattern data */
 typedef struct
 {
@@ -1293,6 +1319,9 @@ typedef struct
     *max_gain_phi,  /*   Phi angle where maximum gain occurs */
     *tilt,          /* Tilt angle of polarization ellipse  */
     *axrt;          /* Elliptic axial ratio of pol ellipse */
+
+  ff_phasor_t
+    *phasor;        /* Far-zone phasors the polarization members derive from */
 
   double
     efficiency;     /* Radiation efficiency = prad / pinr, per freq step */

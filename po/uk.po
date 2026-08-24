@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xnec2c 4.4.18\n"
 "Report-Msgid-Bugs-To: xnec2c-bugs@z.ewheeler.org\n"
-"POT-Creation-Date: 2026-08-21 17:38-0700\n"
+"POT-Creation-Date: 2026-08-24 14:07-0700\n"
 "PO-Revision-Date: 2025-12-28 20:37-0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -35,11 +35,11 @@ msgstr "Програмне забезпечення чисельного еле�
 msgid "nec2;em;simulator;"
 msgstr "nec2;em;симулятор;"
 
-#: resources/animate.glade:78
+#: resources/animate.glade:85
 msgid "Animated"
 msgstr "Анімовано"
 
-#: resources/animate.glade:85
+#: resources/animate.glade:92
 msgid ""
 "Hue shows the peak magnitude s(n); brightness follows the traveling wave |"
 "cos(arg z + φ)|, floored so nulls stay visible.\n"
@@ -51,11 +51,11 @@ msgstr ""
 "\n"
 "Анімовано: яскраві ділянки рухаються вздовж структури в міру просування фази."
 
-#: resources/animate.glade:86
+#: resources/animate.glade:93
 msgid "Instantaneous"
 msgstr "Миттєве"
 
-#: resources/animate.glade:96
+#: resources/animate.glade:103
 msgid ""
 "Diverging hue shows the instantaneous sign of the displayed quantity: cold "
 "negative, hot positive; brightness carries the magnitude s(n).\n"
@@ -67,11 +67,11 @@ msgstr ""
 "\n"
 "Анімовано: ділянки міняють полюси в міру просування фази."
 
-#: resources/animate.glade:97
+#: resources/animate.glade:104
 msgid "Polarity"
 msgstr "Полярність"
 
-#: resources/animate.glade:107
+#: resources/animate.glade:114
 msgid ""
 "Cyclic hue wheel shows the phase angle arg z + φ; brightness carries the "
 "magnitude s(n).\n"
@@ -83,11 +83,11 @@ msgstr ""
 "\n"
 "Анімовано: усе колесо обертається в міру просування фази."
 
-#: resources/animate.glade:108
+#: resources/animate.glade:115
 msgid "Phase Hue"
 msgstr "Відтінок фази"
 
-#: resources/animate.glade:118
+#: resources/animate.glade:125
 msgid ""
 "Diverging hue shows the instantaneous charge sign; brightness carries the "
 "current envelope s(|I|).\n"
@@ -99,15 +99,15 @@ msgstr ""
 "\n"
 "Анімовано: єдиний вигляд заряду і струму, зсунутих на чверть циклу."
 
-#: resources/animate.glade:119
+#: resources/animate.glade:126
 msgid "Current + Charge"
 msgstr "Струм + Заряд"
 
-#: resources/animate.glade:136
+#: resources/animate.glade:143
 msgid "Static"
 msgstr "Статично"
 
-#: resources/animate.glade:143
+#: resources/animate.glade:150
 msgid ""
 "Rainbow ramp of this frequency step's peak magnitude s(n) at full "
 "brightness.\n"
@@ -120,11 +120,11 @@ msgstr ""
 "Статично: фазово-інваріантна базова лінія; кольори лишаються нерухомими під "
 "час відтворення."
 
-#: resources/animate.glade:144
+#: resources/animate.glade:151
 msgid "Amplitude"
 msgstr "Амплітуда"
 
-#: resources/animate.glade:154
+#: resources/animate.glade:161
 msgid ""
 "Hue ramps the per-region standing-wave ratio: cold traveling, hot standing; "
 "brightness carries the magnitude s(n).\n"
@@ -137,11 +137,11 @@ msgstr ""
 "Статично: фазово-інваріантне зчитування; кольори лишаються нерухомими під "
 "час відтворення."
 
-#: resources/animate.glade:155
+#: resources/animate.glade:162
 msgid "Standing/Traveling"
 msgstr "Стояча/Біжуча"
 
-#: resources/animate.glade:165
+#: resources/animate.glade:172
 msgid ""
 "Hue ramps each segment's contribution to the selected far-field direction; "
 "brightness carries the magnitude s(n).\n"
@@ -154,11 +154,11 @@ msgstr ""
 "Статично: фазово-інваріантне зчитування; кольори лишаються нерухомими під "
 "час відтворення."
 
-#: resources/animate.glade:166
+#: resources/animate.glade:173
 msgid "Far-field Contribution"
 msgstr "Внесок дальнього поля"
 
-#: resources/animate.glade:180
+#: resources/animate.glade:187
 msgid ""
 "Power-law transfer n^γ of the normalized magnitude.\n"
 "\n"
@@ -174,11 +174,11 @@ msgstr ""
 "сегменті (та її внеску у випромінювану потужність через опір "
 "випромінювання), |q|² — накопиченій електростатичній енергії."
 
-#: resources/animate.glade:181
+#: resources/animate.glade:188
 msgid "Power"
 msgstr "Степенева"
 
-#: resources/animate.glade:191
+#: resources/animate.glade:198
 msgid ""
 "Logarithmic transfer over a user range R, the RF-standard 20·log₁₀ amplitude "
 "decibels.\n"
@@ -192,12 +192,12 @@ msgstr ""
 "R визначає видимий динамічний діапазон; деталі нижче межі 10^(−R/20) "
 "обрізаються до нижнього кольору."
 
-#: resources/animate.glade:192 resources/xnec2c.glade:11713
+#: resources/animate.glade:199 resources/xnec2c.glade:11713
 #: resources/xnec2c.glade:13071
 msgid "dB"
 msgstr "дБ"
 
-#: resources/animate.glade:202
+#: resources/animate.glade:209
 msgid ""
 "Inverse hyperbolic sine: linear below the knee k, logarithmic above.\n"
 "\n"
@@ -210,11 +210,11 @@ msgstr ""
 "лінійно-логарифмічної шкали приладу."
 
 # xnec2c-exempt: name
-#: resources/animate.glade:203
+#: resources/animate.glade:210
 msgid "Asinh"
 msgstr ""
 
-#: resources/animate.glade:213
+#: resources/animate.glade:220
 msgid ""
 "μ-law companding, the telephony-standard bounded log curve.\n"
 "\n"
@@ -228,11 +228,11 @@ msgstr ""
 "відповідає класичному μ = 255."
 
 # xnec2c-exempt: name
-#: resources/animate.glade:214
+#: resources/animate.glade:221
 msgid "μ-law"
 msgstr ""
 
-#: resources/animate.glade:224
+#: resources/animate.glade:231
 msgid ""
 "Reinhard rational compressor (1+k)·n/(n+k), the photographic HDR tone-map.\n"
 "\n"
@@ -243,11 +243,11 @@ msgstr ""
 "\n"
 "Зберігає півтони, плавно згладжуючи світлі ділянки; k визначає коліно."
 
-#: resources/animate.glade:225
+#: resources/animate.glade:232
 msgid "Reinhard"
 msgstr "Рейнхард"
 
-#: resources/animate.glade:235
+#: resources/animate.glade:242
 msgid ""
 "Hyperbolic tangent soft limiter tanh(a·n)/tanh(a).\n"
 "\n"
@@ -259,11 +259,11 @@ msgstr ""
 "Підвищує контраст середнього діапазону і плавно насичується до піку, подібно "
 "до компресії підсилювача; a визначає крутизну."
 
-#: resources/animate.glade:236
+#: resources/animate.glade:243
 msgid "Sigmoid"
 msgstr "Сигмоїда"
 
-#: resources/animate.glade:246
+#: resources/animate.glade:253
 msgid ""
 "Identity: every magnitude renders at full brightness.\n"
 "\n"
@@ -273,16 +273,16 @@ msgstr ""
 "\n"
 "Інформацію передає лише проекція кольору."
 
-#: resources/animate.glade:247 resources/settings/cairo_settings.glade:56
+#: resources/animate.glade:254 resources/settings/cairo_settings.glade:56
 msgid "None"
 msgstr "Немає"
 
-#: resources/animate.glade:259 src/rdpattern_ui.c:366 src/rdpattern_ui.c:374
+#: resources/animate.glade:266 src/rdpattern_ui.c:366 src/rdpattern_ui.c:374
 #: src/rdpattern_ui.c:381
 msgid "Near Field Animation"
 msgstr "Анімація ближнього поля"
 
-#: resources/animate.glade:351
+#: resources/animate.glade:358
 msgid ""
 "Scrub the animation phase manually.\n"
 "\n"
@@ -293,27 +293,27 @@ msgstr ""
 "Вимкнено під час роботи анімації."
 
 # xnec2c-exempt: notation
-#: resources/animate.glade:368
+#: resources/animate.glade:375
 msgid "φ 0°"
 msgstr ""
 
-#: resources/animate.glade:382
+#: resources/animate.glade:389
 msgid "Phase"
 msgstr "Фаза"
 
-#: resources/animate.glade:405
+#: resources/animate.glade:412
 msgid "Frames/Sec"
 msgstr "Кадрів/сек"
 
-#: resources/animate.glade:418
+#: resources/animate.glade:425
 msgid "Animate Freq (Hz)"
 msgstr "Частота анімації (Гц)"
 
-#: resources/animate.glade:491
+#: resources/animate.glade:498
 msgid "Color projection:"
 msgstr "Проекція кольору:"
 
-#: resources/animate.glade:505
+#: resources/animate.glade:512
 msgid ""
 "Select which physical quantity drives the hue and how brightness follows the "
 "excitation phase.\n"
@@ -331,11 +331,11 @@ msgstr ""
 "\n"
 "Наведення на пункт показує живий попередній перегляд."
 
-#: resources/animate.glade:532
+#: resources/animate.glade:539
 msgid "Scale family:"
 msgstr "Сімейство шкали:"
 
-#: resources/animate.glade:546
+#: resources/animate.glade:553
 msgid ""
 "Select the magnitude-to-color transfer family.\n"
 "\n"
@@ -351,11 +351,11 @@ msgstr ""
 "\n"
 "Наведення на пункт показує живий попередній перегляд."
 
-#: resources/animate.glade:585
+#: resources/animate.glade:592
 msgid "Gamma:"
 msgstr "Гамма:"
 
-#: resources/animate.glade:602
+#: resources/animate.glade:609
 msgid ""
 "Gamma exponent of the power transfer.\n"
 "\n"
@@ -367,11 +367,11 @@ msgstr ""
 "γ = 0.5 розширює слабкі ділянки, γ = 1 — лінійна, γ = 2 — пропорційна "
 "розсіюваній потужності для струмів."
 
-#: resources/animate.glade:624
+#: resources/animate.glade:631
 msgid "Range (dB):"
 msgstr "Діапазон (дБ):"
 
-#: resources/animate.glade:641
+#: resources/animate.glade:648
 msgid ""
 "Dynamic range R below the step peak mapped onto the color strip.\n"
 "\n"
@@ -381,47 +381,47 @@ msgstr ""
 "\n"
 "Нижня межа становить 10^(−R/20) від піку."
 
-#: resources/animate.glade:663
+#: resources/animate.glade:670
 msgid "Softening:"
 msgstr "Пом'якшення:"
 
-#: resources/animate.glade:680
+#: resources/animate.glade:687
 msgid "Softening knee k: linear below k, logarithmic above."
 msgstr "Коліно пом'якшення k: лінійне нижче k, логарифмічне вище."
 
-#: resources/animate.glade:702
+#: resources/animate.glade:709
 msgid "Compression (dB):"
 msgstr "Компресія (дБ):"
 
-#: resources/animate.glade:719
+#: resources/animate.glade:726
 msgid "Compression strength in dB; higher values lift weak detail."
 msgstr "Сила компресії в дБ; більші значення підсилюють слабкі деталі."
 
-#: resources/animate.glade:741
+#: resources/animate.glade:748
 msgid "Knee:"
 msgstr "Коліно:"
 
-#: resources/animate.glade:758
+#: resources/animate.glade:765
 msgid "Knee k of the rational soft-compressor."
 msgstr "Коліно k раціонального м'якого компресора."
 
-#: resources/animate.glade:780
+#: resources/animate.glade:787
 msgid "Contrast:"
 msgstr "Контраст:"
 
-#: resources/animate.glade:797
+#: resources/animate.glade:804
 msgid "Contrast steepness a of the tanh transfer."
 msgstr "Крутизна контрасту a гіперболічно-тангенсного перетворення."
 
-#: resources/animate.glade:830
+#: resources/animate.glade:837
 msgid "Color gradient of the active projection and scale family."
 msgstr "Кольоровий градієнт активної проекції та сімейства шкали."
 
-#: resources/animate.glade:848
+#: resources/animate.glade:855
 msgid "Brightness floor:"
 msgstr "Нижня межа яскравості:"
 
-#: resources/animate.glade:866
+#: resources/animate.glade:873
 msgid ""
 "Minimum brightness under animation so elements cool toward this level "
 "instead of vanishing to black."
@@ -429,11 +429,11 @@ msgstr ""
 "Мінімальна яскравість під час анімації, до якої елементи «охолоджуються», "
 "замість того щоб зникати в чорний колір."
 
-#: resources/animate.glade:877
+#: resources/animate.glade:884
 msgid "Width from amplitude"
 msgstr "Ширина за амплітудою"
 
-#: resources/animate.glade:882
+#: resources/animate.glade:889
 msgid ""
 "Scale wire segment width by the scaled amplitude envelope s(n), so strong "
 "regions draw thick and nulls draw thin."
@@ -441,15 +441,15 @@ msgstr ""
 "Масштабувати товщину сегмента дроту за масштабованою огинаючою амплітуди "
 "s(n), щоб сильні ділянки малювалися товстими, а нулі — тонкими."
 
-#: resources/animate.glade:908
+#: resources/animate.glade:915
 msgid "Overlays:"
 msgstr "Накладки:"
 
-#: resources/animate.glade:919
+#: resources/animate.glade:926
 msgid "Nodes/antinodes"
 msgstr "Вузли/пучності"
 
-#: resources/animate.glade:924
+#: resources/animate.glade:931
 msgid ""
 "Mark current nulls (plus tick) and peaks (cross tick) on wire segments.\n"
 "\n"
@@ -462,11 +462,11 @@ msgstr ""
 "Позначки визначаються фазово-інваріантною огинаючою, тому вони залишаються "
 "нерухомими під час анімації хвилі."
 
-#: resources/animate.glade:935
+#: resources/animate.glade:942
 msgid "Comet"
 msgstr "Комета"
 
-#: resources/animate.glade:940
+#: resources/animate.glade:947
 msgid ""
 "Ride a bright head on the instantaneous positive crest so wave motion reads "
 "along each wire."
@@ -474,11 +474,11 @@ msgstr ""
 "Яскрава голівка рухається по миттєвому додатному гребеню, показуючи рух "
 "хвилі вздовж кожного дроту."
 
-#: resources/animate.glade:973
+#: resources/animate.glade:980
 msgid "Reset"
 msgstr "Скинути"
 
-#: resources/animate.glade:979
+#: resources/animate.glade:986
 msgid ""
 "Restore the color projection, scale family, and every family brightness "
 "parameter to their defaults."
@@ -486,7 +486,7 @@ msgstr ""
 "Відновити типові значення проекції кольору, сімейства шкали та параметрів "
 "яскравості кожного сімейства."
 
-#: resources/animate.glade:994
+#: resources/animate.glade:1001
 msgid ""
 "<b>Color</b> <i>— currents, charges, and fields shade the wires, patches, "
 "and near-field vectors</i>"
@@ -494,67 +494,67 @@ msgstr ""
 "<b>Колір</b> <i>— струми, заряди та поля забарвлюють дроти, патчі й вектори "
 "ближнього поля</i>"
 
-#: resources/animate.glade:1025
+#: resources/animate.glade:1032
 msgid "None (geometry)"
 msgstr "Немає (геометрія)"
 
-#: resources/animate.glade:1029
+#: resources/animate.glade:1036
 msgid "Show the bare structure geometry with no quantity coloring."
 msgstr "Показати саму геометрію структури без розфарбування за величиною."
 
-#: resources/animate.glade:1042 resources/xnec2c.glade:11240
+#: resources/animate.glade:1049 resources/xnec2c.glade:11240
 msgid "Currents"
 msgstr "Струми"
 
-#: resources/animate.glade:1046
+#: resources/animate.glade:1053
 msgid "Animate current magnitude and direction along the wires."
 msgstr "Анімувати величину і напрямок струму вздовж дротів."
 
-#: resources/animate.glade:1059 resources/xnec2c.glade:11255
+#: resources/animate.glade:1066 resources/xnec2c.glade:11255
 msgid "Charges"
 msgstr "Заряди"
 
-#: resources/animate.glade:1063
+#: resources/animate.glade:1070
 msgid "Animate charge magnitude along the wires."
 msgstr "Анімувати величину заряду вздовж дротів."
 
-#: resources/animate.glade:1080
+#: resources/animate.glade:1087
 msgid "Display"
 msgstr "Відображення"
 
-#: resources/animate.glade:1111
+#: resources/animate.glade:1118
 msgid "Flow direction:"
 msgstr "Напрямок потоку:"
 
-#: resources/animate.glade:1124
+#: resources/animate.glade:1131
 msgid "Reference phase (animated)"
 msgstr "Опорна фаза (анімована)"
 
-#: resources/animate.glade:1125
+#: resources/animate.glade:1132
 msgid "LIC texture (animated)"
 msgstr "Текстура LIC (анімована)"
 
-#: resources/animate.glade:1126
+#: resources/animate.glade:1133
 msgid "Wireframe (animated)"
 msgstr "Каркас (анімований)"
 
-#: resources/animate.glade:1127
+#: resources/animate.glade:1134
 msgid "Polarization axis (static)"
 msgstr "Вісь поляризації (статична)"
 
-#: resources/animate.glade:1128
+#: resources/animate.glade:1135
 msgid "Peak magnitude (static)"
 msgstr "Пікова амплітуда (статична)"
 
-#: resources/animate.glade:1144
+#: resources/animate.glade:1151
 msgid "Patches"
 msgstr "Патчі"
 
-#: resources/animate.glade:1172
+#: resources/animate.glade:1179
 msgid "Near E field"
 msgstr "Ближнє поле E"
 
-#: resources/animate.glade:1176
+#: resources/animate.glade:1183
 msgid ""
 "Show the near electric field vectors while animating.\n"
 "\n"
@@ -564,11 +564,11 @@ msgstr ""
 "\n"
 "Увімкніть, відкривши вікно діаграми випромінювання."
 
-#: resources/animate.glade:1188
+#: resources/animate.glade:1195
 msgid "Near H field"
 msgstr "Ближнє поле H"
 
-#: resources/animate.glade:1192
+#: resources/animate.glade:1199
 msgid ""
 "Show the near magnetic field vectors while animating.\n"
 "\n"
@@ -578,11 +578,11 @@ msgstr ""
 "\n"
 "Увімкніть, відкривши вікно діаграми випромінювання."
 
-#: resources/animate.glade:1204
+#: resources/animate.glade:1211
 msgid "Poynting vector"
 msgstr "Вектор Пойнтінга"
 
-#: resources/animate.glade:1208
+#: resources/animate.glade:1215
 msgid ""
 "Show the Poynting power-flow vectors while animating.\n"
 "\n"
@@ -592,9 +592,66 @@ msgstr ""
 "\n"
 "Увімкніть, відкривши вікно діаграми випромінювання."
 
-#: resources/animate.glade:1224
+#: resources/animate.glade:1231
 msgid "Near Field"
 msgstr "Ближнє поле"
+
+#: resources/animate.glade:1259
+msgid "Far E field"
+msgstr "Дальнє поле E"
+
+#: resources/animate.glade:1263
+msgid ""
+"Draw the far-zone electric field as arrows tangent to the gain surface while "
+"animating.\n"
+"\n"
+"Enable by opening the radiation pattern window."
+msgstr ""
+"Малювати дальнє електричне поле стрілками, дотичними до поверхні підсилення, "
+"під час анімації.\n"
+"\n"
+"Увімкніть, відкривши вікно діаграми випромінювання."
+
+#: resources/animate.glade:1276
+msgid "Far H field"
+msgstr "Дальнє поле H"
+
+#: resources/animate.glade:1280
+msgid ""
+"Draw the far-zone magnetic field instead, a quarter turn from the electric "
+"field in the tangent plane and in step with it in time.\n"
+"\n"
+"Enable by opening the radiation pattern window."
+msgstr ""
+"Натомість малювати дальнє магнітне поле, зсунуте на чверть оберту від "
+"електричного поля в дотичній площині та синхронне з ним у часі.\n"
+"\n"
+"Увімкніть, відкривши вікно діаграми випромінювання."
+
+#: resources/animate.glade:1293
+msgid "World reference"
+msgstr "Світова система відліку"
+
+#: resources/animate.glade:1309
+msgid "Ludwig-3 reference"
+msgstr "Система відліку Ludwig-3"
+
+#: resources/animate.glade:1334
+msgid "Arrow length:"
+msgstr "Довжина стрілки:"
+
+#: resources/animate.glade:1351
+msgid ""
+"Longest arrow a cell draws, as a fraction of that cell's own pattern radius, "
+"so the arrows track whichever gain scale shapes the surface."
+msgstr ""
+"Найдовша стрілка, яку малює комірка, як частка радіуса діаграми цієї "
+"комірки, тому стрілки стежать за будь-якою шкалою підсилення, що формує "
+"поверхню."
+
+#: resources/animate.glade:1373
+msgid "Far Field"
+msgstr "Дальнє поле"
 
 #: resources/settings/cairo_settings.glade:34
 msgid "Anti-aliasing"
@@ -2429,7 +2486,7 @@ msgstr ""
 msgid "T<sub>sky</sub>"
 msgstr ""
 
-#: resources/xnec2c.glade:13267 src/rdpattern_ui.c:870
+#: resources/xnec2c.glade:13267 src/rdpattern_ui.c:869
 msgid "Radiation Patterns"
 msgstr "Діаграми випромінювання"
 
@@ -2876,17 +2933,17 @@ msgstr "Помилка з'єднання сегмента в sbf()"
 msgid "Segment connection error in trio()"
 msgstr "Помилка з'єднання сегмента в trio()"
 
-#: src/callback_func.c:50
+#: src/callback_func.c:51
 #, c-format
 msgid "failed to capture image for %s\n"
 msgstr "не вдалося захопити зображення для %s\n"
 
-#: src/callback_func.c:56
+#: src/callback_func.c:57
 #, c-format
 msgid "failed to save image %s: %s\n"
 msgstr "не вдалося зберегти зображення %s: %s\n"
 
-#: src/callback_func.c:104
+#: src/callback_func.c:105
 msgid ""
 "The frequency loop is running\n"
 "Are you sure you wish to end the calculation?"
@@ -2894,7 +2951,7 @@ msgstr ""
 "Цикл частоти виконується\n"
 "Ви впевнені, що хочете завершити обчислення?"
 
-#: src/callback_func.c:108
+#: src/callback_func.c:109
 msgid ""
 "The frequency loop is running\n"
 "Are you sure you wish to close this window?"
@@ -2902,7 +2959,7 @@ msgstr ""
 "Цикл частоти виконується\n"
 "Ви впевнені, що хочете закрити це вікно?"
 
-#: src/callback_func.c:269
+#: src/callback_func.c:270
 #, c-format
 msgid ""
 "Excitation type %d has no feedpoint: VSWR and impedance plots are hidden.\n"
@@ -2910,47 +2967,47 @@ msgstr ""
 "Тип збудження %d не має точки живлення: графіки VSWR та імпедансу "
 "приховано.\n"
 
-#: src/callback_func.c:331
+#: src/callback_func.c:332
 msgid "View Currents"
 msgstr "Перегляд струмів"
 
-#: src/callback_func.c:333
+#: src/callback_func.c:334
 msgid "View Charges"
 msgstr "Перегляд зарядів"
 
-#: src/callback_func.c:335
+#: src/callback_func.c:336
 msgid "View Geometry"
 msgstr "Перегляд геометрії"
 
-#: src/callback_func.c:385
+#: src/callback_func.c:386
 msgid "PNG images (*.png)"
 msgstr "Зображення PNG (*.png)"
 
-#: src/callback_func.c:387
+#: src/callback_func.c:388
 msgid "GNUplot files (*.gplot)"
 msgstr "Файли GNUplot (*.gplot)"
 
-#: src/callback_func.c:389
+#: src/callback_func.c:390
 msgid "NEC2 files (*.nec)"
 msgstr "Файли NEC2 (*.nec)"
 
-#: src/callback_func.c:391
+#: src/callback_func.c:392
 msgid "Touchstone 1-port files (*.s1p)"
 msgstr "Файли Touchstone 1-порт (*.s1p)"
 
-#: src/callback_func.c:393
+#: src/callback_func.c:394
 msgid "Touchstone 2-port files (*.s2p)"
 msgstr "Файли Touchstone 2-порт (*.s2p)"
 
-#: src/callback_func.c:395
+#: src/callback_func.c:396
 msgid "Comma-separated CSV files (*.csv)"
 msgstr "Файли CSV з розділенням комами (*.csv)"
 
-#: src/callbacks.c:97 src/callbacks.c:113 src/freqplots/freqplots_core.c:66
+#: src/callbacks.c:98 src/callbacks.c:114 src/freqplots/freqplots_core.c:66
 msgid "Antenna Temperature"
 msgstr "Температура антени"
 
-#: src/callbacks.c:98
+#: src/callbacks.c:99
 msgid ""
 "Ground plane detected in model. Ta results will overcount ground effects. "
 "Free-space models are standard for antenna temperature evaluation."
@@ -2959,7 +3016,7 @@ msgstr ""
 "ефекти землі. Моделі вільного простору є стандартними для оцінки температури "
 "антени."
 
-#: src/callbacks.c:114
+#: src/callbacks.c:115
 #, c-format
 msgid ""
 "Max gain at θ=%.0f° (%.0f° from XY plane). Convention assumes beam in XY "
@@ -2969,12 +3026,12 @@ msgstr ""
 "передбачає промінь у площині XY з кутом місця спостереження, встановленим "
 "регулятором."
 
-#: src/callbacks.c:182 src/callbacks.c:520 src/callbacks.c:1950
-#: src/callbacks.c:2774
+#: src/callbacks.c:183 src/callbacks.c:521 src/callbacks.c:1951
+#: src/callbacks.c:2814
 msgid "Are you sure you wish to quit xnec2c?"
 msgstr "Ви впевнені, що хочете вийти з xnec2c?"
 
-#: src/callbacks.c:286
+#: src/callbacks.c:287
 msgid ""
 "A new NEC2 input file may not be created\n"
 "while the Frequency Loop is running"
@@ -2982,7 +3039,7 @@ msgstr ""
 "Новий вхідний файл NEC2 не може бути створено\n"
 "під час виконання циклу частоти"
 
-#: src/callbacks.c:323
+#: src/callbacks.c:324
 msgid ""
 "A new NEC2 input file may not be opened\n"
 "while the Frequency Loop is running"
@@ -2990,22 +3047,22 @@ msgstr ""
 "Новий вхідний файл NEC2 не може бути відкрито\n"
 "під час виконання циклу частоти"
 
-#: src/callbacks.c:442
+#: src/callbacks.c:443
 msgid "xnec2c geometry optimizer"
 msgstr "Оптимізатор геометрії xnec2c"
 
-#: src/callbacks.c:443
+#: src/callbacks.c:444
 msgid ""
 "xnec2c was built without inotify support: the optimizer cannot be enabled."
 msgstr ""
 "xnec2c було зібрано без підтримки inotify: оптимізатор не може бути "
 "увімкнено."
 
-#: src/callbacks.c:464
+#: src/callbacks.c:465
 msgid "Xnec2c Optimizer"
 msgstr "Оптимізатор Xnec2c"
 
-#: src/callbacks.c:464
+#: src/callbacks.c:465
 msgid ""
 "No files are selected for writing. However, xnec2c will still reload and "
 "recalculate the input file on modification when triggered by inotify.Select "
@@ -3015,15 +3072,35 @@ msgstr ""
 "перерахує вхідний файл при зміні, коли це буде ініційовано inotify. Виберіть "
 "файли для запису в «Файл->Налаштування оптимізації»."
 
-#: src/callbacks.c:997 src/callbacks.c:1317 src/callbacks.c:2800
+#: src/callbacks.c:998 src/callbacks.c:1318 src/callbacks.c:2840
 msgid "Are you sure you wish to close this window?"
 msgstr "Ви впевнені, що хочете закрити це вікно?"
 
-#: src/callbacks.c:1825
+#: src/callbacks.c:1826
 msgid "OpenGL is not available on this display; cannot enable renderer.\n"
 msgstr "OpenGL недоступний на цьому дисплеї; неможливо увімкнути рендерер.\n"
 
-#: src/callbacks.c:2059
+#: src/callbacks.c:2038
+msgid ""
+"Read the vertical and horizontal gain selections against the spherical "
+"basis, so vertical is the theta direction and horizontal is the phi "
+"direction."
+msgstr ""
+"Читайте вибір вертикального та горизонтального підсилення відносно "
+"сферичного базису: вертикальний — це напрямок θ, а горизонтальний — напрямок "
+"φ."
+
+#: src/callbacks.c:2042
+msgid ""
+"Read the vertical and horizontal gain selections against the Ludwig-3 co-"
+"polar and cross-polar directions, which hold one orientation across the "
+"whole pattern."
+msgstr ""
+"Читайте вибір вертикального та горизонтального підсилення відносно ко-"
+"поляризаційного та крос-поляризаційного напрямків Ludwig-3, які зберігають "
+"одну орієнтацію по всій діаграмі."
+
+#: src/callbacks.c:2081
 msgid ""
 "Select how the animated patch current flow is rendered.\n"
 "Mirrors the Visualization menu setting in the main window."
@@ -3031,13 +3108,25 @@ msgstr ""
 "Виберіть спосіб відображення анімованого потоку струму патчів.\n"
 "Дублює параметр меню «Візуалізація» в головному вікні."
 
-#: src/callbacks.c:2061
+#: src/callbacks.c:2083
 msgid ""
 "Patch flow animation requires surface patches (SP/SM cards) in the model."
 msgstr ""
 "Анімація потоку патчів потребує поверхневих патчів (картки SP/SM) у моделі."
 
-#: src/callbacks.c:2076
+#: src/callbacks.c:2098
+msgid ""
+"The polarization reference turns the vertical and horizontal gain pair "
+"only.  Select vertical or horizontal polarization in the radiation pattern "
+"window to use it; the total and circular selections read alike under either "
+"reference."
+msgstr ""
+"Система відліку поляризації стосується лише пари вертикального та "
+"горизонтального підсилення.  Щоб її застосувати, виберіть вертикальну або "
+"горизонтальну поляризацію у вікні діаграми випромінювання; вибір сумарної та "
+"колової поляризації виглядає однаково за будь-якої системи відліку."
+
+#: src/callbacks.c:2116
 msgid ""
 "The animation window drives the near-field vectors from the phase slider; "
 "close it to choose the static peak or instantaneous baseline."
@@ -3045,11 +3134,11 @@ msgstr ""
 "Вікно анімації керує векторами ближнього поля за допомогою повзунка фази; "
 "закрийте його, щоб вибрати статичний пік або миттєву базову лінію."
 
-#: src/callbacks.c:2606
+#: src/callbacks.c:2646
 msgid "Animation"
 msgstr "Анімація"
 
-#: src/callbacks.c:2607
+#: src/callbacks.c:2647
 msgid ""
 "Animation requires wire currents or charges, surface patches (SP/SM NEC "
 "cards), or near-field data (NE/NH NEC cards)"
@@ -3057,11 +3146,11 @@ msgstr ""
 "Анімація потребує струмів або зарядів дротів, поверхневих патчів (NEC-картки "
 "SP/SM) або даних ближнього поля (NEC-картки NE/NH)"
 
-#: src/callbacks.c:2736
+#: src/callbacks.c:2776
 msgid "No open NEC2 input file"
 msgstr "Немає відкритого вхідного файлу NEC2"
 
-#: src/callbacks.c:2831 src/callbacks.c:2861
+#: src/callbacks.c:2871 src/callbacks.c:2901
 msgid ""
 "NEC2 Editor's data may not be saved\n"
 "while the Frequency Loop is running"
@@ -3069,11 +3158,11 @@ msgstr ""
 "Дані редактора NEC2 не можуть бути збережені\n"
 "під час виконання циклу частоти"
 
-#: src/callbacks.c:2843 src/callbacks.c:2869
+#: src/callbacks.c:2883 src/callbacks.c:2909
 msgid "untitled.nec"
 msgstr "без_назви.nec"
 
-#: src/callbacks.c:3334 src/callbacks.c:3354 src/callbacks.c:3374
+#: src/callbacks.c:3374 src/callbacks.c:3394 src/callbacks.c:3414
 #: src/geom_edit.c:455 src/geom_edit.c:1327 src/geom_edit.c:1582
 msgid ""
 "Frequency (FR) cards not yet processed.\n"
@@ -3302,16 +3391,16 @@ msgstr "Приріст R (м)"
 msgid "invalid color tone %d, using power\n"
 msgstr "недійсне сімейство кольору %d, використовується степенева\n"
 
-#: src/config_hooks.c:87
+#: src/config_hooks.c:91
 msgid "This overlay derives from wire-current segments; this model has none."
 msgstr ""
 "Ця накладка ґрунтується на сегментах струму дроту; ця модель їх не має."
 
-#: src/config_hooks.c:112
+#: src/config_hooks.c:116
 msgid "Highlight the moving wave crest as a bright comet head."
 msgstr "Виділяти рухомий гребінь хвилі як яскраву голівку комети."
 
-#: src/config_hooks.c:113
+#: src/config_hooks.c:117
 msgid ""
 "Comet rides the animated wave crest; this projection is a static read with "
 "no moving phase."
@@ -3319,7 +3408,7 @@ msgstr ""
 "Комета рухається по гребеню анімованої хвилі; ця проекція є статичним "
 "зчитуванням без рухомої фази."
 
-#: src/config_hooks.c:116
+#: src/config_hooks.c:120
 msgid "Mark current nodes (cyan) and antinodes (red) along the wires."
 msgstr ""
 "Позначати вузли струму (блакитний) і пучності (червоний) вздовж дротів."
@@ -3337,12 +3426,12 @@ msgstr ""
 msgid "step size limited at z= %10.5f"
 msgstr "розмір кроку обмежено при z= %10.5f"
 
-#: src/fork.c:334 src/fork.c:589
+#: src/fork.c:334 src/fork.c:591
 #, c-format
 msgid "child %d  length %d  return %d\n"
 msgstr "дочірній %d  довжина %d  результат %d\n"
 
-#: src/fork.c:595
+#: src/fork.c:597
 #, c-format
 msgid "early EOF?, child %d  length %d  return %d\n"
 msgstr "передчасний EOF?, дочірній %d  довжина %d  результат %d\n"
@@ -5415,7 +5504,7 @@ msgstr "FBO накопичення Peel неповний\n"
 msgid "Layer depth FBO incomplete\n"
 msgstr "FBO глибини шару неповний\n"
 
-#: src/opengl-engine/opengl_view_render.c:413
+#: src/opengl-engine/opengl_view_render.c:427
 msgid "Transparent renderables skipped: peel FBOs unavailable\n"
 msgstr "Прозорі об'єкти пропущено: FBO peel недоступні\n"
 
@@ -5423,7 +5512,7 @@ msgstr "Прозорі об'єкти пропущено: FBO peel недосту
 msgid "Failed to load shaders\n"
 msgstr "Не вдалося завантажити шейдери\n"
 
-#: src/opengl/opengl_rdpattern.c:342
+#: src/opengl/opengl_rdpattern.c:355
 #, c-format
 msgid "rdpattern: invalid draw style %d, using surface\n"
 msgstr "rdpattern: недійсний стиль малювання %d, використовується surface\n"
@@ -5697,14 +5786,14 @@ msgstr "var '%s' розмір round_result не відповідає\n"
 msgid "var '%s' round_result has element <= 0\n"
 msgstr "var '%s' round_result має елемент <= 0\n"
 
-#: src/radiation.c:878
+#: src/radiation.c:885
 #, c-format
 msgid "Average gain %.4f exceeds expected %.4f; check RP theta/phi ranges\n"
 msgstr ""
 "Середнє підсилення %.4f перевищує очікуване %.4f; перевірте діапазони theta/"
 "phi у RP\n"
 
-#: src/radiation.c:882
+#: src/radiation.c:889
 #, c-format
 msgid ""
 "Average gain: %.4f (%.2f dBi), efficiency: %.1f%%, solid angle: %.4f * pi "
@@ -5713,44 +5802,44 @@ msgstr ""
 "Середнє підсилення: %.4f (%.2f dBi), ефективність: %.1f%%, тілесний кут: "
 "%.4f * pi sr\n"
 
-#: src/rc_config.c:854
+#: src/rc_config.c:885
 #, c-format
 msgid "unable to getcwd(): %s\n"
 msgstr "не вдалося отримати getcwd(): %s\n"
 
-#: src/rc_config.c:858
+#: src/rc_config.c:889
 #, c-format
 msgid "environment variable HOME is undefined, using %s\n"
 msgstr "змінна середовища HOME не визначена, використовується %s\n"
 
-#: src/rc_config.c:943
+#: src/rc_config.c:974
 #, c-format
 msgid ""
 "%s (locale=%s): only matchd %d of %lu chars, trying another locale: %s\n"
 msgstr ""
 "%s (locale=%s): збіг лише %d з %lu символів, спроба іншого locale: %s\n"
 
-#: src/rc_config.c:1162
+#: src/rc_config.c:1193
 #, c-format
 msgid "window: x=%-5d y=%-5d w=%-5d h=%-5d  title: \"%s\"\n"
 msgstr "вікно: x=%-5d y=%-5d w=%-5d h=%-5d  заголовок: \"%s\"\n"
 
-#: src/rc_config.c:1196
+#: src/rc_config.c:1227
 #, c-format
 msgid "%s: EOF reading application version.\n"
 msgstr "%s: EOF під час читання версії програми.\n"
 
-#: src/rc_config.c:1202
+#: src/rc_config.c:1233
 #, c-format
 msgid "existing config file version differs: %s != %s\n"
 msgstr "версія існуючого файлу конфігурації відрізняється: %s != %s\n"
 
-#: src/rc_config.c:1336
+#: src/rc_config.c:1367
 #, c-format
 msgid "stat failed for %s: %s\n"
 msgstr "stat не вдався для %s: %s\n"
 
-#: src/rc_config.c:1342
+#: src/rc_config.c:1373
 #, c-format
 msgid ""
 "Fixed %s directory permissions from 0%o to 0%o from bug introduced in "
@@ -5759,42 +5848,42 @@ msgstr ""
 "Виправлено права доступу директорії %s з 0%o на 0%o через помилку, введену в "
 "4e62893b.\n"
 
-#: src/rc_config.c:1373
+#: src/rc_config.c:1404
 #, c-format
 msgid "%s:%d: Line not parsed: %s\n"
 msgstr "%s:%d: Рядок не розібрано: %s\n"
 
-#: src/rc_config.c:1379
+#: src/rc_config.c:1410
 #, c-format
 msgid "%s:%d: Early end of file for %s: %s \n"
 msgstr "%s:%d: Передчасний кінець файлу для %s: %s \n"
 
-#: src/rc_config.c:1404
+#: src/rc_config.c:1435
 #, c-format
 msgid "%s:%d: parse error (%s): %s \n"
 msgstr "%s:%d: помилка розбору (%s): %s \n"
 
-#: src/rc_config.c:1418
+#: src/rc_config.c:1449
 #, c-format
 msgid "Invalid sky model index %d in config, resetting to default\n"
 msgstr "Недійсний індекс моделі неба %d у конфігурації, скидання до типового\n"
 
-#: src/rc_config.c:1424
+#: src/rc_config.c:1455
 #, c-format
 msgid "Invalid earth model index %d in config, resetting to default\n"
 msgstr ""
 "Недійсний індекс моделі землі %d у конфігурації, скидання до типового\n"
 
-#: src/rc_config.c:1430
+#: src/rc_config.c:1461
 #, c-format
 msgid "Invalid interp method %d in config, resetting to default\n"
 msgstr "Недійсний метод інтерполяції %d у конфігурації, скидання до типового\n"
 
-#: src/rc_config.c:1605
+#: src/rc_config.c:1636
 msgid "batch mode: skipping configuration save\n"
 msgstr "пакетний режим: пропуск збереження конфігурації\n"
 
-#: src/rc_config.c:1612
+#: src/rc_config.c:1643
 #, c-format
 msgid "cannot open xnec2c's config file %s: %s\n"
 msgstr "не вдалося відкрити файл конфігурації xnec2c %s: %s\n"
@@ -5864,71 +5953,71 @@ msgstr ""
 "Моделі шумової температури неба та землі.\n"
 "Виберіть Стиль підсилення → Шумова температура для активації."
 
-#: src/rdpattern_ui.c:847
+#: src/rdpattern_ui.c:846
 msgid "Total Gain"
 msgstr "Загальне підсилення"
 
-#: src/rdpattern_ui.c:848
+#: src/rdpattern_ui.c:847
 msgid "Horizontal Polarization"
 msgstr "Горизонтальна поляризація"
 
-#: src/rdpattern_ui.c:849
+#: src/rdpattern_ui.c:848
 msgid "Vertical Polarization"
 msgstr "Вертикальна поляризація"
 
-#: src/rdpattern_ui.c:850
+#: src/rdpattern_ui.c:849
 msgid "RH Circular Polarization"
 msgstr "Правостороння кругова поляризація"
 
-#: src/rdpattern_ui.c:851
+#: src/rdpattern_ui.c:850
 msgid "LH Circular Polarization"
 msgstr "Лівостороння кругова поляризація"
 
-#: src/rdpattern_ui.c:856
+#: src/rdpattern_ui.c:855
 msgid "Linear Power"
 msgstr "Лінійна потужність"
 
-#: src/rdpattern_ui.c:857
+#: src/rdpattern_ui.c:856
 msgid "Linear Voltage"
 msgstr "Лінійна напруга"
 
-#: src/rdpattern_ui.c:858
+#: src/rdpattern_ui.c:857
 msgid "ARRL Scale"
 msgstr "Шкала ARRL"
 
-#: src/rdpattern_ui.c:859
+#: src/rdpattern_ui.c:858
 msgid "Logarithmic Scale"
 msgstr "Логарифмічна шкала"
 
-#: src/rdpattern_ui.c:860
+#: src/rdpattern_ui.c:859
 msgid "Noise Temperature"
 msgstr "Шумова температура"
 
-#: src/rdpattern_ui.c:861
+#: src/rdpattern_ui.c:860
 msgid "Noise Temp (log scale)"
 msgstr "Шумова темп. (лог. шкала)"
 
-#: src/rdpattern_ui.c:873
+#: src/rdpattern_ui.c:872
 msgid "Radiation Pattern: - "
 msgstr "Діаграма випромінювання: - "
 
-#: src/rdpattern_ui.c:893
+#: src/rdpattern_ui.c:892
 msgid "Near Fields:"
 msgstr "Ближні поля:"
 
-#: src/rdpattern_ui.c:895
+#: src/rdpattern_ui.c:894
 msgid " - E Field"
 msgstr " - Поле E"
 
-#: src/rdpattern_ui.c:897
+#: src/rdpattern_ui.c:896
 msgid " - H Field"
 msgstr " - Поле H"
 
-#: src/rdpattern_ui.c:899
+#: src/rdpattern_ui.c:898
 msgid " - Poynting Vector"
 msgstr " - Вектор Пойнтінга"
 
-#: src/rdpattern_ui.c:909
+#: src/rdpattern_ui.c:908
 msgid "Frequency Data Plots - "
 msgstr "Графіки частотних даних - "
 
@@ -6198,19 +6287,19 @@ msgstr ""
 "validation: скинуто перегляд структури до типової орієнтації для "
 "відтворюваності\n"
 
-#: src/validation_dump.c:609 src/validation_dump.c:615
+#: src/validation_dump.c:614 src/validation_dump.c:620
 msgid "Validation Tree"
 msgstr "Дерево перевірки"
 
-#: src/validation_dump.c:609
+#: src/validation_dump.c:614
 msgid "Cannot save: frequency loop not done"
 msgstr "Неможливо зберегти: цикл частоти не завершено"
 
-#: src/validation_dump.c:615
+#: src/validation_dump.c:620
 msgid "Cannot create output directory"
 msgstr "Не вдалося створити вихідну директорію"
 
-#: src/validation_dump.c:647
+#: src/validation_dump.c:652
 #, c-format
 msgid "validation tree written to: %s\n"
 msgstr "дерево перевірки записано в: %s\n"

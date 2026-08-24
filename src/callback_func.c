@@ -25,6 +25,7 @@
 #include "prerender/prerender_color.h"
 #include "color/color_palette.h"
 #include "chroma/chroma.h"
+#include "render/render_geometry.h"
 #include "structure_ui.h"
 #include "mem/mem_track.h"
 
@@ -646,6 +647,9 @@ engine_buffers_free( void )
   free_crnt_fstep_buffers();
   prerender_state_free();
   free_struct_colors();
+
+  /* Free the draw-time origin buffers the render geometry layer publishes. */
+  render_geometry_free();
 
   /* Free the engine data buffers owned by parent and child alike. */
   input_data_free();

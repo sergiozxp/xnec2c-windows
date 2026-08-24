@@ -107,51 +107,64 @@ rdpat_mesh_cache_match(const rdpat_mesh_cache_t *a,
 
 /*-----------------------------------------------------------------------*/
 
-/** gl_rdpat_draw_nearfield() - Near-field leaf: convert prerendered vectors to GL batches
- * @surface:  GL surface holding the frame content
- * @origins:  sample point positions [npts]
- * @npts:     number of near-field sample points
- * @fields:   dispatch-resolved vector sets (0-3 active field types)
- * @n_fields: number of active field sets
- * @dr:       normalization scale distance
- * @r_max:    maximum distance from origin for view scaling
+/** gl_rdpat_draw_field_vectors() - Vector leaf: convert resolved vectors to a GL batch
+ * @surface: GL surface holding the frame content
+ * @sets:    dispatch-resolved vector sets
+ * @n_sets:  number of active sets
+ * @r_max:   maximum distance from origin for view scaling
  *
- * One GL batch per field set. Backend iterates — zero field-type branching.
+ * One GL batch carries every set, appended to the batches the frame already
+ * holds so a pattern surface drawn before it keeps its own.  Backend
+ * iterates — zero field-type branching.
  */
   gboolean
-gl_rdpat_draw_nearfield(render_surface_t *surface,
-    const near_field_point_t *origins, int npts,
-    const nf_field_set_t *fields, int n_fields,
-    double dr, double r_max)
+gl_rdpat_draw_field_vectors(render_surface_t *surface,
+    const field_vector_set_t *sets, int n_sets, double r_max)
 {
   gl_view_content_t *out = &gl_view_state(surface)->content;
-  int total_lines;
+  lit_color_point_t *line_buf;
+  gl_draw_batch_t *batch;
+  double extent = 0.0;
+  float clip;
+  int total_lines, line_count, idx;
 
-  total_lines = opengl_rdpattern_generate_nf_field_lines(
-      origins, npts, fields, n_fields, dr);
+  if( out->batch_count >= GL_VIEW_MAX_BATCHES )
+  {
+    BUG("field vectors: frame already holds %d batches\n", out->batch_count);
+    return FALSE;
+  }
+
+  total_lines = opengl_rdpattern_generate_field_vector_lines(sets, n_sets);
   if( total_lines <= 0 )
     return FALSE;
 
-  /* Near-field positions overlap structure in same coordinate space */
-  {
-    int nf_count;
-    lit_color_point_t *nf_buf;
+  /* The longest displacement any set draws sets the clip allowance */
+  for( idx = 0; idx < n_sets; idx++ )
+    if( sets[idx].extent > extent )
+      extent = sets[idx].extent;
 
-    nf_buf = opengl_rdpattern_get_nf_lines(&nf_count);
-    out->batches[0].vertices = nf_buf;
-    out->batches[0].vertex_count = nf_count * 2;
-    out->batches[0].draw_mode = GL_LINES;
-    out->batches[0].line_width = 1.0f;
-    out->batches[0].color_dim = rc_config.brightness_nearfield;
-    out->batches[0].alpha = TRANSPARENCY_TO_ALPHA(rc_config.transparency_nearfield);
-    out->batch_count = 1;
-  }
+  line_buf = opengl_rdpattern_get_field_vector_lines(&line_count);
+
+  batch = &out->batches[out->batch_count];
+  batch->vertices = line_buf;
+  batch->vertex_count = line_count * 2;
+  batch->draw_mode = GL_LINES;
+  batch->polygon_offset = FALSE;
+  batch->line_width = 1.0f;
+  batch->color_dim = rc_config.brightness_nearfield;
+  batch->alpha = TRANSPARENCY_TO_ALPHA(rc_config.transparency_nearfield);
+  out->batch_count++;
 
   out->vertex_stride = (int)sizeof(lit_color_point_t);
   out->r_max = (float)r_max;
-  out->clip_extent = (float)(r_max + dr);
   out->model_scale = 1.0f;
-  out->generation = opengl_rdpattern_get_nf_generation();
+
+  /* Arrows reach one extent beyond the content they attach to */
+  clip = (float)(r_max + extent);
+  if( clip > out->clip_extent )
+    out->clip_extent = clip;
+
+  out->generation += opengl_rdpattern_get_field_vector_generation();
 
   return TRUE;
 }
@@ -192,7 +205,7 @@ gl_rdpat_draw_farfield(render_surface_t *surface, int fstep,
   verts = fp->vertices;
   current_gen = fp->generation;
 
-  translate_to_excitation = (ff->off_len > 0.001f);
+  translate_to_excitation = (ff->off_len > FF_EXCITATION_OFFSET_MIN);
   points_to_use = verts;
 
   if( translate_to_excitation )

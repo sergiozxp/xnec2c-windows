@@ -933,6 +933,7 @@ free_rad_pattern_step(void *elem)
   mem_array_free(&rp->axrt);
   mem_array_free(&rp->tilt);
   mem_array_free(&rp->sens);
+  mem_array_free(&rp->phasor);
 }
 
 /*-----------------------------------------------------------------------*/
@@ -966,6 +967,7 @@ _Alloc_Rdpattern_Buffers( int nfrq, int nth, int nph )
       mem_array_alloc(&rad_pattern[idx].max_gain_idx, NUM_POL);
       mem_array_alloc(&rad_pattern[idx].min_gain_idx, NUM_POL);
       mem_array_alloc(&rad_pattern[idx].sens, nrec);
+      mem_array_alloc(&rad_pattern[idx].phasor, nrec);
     }
   mem_array_realloc(&noise_temp, nfrq);
   mem_array_zero(noise_temp);
@@ -1093,7 +1095,6 @@ Viewer_Noise_Value(view_t *v, int fstep)
 	double elev_deg = rc_config.ant_temp_elevation;
 	if (elev_deg != 0.0)
 	{
-		double tht_mg = rad_pattern[fstep].max_gain_tht[pol] * M_PI / 180.0;
 		double phi_mg = rad_pattern[fstep].max_gain_phi[pol] * M_PI / 180.0;
 		double elev_rad = elev_deg * M_PI / 180.0;
 
@@ -1102,7 +1103,7 @@ Viewer_Noise_Value(view_t *v, int fstep)
 
 		double xr, yr, zr;
 		ant_temp_rotate_point(tht_rad, phi_rad,
-			tht_mg, phi_mg, -elev_rad,
+			phi_mg, -elev_rad,
 			&xr, &yr, &zr);
 
 		if (zr > 1.0)

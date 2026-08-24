@@ -35,10 +35,8 @@ render_surface_t *opengl_rdpattern_surface_new(GtkContainer *parent);
 /* GL rdpattern leaf renderers; exported for unified gl_ops vtable */
 gboolean gl_rdpat_draw_farfield(render_surface_t *surface, int fstep,
     const ff_draw_params_t *ff);
-gboolean gl_rdpat_draw_nearfield(render_surface_t *surface,
-    const near_field_point_t *origins, int npts,
-    const nf_field_set_t *fields, int n_fields,
-    double dr, double r_max);
+gboolean gl_rdpat_draw_field_vectors(render_surface_t *surface,
+    const field_vector_set_t *sets, int n_sets, double r_max);
 
 #endif /* HAVE_OPENGL */
 #endif /* OPENGL_RDPATTERN_H */

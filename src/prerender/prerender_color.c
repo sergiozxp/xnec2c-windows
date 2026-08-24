@@ -25,6 +25,7 @@
 #include "prerender_color.h"
 #include "../chroma/chroma.h"
 #include "../chroma/chroma_nearfield.h"
+#include "../chroma/chroma_farfield.h"
 #include "../shared.h"
 
 rgb_f_t *seg_rgb   = NULL;
@@ -203,6 +204,7 @@ free_struct_colors(void)
 
   chroma_proj_free();
   chroma_nf_free();
+  chroma_ff_free();
 }
 
 /*-----------------------------------------------------------------------*/

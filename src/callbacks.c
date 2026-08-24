@@ -30,6 +30,7 @@
 #include "rc_config.h"
 #include "cairo/cairo_frame.h"
 #include "cairo/cairo_fit.h"
+#include "chroma/chroma_farfield.h"
 #include <pthread.h>
 
 #include "opengl/opengl_state.h"
@@ -2021,20 +2022,41 @@ static const struct
   { "anim_efield",   &rdpattern_window_builder },
   { "anim_hfield",   &rdpattern_window_builder },
   { "anim_poynting", &rdpattern_window_builder },
+  { "anim_farfield_frame", &rdpattern_window_builder },
+};
+
+/* The far-zone polarization reference turns the linear pair of gain
+ * selections; each radio carries the reading it selects, held beside its
+ * widget so one loop greys the pair and explains the greying. */
+static const struct
+{
+  const char *widget_id;
+  const char *reading;
+} anim_ff_frame_radios[] =
+{
+  { "anim_ff_frame_world",
+    N_("Read the vertical and horizontal gain selections against the"
+       " spherical basis, so vertical is the theta direction and horizontal"
+       " is the phi direction.") },
+  { "anim_ff_frame_ludwig3",
+    N_("Read the vertical and horizontal gain selections against the"
+       " Ludwig-3 co-polar and cross-polar directions, which hold one"
+       " orientation across the whole pattern.") },
 };
 
 /** anim_panel_sensitivity() - Grey animation panel controls by owner state
  *
  * Greys each panel control whose owning window is closed, greys the
  * flow-direction combo when the main window is closed or the model
- * carries no surface patches, and greys the structure frame when the
- * main window is closed.
+ * carries no surface patches, greys the structure frame when the
+ * main window is closed, and greys the far-zone polarization reference
+ * under the gain selections it cannot turn.
  */
-  static void
+  void
 anim_panel_sensitivity(void)
 {
   GtkWidget *widget;
-  gboolean has_patches;
+  gboolean has_patches, linear_pol;
   size_t i;
 
   if( animate_dialog == NULL )
@@ -2060,6 +2082,24 @@ anim_panel_sensitivity(void)
           "Mirrors the Visualization menu setting in the main window.")
       : _("Patch flow animation requires surface patches"
           " (SP/SM cards) in the model.") );
+
+  /* Read the polarization the engine holds, not the pattern window selector
+   * that displays it; the resolver owning the far-zone operators answers
+   * whether the reference reaches the selection. */
+  linear_pol = ff_frame_turns_pol( calc_data.pol_type );
+  for( i = 0; i < G_N_ELEMENTS(anim_ff_frame_radios); i++ )
+  {
+    widget = Builder_Get_Object( animate_dialog_builder,
+        anim_ff_frame_radios[i].widget_id );
+    gtk_widget_set_sensitive( widget, linear_pol );
+    gtk_widget_set_tooltip_text( widget,
+        linear_pol
+        ? _(anim_ff_frame_radios[i].reading)
+        : _("The polarization reference turns the vertical and horizontal"
+            " gain pair only.  Select vertical or horizontal polarization"
+            " in the radiation pattern window to use it; the total and"
+            " circular selections read alike under either reference.") );
+  }
 }
 
 /* The near-field static-baseline menu items in the rdpattern window choose the

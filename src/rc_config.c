@@ -240,6 +240,37 @@ rc_config_vars_t rc_config_vars[] = {
 						NULL ) ),
 				NULL ) ) },
 
+	{ .desc = "Far Field Animated Quantity", .format = "%d",
+		.vars = { &rc_config.ff_quantity }, .def = { { .i = FF_QTY_EFIELD } },
+		.widgets = CONFIG_WIDGET_TREE( .post_apply = hook_rdpat_redraw,
+			.groups = CONFIG_WIDGET_GROUPS(
+				CONFIG_WIDGET_GROUP( .builder = &animate_dialog_builder,
+					.elements = CONFIG_WIDGETS(
+						CONFIG_WIDGET( .widget_id = "anim_ff_qty_e",
+							.values = CONFIG_WIDGET_VALUES(FF_QTY_EFIELD) ),
+						CONFIG_WIDGET( .widget_id = "anim_ff_qty_h",
+							.values = CONFIG_WIDGET_VALUES(FF_QTY_HFIELD) ),
+						NULL ) ),
+				NULL ) ) },
+
+	{ .desc = "Far Field Polarization Reference", .format = "%d",
+		.vars = { &rc_config.ff_frame }, .def = { { .i = FF_FRAME_WORLD } },
+		.widgets = CONFIG_WIDGET_TREE( .post_apply = hook_rdpat_redraw,
+			.groups = CONFIG_WIDGET_GROUPS(
+				CONFIG_WIDGET_GROUP( .builder = &animate_dialog_builder,
+					.elements = CONFIG_WIDGETS(
+						CONFIG_WIDGET( .widget_id = "anim_ff_frame_world",
+							.values = CONFIG_WIDGET_VALUES(FF_FRAME_WORLD) ),
+						CONFIG_WIDGET( .widget_id = "anim_ff_frame_ludwig3",
+							.values = CONFIG_WIDGET_VALUES(FF_FRAME_LUDWIG3) ),
+						NULL ) ),
+				NULL ) ) },
+
+	{ .desc = "Far Field Vector Length Ratio", .format = "%lf",
+		.vars = { &rc_config.ff_vector_length_ratio }, .def = { { .d = 0.15 } },
+		.widgets = CONFIG_WIDGET_SINGLE( &animate_dialog_builder,
+			"anim_ff_length", hook_rdpat_redraw ) },
+
 	{ .desc = "Radiation Pattern Window Gradient Key", .format = "%d",
 		.vars = { &rc_config.rdpattern_gradient_key }, .def = { { .i = 1 } },
 		.widgets = CONFIG_WIDGET_SINGLE( &rdpattern_window_builder,

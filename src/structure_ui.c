@@ -336,6 +336,21 @@ Animate_Phase(gpointer _udata)
 
 /*-----------------------------------------------------------------------*/
 
+/** rdpat_farfield_phase_active() - Whether the pattern draws its field at phase
+ *
+ * True while the pattern window shows the gain surface and the animation is
+ * live, the state in which the far-zone phasors resolve into tangent vectors
+ * on that surface.
+ */
+  gboolean
+rdpat_farfield_phase_active(void)
+{
+  return rdpat_gain_active() && animation_is_active();
+
+} /* rdpat_farfield_phase_active() */
+
+/*-----------------------------------------------------------------------*/
+
 /** apply_animation_phase() - Render structure and pattern at the current phase
  *
  * Shared by the timer tick and the manual phase slider.  Reads flow_phase
@@ -348,8 +363,10 @@ apply_animation_phase(void)
 {
   Queue_Structure_Redraw( TRUE );
 
-  /* Queue rdpattern for near-field visualization or structure overlay */
-  if(rdpat_ehfield_active() || overlay_struct_active() )
+  /* Queue rdpattern for near-field visualization, structure overlay, or the
+   * far-zone field the gain surface carries */
+  if(rdpat_ehfield_active() || overlay_struct_active() ||
+      rdpat_farfield_phase_active() )
     Queue_Radiation_Redraw(TRUE);
 
   /* Update the phase readout from flow_phase without moving the slider, whose

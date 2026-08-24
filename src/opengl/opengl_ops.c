@@ -68,7 +68,7 @@ gl_set_colors(render_surface_t *surface, const render_frame_colors_t *colors)
 const render_ops_t gl_ops =
 {
   .draw_farfield          = gl_rdpat_draw_farfield,
-  .draw_nearfield         = gl_rdpat_draw_nearfield,
+  .draw_field_vectors     = gl_rdpat_draw_field_vectors,
   .draw_structure         = gl_draw_structure,
   .draw_structure_overlay = gl_draw_structure_overlay,
   .draw_axes              = gl_draw_axes,

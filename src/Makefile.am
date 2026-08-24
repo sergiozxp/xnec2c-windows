@@ -108,7 +108,9 @@ xnec2c_SOURCES = \
     chroma/chroma_source.c   chroma/chroma_source.h \
     chroma/chroma_glyph.c    chroma/chroma_glyph.h \
     chroma/chroma.c          chroma/chroma.h \
+    chroma/chroma_field.h \
     chroma/chroma_nearfield.c chroma/chroma_nearfield.h \
+    chroma/chroma_farfield.c  chroma/chroma_farfield.h \
     prerender/prerender_state.c     prerender/prerender_state.h \
     prerender/prerender_aggregate.c prerender/prerender_aggregate.h \
     prerender/prerender_rdpattern.c prerender/prerender_rdpattern.h \
@@ -136,7 +138,7 @@ xnec2c_SOURCES = \
     cairo/cairo_scenebuffer.h \
     cairo/cairo_fit.c         cairo/cairo_fit.h \
     cairo/cairo_frame.c       cairo/cairo_frame.h \
-    cairo/cairo_nearfield.c \
+    cairo/cairo_field_vectors.c \
     cairo/cairo_structure.c \
     common.h        editors.h
 

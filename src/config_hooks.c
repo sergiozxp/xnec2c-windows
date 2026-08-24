@@ -33,6 +33,10 @@ void
 hook_polarization(void)
 {
   Set_Polarization(calc_data.pol_type);
+
+  /* The far-zone reference radios turn the linear pair of gain selections,
+   * so their availability follows this selection */
+  anim_panel_sensitivity();
 }
 
 /*------------------------------------------------------------------------*/

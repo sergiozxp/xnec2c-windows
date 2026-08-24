@@ -27,13 +27,11 @@
 #ifdef HAVE_OPENGL
 #include "../shared.h"
 
-/* Generate line geometry from dispatch-resolved near-field vector sets.
- * Iterates fields[0..n_fields-1], converting nf_vector_t to lit_color_point_t pairs.
+/* Generate line geometry from dispatch-resolved field vector sets.
+ * Iterates sets[0..n_sets-1], converting field_vector_t to lit_color_point_t pairs.
  * Returns total line count, or -1 on failure. */
-int opengl_rdpattern_generate_nf_field_lines(
-    const near_field_point_t *origins, int npts,
-    const nf_field_set_t *fields, int n_fields,
-    double dr);
+int opengl_rdpattern_generate_field_vector_lines(
+    const field_vector_set_t *sets, int n_sets);
 
 /* Tessellate point_3d buffer into colored triangles.
  * Per-vertex color from precomputed vertex_rgb array.
@@ -42,8 +40,8 @@ int opengl_rdpattern_generate_triangles(
     point_3d_t *points, int nth, int nph,
     const rgb_f_t *vertex_rgb);
 
-/* Return near-field line vertex buffer and count */
-lit_color_point_t* opengl_rdpattern_get_nf_lines(int *count);
+/* Return field vector line vertex buffer and count */
+lit_color_point_t* opengl_rdpattern_get_field_vector_lines(int *count);
 
 /* Return far-field triangle buffer and count */
 lit_color_triangle_t* opengl_rdpattern_get_triangles(int *count);
@@ -62,8 +60,8 @@ lit_color_point_t* opengl_rdpattern_get_lines(int *count);
 /* Return current far-field generation counter */
 unsigned int opengl_rdpattern_get_ff_generation(void);
 
-/* Return current near-field generation counter */
-unsigned int opengl_rdpattern_get_nf_generation(void);
+/* Return current field vector generation counter */
+unsigned int opengl_rdpattern_get_field_vector_generation(void);
 
 /* Free all geometry buffers and reset state */
 void opengl_rdpattern_geometry_cleanup(void);

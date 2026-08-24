@@ -12,11 +12,11 @@ src/branch_hints.h
 src/cairo/cairo_axes.c
 src/cairo/cairo_draw.h
 src/cairo/cairo_farfield.c
+src/cairo/cairo_field_vectors.c
 src/cairo/cairo_fit.c
 src/cairo/cairo_fit.h
 src/cairo/cairo_frame.c
 src/cairo/cairo_frame.h
-src/cairo/cairo_nearfield.c
 src/cairo/cairo_project.c
 src/cairo/cairo_scenebuffer.c
 src/cairo/cairo_scenebuffer.h
@@ -30,6 +30,9 @@ src/callbacks.c
 src/callbacks.h
 src/chroma/chroma.c
 src/chroma/chroma.h
+src/chroma/chroma_farfield.c
+src/chroma/chroma_farfield.h
+src/chroma/chroma_field.h
 src/chroma/chroma_glyph.c
 src/chroma/chroma_glyph.h
 src/chroma/chroma_nearfield.c

@@ -172,6 +172,13 @@ gl_view_frame_content_reset(gl_view_state_t *state)
   state->content.status_message = NULL;
   state->content.gradient = (gradient_result_t){NULL, 0};
 
+  /* A leaf deposited after another appends its batch, folds its upload key
+   * into the frame's, and raises the clip allowance, so all three start the
+   * frame cleared */
+  state->content.batch_count = 0;
+  state->content.generation = 0;
+  state->content.clip_extent = 0.0f;
+
   if( state->overlay_content != NULL )
     state->overlay_content->batch_count = 0;
 

@@ -112,10 +112,8 @@ gboolean cairo_draw_structure(render_surface_t *surface, float extent,
     const struct_draw_params_t *params);
 gboolean cairo_draw_farfield(render_surface_t *surface, int fstep,
     const ff_draw_params_t *ff);
-gboolean cairo_draw_nearfield(render_surface_t *surface,
-    const near_field_point_t *origins, int npts,
-    const nf_field_set_t *fields, int n_fields,
-    double dr, double r_max);
+gboolean cairo_draw_field_vectors(render_surface_t *surface,
+    const field_vector_set_t *sets, int n_sets, double r_max);
 void     cairo_set_status(render_surface_t *surface, const char *msg);
 void     cairo_set_gradient(render_surface_t *surface,
     const gradient_result_t *result);

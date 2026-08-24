@@ -37,9 +37,9 @@
 
 /* Per-channel resolved-frame buffers and their input-edge gates.  One draw's
  * geometry, color, and scratch magnitude live here, indexed by nf_channel_t. */
-static nf_vector_t *nf_vec_buf[NF_CHAN_NUM];
-static rgb_f_t     *nf_col_buf[NF_CHAN_NUM];
-static double      *nf_mag_buf[NF_CHAN_NUM];
+static field_vector_t *nf_vec_buf[NF_CHAN_NUM];
+static rgb_f_t        *nf_col_buf[NF_CHAN_NUM];
+static double         *nf_mag_buf[NF_CHAN_NUM];
 
 typedef struct
 {
@@ -48,25 +48,6 @@ typedef struct
 } nf_gate_t;
 
 static nf_gate_t nf_gate[NF_CHAN_NUM];
-
-/*-----------------------------------------------------------------------*/
-
-/**
- * nf_ramp_color() - Amplitude-ramp colorize leaf
- * @fam: active tone family
- * @tp:  tone parameter for the family
- * @mag: point magnitude
- * @max: frame magnitude maximum
- *
- * The one near-field colorize: the family transfer of mag/max looked up on
- * the ramp palette, shared with wire and patch and ready for far field.
- */
-static inline rgb_f_t
-nf_ramp_color(color_tone_t fam, const tone_param_t *tp, double mag, double max)
-{
-  return palette_lookup_scaled(palette_get(PALETTE_RAMP),
-      color_tone_transfer_norm(fam, tp, mag, max), 1.0);
-}
 
 /*-----------------------------------------------------------------------*/
 
@@ -126,16 +107,16 @@ nf_real_vector(const near_field_point_t *p, nf_channel_t chan,
 
 /*-----------------------------------------------------------------------*/
 
-  nf_frame_t
+  field_frame_t
 chroma_proj_frame_nearfield(int fstep, nf_channel_t chan)
 {
-  nf_frame_t out = { NULL, NULL };
+  field_frame_t out = { NULL, NULL, 0.0 };
   near_field_t *nf;
   color_tone_t fam;
   tone_param_t tp;
   color_edge_t want;
   gboolean live;
-  double phase, dr, max;
+  double phase, max;
   nf_static_mode_t mode;
   int npts, i;
 
@@ -147,6 +128,9 @@ chroma_proj_frame_nearfield(int fstep, nf_channel_t chan)
     return out;
 
   nf = &near_field_fstep[fstep];
+
+  /* Every vector is scaled into this bound, so it is the frame's extent */
+  out.extent = geom_pre.nf_dr_norm;
 
   /* State drives the phase source; the resolver never mutates points */
   live  = animation_is_active();
@@ -177,11 +161,10 @@ chroma_proj_frame_nearfield(int fstep, nf_channel_t chan)
   mem_array_realloc(&nf_col_buf[chan], npts);
   mem_array_realloc(&nf_mag_buf[chan], npts);
 
-  dr  = geom_pre.nf_dr_norm;
   max = 0.0;
 
-  /* Geometry pass: real vector to direction·dr; scan the frame magnitude
-   * maximum for the colorize pass. */
+  /* Geometry pass: real vector to direction scaled by the frame extent; scan
+   * the frame magnitude maximum for the colorize pass. */
   for( i = 0; i < npts; i++ )
   {
     double mag, fscale, pv[3];
@@ -198,7 +181,7 @@ chroma_proj_frame_nearfield(int fstep, nf_channel_t chan)
     else
       mag = nf_real_vector(&nf->points[i], chan, live, phase, mode, pv);
 
-    fscale = dr / mag;
+    fscale = out.extent / mag;
     nf_vec_buf[chan][i].dx = (float)(pv[0] * fscale);
     nf_vec_buf[chan][i].dy = (float)(pv[1] * fscale);
     nf_vec_buf[chan][i].dz = (float)(pv[2] * fscale);
@@ -210,7 +193,7 @@ chroma_proj_frame_nearfield(int fstep, nf_channel_t chan)
 
   /* Colorize pass: amplitude ramp of mag/max through the active tone */
   for( i = 0; i < npts; i++ )
-    nf_col_buf[chan][i] = nf_ramp_color(fam, &tp, nf_mag_buf[chan][i], max);
+    nf_col_buf[chan][i] = field_ramp_color(fam, &tp, nf_mag_buf[chan][i], max);
 
   nf_gate[chan].edge  = want;
   nf_gate[chan].valid = TRUE;

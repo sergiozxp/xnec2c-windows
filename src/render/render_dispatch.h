@@ -30,6 +30,9 @@
 /* Axis half-extent used for empty-scene placeholders (no geometry loaded) */
 #define RENDER_EMPTY_AXIS_EXTENT 1.5f
 
+/* Smallest excitation translation the pattern draw moves its content by */
+#define FF_EXCITATION_OFFSET_MIN 0.001f
+
 /* Content mode resolved by render_check() */
 typedef enum
 {
@@ -81,13 +84,18 @@ typedef struct
   float off_len;           /* sqrt(x²+y²+z²); clip extent = pattern_radius + off_len */
 } ff_draw_params_t;
 
-/* Near-field vector set descriptor — one per active field type (E, H, Poynting).
- * Dispatch builds 0-3 of these; backend iterates and emits one batch per entry. */
+/* Field vector set descriptor — one per drawn vector field: the near-field
+ * types (E, H, Poynting) or the far-zone instantaneous field.  Each set
+ * carries its own origins, so no domain-specific point type reaches the
+ * backend; the backend iterates and emits one batch per entry. */
 typedef struct
 {
-  const nf_vector_t     *vecs;    /* resolver-owned geometry displacement */
+  const point_3d_t      *origins; /* vector tails, in the view's space */
+  const field_vector_t  *vecs;    /* resolver-owned geometry displacement */
   const rgb_f_t         *colors;  /* resolver-owned palette colors, parallel to vecs */
-} nf_field_set_t;
+  int                    npts;    /* entries in origins, vecs, and colors */
+  double                 extent;  /* displacement bound, for the clip allowance */
+} field_vector_set_t;
 
 #define NF_FIELD_SETS_MAX 3
 
@@ -117,12 +125,11 @@ typedef struct render_ops_s
   gboolean (*draw_farfield)(render_surface_t *surface, int fstep,
       const ff_draw_params_t *ff);
 
-  /* Draw near E/H/Poynting field vectors; returns TRUE on success.
-   * Backend iterates fields[0..n_fields-1], one batch per entry. */
-  gboolean (*draw_nearfield)(render_surface_t *surface,
-      const near_field_point_t *origins, int npts,
-      const nf_field_set_t *fields, int n_fields,
-      double dr, double r_max);
+  /* Draw field vectors, near E/H/Poynting or far-zone instantaneous field;
+   * returns TRUE on success.  Backend iterates sets[0..n_sets-1], one batch
+   * per entry; r_max scales the view. */
+  gboolean (*draw_field_vectors)(render_surface_t *surface,
+      const field_vector_set_t *sets, int n_sets, double r_max);
 
   /* Draw structure geometry; returns TRUE always.
    * extent: content half-extent for projection scaling. */

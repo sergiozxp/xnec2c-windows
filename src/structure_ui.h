@@ -36,6 +36,7 @@ void apply_animation_phase(void);
 void reset_animation_phase(void);
 void animation_set_scrubbed(void);
 gboolean animation_is_active(void);
+gboolean rdpat_farfield_phase_active(void);
 chroma_proj_t color_proj_active(void);
 
 #endif
