@@ -1,0 +1,123 @@
+name: Build Windows x64
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-ucrt64-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UPSTREAM_COMMIT: a0245e6c0ed4c44909993a83db9e2a162fa81a60
+  ARTIFACT_NAME: xnec2c-windows-x64-ucrt64
+
+jobs:
+  build:
+    name: MSYS2 UCRT64 / Cairo
+    runs-on: windows-2022
+    timeout-minutes: 45
+
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - name: Preserve LF line endings
+        shell: pwsh
+        run: git config --global core.autocrlf input
+
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify pinned upstream ancestry
+        shell: pwsh
+        run: |
+          git cat-file -e "$env:UPSTREAM_COMMIT^{commit}"
+          git merge-base --is-ancestor $env:UPSTREAM_COMMIT HEAD
+          if ($LASTEXITCODE -ne 0) {
+            throw "Pinned upstream commit is not an ancestor of HEAD"
+          }
+
+      - name: Set up MSYS2 UCRT64
+        uses: msys2/setup-msys2@66cd2cce69caa17b53920067426061ca1de3a884 # v2
+        with:
+          msystem: UCRT64
+          update: true
+          cache: false
+          install: >-
+            autoconf
+            automake
+            gettext-devel
+            git
+            libtool
+            make
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-gsl
+            mingw-w64-ucrt-x86_64-gtk3
+            mingw-w64-ucrt-x86_64-librsvg
+            mingw-w64-ucrt-x86_64-pkgconf
+
+      - name: Verify toolchain and upstream manifest
+        run: |
+          set -euxo pipefail
+          test "$MSYSTEM" = UCRT64
+          source packaging/windows/upstream.env
+          test "$XNEC2C_UPSTREAM_COMMIT" = "$UPSTREAM_COMMIT"
+          gcc --version
+          pkg-config --modversion gtk+-3.0 gsl gmodule-2.0
+
+      - name: Generate configure scripts
+        run: autoreconf --force --install
+
+      - name: Configure without OpenGL
+        run: ./configure --disable-opengl --disable-silent-rules
+
+      - name: Build
+        run: make -j"$(nproc)"
+
+      - name: Run native test binaries
+        run: make -C t check -j"$(nproc)"
+
+      - name: Smoke test executable
+        run: |
+          ./src/xnec2c.exe --version
+          ldd ./src/xnec2c.exe
+
+      - name: Assemble portable package
+        run: |
+          ./packaging/windows/package-portable.sh
+          package="$PWD/dist/$ARTIFACT_NAME"
+          PATH="$package/bin:/usr/bin" "$package/bin/xnec2c.exe" --version
+          PATH="$package/bin:/usr/bin" ldd "$package/bin/xnec2c.exe" | tee portable-ldd.txt
+          ! grep -q 'not found' portable-ldd.txt
+
+      - name: Verify portable package
+        shell: pwsh
+        run: |
+          $package = Join-Path $PWD "dist/$env:ARTIFACT_NAME"
+          $exe = Join-Path $package "bin/xnec2c.exe"
+          if (-not (Test-Path -LiteralPath $exe)) {
+            throw "Portable xnec2c.exe was not produced"
+          }
+          $dlls = @(Get-ChildItem -LiteralPath (Join-Path $package "bin") -Filter *.dll)
+          if ($dlls.Count -eq 0) {
+            throw "No runtime DLLs were packaged"
+          }
+          Get-FileHash -Algorithm SHA256 -LiteralPath $exe
+          Write-Host "Packaged $($dlls.Count) runtime DLLs"
+
+      - name: Upload portable Windows artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: dist/${{ env.ARTIFACT_NAME }}/
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 6

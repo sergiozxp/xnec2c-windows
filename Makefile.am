@@ -47,7 +47,7 @@ EXTRA_DIST += debian/upstream/metadata
 
 EXTRA_DIST += MAINTAINER
 EXTRA_DIST += README.md
-EXTRA_DIST += PACKAGING
+EXTRA_DIST += PACKAGING-UPSTREAM.md
 
 EXTRA_DIST += m4-include/ax_check_compile_flag.m4
 EXTRA_DIST += m4-include/pkg.m4
