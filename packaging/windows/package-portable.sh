@@ -31,6 +31,7 @@ fi
 mkdir -p "$output/bin" "$output/lib" "$output/share/doc/xnec2c-windows"
 cp -- "$exe" "$output/bin/xnec2c.exe"
 cp -- "$script_dir/xnec2c.cmd" "$output/xnec2c.cmd"
+"$script_dir/build-launcher.sh" "$output/xnec2c-launcher.exe"
 
 copy_tree() {
   local source_path="$1"
@@ -105,6 +106,7 @@ collect_deps() {
 }
 
 collect_deps "$exe"
+collect_deps "$output/xnec2c-launcher.exe"
 for module in "${module_sources[@]}"; do
   collect_deps "$module"
 done
@@ -156,6 +158,7 @@ cp -- "$script_dir/upstream.env" "$output/share/doc/xnec2c-windows/"
   echo "upstream_commit=$XNEC2C_UPSTREAM_COMMIT"
   echo "upstream_version=$XNEC2C_UPSTREAM_VERSION"
   echo "integration_commit=$(git -C "$repo_root" rev-parse HEAD)"
+  echo "launcher=xnec2c-launcher.exe (native Win32 GUI subsystem)"
   echo "configure_flags=--disable-opengl --disable-silent-rules"
   echo "msystem=$MSYSTEM"
   echo

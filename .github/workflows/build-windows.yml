@@ -94,22 +94,44 @@ jobs:
         run: |
           ./packaging/windows/package-portable.sh
           package="$PWD/dist/$ARTIFACT_NAME"
+          objdump -p "$package/xnec2c-launcher.exe" | tee launcher-pe.txt
+          grep -Eq 'Subsystem[[:space:]]+00000002.*Windows GUI' launcher-pe.txt
+          "$package/xnec2c-launcher.exe" --version
           PATH="$package/bin:/usr/bin" "$package/bin/xnec2c.exe" --version
+          ldd "$package/xnec2c-launcher.exe" | tee launcher-ldd.txt
+          ! grep -q 'not found' launcher-ldd.txt
           PATH="$package/bin:/usr/bin" ldd "$package/bin/xnec2c.exe" | tee portable-ldd.txt
           ! grep -q 'not found' portable-ldd.txt
+
+          relocated="$(mktemp -d)/relocated-xnec2c"
+          cp -a "$package" "$relocated"
+          (
+            cd /tmp
+            "$relocated/xnec2c-launcher.exe" --version
+          )
 
       - name: Verify portable package
         shell: pwsh
         run: |
           $package = Join-Path $PWD "dist/$env:ARTIFACT_NAME"
           $exe = Join-Path $package "bin/xnec2c.exe"
+          $launcher = Join-Path $package "xnec2c-launcher.exe"
           if (-not (Test-Path -LiteralPath $exe)) {
             throw "Portable xnec2c.exe was not produced"
+          }
+          if (-not (Test-Path -LiteralPath $launcher)) {
+            throw "Native Windows launcher was not produced"
           }
           $dlls = @(Get-ChildItem -LiteralPath (Join-Path $package "bin") -Filter *.dll)
           if ($dlls.Count -eq 0) {
             throw "No runtime DLLs were packaged"
           }
+          $launcherProcess = Start-Process -FilePath $launcher -ArgumentList "--version" `
+            -WorkingDirectory $env:TEMP -PassThru -Wait
+          if ($launcherProcess.ExitCode -ne 0) {
+            throw "Launcher smoke test failed with exit code $($launcherProcess.ExitCode)"
+          }
+          Get-FileHash -Algorithm SHA256 -LiteralPath $launcher
           Get-FileHash -Algorithm SHA256 -LiteralPath $exe
           Write-Host "Packaged $($dlls.Count) runtime DLLs"
 
