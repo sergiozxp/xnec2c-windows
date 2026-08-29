@@ -86,6 +86,7 @@ El resultado aparece en:
 
 ```text
 dist/xnec2c-windows-x64-ucrt64/
+├── xnec2c-launcher.exe      # inicio normal, sin consola
 ├── xnec2c.cmd
 ├── bin/
 │   ├── xnec2c.exe
@@ -97,15 +98,66 @@ dist/xnec2c-windows-x64-ucrt64/
 ```
 
 Copie el directorio completo a otra ubicación o equipo Windows x64. Inicie la
-aplicación mediante `xnec2c.cmd`; el lanzador fija el directorio de trabajo y
-las rutas relocatables de módulos GTK. No es necesario instalar MSYS2 en el
-equipo de destino.
+aplicación mediante `xnec2c-launcher.exe`. El launcher Win32 calcula todas las
+rutas desde su propia ubicación, añade `bin` al `PATH` sólo para el proceso
+hijo y configura los archivos de módulos GTK, esquemas y traducciones del
+portable. No modifica el `PATH` del sistema, el Registro ni otras preferencias
+permanentes y no necesita privilegios de administrador.
 
-## 5. GitHub Actions
+El launcher usa el subsistema GUI de Windows y crea `bin/xnec2c.exe` con
+`CREATE_NO_WINDOW`, por lo que no abre una consola. Reenvía los argumentos sin
+reinterpretarlos; por ejemplo:
+
+```powershell
+.\xnec2c-launcher.exe "C:\Modelos de antena\dipolo.nec"
+```
+
+`xnec2c.cmd` se mantiene temporalmente como herramienta de diagnóstico porque
+permite ver la salida estándar y los errores en una consola. No es el método
+normal de inicio. El equipo de destino no necesita MSYS2, WSL ni Cygwin.
+
+El launcher también se puede compilar de forma aislada desde UCRT64:
+
+```sh
+./packaging/windows/build-launcher.sh
+```
+
+El empaquetador lo compila siempre de nuevo y lo incorpora a `SHA256SUMS`.
+
+## 5. Crear el instalador por usuario
+
+Primero genere el portable. Después instale Inno Setup 6.3 o posterior en el
+equipo de desarrollo y, desde PowerShell, ejecute:
+
+```powershell
+.\packaging\windows\build-installer.ps1
+```
+
+El resultado es:
+
+```text
+dist/installer/Xnec2c-4.4.18-Windows-x64-Setup.exe
+```
+
+El Setup consume directamente el portable ya verificado. Instala para el
+usuario actual en `%LOCALAPPDATA%\Programs\Xnec2c`, usa modo de instalación de
+64 bits y `PrivilegesRequired=lowest`, por lo que no solicita UAC ni escribe en
+`Program Files`. Crea un acceso directo en el Menú Inicio; el acceso directo de
+escritorio es opcional y está desmarcado. Al finalizar ofrece abrir Xnec2c y no
+requiere reiniciar Windows.
+
+La base de asociación `.nec` está preparada en
+`packaging/windows/xnec2c.iss`, pero `EnableNecAssociation` permanece en `0`
+hasta que se complete su validación específica. No se instala menú contextual
+moderno de Windows 11.
+
+## 6. GitHub Actions
 
 `.github/workflows/build-windows.yml` usa `windows-2022`, UCRT64 y las mismas
-dependencias. Las acciones externas están fijadas por SHA. Cada artefacto
-incluye `BUILDINFO.txt` con:
+dependencias. Las acciones externas están fijadas por SHA. El job ejecuta las
+12 pruebas nativas, verifica el subsistema GUI y las DLL del launcher, prueba
+una copia relocada y publica dos artefactos: el portable y el Setup. El
+portable incluye `BUILDINFO.txt` con:
 
 - commit upstream fijado;
 - commit exacto del repositorio de integración;
@@ -128,7 +180,9 @@ usarse las versiones allí registradas o un mirror/snapshot equivalente.
   `--disable-opengl`.
 - El solver NEC2 incorporado es el fallback portable. Incluir y validar
   OpenBLAS/MKL nativos será una etapa posterior.
-- El paquete aún no está firmado y no incluye instalador.
+- Los binarios y el Setup aún no tienen firma de código.
+- La asociación `.nec` está preparada pero desactivada.
+- No se incorpora todavía un menú contextual moderno de Windows 11.
 
 ## Diagnóstico rápido
 
@@ -137,5 +191,7 @@ usarse las versiones allí registradas o un mirror/snapshot equivalente.
 - Si `autoreconf` informa que falta `autopoint`, instale `gettext-devel`.
 - Si faltan iconos SVG en el paquete, confirme que `librsvg` estaba instalado
   al ejecutar `package-portable.sh`.
+- Si `build-installer.ps1` no encuentra `ISCC.exe`, instale Inno Setup 6.3 o
+  posterior o pase su ruta mediante `-CompilerPath`.
 - Si Windows bloquea el paquete descargado, extraiga primero el artefacto y
   revise sus hashes con `SHA256SUMS` antes de ejecutarlo.

@@ -7,8 +7,9 @@ Cairo; OpenGL queda desactivado expresamente.
 
 La automatización de GitHub Actions compila el código y publica el artefacto
 `xnec2c-windows-x64-ucrt64`. El paquete contiene `bin/xnec2c.exe`, sus DLL de
-UCRT64, los módulos y datos de ejecución de GTK necesarios, un lanzador
-`xnec2c.cmd` y metadatos de la compilación.
+UCRT64, los módulos y datos de ejecución de GTK necesarios, un launcher Win32
+nativo sin consola y metadatos de la compilación. `xnec2c.cmd` se conserva sólo
+para diagnóstico.
 
 ## Base upstream fijada
 
@@ -57,13 +58,28 @@ make -C t check -j"$(nproc)"
 ```
 
 El paquete local se crea en `dist/xnec2c-windows-x64-ucrt64/`.
+Se inicia normalmente con `xnec2c-launcher.exe`, también aceptando una ruta
+`.nec` como argumento. El portable no requiere MSYS2, WSL ni Cygwin en el
+equipo de destino.
+
+Después de crear el portable, el instalador por usuario se genera desde
+PowerShell con:
+
+```powershell
+.\packaging\windows\build-installer.ps1
+```
+
+El Setup se escribe en
+`dist/installer/Xnec2c-4.4.18-Windows-x64-Setup.exe` e instala sin UAC bajo
+`%LOCALAPPDATA%\Programs\Xnec2c`.
 
 ## Alcance pendiente
 
 - comprobar y habilitar bibliotecas BLAS/LAPACK nativas de Windows;
 - evaluar paralelismo multiproceso nativo sin trasladar la arquitectura POSIX;
 - incorporar OpenGL después de estabilizar el build Cairo;
-- crear instalador, iconos registrados y firma de código;
+- validar y habilitar la asociación `.nec` y evaluar un icono Windows dedicado;
+- incorporar firma de código;
 - añadir pruebas funcionales con escritorio interactivo de Windows.
 
 Xnec2c se distribuye bajo GPL; consulte [COPYING](COPYING). El historial y la

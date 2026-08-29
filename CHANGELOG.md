@@ -13,6 +13,11 @@ cambios del proyecto original se conserva en `ChangeLog` y `doc/xnec2c.html`.
 - Documentación de compilación, procedencia upstream y actualización futura.
 - Estructura `packaging/windows/`, manifiesto de upstream, lanzador portable y
   script de recolección de dependencias.
+- Launcher Win32 nativo `xnec2c-launcher.exe`, de subsistema GUI, que resuelve
+  el portable de forma relativa, reenvía argumentos y muestra errores mediante
+  cuadros de diálogo de Windows.
+- Base de instalador Inno Setup por usuario, compilación automatizada y
+  artefacto `Xnec2c-4.4.18-Windows-x64-Setup.exe`.
 
 ### Changed
 
@@ -29,13 +34,19 @@ cambios del proyecto original se conserva en `ChangeLog` y `doc/xnec2c.html`.
 - El archivo upstream `PACKAGING` se conserva como `PACKAGING-UPSTREAM.md` para
   permitir el directorio `packaging/` en sistemas de archivos de Windows, que
   no distinguen mayúsculas de minúsculas.
+- El inicio normal del portable pasa a `xnec2c-launcher.exe`; `xnec2c.cmd`
+  queda disponible únicamente para diagnóstico con consola.
+- GitHub Actions valida launcher, relocación, dependencias y 12/12 pruebas, y
+  publica por separado el portable y el instalador.
 
 ### Known limitations
 
 - OpenGL desactivado.
 - Sin multiproceso por `fork` en Windows; pthreads se mantienen.
 - Bibliotecas matemáticas aceleradas externas no se incluyen todavía.
-- Sin instalador ni firma de código.
+- Sin firma de código.
+- Asociación `.nec` preparada pero desactivada; sin menú contextual moderno de
+  Windows 11.
 
 ### Upstream
 
