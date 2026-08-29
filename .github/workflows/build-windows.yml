@@ -135,6 +135,10 @@ jobs:
           Get-FileHash -Algorithm SHA256 -LiteralPath $exe
           Write-Host "Packaged $($dlls.Count) runtime DLLs"
 
+      - name: Build per-user Inno Setup installer
+        shell: pwsh
+        run: ./packaging/windows/build-installer.ps1
+
       - name: Upload portable Windows artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
@@ -143,3 +147,12 @@ jobs:
           if-no-files-found: error
           retention-days: 14
           compression-level: 6
+
+      - name: Upload Windows installer artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: xnec2c-windows-x64-setup
+          path: dist/installer/Xnec2c-4.4.18-Windows-x64-Setup.exe
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
