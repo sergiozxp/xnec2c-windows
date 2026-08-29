@@ -18,6 +18,10 @@
 
 #define _GNU_SOURCE
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <complex.h>
 #include <math.h>
 #include <stdio.h>
@@ -219,10 +223,45 @@ static int emit_columns(measurement_t *m, const char *format, double *col,
 	FILE *fp;
 	char *tok, *ctx;
 	int n = 0;
+#ifdef XNEC2C_NATIVE_WINDOWS
+	long end;
+#endif
 
+#ifdef XNEC2C_NATIVE_WINDOWS
+	fp = tmpfile();
+	if (fp == NULL)
+		return 0;
+
+	meas_write_format(m, format, fp);
+	if (fflush(fp) != 0 || fseek(fp, 0, SEEK_END) != 0)
+	{
+		fclose(fp);
+		return 0;
+	}
+
+	end = ftell(fp);
+	if (end < 0 || fseek(fp, 0, SEEK_SET) != 0)
+	{
+		fclose(fp);
+		return 0;
+	}
+
+	len = (size_t)end;
+	line = malloc(len + 1);
+	if (line == NULL)
+	{
+		fclose(fp);
+		return 0;
+	}
+
+	len = fread(line, 1, len, fp);
+	line[len] = '\0';
+	fclose(fp);
+#else
 	fp = open_memstream(&line, &len);
 	meas_write_format(m, format, fp);
 	fclose(fp);
+#endif
 
 	for (tok = strtok_r(line, "\t\n", &ctx);
 		tok != NULL && n < max;

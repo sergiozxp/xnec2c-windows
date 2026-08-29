@@ -147,10 +147,17 @@ xnec2c_CFLAGS    =
 xnec2c_LDFLAGS   =
 xnec2c_LDADD     =
 
+if WINDOWS
+# GtkBuilder resolves signal handlers from the executable through GModule.
+# PE/COFF does not export executable symbols by default, so make the callbacks
+# visible without annotating hundreds of upstream callback declarations.
+xnec2c_LDFLAGS += -Wl,--export-all-symbols
+else
 if OSX
 xnec2c_LDFLAGS += -Wl,-export_dynamic
 else
 xnec2c_LDFLAGS += -Wl,--export-dynamic -Wl,--as-needed
+endif
 endif
 
 # Disable warnings for overlength-strings, nothing we can do about that for GTK resources.

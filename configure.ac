@@ -43,6 +43,7 @@ AC_CANONICAL_HOST
 
 build_linux=no
 build_windows=no
+build_native_windows=no
 build_mac=no
 
 # Detect the target system
@@ -53,8 +54,12 @@ case "${host_os}" in
     openbsd*)
         build_openbsd=yes
         ;;
-    cygwin*|mingw*)
+    cygwin*)
         build_windows=yes
+        ;;
+    mingw*)
+        build_windows=yes
+        build_native_windows=yes
         ;;
     darwin*)
         build_mac=yes
@@ -68,6 +73,11 @@ esac
 AM_CONDITIONAL([LINUX], [test "$build_linux" = "yes"])
 AM_CONDITIONAL([WINDOWS], [test "$build_windows" = "yes"])
 AM_CONDITIONAL([OSX], [test "$build_mac" = "yes"])
+
+AS_IF([test "$build_native_windows" = "yes"], [
+  AC_DEFINE([XNEC2C_NATIVE_WINDOWS], [1],
+    [Define to 1 for a native Windows target such as MinGW])
+])
 
 # Set CFLAGS if not set in environment
 AC_MSG_CHECKING([whether configure should try to set CFLAGS])
@@ -214,10 +224,8 @@ AC_ARG_WITH([openblas-incdir],
 # Check headers for linear algebra
 AC_CHECK_HEADERS([clapack.h cblas.h lapacke.h openblas/cblas.h openblas/lapacke.h])
 
-# Dynamic loader for linear algebra
-AC_SEARCH_LIBS([dlopen], [dl dld], [], [dnl
-  AC_MSG_ERROR([unable to find the dlopen() function])
-])
+# Dynamic loading is provided by the already-required GModule abstraction.
+# Unlike dlopen(), GModule is available on both POSIX and native Windows.
 
 # If the user sets -Werror then _FORTIFY_SOURCE=2 fails with -O0
 # so make it optional:
@@ -333,7 +341,7 @@ AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
 
 # Checks for library functions.
-AC_FUNC_FORK
+AS_IF([test "$build_native_windows" != "yes"], [AC_FUNC_FORK])
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([floor pow select setlocale sqrt strstr])

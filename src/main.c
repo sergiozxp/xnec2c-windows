@@ -39,10 +39,14 @@
 extern void sy_overrides_close_if_empty(void);
 
 #include <getopt.h>
+#ifndef XNEC2C_NATIVE_WINDOWS
 #include <poll.h>
+#endif
 #include <time.h>
 
+#ifndef XNEC2C_NATIVE_WINDOWS
 static void sig_handler(int signal);
+#endif
 
 /* Child process pid returned by fork() */
 static pid_t child_pid = (pid_t)(-1);
@@ -64,19 +68,23 @@ char *orig_numeric_locale = NULL;
   int
 main (int argc, char *argv[])
 {
+#ifndef XNEC2C_NATIVE_WINDOWS
   int idx, err;
 
   /*** Signal handler related code ***/
   /* new and old actions for sigaction() */
   struct sigaction sa_new, sa_old;
+#endif
 
   // Print all notices that may occur before getopt parsing:
   rc_config.verbose = 9;
 
+#ifndef XNEC2C_NATIVE_WINDOWS
   /* initialize new actions */
   sa_new.sa_handler = sig_handler;
   sigemptyset( &sa_new.sa_mask );
   sa_new.sa_flags = 0;
+#endif
 
   // Setup locales so we can switch between C and the system locale.
   // The pointer returned from setlocale() seems to be stack sensitive
@@ -91,6 +99,7 @@ main (int argc, char *argv[])
   bindtextdomain(PACKAGE, localedir);
   textdomain(PACKAGE);
 
+#ifndef XNEC2C_NATIVE_WINDOWS
   /* Register function to handle signals */
   sigaction( SIGINT,  &sa_new, &sa_old );
   sigaction( SIGSEGV, &sa_new, NULL );
@@ -98,6 +107,7 @@ main (int argc, char *argv[])
   sigaction( SIGTERM, &sa_new, NULL );
   sigaction( SIGABRT, &sa_new, NULL );
   sigaction( SIGCHLD, &sa_new, NULL );
+#endif
 
   /* Use the non-fatal initializer so informational options such as
    * --help and --version remain usable without a display (e.g. when
@@ -128,6 +138,14 @@ main (int argc, char *argv[])
 
   /* Process command line options */
   args_parse(argc, argv);
+
+#ifdef XNEC2C_NATIVE_WINDOWS
+  /* Native Win32 has no fork().  Preserve the established -j0 serial path
+   * and make an explicit -j request degrade safely instead of failing. */
+  if( calc_data.num_jobs > 0 )
+    pr_notice("native Windows builds do not support process forking; using one in-process worker\n");
+  calc_data.num_jobs = 0;
+#endif
 
   if (rc_config.batch_mode && isFlagSet(SUPPRESS_INTERMEDIATE_REDRAWS))
   {
@@ -196,6 +214,7 @@ main (int argc, char *argv[])
    * requested number of child processes = number of processors */
 
   /* Allocate buffers for fork data */
+#ifndef XNEC2C_NATIVE_WINDOWS
   if( calc_data.num_jobs > 0 )
   {
     mem_array_alloc(&child_procs, calc_data.num_jobs);
@@ -254,6 +273,7 @@ main (int argc, char *argv[])
     FORKED = TRUE;
   } /* if( calc_data.num_jobs > 0 ) */
   else
+#endif
   {
     /* No fork: one in-process worker. The length-one child_procs array holds
      * the parent's own slot so the serial path indexes child_procs[0] like the
@@ -396,6 +416,7 @@ main (int argc, char *argv[])
 
 /*-----------------------------------------------------------------------*/
 
+#ifndef XNEC2C_NATIVE_WINDOWS
 /* Total wall-clock budget the parent spends quiescing every forked child at
  * teardown.  Once spent, any straggler is SIGKILLed so quitting never blocks. */
 #define CHILD_REAP_BUDGET_MS 500
@@ -487,6 +508,7 @@ drain_and_reap( child_proc_t *child, const struct timespec *deadline )
   }
 
 } /* drain_and_reap() */
+#endif
 
 /*-----------------------------------------------------------------------*/
 
@@ -500,6 +522,7 @@ child_procs_free( void )
 {
   size_t i, n = mem_array_count( child_procs );
 
+#ifndef XNEC2C_NATIVE_WINDOWS
   /* One shared budget bounds the whole teardown pass: the parent spends at most
    * CHILD_REAP_BUDGET_MS quiescing every child combined, then SIGKILLs any
    * straggler so quitting never blocks on a wedged worker. */
@@ -508,6 +531,7 @@ child_procs_free( void )
   deadline.tv_nsec += CHILD_REAP_BUDGET_MS * 1000000L;
   deadline.tv_sec  += deadline.tv_nsec / 1000000000L;
   deadline.tv_nsec %= 1000000000L;
+#endif
 
   /* Only the parent reaps: it owns the forked children (pid > 0), so its report
    * flushes before the slot is released; the serial in-process slot carries
@@ -516,8 +540,10 @@ child_procs_free( void )
    * short-circuits before the NULL post-fork slots. */
   for( i = 0; i < n; i++ )
   {
+#ifndef XNEC2C_NATIVE_WINDOWS
     if( !CHILD && child_procs[i]->pid > 0 )
       drain_and_reap( child_procs[i], &deadline );
+#endif
 
     mem_free( &child_procs[i] );
   }
@@ -825,6 +851,7 @@ Open_Input_File( gpointer arg )
 
 /*------------------------------------------------------------------------*/
 
+#ifndef XNEC2C_NATIVE_WINDOWS
 static void sig_handler( int signal )
 {
   switch( signal )
@@ -884,6 +911,7 @@ static void sig_handler( int signal )
   else exit( signal );
 
 } /* End of sig_handler() */
+#endif
 
 /*------------------------------------------------------------------------*/
 

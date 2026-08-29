@@ -5,6 +5,10 @@
 #include "utils.h"
 #include "mem_track.h"
 
+#ifdef XNEC2C_NATIVE_WINDOWS
+#include <malloc.h>
+#endif
+
 _Static_assert(sizeof(mem_obj_t) <= MEM_HEADER_SIZE,
 	"mem_obj_t exceeds MEM_HEADER_SIZE");
 
@@ -38,7 +42,7 @@ void _mem_validate_fail(void *ptr, void *base)
  * @prev_used: bytes of old data to preserve (0 for fresh allocation)
  *
  * Always allocates a new block; never modifies or frees @data_src or
- * @birth_src. Uses posix_memalign with MEM_ALIGNMENT-byte alignment.
+ * @birth_src. Uses the platform aligned allocator with MEM_ALIGNMENT bytes.
  * Total allocation is MEM_HEADER_SIZE + req.
  *
  * Return: pointer to new mem_obj_t, or NULL on failure
@@ -48,15 +52,23 @@ static inline mem_obj_t *mem_obj_alloc(const mem_obj_t *data_src,
 {
 	void *base = NULL;
 	mem_obj_t *m;
+#ifndef XNEC2C_NATIVE_WINDOWS
 	int rc;
+#endif
 
 	/* Minimum 1-byte user region so m->ptr stays within the allocation */
 	if (req == 0)
 		req = 1;
 
+#ifdef XNEC2C_NATIVE_WINDOWS
+	base = _aligned_malloc(MEM_HEADER_SIZE + req, MEM_ALIGNMENT);
+	if (unlikely(base == NULL))
+		return NULL;
+#else
 	rc = posix_memalign(&base, MEM_ALIGNMENT, MEM_HEADER_SIZE + req);
 	if (unlikely(rc != 0 || base == NULL))
 		return NULL;
+#endif
 
 	m = (mem_obj_t *)base;
 	m->size = req;
@@ -112,7 +124,11 @@ static inline void mem_obj_free(mem_obj_t *m)
 {
 	mem_track_unregister(m);
 	free(m->backtrace);
+#ifdef XNEC2C_NATIVE_WINDOWS
+	_aligned_free(m);
+#else
 	free(m);
+#endif
 }
 
 /**

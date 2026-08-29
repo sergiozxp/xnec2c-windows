@@ -33,6 +33,7 @@
 #include "render_settings.h"
 #include "render_settings_common.h"
 #include "render_settings_internal.h"
+#include "../opengl/opengl_structure.h"
 
 /*------------------------------------------------------------------------*/
 
@@ -53,6 +54,12 @@ hook_set_msaa(void)
 
 void
 hook_set_radius_scale(void)
+{
+}
+
+/* The public structure API is also referenced by the Cairo renderer. */
+void
+opengl_structure_invalidate(void)
 {
 }
 

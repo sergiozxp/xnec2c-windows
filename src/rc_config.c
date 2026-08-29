@@ -20,6 +20,7 @@
 #include <ctype.h>
 #include <sys/stat.h>
 #include <cairo.h>
+#include <glib/gstdio.h>
 #include "shared.h"
 #include "rc_config.h"
 #include "mathlib.h"
@@ -1359,7 +1360,7 @@ Read_Config( void )
   /* Create the dir if missing */
   snprintf( fpath, sizeof(fpath), "%s/.xnec2c", get_conf_dir(home, sizeof(home)));
   if( access(fpath, R_OK) < 0 && errno == ENOENT)
-	  mkdir(fpath, 0755);
+	  g_mkdir(fpath, 0755);
 
   // In commit 4e62893b the mkdir call used 755 instead of 0755 so
   // permissions were broken.  This fixes that:

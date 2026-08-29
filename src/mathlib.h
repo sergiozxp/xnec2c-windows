@@ -107,7 +107,7 @@ typedef struct mathlib_t
 	// f_suffix: the prefix to the function exported by the lib. For example, "_"
 	char *lib, *name, *f_prefix, *f_suffix;
 
-	// Handle from dlopen 
+	// Cross-platform dynamic-library handle from GModule.
 	void *handle;
 
 	// Function pointers, one for each function in MATHLIB_FUNCTIONS.
@@ -124,7 +124,7 @@ typedef struct mathlib_t
 		*batch_widget,
 		*benchmark_widget;
 
-	// Function pointer to call after dlopen() and is passed the mathlib_t pointer.
+	// Function pointer to call after the dynamic library is opened.
 	void (*init)(struct mathlib_t*);
 } mathlib_t;
 

@@ -25,7 +25,9 @@
 #include "interface.h"
 #include "fork.h"
 #include "nec2_model.h"
+#ifndef XNEC2C_NATIVE_WINDOWS
 #include <sys/wait.h>
+#endif
 
 #endif
 

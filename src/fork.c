@@ -24,6 +24,46 @@
 #include "prerender/prerender_state.h"
 #include "mathlib.h"
 
+#ifdef XNEC2C_NATIVE_WINDOWS
+
+/* Native Windows deliberately uses the existing serial execution path.  Keep
+ * link-compatible stubs so runtime FORKED branches remain untouched. */
+void fork_send_infile( int idx )
+{
+  (void)idx;
+  BUG("fork_send_infile called in a native Windows build\n");
+  abort();
+}
+
+void fork_send_frqdata( int idx, fork_frqdata_t *frq )
+{
+  (void)idx;
+  (void)frq;
+  BUG("fork_send_frqdata called in a native Windows build\n");
+  abort();
+}
+
+void close_child_command_pipes( void )
+{
+}
+
+void Child_Process( int num_child )
+{
+  (void)num_child;
+  BUG("Child_Process called in a native Windows build\n");
+  abort();
+}
+
+int Get_Freq_Data( int idx, int fstep )
+{
+  (void)idx;
+  (void)fstep;
+  BUG("Get_Freq_Data called in a native Windows build\n");
+  return 0;
+}
+
+#else
+
 /*-----------------------------------------------------------------------*/
 
 /* Pipe primitives are defined below their first use in this file */
@@ -623,6 +663,8 @@ Get_Freq_Data( int idx, int fstep )
 
   return 1;
 } /* Get_Freq_Data() */
+
+#endif /* XNEC2C_NATIVE_WINDOWS */
 
 /*------------------------------------------------------------------------*/
 

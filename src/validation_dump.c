@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <sys/stat.h>
 
+#include <glib/gstdio.h>
+
 #include "mathlib.h"
 #include "measurements.h"
 #include "prerender/prerender_state.h"
@@ -615,7 +617,7 @@ void Save_Validation_Tree(void)
 		return;
 	}
 
-	if (mkdir(validation_dir, 0755) < 0 && errno != EEXIST)
+	if (g_mkdir(validation_dir, 0755) < 0 && errno != EEXIST)
 	{
 		Notice(GTK_BUTTONS_OK, _("Validation Tree"), "Cannot create output directory");
 		return;

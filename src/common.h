@@ -32,7 +32,9 @@
 #include <fcntl.h>
 #include <time.h>
 #include <sys/types.h>
+#ifndef _WIN32
 #include <sys/times.h>
+#endif
 #include <gtk/gtk.h>
 #include <errno.h>
 #include <locale.h>
@@ -1379,7 +1381,9 @@ double db10(double x);
 double db20(double x);
 void intrp(double x, double y, complex double *f1, complex double *f2, complex double *f3, complex double *f4);
 void intx(double el1, double el2, double b, int ij, double *sgr, double *sgi);
+#ifndef _WIN32
 int min(int a, int b);
+#endif
 void test(double f1r, double f2r, double *tr, double f1i, double f2i, double *ti, double dmin);
 void trio(int j);
 /* cang returns the phase angle of a complex number in degrees. */

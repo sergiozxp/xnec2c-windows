@@ -15,6 +15,8 @@
 #ifndef OPT_SESSION_H
 #define OPT_SESSION_H    1
 
+#include <pthread.h>
+
 #include "../common.h"
 #include "opt_fitness.h"
 #include "opt_simple.h"

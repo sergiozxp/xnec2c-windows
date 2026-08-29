@@ -23,6 +23,10 @@
 #include <execinfo.h>
 #endif
 
+#ifdef XNEC2C_NATIVE_WINDOWS
+#include <io.h>
+#endif
+
 #include <stdarg.h>
 
 #include "utils.h"
@@ -742,7 +746,12 @@ Close_File( FILE **fp )
 {
   if( *fp != NULL )
   {
+#ifdef XNEC2C_NATIVE_WINDOWS
+	  fflush(*fp);
+	  _commit(_fileno(*fp));
+#else
 	  fsync(fileno(*fp));
+#endif
 	  fclose(*fp);
 	  *fp = NULL;
   }

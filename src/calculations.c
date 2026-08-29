@@ -958,6 +958,7 @@ void intx( double el1, double el2, double b,
 /*-----------------------------------------------------------------------*/
 
 /* returns smallest of two arguments */
+#ifndef _WIN32
 int min( int a, int b )
 {
   if( a < b )
@@ -965,6 +966,7 @@ int min( int a, int b )
   else
     return( b );
 }
+#endif
 
 /*-----------------------------------------------------------------------*/
 

@@ -1187,9 +1187,13 @@ freq_loop_dispatch( freq_loop_state_t *state, child_proc_t *child,
 static gboolean
 freq_loop_collect_pending( freq_loop_state_t *state )
 {
+#ifndef XNEC2C_NATIVE_WINDOWS
   fd_set read_fds;
-  int    n = 0, sel_ret, idx;
+  int    sel_ret;
+#endif
+  int    n = 0, idx;
 
+#ifndef XNEC2C_NATIVE_WINDOWS
   FD_ZERO( &read_fds );
   for( idx = 0; idx < calc_data.num_jobs; idx++ )
   {
@@ -1208,6 +1212,7 @@ freq_loop_collect_pending( freq_loop_state_t *state )
     if( n < rfd )
       n = rfd;
   }
+#endif
 
   /* Non-forked path: no pipe fds (n==0); dispatch() computed synchronously
    * under freq_data_lock but left the child off the idle stack with
@@ -1229,6 +1234,7 @@ freq_loop_collect_pending( freq_loop_state_t *state )
     return TRUE;
   }
 
+#ifndef XNEC2C_NATIVE_WINDOWS
   do
   {
     sel_ret = select( n + 1, &read_fds, NULL, NULL, NULL );
@@ -1267,6 +1273,7 @@ freq_loop_collect_pending( freq_loop_state_t *state )
     idle_stack_push( state, child_procs[idx] );
   }
   g_rec_mutex_unlock(&freq_data_lock);
+#endif
 
   return TRUE;
 }

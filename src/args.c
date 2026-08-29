@@ -281,10 +281,15 @@ static char *jobs_default(void)
 	if( jobs[0] != '\0' )
 		return jobs;
 
+#ifdef XNEC2C_NATIVE_WINDOWS
+	snprintf(jobs, sizeof(jobs), "0");
+	pr_info("Native Windows build: POSIX process forking is disabled\n");
+#else
 	int procs = xnec2c_num_procs();
 
 	snprintf(jobs, sizeof(jobs), "%d", procs);
 	pr_info("Detected %d CPUs\n", procs);
+#endif
 
 	return jobs;
 }

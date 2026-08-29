@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared.h"
+#include <pthread.h>
 
 #define clog10(z) (clog(z) / log(10))
 

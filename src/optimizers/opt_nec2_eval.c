@@ -10,6 +10,7 @@
  */
 
 #include <string.h>
+#include <pthread.h>
 
 #include "opt_nec2_eval.h"
 #include "../shared.h"

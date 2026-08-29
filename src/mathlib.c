@@ -19,7 +19,7 @@
 
 #define _GNU_SOURCE
 #include <ctype.h>
-#include <dlfcn.h>
+#include <gmodule.h>
 #include "main.h"
 #include "shared.h"
 #include "mathlib.h"
@@ -321,7 +321,7 @@ void close_mathlib(mathlib_t *lib)
 
 	if (lib->handle != NULL)
 	{
-		dlclose(lib->handle);
+		g_module_close((GModule *)lib->handle);
 		lib->handle = NULL;
 	}
 
@@ -354,18 +354,15 @@ int open_mathlib(mathlib_t *lib)
 	if (lib->type == MATHLIB_NEC2)
 		return 1;
 
-	// Clear any error state
-	dlerror();
-
-	// Open the .so library, split on a comma (,):
+	// Open the platform library through GModule, split on a comma (,):
 	libfn0 = mem_strdup(lib->lib);
 	libfn = libfn0;
 	while ((token = strtok_r(libfn, ",", &libfn)) != NULL)
 	{
-		lib->handle = dlopen(token, RTLD_NOW);
+		lib->handle = g_module_open(token, G_MODULE_BIND_LOCAL);
 		if (lib->handle == NULL)
 		{
-			pr_info("%s: %s\n", lib->name, dlerror());
+			pr_info("%s: %s\n", lib->name, g_module_error());
 			close_mathlib(lib);
 		}
 		else
@@ -389,24 +386,21 @@ int open_mathlib(mathlib_t *lib)
 	mem_array_alloc(&lib->functions, num_mathfuncs);
 	for (fidx = 0; fidx < num_mathfuncs; fidx++)
 	{
-		// Clear any error state
-		dlerror();
-
 		// Resolve the function symbol
 		snprintf(fname, sizeof(fname) - 1, "%s%s%s", 
 			lib->f_prefix ? lib->f_prefix : "",
 			mathfuncs[fidx],
 			lib->f_suffix ? lib->f_suffix : "");
-		lib->functions[fidx] = dlsym(lib->handle, fname);
-
-		char *error = dlerror();
-
-		if (error != NULL)
+		gpointer symbol = NULL;
+		if (!g_module_symbol((GModule *)lib->handle, fname, &symbol))
 		{
-			pr_warn("  %s: unable to bind %s: %s\n", lib->lib, mathfuncs[fidx], error);
+			pr_warn("  %s: unable to bind %s: %s\n",
+				lib->lib, mathfuncs[fidx], g_module_error());
 			close_mathlib(lib);
 			break;
 		}
+
+		lib->functions[fidx] = symbol;
 	}
 
 	if (lib->handle != NULL)
@@ -1266,7 +1260,7 @@ int32_t zgetrf(int32_t order, int32_t m, int32_t n, complex double *a, int32_t n
 	{
 		zgetrf_atlas_t *f;
 
-		// This is an ugly cast, but see `man dlopen` for why.
+		// Dynamic symbol addresses need an explicit object/function bridge.
 		*(void**)(&f) = f_ptr;
 		return f(order, m, n, a, ndim, (int32_t*)ip);
 	}
@@ -1412,12 +1406,16 @@ static void mathlib_resolve_set_threads(mathlib_t *lib)
 	if (sym == NULL)
 		return;
 
-	dlerror();
-	*(void **) (&lib->set_threads) = dlsym(lib->handle, sym);
+	gpointer symbol = NULL;
+	if (!g_module_symbol((GModule *)lib->handle, sym, &symbol))
+	{
+		pr_err("%s: thread count cannot be bounded, symbol %s: %s\n",
+			lib->name, sym, g_module_error());
+		return;
+	}
 
-	if (lib->set_threads == NULL)
-		pr_err("%s: thread count cannot be bounded, dlsym(%s): %s\n",
-			lib->name, sym, dlerror());
+	/* Keep the upstream object/function-pointer bridge in one place. */
+	*(void **)(&lib->set_threads) = symbol;
 }
 
 /**
@@ -1460,13 +1458,15 @@ void mathlib_mkl_set_threading(mathlib_t *lib, int code)
 	if (!lib->available)
 		return;
 
-	dlerror();
-	*(void **) (&mkl_set_threading_layer) = dlsym(lib->handle, "MKL_Set_Threading_Layer");
-	if (mkl_set_threading_layer == NULL)
+	gpointer symbol = NULL;
+	if (!g_module_symbol((GModule *)lib->handle,
+		"MKL_Set_Threading_Layer", &symbol))
 	{
-		pr_err("dlsym(mkl_set_threading_layer): %s\n", dlerror());
+		pr_err("unable to bind MKL_Set_Threading_Layer: %s\n",
+			g_module_error());
 		return;
 	}
+	*(void **)(&mkl_set_threading_layer) = symbol;
 
 	mkl_set_threading_layer(code);
 }

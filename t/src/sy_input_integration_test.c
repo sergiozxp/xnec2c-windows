@@ -4,16 +4,22 @@
  * Verifies SY card support works end-to-end
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef XNEC2C_NATIVE_WINDOWS
 #include <libgen.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <sys/resource.h>
+#endif
 #include <limits.h>
 #include <locale.h>
 #include <errno.h>
-#include <sys/wait.h>
-#include <sys/resource.h>
 
 #include "common.h"
 #include "shared.h"
@@ -218,6 +224,7 @@ test_fixture(const fixture_expectation_t *exp)
  * fixed margin. A regression of the locale decimal-point bug appends to a
  * GArray without bound; this limit makes the allocator fail and the child
  * die at the margin instead of exhausting host memory. */
+#ifndef XNEC2C_NATIVE_WINDOWS
 static gboolean
 limit_address_space(void)
 {
@@ -262,6 +269,7 @@ limit_address_space(void)
 
   return TRUE;
 }
+#endif
 
 /* Parse every fixture under the German numeric locale. NEC files are
  * C-format regardless of locale, so the results must match the same
@@ -294,6 +302,11 @@ de_locale_body(void)
 static gboolean
 run_bounded(gboolean (*body)(void))
 {
+#ifdef XNEC2C_NATIVE_WINDOWS
+  /* Native Windows has no fork()/RLIMIT_AS.  The ordinary fixture pass above
+   * still exercises the parser; run the locale variant in-process too. */
+  return body();
+#else
   pid_t pid;
   int status;
   gboolean ok;
@@ -351,6 +364,7 @@ run_bounded(gboolean (*body)(void))
   }
 
   return ok;
+#endif
 }
 
 int
@@ -358,12 +372,17 @@ main(int argc, char *argv[])
 {
   int i;
   int exit_code;
+#ifndef XNEC2C_NATIVE_WINDOWS
   char exe_path[PATH_MAX];
   char *exe_dir;
   ssize_t len;
+#endif
 
   gtk_init(&argc, &argv);
 
+#ifdef XNEC2C_NATIVE_WINDOWS
+  snprintf(fixture_base, sizeof(fixture_base), "fixtures");
+#else
   len = readlink("/proc/self/exe", exe_path, sizeof(exe_path) - 1);
   if( len != -1 )
   {
@@ -375,6 +394,7 @@ main(int argc, char *argv[])
   {
     snprintf(fixture_base, sizeof(fixture_base), "fixtures");
   }
+#endif
 
   printf("=== SY Card Integration Test ===\n");
   printf("Fixture directory: %s\n\n", fixture_base);
