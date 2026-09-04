@@ -73,13 +73,23 @@ El Setup se escribe en
 `dist/installer/Xnec2c-4.4.18-Windows-x64-Setup.exe` e instala sin UAC bajo
 `%LOCALAPPDATA%\Programs\Xnec2c`.
 
+El paquete para Microsoft Store se genera, a partir del mismo portable, con:
+
+```powershell
+.\packaging\windows\build-msix.ps1
+```
+
+El resultado es `dist/msix/Xnec2c-4.4.18-Windows-x64.msix`. Antes de enviarlo
+hay que reservar la aplicación en Partner Center y completar la identidad exacta
+de la Store; consulte [README-WINDOWS.md](README-WINDOWS.md).
+
 ## Alcance pendiente
 
 - comprobar y habilitar bibliotecas BLAS/LAPACK nativas de Windows;
 - evaluar paralelismo multiproceso nativo sin trasladar la arquitectura POSIX;
 - incorporar OpenGL después de estabilizar el build Cairo;
 - validar y habilitar la asociación `.nec` y evaluar un icono Windows dedicado;
-- incorporar firma de código;
+- completar la identidad de Microsoft Store y publicar el MSIX;\n- incorporar firma de código para las descargas directas fuera de la Store;
 - añadir pruebas funcionales con escritorio interactivo de Windows.
 
 Xnec2c se distribuye bajo GPL; consulte [COPYING](COPYING). El historial y la
