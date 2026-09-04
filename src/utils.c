@@ -28,6 +28,7 @@
 #endif
 
 #include <stdarg.h>
+#include <glib/gstdio.h>
 
 #include "utils.h"
 #include "shared.h"
@@ -722,7 +723,7 @@ Open_File( FILE **fp, char *fname, const char *mode )
 {
   /* Close file path if open */
   Close_File( fp );
-  if( (*fp = fopen(fname, mode)) == NULL )
+  if( (*fp = g_fopen(fname, mode)) == NULL )
   {
     char mesg[MESG_SIZE];
     snprintf( mesg, sizeof(mesg), _("xnec2c[%d]: %s: Failed to open file: %s\n"), getpid(), fname, strerror(errno) );
