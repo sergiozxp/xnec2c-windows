@@ -89,7 +89,8 @@ de la Store; consulte [README-WINDOWS.md](README-WINDOWS.md).
 - evaluar paralelismo multiproceso nativo sin trasladar la arquitectura POSIX;
 - incorporar OpenGL después de estabilizar el build Cairo;
 - validar y habilitar la asociación `.nec` y evaluar un icono Windows dedicado;
-- completar la identidad de Microsoft Store y publicar el MSIX;\n- incorporar firma de código para las descargas directas fuera de la Store;
+- completar la identidad de Microsoft Store y publicar el MSIX;
+- incorporar firma de código para las descargas directas fuera de la Store;
 - añadir pruebas funcionales con escritorio interactivo de Windows.
 
 Xnec2c se distribuye bajo GPL; consulte [COPYING](COPYING). El historial y la
