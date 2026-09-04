@@ -31,6 +31,6 @@ jobs:
           git apply /tmp/windows-ui-fixes.patch
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/callbacks.c src/interface.c src/prerender/prerender_color.c
-          git commit -m "Fix Windows error recovery, links and loaded-wire contrast"
+          git add src/interface.c src/main.c
+          git commit -m "Fix malformed NEC recovery and Windows browser launch"
           git push origin HEAD:main
