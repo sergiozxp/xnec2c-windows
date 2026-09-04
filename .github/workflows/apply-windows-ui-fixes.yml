@@ -31,6 +31,6 @@ jobs:
           git apply /tmp/windows-ui-fixes.patch
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add resources/themes.ini src/callback_func.c src/interface.c src/main.c src/mathlib.c
-          git commit -m "Fix Windows UI defaults and recovery"
+          git add src/callbacks.c src/interface.c src/prerender/prerender_color.c
+          git commit -m "Fix Windows error recovery, links and loaded-wire contrast"
           git push origin HEAD:main
