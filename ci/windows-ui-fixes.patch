@@ -1,28 +1,44 @@
 diff --git a/src/main.c b/src/main.c
-index a756ee3..2c9c292 100644
+index 2c9c292..4f183a0 100644
 --- a/src/main.c
 +++ b/src/main.c
-@@ -641,16 +641,13 @@ Open_Input_File( gpointer arg )
-     Gtk_Widget_Destroy( &rdpattern_window );
-     Gtk_Widget_Destroy( &freqplots_window );
+@@ -614,10 +614,14 @@ Open_Input_File( gpointer arg )
  
--    /* Batch mode has no operator to dismiss the editor; Stop() already
--     * scheduled the quit, so opening it here only loops the read/allocate
--     * path headlessly. Restrict the editor to interactive sessions. */
--    if( !rc_config.batch_mode )
--    {
--      if( nec2_edit_window == NULL )
--        Open_Nec2_Editor( NEC2_EDITOR_RELOAD );
--      else
--        Nec2_Input_File_Treeview( NEC2_EDITOR_CLEAR );
--    }
-+    /* Do not open/reload the NEC editor for a malformed deck.  The editor
-+     * reparses rc_config.input_file, which is the same bad file, and can
-+     * trigger a second chain of Stop() dialogs (Read_Comments/List_Comments).
-+     * Leave the application in its blank state so File -> Open can be used
-+     * immediately for a different, valid NEC file. */
-+    if( nec2_edit_window != NULL )
-+      Gtk_Widget_Destroy( &nec2_edit_window );
+   mem_array_free(&freqplots_main_view()->fr_plots);
  
-     return( FALSE );
-   } /* if( !ok ) */
+-  Open_File( &input_fp, rc_config.input_file, "r");
+-
+-  /* Read input file, record failures */
+-  ok = Read_Comments() && Read_Geometry() && Read_Commands();
++  /* g_fopen/Open_File can fail for an inaccessible path.  Do not continue
++   * into the parser with input_fp == NULL; that used to produce a second
++   * misleading "Unexpected EOF" dialog and left recovery fragile. */
++  ok = Open_File( &input_fp, rc_config.input_file, "r" );
++
++  /* Read input file only when it was opened successfully. */
++  if( ok )
++    ok = Read_Comments() && Read_Geometry() && Read_Commands();
+ 
+   /* Zero validity flags and invalidate the result set under lock so draw
+    * and save handlers cannot observe stale fstep=1 paired with
+diff --git a/src/utils.c b/src/utils.c
+index 954894b..c327a8e 100644
+--- a/src/utils.c
++++ b/src/utils.c
+@@ -28,6 +28,7 @@
+ #endif
+ 
+ #include <stdarg.h>
++#include <glib/gstdio.h>
+ 
+ #include "utils.h"
+ #include "shared.h"
+@@ -722,7 +723,7 @@ Open_File( FILE **fp, char *fname, const char *mode )
+ {
+   /* Close file path if open */
+   Close_File( fp );
+-  if( (*fp = fopen(fname, mode)) == NULL )
++  if( (*fp = g_fopen(fname, mode)) == NULL )
+   {
+     char mesg[MESG_SIZE];
+     snprintf( mesg, sizeof(mesg), _("xnec2c[%d]: %s: Failed to open file: %s\n"), getpid(), fname, strerror(errno) );
