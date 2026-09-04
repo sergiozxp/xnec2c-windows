@@ -1,0 +1,36 @@
+name: Apply Windows UI fixes
+
+on:
+  push:
+    branches:
+      - fix/windows-ui-pass-20260904
+    paths:
+      - ci/windows-ui-fixes.patch
+      - .github/workflows/apply-windows-ui-fixes.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout staging branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply patch to main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git show "$GITHUB_SHA:ci/windows-ui-fixes.patch" > /tmp/windows-ui-fixes.patch
+          git fetch origin main
+          git checkout -B main origin/main
+          git apply --check /tmp/windows-ui-fixes.patch
+          git apply /tmp/windows-ui-fixes.patch
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add resources/themes.ini src/callback_func.c src/interface.c src/main.c src/mathlib.c
+          git commit -m "Fix Windows UI defaults and recovery"
+          git push origin HEAD:main
