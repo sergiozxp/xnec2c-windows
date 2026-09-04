@@ -151,12 +151,43 @@ La base de asociación `.nec` está preparada en
 hasta que se complete su validación específica. No se instala menú contextual
 moderno de Windows 11.
 
-## 6. GitHub Actions
+## 6. Crear el paquete MSIX para Microsoft Store
+
+Primero genere el portable. Después, desde PowerShell, ejecute:
+
+```powershell
+.\packaging\windows\build-msix.ps1
+```
+
+El script localiza `MakeAppx.exe` en el Windows 10/11 SDK, copia el portable a
+un directorio temporal, genera los recursos gráficos requeridos, crea el
+manifiesto y verifica el paquete volviéndolo a extraer. El resultado es:
+
+```text
+dist/msix/Xnec2c-4.4.18-Windows-x64.msix
+```
+
+El MSIX ejecuta el mismo `xnec2c-launcher.exe` mediante la capacidad
+`runFullTrust`; no sustituye ni modifica el ZIP portable o el Setup de Inno.
+
+Antes de enviarlo a Microsoft Store hay que reservar el producto en Partner
+Center y copiar literalmente sus valores **Package/Identity/Name**,
+**Package/Identity/Publisher** y **Publisher display name** en
+`packaging/windows/msix/StoreIdentity.json`. Después se cambia
+`StoreIdentityConfigured` a `true` y se vuelve a ejecutar el workflow. Los
+valores incluidos inicialmente son sólo una identidad de desarrollo: producen
+un MSIX estructuralmente válido, pero no una entrega aceptable para la Store ni
+un paquete instalable de confianza.
+
+Microsoft Store firma el MSIX aceptado. No se debe guardar un certificado ni
+una clave privada en este repositorio.
+
+## 7. GitHub Actions
 
 `.github/workflows/build-windows.yml` usa `windows-2022`, UCRT64 y las mismas
 dependencias. Las acciones externas están fijadas por SHA. El job ejecuta las
 12 pruebas nativas, verifica el subsistema GUI y las DLL del launcher, prueba
-una copia relocada y publica dos artefactos: el portable y el Setup. El
+una copia relocada y publica tres artefactos: el portable, el Setup y el MSIX. El
 portable incluye `BUILDINFO.txt` con:
 
 - commit upstream fijado;
@@ -180,7 +211,7 @@ usarse las versiones allí registradas o un mirror/snapshot equivalente.
   `--disable-opengl`.
 - El solver NEC2 incorporado es el fallback portable. Incluir y validar
   OpenBLAS/MKL nativos será una etapa posterior.
-- Los binarios y el Setup aún no tienen firma de código.
+- Los binarios, el Setup y el MSIX de desarrollo aún no tienen firma de código. Microsoft Store firma el MSIX después de aceptar la entrega.
 - La asociación `.nec` está preparada pero desactivada.
 - No se incorpora todavía un menú contextual moderno de Windows 11.
 
