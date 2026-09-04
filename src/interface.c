@@ -228,8 +228,17 @@ open_nec_resources( GtkMenuItem *item, gpointer user_data )
   GError *error = NULL;
   GtkWindow *parent = user_data != NULL ? GTK_WINDOW(user_data) : NULL;
 
+#ifdef G_OS_WIN32
+  /* gtk_show_uri_on_window() is unreliable in the native GTK3 Windows
+   * bundle.  Ask cmd.exe to hand the URL to the registered browser. */
+  gchar *argv[] = { "cmd.exe", "/c", "start", "",
+                    "https://antenas.charlygolf.com/", NULL };
+  if( !g_spawn_async(NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
+        NULL, NULL, NULL, &error) )
+#else
   if( !gtk_show_uri_on_window(parent, "https://antenas.charlygolf.com/",
         GDK_CURRENT_TIME, &error) )
+#endif
   {
     pr_warn("Unable to open NEC resources URL: %s\n",
         error != NULL ? error->message : "unknown error");
