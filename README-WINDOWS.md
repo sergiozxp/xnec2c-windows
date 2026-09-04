@@ -156,7 +156,7 @@ moderno de Windows 11.
 Primero genere el portable. Después, desde PowerShell, ejecute:
 
 ```powershell
-.\\packaging\\windows\\build-msix.ps1
+.\packaging\windows\build-msix.ps1
 ```
 
 El script localiza `MakeAppx.exe` en el Windows 10/11 SDK, copia el portable a
