@@ -28,6 +28,11 @@
 #include "cairo/cairo_fit.h"
 #include "cairo/cairo_frame.h"
 
+#ifdef G_OS_WIN32
+#include <windows.h>
+#include <shellapi.h>
+#endif
+
 /*------------------------------------------------------------------*/
 
 /* is_auto_generated_comment()
@@ -229,21 +234,22 @@ open_nec_resources( GtkMenuItem *item, gpointer user_data )
   GtkWindow *parent = user_data != NULL ? GTK_WINDOW(user_data) : NULL;
 
 #ifdef G_OS_WIN32
-  /* gtk_show_uri_on_window() is unreliable in the native GTK3 Windows
-   * bundle.  Ask cmd.exe to hand the URL to the registered browser. */
-  gchar *argv[] = { "cmd.exe", "/c", "start", "",
-                    "https://antenas.charlygolf.com/", NULL };
-  if( !g_spawn_async(NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-        NULL, NULL, NULL, &error) )
+  /* Use the native Windows shell association directly.  ShellExecuteW is
+   * more reliable here than GTK URI dispatch or cmd.exe's START built-in. */
+  HINSTANCE result = ShellExecuteW(NULL, L"open",
+      L"https://antenas.charlygolf.com/", NULL, NULL, SW_SHOWNORMAL);
+  if( (INT_PTR)result <= 32 )
+    pr_warn("Unable to open NEC resources URL (ShellExecute error %ld)\n",
+        (long)(INT_PTR)result);
 #else
   if( !gtk_show_uri_on_window(parent, "https://antenas.charlygolf.com/",
         GDK_CURRENT_TIME, &error) )
-#endif
   {
     pr_warn("Unable to open NEC resources URL: %s\n",
         error != NULL ? error->message : "unknown error");
     g_clear_error( &error );
   }
+#endif
 }
 
   GtkWidget *
