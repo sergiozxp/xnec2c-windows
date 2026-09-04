@@ -605,53 +605,57 @@ Open_Input_File( gpointer arg )
     return( FALSE );
   }
 
-  /* Hold freq_data_lock across data reset and reallocation so draw
-   * handlers (which may fire during g_idle_add_once_sync flush loops)
-   * cannot access data structures mid-transition. */
+  /* Reset shared plot state under lock, but NEVER hold freq_data_lock while
+   * parsing.  Parser errors call Stop(), which pumps GTK events while the
+   * dialog is visible.  Holding the lock there can deadlock a redraw/event
+   * callback and make the Windows UI appear permanently "Not Responding".
+   * INPUT_PENDING already prevents renderers from consuming partial geometry. */
   g_rec_mutex_lock(&freq_data_lock);
-
   calc_data.freq_step = -1;
-
   mem_array_free(&freqplots_main_view()->fr_plots);
+  g_rec_mutex_unlock(&freq_data_lock);
 
   /* g_fopen/Open_File can fail for an inaccessible path.  Do not continue
-   * into the parser with input_fp == NULL; that used to produce a second
-   * misleading "Unexpected EOF" dialog and left recovery fragile. */
+   * into the parser with input_fp == NULL. */
   ok = Open_File( &input_fp, rc_config.input_file, "r" );
 
   /* Read input file only when it was opened successfully. */
   if( ok )
     ok = Read_Comments() && Read_Geometry() && Read_Commands();
 
-  /* Zero validity flags and invalidate the result set under lock so draw
-   * and save handlers cannot observe stale fstep=1 paired with
-   * freshly-allocated garbage rad_pattern from Alloc_Rdpattern_Buffers
-   * inside Read_Commands. */
+  /* Publish validity changes only after parsing has returned. */
+  g_rec_mutex_lock(&freq_data_lock);
   freq_sweep_results_clear();
   if( ok && save.fstep != NULL )
     for( int i = 0; i <= calc_data.steps_total; i++ )
       save.fstep[i] = 0;
-
   g_rec_mutex_unlock(&freq_data_lock);
   if( !ok )
   {
-    /* A malformed deck must not poison subsequent File -> Open attempts.
-     * Release the re-entry guard and the failed file before any editor/UI
-     * callbacks can run.  The next valid deck can then load normally. */
+    /* Any failed NEC load returns to the same clean state used at startup.
+     * This is deliberately stronger than merely clearing INPUT_PENDING:
+     * partial geometry from a failed parser must never survive into the next
+     * File -> Open attempt. */
     Close_File( &input_fp );
-    ClearFlag( INPUT_PENDING );
 
-    /* Close plot/rdpat windows if open */
     Gtk_Widget_Destroy( &rdpattern_window );
     Gtk_Widget_Destroy( &freqplots_window );
-
-    /* Do not open/reload the NEC editor for a malformed deck.  The editor
-     * reparses rc_config.input_file, which is the same bad file, and can
-     * trigger a second chain of Stop() dialogs (Read_Comments/List_Comments).
-     * Leave the application in its blank state so File -> Open can be used
-     * immediately for a different, valid NEC file. */
     if( nec2_edit_window != NULL )
       Gtk_Widget_Destroy( &nec2_edit_window );
+
+    /* Make render_check() select STATUS_MSG_OPEN_FILE exactly as at startup. */
+    data.n = data.np = data.m = data.mp = 0;
+    calc_data.freq_step = -1;
+    calc_data.FR_cards = 0;
+    calc_data.steps_total = 0;
+    rc_config.input_file[0] = '\0';
+
+    ClearFlag( INPUT_PENDING );
+    ClearFlag( OPEN_INPUT );
+    ClearFlag( OPEN_NEW_NEC2 );
+
+    Update_Window_Titles();
+    Queue_Structure_Rebuild( TRUE );
 
     return( FALSE );
   } /* if( !ok ) */
