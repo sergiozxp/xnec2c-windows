@@ -222,6 +222,21 @@ Gtk_Builder( GtkBuilder **builder, gchar **object_ids )
 
 /*------------------------------------------------------------------*/
 
+  static void
+open_nec_resources( GtkMenuItem *item, gpointer user_data )
+{
+  GError *error = NULL;
+  GtkWindow *parent = user_data != NULL ? GTK_WINDOW(user_data) : NULL;
+
+  if( !gtk_show_uri_on_window(parent, "https://antenas.charlygolf.com/",
+        GDK_CURRENT_TIME, &error) )
+  {
+    pr_warn("Unable to open NEC resources URL: %s\n",
+        error != NULL ? error->message : "unknown error");
+    g_clear_error( &error );
+  }
+}
+
   GtkWidget *
 create_main_window( GtkBuilder **builder )
 {
@@ -231,6 +246,23 @@ create_main_window( GtkBuilder **builder )
   scroll_install_all_spins( *builder );
   color_family_menu_attach( *builder );
   ret = Builder_Get_Object( *builder, "main_window" );
+
+  /* Windows distribution convenience: expose the public NEC model library
+   * from Help without changing the upstream Glade object graph. */
+  GtkWidget *help_menu = Builder_Get_Object( *builder, "menuitem4_menu" );
+  if( help_menu != NULL )
+  {
+    GtkWidget *resources_item = gtk_menu_item_new_with_label( _("Recursos NEC") );
+    GtkWidget *separator = gtk_separator_menu_item_new();
+
+    g_signal_connect( resources_item, "activate",
+        G_CALLBACK(open_nec_resources), ret );
+    gtk_menu_shell_prepend( GTK_MENU_SHELL(help_menu), separator );
+    gtk_menu_shell_prepend( GTK_MENU_SHELL(help_menu), resources_item );
+    gtk_widget_show( resources_item );
+    gtk_widget_show( separator );
+  }
+
   return( ret );
 }
 

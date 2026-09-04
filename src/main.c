@@ -597,9 +597,13 @@ Open_Input_File( gpointer arg )
   Close_File( &input_fp );
 
 
-  /* Open NEC2 input file */
+  /* Open NEC2 input file.  INPUT_PENDING is a re-entry guard, not a
+   * persistent error state, so release it on every early exit. */
   if( strlen(rc_config.input_file) == 0 )
+  {
+    ClearFlag( INPUT_PENDING );
     return( FALSE );
+  }
 
   /* Hold freq_data_lock across data reset and reallocation so draw
    * handlers (which may fire during g_idle_add_once_sync flush loops)
@@ -627,6 +631,12 @@ Open_Input_File( gpointer arg )
   g_rec_mutex_unlock(&freq_data_lock);
   if( !ok )
   {
+    /* A malformed deck must not poison subsequent File -> Open attempts.
+     * Release the re-entry guard and the failed file before any editor/UI
+     * callbacks can run.  The next valid deck can then load normally. */
+    Close_File( &input_fp );
+    ClearFlag( INPUT_PENDING );
+
     /* Close plot/rdpat windows if open */
     Gtk_Widget_Destroy( &rdpattern_window );
     Gtk_Widget_Destroy( &freqplots_window );

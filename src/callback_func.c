@@ -589,8 +589,14 @@ Filechooser_Response(
 Open_Nec2_Editor( int action )
 {
   nec2_edit_window = create_nec2_editor( &nec2_editor_builder );
-  Set_Window_Geometry( nec2_edit_window,
-      rc_config.nec2_edit_x, rc_config.nec2_edit_y,
+  gtk_window_set_transient_for( GTK_WINDOW(nec2_edit_window), GTK_WINDOW(main_window) );
+  gtk_window_set_destroy_with_parent( GTK_WINDOW(nec2_edit_window), TRUE );
+  gtk_window_set_resizable( GTK_WINDOW(nec2_edit_window), TRUE );
+  gtk_window_set_position( GTK_WINDOW(nec2_edit_window), GTK_WIN_POS_CENTER_ON_PARENT );
+  /* Restore the editor size, but not a stale desktop position.  Saved
+   * coordinates can become invalid after a DPI or monitor-layout change and
+   * leave the Windows title bar off screen. */
+  Set_Window_Geometry( nec2_edit_window, -1, -1,
       rc_config.nec2_edit_width, rc_config.nec2_edit_height );
   gtk_widget_show( nec2_edit_window );
   Update_Window_Titles();
