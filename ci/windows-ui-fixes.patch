@@ -1,0 +1,240 @@
+diff --git a/resources/themes.ini b/resources/themes.ini
+index c5d02ca..423f31a 100644
+--- a/resources/themes.ini
++++ b/resources/themes.ini
+@@ -1,31 +1,31 @@
+ [legacy]
+ display = Legacy
+-background = #000000
+-grid = #808080
+-grid_primary = #00AAAA
+-grid_secondary = #00AA00
+-grid_emphasis = #AAAAAA
+-grid_perimeter = #555555
+-grid_scale = #AAAA00
+-axis = #AAAAAA
+-series_primary = #FF00FF
+-series_secondary = #00FFFF
+-label_primary = #FF00FF
+-label_secondary = #00FFFF
+-label_axis = #FFFF00
+-text_primary = #FFFFFF
+-text_muted = #808080
+-view_axis = #FFFFFF
+-view_axis_label = #FFFFFF
+-marker_extreme = #FFFFFF
+-cursor = #00FF00
+-gradient_0 = #FF00FF
+-gradient_1 = #0000FF
+-gradient_2 = #00FFFF
+-gradient_3 = #00FF00
+-gradient_4 = #FFFF00
+-gradient_5 = #FF0000
+-gradient_mid = #FFFFFF
++background = #F4F4F0
++grid = #707070
++grid_primary = #007B7B
++grid_secondary = #008000
++grid_emphasis = #555555
++grid_perimeter = #6F6F6F
++grid_scale = #747400
++axis = #555555
++series_primary = #C400C4
++series_secondary = #007D7D
++label_primary = #C400C4
++label_secondary = #007D7D
++label_axis = #737300
++text_primary = #000000
++text_muted = #606060
++view_axis = #000000
++view_axis_label = #000000
++marker_extreme = #000000
++cursor = #008200
++gradient_0 = #C400C4
++gradient_1 = #0000C4
++gradient_2 = #007D7D
++gradient_3 = #008200
++gradient_4 = #747400
++gradient_5 = #C40000
++gradient_mid = #000000
+ 
+ [sunset]
+ display = Sunset
+@@ -87,32 +87,32 @@ gradient_mid = #808080
+ 
+ [legacy-inverted]
+ display = Legacy (Inverted)
+-background = #F4F4F0
+-grid = #707070
+-grid_primary = #007B7B
+-grid_secondary = #008000
+-grid_emphasis = #555555
+-grid_perimeter = #6F6F6F
+-grid_scale = #747400
+-axis = #555555
+-series_primary = #C400C4
+-series_secondary = #007D7D
+-label_primary = #C400C4
+-label_secondary = #007D7D
+-label_axis = #737300
+-text_primary = #000000
+-text_muted = #606060
+-view_axis = #000000
+-view_axis_label = #000000
+-marker_extreme = #000000
+-cursor = #008200
+-gradient_0 = #C400C4
+-gradient_1 = #0000C4
+-gradient_2 = #007D7D
+-gradient_3 = #008200
+-gradient_4 = #747400
+-gradient_5 = #C40000
+-gradient_mid = #000000
++background = #000000
++grid = #808080
++grid_primary = #00AAAA
++grid_secondary = #00AA00
++grid_emphasis = #AAAAAA
++grid_perimeter = #555555
++grid_scale = #AAAA00
++axis = #AAAAAA
++series_primary = #FF00FF
++series_secondary = #00FFFF
++label_primary = #FF00FF
++label_secondary = #00FFFF
++label_axis = #FFFF00
++text_primary = #FFFFFF
++text_muted = #808080
++view_axis = #FFFFFF
++view_axis_label = #FFFFFF
++marker_extreme = #FFFFFF
++cursor = #00FF00
++gradient_0 = #FF00FF
++gradient_1 = #0000FF
++gradient_2 = #00FFFF
++gradient_3 = #00FF00
++gradient_4 = #FFFF00
++gradient_5 = #FF0000
++gradient_mid = #FFFFFF
+ 
+ [sunset-inverted]
+ display = Sunset (Inverted)
+diff --git a/src/callback_func.c b/src/callback_func.c
+index f1acd29..bcd577a 100644
+--- a/src/callback_func.c
++++ b/src/callback_func.c
+@@ -589,8 +589,14 @@ Filechooser_Response(
+ Open_Nec2_Editor( int action )
+ {
+   nec2_edit_window = create_nec2_editor( &nec2_editor_builder );
+-  Set_Window_Geometry( nec2_edit_window,
+-      rc_config.nec2_edit_x, rc_config.nec2_edit_y,
++  gtk_window_set_transient_for( GTK_WINDOW(nec2_edit_window), GTK_WINDOW(main_window) );
++  gtk_window_set_destroy_with_parent( GTK_WINDOW(nec2_edit_window), TRUE );
++  gtk_window_set_resizable( GTK_WINDOW(nec2_edit_window), TRUE );
++  gtk_window_set_position( GTK_WINDOW(nec2_edit_window), GTK_WIN_POS_CENTER_ON_PARENT );
++  /* Restore the editor size, but not a stale desktop position.  Saved
++   * coordinates can become invalid after a DPI or monitor-layout change and
++   * leave the Windows title bar off screen. */
++  Set_Window_Geometry( nec2_edit_window, -1, -1,
+       rc_config.nec2_edit_width, rc_config.nec2_edit_height );
+   gtk_widget_show( nec2_edit_window );
+   Update_Window_Titles();
+diff --git a/src/interface.c b/src/interface.c
+index a6356cd..39994c2 100644
+--- a/src/interface.c
++++ b/src/interface.c
+@@ -222,6 +222,21 @@ Gtk_Builder( GtkBuilder **builder, gchar **object_ids )
+ 
+ /*------------------------------------------------------------------*/
+ 
++  static void
++open_nec_resources( GtkMenuItem *item, gpointer user_data )
++{
++  GError *error = NULL;
++  GtkWindow *parent = user_data != NULL ? GTK_WINDOW(user_data) : NULL;
++
++  if( !gtk_show_uri_on_window(parent, "https://antenas.charlygolf.com/",
++        GDK_CURRENT_TIME, &error) )
++  {
++    pr_warn("Unable to open NEC resources URL: %s\n",
++        error != NULL ? error->message : "unknown error");
++    g_clear_error( &error );
++  }
++}
++
+   GtkWidget *
+ create_main_window( GtkBuilder **builder )
+ {
+@@ -231,6 +246,23 @@ create_main_window( GtkBuilder **builder )
+   scroll_install_all_spins( *builder );
+   color_family_menu_attach( *builder );
+   ret = Builder_Get_Object( *builder, "main_window" );
++
++  /* Windows distribution convenience: expose the public NEC model library
++   * from Help without changing the upstream Glade object graph. */
++  GtkWidget *help_menu = Builder_Get_Object( *builder, "menuitem4_menu" );
++  if( help_menu != NULL )
++  {
++    GtkWidget *resources_item = gtk_menu_item_new_with_label( _("Recursos NEC") );
++    GtkWidget *separator = gtk_separator_menu_item_new();
++
++    g_signal_connect( resources_item, "activate",
++        G_CALLBACK(open_nec_resources), ret );
++    gtk_menu_shell_prepend( GTK_MENU_SHELL(help_menu), separator );
++    gtk_menu_shell_prepend( GTK_MENU_SHELL(help_menu), resources_item );
++    gtk_widget_show( resources_item );
++    gtk_widget_show( separator );
++  }
++
+   return( ret );
+ }
+ 
+diff --git a/src/main.c b/src/main.c
+index df80020..a756ee3 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -597,9 +597,13 @@ Open_Input_File( gpointer arg )
+   Close_File( &input_fp );
+ 
+ 
+-  /* Open NEC2 input file */
++  /* Open NEC2 input file.  INPUT_PENDING is a re-entry guard, not a
++   * persistent error state, so release it on every early exit. */
+   if( strlen(rc_config.input_file) == 0 )
++  {
++    ClearFlag( INPUT_PENDING );
+     return( FALSE );
++  }
+ 
+   /* Hold freq_data_lock across data reset and reallocation so draw
+    * handlers (which may fire during g_idle_add_once_sync flush loops)
+@@ -627,6 +631,12 @@ Open_Input_File( gpointer arg )
+   g_rec_mutex_unlock(&freq_data_lock);
+   if( !ok )
+   {
++    /* A malformed deck must not poison subsequent File -> Open attempts.
++     * Release the re-entry guard and the failed file before any editor/UI
++     * callbacks can run.  The next valid deck can then load normally. */
++    Close_File( &input_fp );
++    ClearFlag( INPUT_PENDING );
++
+     /* Close plot/rdpat windows if open */
+     Gtk_Widget_Destroy( &rdpattern_window );
+     Gtk_Widget_Destroy( &freqplots_window );
+diff --git a/src/mathlib.c b/src/mathlib.c
+index 23961a3..5368823 100644
+--- a/src/mathlib.c
++++ b/src/mathlib.c
+@@ -709,7 +709,10 @@ void set_mathlib_batch(GtkWidget *widget, mathlib_t *lib)
+ 		return;
+ 	}
+ 
+-	if (!FORKED)
++	/* Programmatic selection during startup passes widget == NULL.  Do not
++	 * interrupt startup with an informational dialog; keep the notice for an
++	 * explicit menu selection by the user. */
++	if (widget != NULL && !FORKED)
+ 		Notice(GTK_BUTTONS_OK, _("Batch Math Library"),
+ 			_("Selecting a batched math library has no effect unless -j is specified on the command line. "
+ 			"(However, this selection will be saved for next time xnec2c is opened.)\n"));
