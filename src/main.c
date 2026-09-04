@@ -614,10 +614,14 @@ Open_Input_File( gpointer arg )
 
   mem_array_free(&freqplots_main_view()->fr_plots);
 
-  Open_File( &input_fp, rc_config.input_file, "r");
+  /* g_fopen/Open_File can fail for an inaccessible path.  Do not continue
+   * into the parser with input_fp == NULL; that used to produce a second
+   * misleading "Unexpected EOF" dialog and left recovery fragile. */
+  ok = Open_File( &input_fp, rc_config.input_file, "r" );
 
-  /* Read input file, record failures */
-  ok = Read_Comments() && Read_Geometry() && Read_Commands();
+  /* Read input file only when it was opened successfully. */
+  if( ok )
+    ok = Read_Comments() && Read_Geometry() && Read_Commands();
 
   /* Zero validity flags and invalidate the result set under lock so draw
    * and save handlers cannot observe stale fstep=1 paired with
