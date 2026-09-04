@@ -23,28 +23,6 @@ index 6b8c305..8eea5fe 100644
  }
  
  
-diff --git a/src/interface.c b/src/interface.c
-index 39994c2..b256c40 100644
---- a/src/interface.c
-+++ b/src/interface.c
-@@ -228,8 +228,17 @@ open_nec_resources( GtkMenuItem *item, gpointer user_data )
-   GError *error = NULL;
-   GtkWindow *parent = user_data != NULL ? GTK_WINDOW(user_data) : NULL;
- 
-+#ifdef G_OS_WIN32
-+  /* gtk_show_uri_on_window() is unreliable in the native GTK3 Windows
-+   * bundle.  Ask cmd.exe to hand the URL to the registered browser. */
-+  gchar *argv[] = { "cmd.exe", "/c", "start", "",
-+                    "https://antenas.charlygolf.com/", NULL };
-+  if( !g_spawn_async(NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-+        NULL, NULL, NULL, &error) )
-+#else
-   if( !gtk_show_uri_on_window(parent, "https://antenas.charlygolf.com/",
-         GDK_CURRENT_TIME, &error) )
-+#endif
-   {
-     pr_warn("Unable to open NEC resources URL: %s\n",
-         error != NULL ? error->message : "unknown error");
 diff --git a/src/prerender/prerender_color.c b/src/prerender/prerender_color.c
 index 6d00ff8..663a692 100644
 --- a/src/prerender/prerender_color.c
