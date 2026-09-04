@@ -1,6 +1,8 @@
 {
-  "PackageName": "sergiozxp.Xnec2c",
-  "Publisher": "CN=sergiozxp",
-  "PublisherDisplayName": "Sergio Zuniga-Jara",
-  "StoreIdentityConfigured": false
+  "PackageName": "CharlyGolf.Xnec2c",
+  "Publisher": "CN=22DE0707-9E03-4F93-9B58-1F1C7076D4F9",
+  "PublisherDisplayName": "CharlyGolf",
+  "StoreIdentityConfigured": true,
+  "PackageFamilyName": "CharlyGolf.Xnec2c_ybtc6319ae5ha",
+  "StoreId": "9PBVK60LXV1P"
 }
