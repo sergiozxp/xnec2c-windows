@@ -1,44 +1,74 @@
-diff --git a/src/callbacks.c b/src/callbacks.c
-index 6b8c305..8eea5fe 100644
---- a/src/callbacks.c
-+++ b/src/callbacks.c
-@@ -3200,17 +3200,16 @@ on_nec2_save_dialog_destroy(
+diff --git a/src/interface.c b/src/interface.c
+index b256c40..f8239cb 100644
+--- a/src/interface.c
++++ b/src/interface.c
+@@ -28,6 +28,11 @@
+ #include "cairo/cairo_fit.h"
+ #include "cairo/cairo_frame.h"
+ 
++#ifdef G_OS_WIN32
++#include <windows.h>
++#include <shellapi.h>
++#endif
++
+ /*------------------------------------------------------------------*/
+ 
+ /* is_auto_generated_comment()
+@@ -229,21 +234,22 @@ open_nec_resources( GtkMenuItem *item, gpointer user_data )
+   GtkWindow *parent = user_data != NULL ? GTK_WINDOW(user_data) : NULL;
+ 
+ #ifdef G_OS_WIN32
+-  /* gtk_show_uri_on_window() is unreliable in the native GTK3 Windows
+-   * bundle.  Ask cmd.exe to hand the URL to the registered browser. */
+-  gchar *argv[] = { "cmd.exe", "/c", "start", "",
+-                    "https://antenas.charlygolf.com/", NULL };
+-  if( !g_spawn_async(NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
+-        NULL, NULL, NULL, &error) )
++  /* Use the native Windows shell association directly.  ShellExecuteW is
++   * more reliable here than GTK URI dispatch or cmd.exe's START built-in. */
++  HINSTANCE result = ShellExecuteW(NULL, L"open",
++      L"https://antenas.charlygolf.com/", NULL, NULL, SW_SHOWNORMAL);
++  if( (INT_PTR)result <= 32 )
++    pr_warn("Unable to open NEC resources URL (ShellExecute error %ld)\n",
++        (long)(INT_PTR)result);
+ #else
+   if( !gtk_show_uri_on_window(parent, "https://antenas.charlygolf.com/",
+         GDK_CURRENT_TIME, &error) )
+-#endif
+   {
+     pr_warn("Unable to open NEC resources URL: %s\n",
+         error != NULL ? error->message : "unknown error");
+     g_clear_error( &error );
+   }
++#endif
  }
  
+   GtkWidget *
+diff --git a/src/main.c b/src/main.c
+index a756ee3..2c9c292 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -641,16 +641,13 @@ Open_Input_File( gpointer arg )
+     Gtk_Widget_Destroy( &rdpattern_window );
+     Gtk_Widget_Destroy( &freqplots_window );
  
--void on_error_stopbutton_clicked(
--    GtkButton *button, gpointer user_data) __attribute__((noreturn));
-   void
- on_error_stopbutton_clicked(
-     GtkButton       *button,
-     gpointer         user_data)
- {
-+  /* Stop dismisses the fatal parse dialog and lets Stop() return to the
-+   * caller.  Entering a second gtk_main() here strands File -> Open in a
-+   * nested event loop after a malformed NEC file. */
-   ClearFlag( ERROR_CONDX );
-   Gtk_Widget_Destroy( &error_dialog );
--  gtk_main();
--  exit(0);
- }
+-    /* Batch mode has no operator to dismiss the editor; Stop() already
+-     * scheduled the quit, so opening it here only loops the read/allocate
+-     * path headlessly. Restrict the editor to interactive sessions. */
+-    if( !rc_config.batch_mode )
+-    {
+-      if( nec2_edit_window == NULL )
+-        Open_Nec2_Editor( NEC2_EDITOR_RELOAD );
+-      else
+-        Nec2_Input_File_Treeview( NEC2_EDITOR_CLEAR );
+-    }
++    /* Do not open/reload the NEC editor for a malformed deck.  The editor
++     * reparses rc_config.input_file, which is the same bad file, and can
++     * trigger a second chain of Stop() dialogs (Read_Comments/List_Comments).
++     * Leave the application in its blank state so File -> Open can be used
++     * immediately for a different, valid NEC file. */
++    if( nec2_edit_window != NULL )
++      Gtk_Widget_Destroy( &nec2_edit_window );
  
- 
-diff --git a/src/prerender/prerender_color.c b/src/prerender/prerender_color.c
-index 6d00ff8..663a692 100644
---- a/src/prerender/prerender_color.c
-+++ b/src/prerender/prerender_color.c
-@@ -95,9 +95,11 @@ segment_type_to_rgb(segment_color_type_t type, float *r, float *g, float *b)
- 
-     case SEG_COLOR_LOADED:
-     case SEG_COLOR_LOADED_RESISTIVITY:
--      *r = 1.0f;
--      *g = 1.0f;
--      *b = 0.0f;
-+      /* Dark orange preserves the loaded-wire distinction while remaining
-+       * legible on the light Windows canvas (pure yellow had poor contrast). */
-+      *r = 0.78f;
-+      *g = 0.36f;
-+      *b = 0.00f;
-       break;
- 
-     case SEG_COLOR_NORMAL:
+     return( FALSE );
+   } /* if( !ok ) */
