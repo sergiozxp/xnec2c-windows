@@ -641,16 +641,13 @@ Open_Input_File( gpointer arg )
     Gtk_Widget_Destroy( &rdpattern_window );
     Gtk_Widget_Destroy( &freqplots_window );
 
-    /* Batch mode has no operator to dismiss the editor; Stop() already
-     * scheduled the quit, so opening it here only loops the read/allocate
-     * path headlessly. Restrict the editor to interactive sessions. */
-    if( !rc_config.batch_mode )
-    {
-      if( nec2_edit_window == NULL )
-        Open_Nec2_Editor( NEC2_EDITOR_RELOAD );
-      else
-        Nec2_Input_File_Treeview( NEC2_EDITOR_CLEAR );
-    }
+    /* Do not open/reload the NEC editor for a malformed deck.  The editor
+     * reparses rc_config.input_file, which is the same bad file, and can
+     * trigger a second chain of Stop() dialogs (Read_Comments/List_Comments).
+     * Leave the application in its blank state so File -> Open can be used
+     * immediately for a different, valid NEC file. */
+    if( nec2_edit_window != NULL )
+      Gtk_Widget_Destroy( &nec2_edit_window );
 
     return( FALSE );
   } /* if( !ok ) */
