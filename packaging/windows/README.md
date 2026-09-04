@@ -12,11 +12,31 @@ con el motor NEC2.
 - `xnec2c.iss`: definición del instalador por usuario de Inno Setup.
 - `build-installer.ps1`: localiza `ISCC.exe`, valida el portable y compila el
   Setup.
+- `msix/AppxManifest.xml.in`: plantilla del manifiesto MSIX para Windows
+  Desktop (`runFullTrust`).
+- `msix/StoreIdentity.json`: identidad oficial reservada en Microsoft Partner
+  Center para Xnec2c (`CharlyGolf.Xnec2c`).
+- `build-msix.ps1`: genera los recursos visuales, construye el manifiesto con
+  la identidad de Store, empaqueta con `MakeAppx.exe` y vuelve a desempaquetar
+  el MSIX como comprobación estructural.
+
+El workflow de GitHub Actions genera tres distribuciones desde la misma
+compilación: el portable, el instalador Inno Setup y el paquete MSIX para
+Microsoft Store. De esta forma no se mantiene una segunda lista independiente
+de DLL para cada formato.
+
+La identidad oficial de Microsoft Store configurada actualmente es:
+
+- Package/Identity/Name: `CharlyGolf.Xnec2c`
+- Package/Identity/Publisher: `CN=22DE0707-9E03-4F93-9B58-1F1C7076D4F9`
+- Package/Properties/PublisherDisplayName: `CharlyGolf`
+- Package Family Name: `CharlyGolf.Xnec2c_ybtc6319ae5ha`
+- Store ID: `9PBVK60LXV1P`
 
 El instalador consume la salida de `package-portable.sh`; no mantiene una
 segunda lista independiente de DLL. La asociación `.nec` está incluida detrás
 de `EnableNecAssociation=0` y no se compila en esta etapa.
 
-El script sólo reemplaza automáticamente destinos bajo `dist/` dentro del
-checkout. Esta restricción evita borrar por accidente un directorio arbitrario
-cuando se introduce una ruta incorrecta.
+Los scripts sólo reemplazan automáticamente destinos de compilación previstos
+bajo `dist/` y directorios temporales de CI. Esta restricción evita borrar por
+accidente un directorio arbitrario cuando se introduce una ruta incorrecta.
