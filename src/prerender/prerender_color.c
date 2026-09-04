@@ -95,9 +95,11 @@ segment_type_to_rgb(segment_color_type_t type, float *r, float *g, float *b)
 
     case SEG_COLOR_LOADED:
     case SEG_COLOR_LOADED_RESISTIVITY:
-      *r = 1.0f;
-      *g = 1.0f;
-      *b = 0.0f;
+      /* Dark orange preserves the loaded-wire distinction while remaining
+       * legible on the light Windows canvas (pure yellow had poor contrast). */
+      *r = 0.78f;
+      *g = 0.36f;
+      *b = 0.00f;
       break;
 
     case SEG_COLOR_NORMAL:

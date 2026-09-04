@@ -3200,17 +3200,16 @@ on_nec2_save_dialog_destroy(
 }
 
 
-void on_error_stopbutton_clicked(
-    GtkButton *button, gpointer user_data) __attribute__((noreturn));
   void
 on_error_stopbutton_clicked(
     GtkButton       *button,
     gpointer         user_data)
 {
+  /* Stop dismisses the fatal parse dialog and lets Stop() return to the
+   * caller.  Entering a second gtk_main() here strands File -> Open in a
+   * nested event loop after a malformed NEC file. */
   ClearFlag( ERROR_CONDX );
   Gtk_Widget_Destroy( &error_dialog );
-  gtk_main();
-  exit(0);
 }
 
 
