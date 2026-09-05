@@ -1,18 +1,104 @@
 diff --git a/src/callbacks.c b/src/callbacks.c
-index e48f84f..4cba7a4 100644
+index 4cba7a4..d0c7156 100644
 --- a/src/callbacks.c
 +++ b/src/callbacks.c
-@@ -760,8 +760,11 @@ on_main_freqplots_activate(
+@@ -75,6 +75,31 @@ static int saveas_height;
+ static gboolean noise_ground_warned = FALSE;
+ static gboolean noise_offaxis_warned = FALSE;
+ 
++/* Secondary analytical windows require a successfully loaded NEC model.
++ * Keeping them unavailable in the empty state avoids creating renderers
++ * against uninitialized geometry/frequency buffers. */
++static gboolean
++model_is_loaded_for_secondary_views( void )
++{
++  return( rc_config.input_file[0] != '\0' &&
++      (data.n > 0 || data.m > 0) &&
++      isFlagClear(INPUT_PENDING) );
++}
++
++static void
++secondary_views_set_sensitive( gboolean enabled )
++{
++  GtkWidget *w;
++
++  if( main_window_builder == NULL ) return;
++
++  w = Builder_Get_Object( main_window_builder, "main_rdpattern" );
++  if( w != NULL ) gtk_widget_set_sensitive( w, enabled );
++
++  w = Builder_Get_Object( main_window_builder, "main_freqplots" );
++  if( w != NULL ) gtk_widget_set_sensitive( w, enabled );
++}
++
+ /*-----------------------------------------------------------------------*/
+ 
+ /**
+@@ -342,6 +367,7 @@ Reset_To_Clean_State( gboolean persist )
+   ClearFlag( DRAW_ENABLED );
+   ClearFlag( ANIMATE );
+ 
++  secondary_views_set_sensitive( FALSE );
+   Update_Window_Titles();
+   Queue_Structure_Rebuild( TRUE );
+ 
+@@ -603,6 +629,12 @@ on_main_rdpattern_activate(
+   {
+     GtkWidget *widget;
+ 
++    if( !model_is_loaded_for_secondary_views() )
++    {
++      gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem), FALSE);
++      return;
++    }
++
+     rdpattern_window = create_rdpattern_window( &rdpattern_window_builder );
+     gtk_window_set_transient_for( GTK_WINDOW(rdpattern_window), GTK_WINDOW(main_window) );
+     gtk_window_set_position( GTK_WINDOW(rdpattern_window), GTK_WIN_POS_CENTER_ON_PARENT );
+@@ -757,6 +789,12 @@ on_main_freqplots_activate(
+    * related data (gain, vswr etc) */
+   if( gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem)) )
+   {
++    if( !model_is_loaded_for_secondary_views() )
++    {
++      gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem), FALSE);
++      return;
++    }
++
      if( Main_Freqplots_Activate() )
      {
        freqplots_window = create_freqplots_window( &freqplots_window_builder );
--      gtk_window_set_transient_for( GTK_WINDOW(freqplots_window), GTK_WINDOW(main_window) );
--      gtk_window_set_position( GTK_WINDOW(freqplots_window), GTK_WIN_POS_CENTER_ON_PARENT );
-+      /* Keep Frequency Plots as an independent top-level window on Windows.
-+       * Do not replay old coordinates and avoid transient-parent ownership,
-+       * which can terminate the Win32 process after another child window
-+       * has been closed. */
-+      gtk_window_set_position( GTK_WINDOW(freqplots_window), GTK_WIN_POS_CENTER );
+diff --git a/src/main.c b/src/main.c
+index 5c061c4..2c6f8b6 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -639,6 +639,12 @@ Open_Input_File( gpointer arg )
+     return( FALSE );
+   } /* if( !ok ) */
  
-       /* The transport buttons carry the sweep state, so a freshly built
-        * window takes its face and its tooltips from the readout. */
++  /* A valid model now exists: analytical secondary views may be opened. */
++  GtkWidget *secondary_item = Builder_Get_Object(main_window_builder, "main_rdpattern");
++  if( secondary_item != NULL ) gtk_widget_set_sensitive( secondary_item, TRUE );
++  secondary_item = Builder_Get_Object(main_window_builder, "main_freqplots");
++  if( secondary_item != NULL ) gtk_widget_set_sensitive( secondary_item, TRUE );
++
+   /* Populate the freqplots excitation-port selector for the loaded model. */
+   freqplots_populate_port_combo();
+ 
+diff --git a/src/rc_config.c b/src/rc_config.c
+index 21bd5d0..356377a 100644
+--- a/src/rc_config.c
++++ b/src/rc_config.c
+@@ -1442,6 +1442,13 @@ Read_Config( void )
+ 
+   Restore_GUI_State();
+ 
++  /* A normal interactive start has no loaded NEC model.  Analytical windows
++   * become available only after Open_Input_File publishes a valid model. */
++  GtkWidget *secondary_item = Builder_Get_Object(main_window_builder, "main_rdpattern");
++  if( secondary_item != NULL ) gtk_widget_set_sensitive( secondary_item, FALSE );
++  secondary_item = Builder_Get_Object(main_window_builder, "main_freqplots");
++  if( secondary_item != NULL ) gtk_widget_set_sensitive( secondary_item, FALSE );
++
+   return( TRUE );
+ } /* Read_Config() */
