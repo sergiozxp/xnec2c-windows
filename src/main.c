@@ -43,6 +43,10 @@ extern void sy_overrides_close_if_empty(void);
 #include <poll.h>
 #endif
 #include <time.h>
+#ifdef XNEC2C_NATIVE_WINDOWS
+#include <windows.h>
+#include <shellapi.h>
+#endif
 
 #ifndef XNEC2C_NATIVE_WINDOWS
 static void sig_handler(int signal);
@@ -50,6 +54,93 @@ static void sig_handler(int signal);
 
 /* Child process pid returned by fork() */
 static pid_t child_pid = (pid_t)(-1);
+
+
+/* Open the CharlyGolf NEC resources site in the user's default browser. */
+static void
+on_nec_resources_activate(GtkMenuItem *item, gpointer user_data)
+{
+  (void)item;
+  (void)user_data;
+
+#ifdef XNEC2C_NATIVE_WINDOWS
+  /* Use the native Windows shell so the user's configured default browser
+   * opens the URL without depending on GIO URI handler discovery. */
+  HINSTANCE result = ShellExecuteW(NULL, L"open",
+      L"https://antenas.charlygolf.com/", NULL, NULL, SW_SHOWNORMAL);
+  if( (INT_PTR)result <= 32 )
+    pr_warn("cannot open NEC resources URL (ShellExecuteW error %ld)\n",
+        (long)(INT_PTR)result);
+#else
+  GError *error = NULL;
+  if( !gtk_show_uri_on_window(GTK_WINDOW(main_window),
+        "https://antenas.charlygolf.com/", GDK_CURRENT_TIME, &error) )
+  {
+    pr_warn("cannot open NEC resources URL: %s\n",
+        error ? error->message : "unknown error");
+    g_clear_error(&error);
+  }
+#endif
+}
+
+/* Add one top-level menu to the main menubar, immediately before Help. */
+static void
+install_nec_resources_menu(GtkBuilder *builder)
+{
+  GSList *objects, *it;
+  GtkWidget *menubar = NULL;
+  GtkWidget *top, *submenu, *link;
+  GList *children, *c;
+  int position = -1;
+  int index = 0;
+
+  objects = gtk_builder_get_objects(builder);
+  for( it = objects; it != NULL; it = it->next )
+  {
+    if( GTK_IS_MENU_BAR(it->data)
+        && gtk_widget_get_toplevel(GTK_WIDGET(it->data)) == main_window )
+    {
+      menubar = GTK_WIDGET(it->data);
+      break;
+    }
+  }
+  g_slist_free(objects);
+
+  if( menubar == NULL )
+  {
+    pr_warn("cannot locate main menubar for NEC resources menu\n");
+    return;
+  }
+
+  top = gtk_menu_item_new_with_label("Recursos NEC");
+  submenu = gtk_menu_new();
+  link = gtk_menu_item_new_with_label("Antenas CharlyGolf");
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(top), submenu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(submenu), link);
+  g_signal_connect(link, "activate", G_CALLBACK(on_nec_resources_activate), NULL);
+
+  children = gtk_container_get_children(GTK_CONTAINER(menubar));
+  for( c = children; c != NULL; c = c->next, index++ )
+  {
+    if( GTK_IS_MENU_ITEM(c->data) )
+    {
+      const char *label = gtk_menu_item_get_label(GTK_MENU_ITEM(c->data));
+      if( label != NULL && g_strrstr(label, "Help") != NULL )
+      {
+        position = index;
+        break;
+      }
+    }
+  }
+  g_list_free(children);
+
+  if( position >= 0 )
+    gtk_menu_shell_insert(GTK_MENU_SHELL(menubar), top, position);
+  else
+    gtk_menu_shell_append(GTK_MENU_SHELL(menubar), top);
+
+  gtk_widget_show_all(top);
+}
 
 static gint opt_start_optimizer_thread(void)
 {
@@ -299,6 +390,7 @@ main (int argc, char *argv[])
   /* Create the main window */
   main_window = create_main_window( &main_window_builder );
   gtk_window_set_title( GTK_WINDOW(main_window), PACKAGE_STRING );
+  install_nec_resources_menu( main_window_builder );
 
   /* The transport buttons carry the sweep state, so a freshly built window
    * takes its face and its tooltips from the readout. */

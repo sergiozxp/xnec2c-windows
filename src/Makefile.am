@@ -152,6 +152,7 @@ if WINDOWS
 # PE/COFF does not export executable symbols by default, so make the callbacks
 # visible without annotating hundreds of upstream callback declarations.
 xnec2c_LDFLAGS += -Wl,--export-all-symbols
+xnec2c_LDADD += -lshell32
 else
 if OSX
 xnec2c_LDFLAGS += -Wl,-export_dynamic

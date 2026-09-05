@@ -94,16 +94,24 @@ segment_type_to_rgb(segment_color_type_t type, float *r, float *g, float *b)
       break;
 
     case SEG_COLOR_LOADED:
+      /* Localized LD load/trap: dark orange #C45100. */
+      *r = 196.0f / 255.0f;
+      *g =  81.0f / 255.0f;
+      *b =   0.0f / 255.0f;
+      break;
+
     case SEG_COLOR_LOADED_RESISTIVITY:
-      *r = 1.0f;
-      *g = 1.0f;
-      *b = 0.0f;
+      /* Distributed conductor loss (LD type 5): light orange #F4A261. */
+      *r = 244.0f / 255.0f;
+      *g = 162.0f / 255.0f;
+      *b =  97.0f / 255.0f;
       break;
 
     case SEG_COLOR_NORMAL:
-      *r = 0.0f;
-      *g = 0.0f;
-      *b = 1.0f;
+      /* Ideal/perfect conductor: blue #1565C0. */
+      *r =  21.0f / 255.0f;
+      *g = 101.0f / 255.0f;
+      *b = 192.0f / 255.0f;
       break;
 
     default:
