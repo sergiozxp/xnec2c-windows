@@ -8,6 +8,7 @@ bin_PROGRAMS = xnec2c
 
 xnec2c_SOURCES = \
     main.c          main.h \
+    windows_native.c windows_native.h \
     args.c          args.h \
     branch_hints.h \
     location.h \

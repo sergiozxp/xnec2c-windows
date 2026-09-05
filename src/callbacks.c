@@ -28,13 +28,11 @@
 #include "structure_ui.h"
 #include "config_hooks.h"
 #include "rc_config.h"
+#include "windows_native.h"
 #include "cairo/cairo_frame.h"
 #include "cairo/cairo_fit.h"
 #include "chroma/chroma_farfield.h"
 #include <pthread.h>
-#ifdef XNEC2C_NATIVE_WINDOWS
-#include <windows.h>
-#endif
 
 #include "opengl/opengl_state.h"
 #include "settings/render_settings.h"
@@ -3208,30 +3206,11 @@ on_error_stopbutton_clicked(
   (void)user_data;
 
 #ifdef XNEC2C_NATIVE_WINDOWS
-  /* A fatal NEC/parser error can leave global solver state inconsistent.
-   * Do not attempt an in-process reset. Launch a fresh copy of this exact
-   * executable with no NEC argument, then terminate the damaged process. */
-  wchar_t executable[MAX_PATH];
-  STARTUPINFOW startup = {0};
-  PROCESS_INFORMATION process = {0};
-  DWORD length;
-
-  length = GetModuleFileNameW(NULL, executable, MAX_PATH);
-  startup.cb = sizeof(startup);
-
-  if( length == 0 || length >= MAX_PATH ||
-      !CreateProcessW(executable, NULL, NULL, NULL, FALSE, 0,
-          NULL, NULL, &startup, &process) )
-  {
-    MessageBoxW(NULL,
-        L"Xnec2c could not restart automatically. Please start it again manually.",
-        L"Xnec2c restart", MB_OK | MB_ICONERROR);
-    ExitProcess(1);
-  }
-
-  CloseHandle(process.hThread);
-  CloseHandle(process.hProcess);
-  ExitProcess(0);
+  /* Do not attempt to repair potentially corrupted solver state in-process.
+   * Launch a clean copy of this exact executable, then terminate this one. */
+  if( windows_restart_self() )
+    exit(0);
+  exit(1);
 #else
   ClearFlag( ERROR_CONDX );
   Gtk_Widget_Destroy( &error_dialog );

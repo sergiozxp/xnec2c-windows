@@ -34,6 +34,7 @@
 #include "config_hooks.h"
 #include "themes/theme.h"
 #include "color/color_palette.h"
+#include "windows_native.h"
 
 /* Forward declaration — full sy_overrides.h conflicts with openblas via gsl */
 extern void sy_overrides_close_if_empty(void);
@@ -43,10 +44,6 @@ extern void sy_overrides_close_if_empty(void);
 #include <poll.h>
 #endif
 #include <time.h>
-#ifdef XNEC2C_NATIVE_WINDOWS
-#include <windows.h>
-#include <shellapi.h>
-#endif
 
 #ifndef XNEC2C_NATIVE_WINDOWS
 static void sig_handler(int signal);
@@ -64,13 +61,8 @@ on_nec_resources_activate(GtkMenuItem *item, gpointer user_data)
   (void)user_data;
 
 #ifdef XNEC2C_NATIVE_WINDOWS
-  /* Use the native Windows shell so the user's configured default browser
-   * opens the URL without depending on GIO URI handler discovery. */
-  HINSTANCE result = ShellExecuteW(NULL, L"open",
-      L"https://antenas.charlygolf.com/", NULL, NULL, SW_SHOWNORMAL);
-  if( (INT_PTR)result <= 32 )
-    pr_warn("cannot open NEC resources URL (ShellExecuteW error %ld)\n",
-        (long)(INT_PTR)result);
+  if( !windows_open_nec_resources() )
+    pr_warn("cannot open NEC resources URL with the Windows shell\n");
 #else
   GError *error = NULL;
   if( !gtk_show_uri_on_window(GTK_WINDOW(main_window),
