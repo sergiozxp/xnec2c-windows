@@ -8,9 +8,13 @@ Third Windows validation pass applied in commit `35886ccd07149b55a5a9d5057d6da99
 
 Fourth Windows recovery/path pass applied in commit `43ffb6f5b9b2605dca78cf82bdd4292b94af9237`.
 
+Clear/clean-state pass applied in commit `7e418ab80910f69ab768ace8b8cc4bb815d91dc2`.
+
 This pass now also:
 - avoids reopening the NEC editor after a malformed deck, preventing repeated error-dialog loops and returning the app to a blank state ready for File → Open;
 - uses native Windows ShellExecuteW for Help → Recursos NEC so the URL opens in the default browser;
 - preserves the earlier dark-orange loaded-wire contrast fix on the light canvas;
 - opens Windows paths through GLib `g_fopen`, improving support for UTF-8/Unicode names such as `alimentación`;
-- never enters the parser after a failed file open, preventing the misleading second `Unexpected EOF` error and keeping File → Open recoverable.
+- never enters the parser after a failed file open, preventing the misleading second `Unexpected EOF` error and keeping File → Open recoverable;
+- adds File → Clear, which closes secondary windows, clears the loaded model and session restore state, and returns the main view to the fresh-start screen;
+- routes failed NEC loads through the same deterministic clean-state reset used by File → Clear.
