@@ -577,6 +577,11 @@ Display_Frequency_Data( void )
   measurement_t meas;
 
   if( isFlagClear(PLOT_ENABLED) ) return;
+  if( isFlagSet(INPUT_PENDING) )
+  {
+    freqplots_clear_data_display();
+    return;
+  }
 
   fstep = fp_selected_fstep();
 
@@ -1248,6 +1253,7 @@ _Plot_Frequency_Data( freqplots_view_t *v, cairo_t *cr )
   /* Abort plotting if main window is to be closed or no valid excitation
    * exists for the current model. */
   if( isFlagClear(PLOT_ENABLED) ||
+      isFlagSet(INPUT_PENDING) ||
       isFlagClear(ENABLE_EXCITN) )
     return;
 
