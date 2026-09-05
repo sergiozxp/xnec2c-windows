@@ -1216,30 +1216,11 @@ int Get_Window_Geometry(
   gboolean
 Create_Default_Config( void )
 {
-  char line[LINE_LEN];
-  FILE *fp = NULL;
-
-  fp = fopen(rc_config.config_file, "r");
-  if( fp != NULL )
-  {
-    /* Read Application Version */
-    if( Load_Line(line, fp) == EOF )
-    {
-      pr_err("%s: EOF reading application version.\n", rc_config.config_file);
-      strcpy(line, "(unknown)");
-    }
-
-    /* Produce fresh default config file if version number new */
-    if( strncmp(line, PACKAGE_STRING, sizeof(line)) != 0 )
-      pr_notice("existing config file version differs: %s != %s\n", line, PACKAGE_STRING);
-
-    Close_File( &fp );
-  }
-
+  /* Windows stateless policy: always start from compiled defaults and never
+   * inspect a persisted xnec2c configuration file. */
   rc_config_apply_defaults();
-
+  rc_config.first_run = 1;
   return( TRUE );
-
 } /* Create_Default_Config() */
 
 /*------------------------------------------------------------------------*/
@@ -1343,134 +1324,13 @@ Restore_GUI_State( void )
   gboolean
 Read_Config( void )
 {
-  char
-    home[PATH_MAX],
-    fpath[FILENAME_LEN], /* File path to xnec2crc */
-    line[LINE_LEN];
-  int lnum;
-
-  struct stat st;
-  int umsk, newmode;
-
-  /* Config and mnemonics file pointer */
-  FILE *fp = NULL;
-
-
-  /* Create the dir if missing */
-  snprintf( fpath, sizeof(fpath), "%s/.xnec2c", get_conf_dir(home, sizeof(home)));
-  if( access(fpath, R_OK) < 0 && errno == ENOENT)
-	  g_mkdir(fpath, 0755);
-
-  // In commit 4e62893b the mkdir call used 755 instead of 0755 so
-  // permissions were broken.  This fixes that:
-  if (stat(fpath, &st) != 0)
-	  pr_err("stat failed for %s: %s\n", fpath, strerror(errno));
-  st.st_mode &= 01777;
-  umask(umsk = umask(0));
-  if (st.st_mode == 755 || st.st_mode == (755 & (~umsk)))
-  {
-	  newmode = 0755 & (~umsk) & 0777;
-	  pr_notice("Fixed %s directory permissions from 0%o to 0%o from bug introduced in 4e62893b.\n",
-                  fpath, st.st_mode, newmode);
-	  chmod(fpath, newmode);
-  }
-
-  /* Create the file if missing */
-  if (access(rc_config.config_file, R_OK) < 0 && errno == ENOENT)
-  {
-	  rc_config.first_run = 1;
-	  Save_Config();
-  }
-  else
-	  rc_config.first_run = 0;
-
-  /* Open xnec2c config file */
-  if (!Open_File(&fp, rc_config.config_file, "r")) return(FALSE);
-
-  // Iterate over each line and parse the variables into
-  // their references defined by rc_config_vars[].
-  lnum = 0;
-
-  while ( fgets(line, LINE_LEN, fp) != NULL)
-  {
-	  lnum++;
-      
-	  chomp(line);
-
-	  rc_config_vars_t *v = find_var(line);
-	  if (!v)
-	  {
-		  if (line[0] != '#')
-			  pr_err("%s:%d: Line not parsed: %s\n", rc_config.config_file, lnum, line);
-		  continue;
-	  }
-	  
-	  if ( fgets(line, LINE_LEN, fp) == NULL)
-	  {
-		  pr_err("%s:%d: Early end of file for %s: %s \n", rc_config.config_file, lnum, v->desc, line);
-		  break;
-	  }
-
-	  lnum++;
-
-	  // Skip read-only vars:
-	  if (v->ro)
-		  continue;
-
-	  // Skip vars that should be excluded when batch_mode is enabled:
-	  if (rc_config.batch_mode && v->batch_mode_skip)
-		  continue;
-
-	  chomp(line);
-
-	  // 1. Skip comments.
-	  // 2. Then try in the "C" locale
-	  // 3. Try in the current locale
-	  // 4. Then try in a known locale with comma for decimals
-	  if (line[0] != '#' &&
-		  !parse_var(v, line, "C") &&
-		  !parse_var(v, line, NULL) &&
-		  !parse_var(v, line, "en_DK")
-		  )
-		  pr_err("%s:%d: parse error (%s): %s \n", rc_config.config_file, lnum, v->desc, line);
-	  else
-	  {
-		  if (v->init != NULL)
-			  v->init(v, line);
-	  }
-  }
-
-  /* Close the config file pointer */
-  Close_File( &fp );
-
-  /* Validate noise model indices; reset to defaults if out of range */
-  if (rc_config.ant_temp_sky < 0 || rc_config.ant_temp_sky >= ANT_TEMP_SKY_COUNT)
-  {
-    pr_warn("Invalid sky model index %d in config, resetting to default\n",
-        rc_config.ant_temp_sky);
-    rc_config_set_default(rc_config_find_by_field(&rc_config.ant_temp_sky));
-  }
-  if (rc_config.ant_temp_earth < 0 || rc_config.ant_temp_earth >= ANT_TEMP_EARTH_COUNT)
-  {
-    pr_warn("Invalid earth model index %d in config, resetting to default\n",
-        rc_config.ant_temp_earth);
-    rc_config_set_default(rc_config_find_by_field(&rc_config.ant_temp_earth));
-  }
-  if (rc_config.ant_temp_interp < 0 || rc_config.ant_temp_interp >= ANT_TEMP_METHOD_COUNT)
-  {
-    pr_warn("Invalid interp method %d in config, resetting to default\n",
-        rc_config.ant_temp_interp);
-    rc_config_set_default(rc_config_find_by_field(&rc_config.ant_temp_interp));
-  }
-
-  /* Custom temperatures must be positive (zero collapses the pattern) */
-  if (rc_config.ant_temp_custom_t_sky <= ANT_TEMP_K_MIN)
-    rc_config_set_default(rc_config_find_by_field(&rc_config.ant_temp_custom_t_sky));
-  if (rc_config.ant_temp_custom_t_earth <= ANT_TEMP_K_MIN)
-    rc_config_set_default(rc_config_find_by_field(&rc_config.ant_temp_custom_t_earth));
-
+  /* Windows stateless policy: do not create, read, stat, or otherwise touch
+   * ~/.xnec2c or xnec2c.conf.  Create_Default_Config() already established
+   * the compiled defaults before command-line parsing; preserving the live
+   * values here keeps command-line options intact while restoring the GUI
+   * strictly from this process's fresh in-memory state. */
+  rc_config.first_run = 1;
   Restore_GUI_State();
-
   return( TRUE );
 } /* Read_Config() */
 
@@ -1623,37 +1483,8 @@ Get_GUI_State( void )
   gboolean
 Save_Config( void )
 {
-  FILE *fp = NULL;  /* File pointer to write config file */
-
-  /* Batch runs must not persist configuration: validation_dump_force_config()
-   * forces a canonical mathlib, antenna-temperature models, polarization, and
-   * viewer orientation, and an OpenGL context that fails on a headless server
-   * falls back to Cairo (opengl_gl_init_failed).  Writing any of these transient
-   * values back would corrupt the host's saved configuration, so skip
-   * persistence entirely in batch mode. */
-  if( rc_config.batch_mode )
-  {
-    pr_notice("batch mode: skipping configuration save\n");
-    return( TRUE );
-  }
-
-  /* Open config file for writing */
-  if (!Open_File(&fp, rc_config.config_file, "w"))
-  {
-    pr_err("cannot open xnec2c's config file %s: %s\n", rc_config.config_file, strerror(errno));
-    return( FALSE );
-  }
-
-  fprintf(fp, "# Xnec2c configuration file\n#\n");
-  for (int i = 0; i < num_rc_config_vars; i++)
-  {
-	  fprintf(fp, "# %s\n", rc_config_vars[i].desc);
-	  fprint_var(fp, &rc_config_vars[i]);
-	  fprintf(fp, "\n");
-  }
-
-  Close_File( &fp );
-
+  /* Windows stateless policy: session state is intentionally ephemeral.
+   * Never write xnec2c.conf or any other file under ~/.xnec2c. */
   return( TRUE );
 } /* Save_Config() */
 
