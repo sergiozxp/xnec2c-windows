@@ -1,0 +1,20 @@
+name: Inspect error Stop path
+
+on:
+  push:
+    branches:
+      - version-85-restart-stop
+    paths:
+      - '.github/workflows/inspect-error-stop.yml'
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: version-85-restart-stop
+      - name: Locate error dialog and Stop callbacks
+        run: |
+          echo '=== error dialog refs ==='
+          grep -RIn --exclude-dir=.git -E 'error_dialog|Error_Dialog|gtk_message_dialog|gtk_dialog_add_button|gtk_dialog_run|GTK_RESPONSE|"Stop"|_\("Stop"\)|"Quit"|_\("Quit"\)' src resources | head -n 320 || true
