@@ -470,13 +470,15 @@ Filechooser_Response(
     }
     else if( isFlagSet(OPEN_INPUT) )
     {
-      /* Save any changes to an open file */
-      Strlcpy( rc_config.input_file, fname, sizeof(rc_config.input_file) );
+      /* Every explicit File -> Open starts from a clean session.  Keep only
+       * the newly selected path across the reset. */
+      gchar selected[FILENAME_LEN];
+      Strlcpy( selected, fname, sizeof(selected) );
+      Reset_To_Clean_State( FALSE );
+      Strlcpy( rc_config.input_file, selected, sizeof(rc_config.input_file) );
 
-      /* Open new file */
       new = TRUE;
       Open_Input_File( (gpointer)(&new) );
-      ClearFlag( OPEN_INPUT );
     }
     else if( isFlagSet(IMAGE_SAVE) )
     {
@@ -546,14 +548,8 @@ Filechooser_Response(
     /* Open a new NEC2 project */
     if( isFlagSet(OPEN_NEW_NEC2) )
     {
-      /* Open editor window if needed */
-      if( nec2_edit_window == NULL )
-      {
-        Close_File( &input_fp );
-        Open_Nec2_Editor( NEC2_EDITOR_NEW );
-      }
-      else Nec2_Input_File_Treeview( NEC2_EDITOR_NEW );
-
+      Reset_To_Clean_State( FALSE );
+      Open_Nec2_Editor( NEC2_EDITOR_NEW );
       rc_config.input_file[0] = '\0';
       selected_treeview = cmnt_treeview;
     }
@@ -593,11 +589,8 @@ Open_Nec2_Editor( int action )
   gtk_window_set_destroy_with_parent( GTK_WINDOW(nec2_edit_window), TRUE );
   gtk_window_set_resizable( GTK_WINDOW(nec2_edit_window), TRUE );
   gtk_window_set_position( GTK_WINDOW(nec2_edit_window), GTK_WIN_POS_CENTER_ON_PARENT );
-  /* Restore the editor size, but not a stale desktop position.  Saved
-   * coordinates can become invalid after a DPI or monitor-layout change and
-   * leave the Windows title bar off screen. */
-  Set_Window_Geometry( nec2_edit_window, -1, -1,
-      rc_config.nec2_edit_width, rc_config.nec2_edit_height );
+  /* Editor sessions are intentionally non-persistent.  Let GTK choose a safe
+   * default size/position instead of replaying the previous session. */
   gtk_widget_show( nec2_edit_window );
   Update_Window_Titles();
 

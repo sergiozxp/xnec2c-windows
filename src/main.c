@@ -813,17 +813,6 @@ Open_Input_File( gpointer arg )
     /* The sweep's own start consumed the announcement. */
   }
 
-  /* Open NEC2 editor if there is a saved geometry state */
-  GtkMenuItem *menu_item;
-  if( rc_config.nec2_edit_width &&
-      rc_config.nec2_edit_height )
-  {
-    menu_item = GTK_MENU_ITEM(
-        Builder_Get_Object(main_window_builder, "nec2_edit") );
-    gtk_menu_item_activate( menu_item );
-  }
-
-
   /* Re-apply the persisted structure view for the reloaded geometry; the
    * rc_config enum selects geometry, currents, or charges */
   structure_view_apply();

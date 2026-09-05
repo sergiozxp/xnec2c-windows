@@ -302,9 +302,11 @@ Reset_To_Clean_State( gboolean persist )
   Gtk_Widget_Destroy( &sy_overrides_window );
   Gtk_Widget_Destroy( &file_chooser );
   Gtk_Widget_Destroy( &error_dialog );
+  Gtk_Widget_Destroy( &quit_dialog );
   Gtk_Widget_Destroy( &nec2_save_dialog );
   Gtk_Widget_Destroy( &animate_dialog );
   render_settings_hide();
+  kill_window = NULL;
 
   /* Invalidate the loaded model. render_check() will then display the same
    * "File ▸ Open to load an NEC file" message used on a fresh startup. */
@@ -334,9 +336,11 @@ Reset_To_Clean_State( gboolean persist )
   rc_config.sy_overrides_width = rc_config.sy_overrides_height = 0;
 
   ClearFlag( INPUT_PENDING );
-  ClearFlag( OPEN_INPUT );
-  ClearFlag( OPEN_NEW_NEC2 );
-  ClearFlag( NEC2_SAVE );
+  ClearFlag( ALL_CHOOSER_FLAGS );
+  ClearFlag( MAIN_QUIT );
+  ClearFlag( PLOT_ENABLED );
+  ClearFlag( DRAW_ENABLED );
+  ClearFlag( ANIMATE );
 
   Update_Window_Titles();
   Queue_Structure_Rebuild( TRUE );
@@ -362,36 +366,23 @@ on_new_activate(
     GtkMenuItem     *menuitem,
     gpointer         user_data)
 {
-  /* No save/open file while freq loop is running */
+  /* A new project always begins from a deterministic empty session. */
   if( !Nec2_Save_Warn(
         _("A new NEC2 input file may not be created\n"
           "while the Frequency Loop is running") ) )
     return;
 
+  /* Preserve the existing save/discard flow for edited data.  The flag is
+   * consumed by Filechooser_Response() if a save dialog is required. */
   SetFlag( OPEN_NEW_NEC2 );
-
-  /* Reset on opening new file */
-  calc_data.FR_cards    = 0;
-  calc_data.steps_total = 0;
-  if( isFlagClear(SUPPRESS_INTERMEDIATE_REDRAWS) )
-  {
-    calc_data.fmhz_save = 0.0;
-  }
-
-  /* Prompt user to save NEC2 data */
   if( Nec2_Edit_Save() ) return;
 
-  /* Open editor window if needed */
-  if( nec2_edit_window == NULL )
-  {
-    Close_File( &input_fp );
-    Open_Nec2_Editor( NEC2_EDITOR_NEW );
-  }
-  else Nec2_Input_File_Treeview( NEC2_EDITOR_NEW );
-
+  Reset_To_Clean_State( FALSE );
+  Open_Nec2_Editor( NEC2_EDITOR_NEW );
   rc_config.input_file[0] = '\0';
   selected_treeview = cmnt_treeview;
 }
+
 
 
   void
@@ -612,14 +603,9 @@ on_main_rdpattern_activate(
   {
     GtkWidget *widget;
 
-    if (rc_config.rdpattern_x < 0 || rc_config.rdpattern_y < 0)
-    {
-        Get_GUI_State();
-        rc_config.rdpattern_x = rc_config.main_x;
-        rc_config.rdpattern_y = rc_config.main_y + rc_config.main_height;
-    }
-
     rdpattern_window = create_rdpattern_window( &rdpattern_window_builder );
+    gtk_window_set_transient_for( GTK_WINDOW(rdpattern_window), GTK_WINDOW(main_window) );
+    gtk_window_set_position( GTK_WINDOW(rdpattern_window), GTK_WIN_POS_CENTER_ON_PARENT );
 
     /* The transport buttons carry the sweep state, so a freshly built window
      * takes its face and its tooltips from the readout. */
@@ -690,8 +676,7 @@ on_main_rdpattern_activate(
 
     /* Request geometry and show after all structural mutations and
      * widget state restorations so sizing is the last layout operation */
-    Set_Window_Geometry( rdpattern_window,
-        rc_config.rdpattern_x, rc_config.rdpattern_y,
+    Set_Window_Geometry( rdpattern_window, -1, -1,
         rc_config.rdpattern_width, rc_config.rdpattern_height );
     gtk_widget_show( rdpattern_window );
     Update_Window_Titles();
@@ -774,14 +759,9 @@ on_main_freqplots_activate(
   {
     if( Main_Freqplots_Activate() )
     {
-      if (rc_config.freqplots_x < 0 || rc_config.rdpattern_y < 0)
-      {
-          Get_GUI_State();
-          rc_config.freqplots_x = rc_config.main_x + rc_config.main_width;
-          rc_config.freqplots_y = rc_config.main_y;
-      }
-
       freqplots_window = create_freqplots_window( &freqplots_window_builder );
+      gtk_window_set_transient_for( GTK_WINDOW(freqplots_window), GTK_WINDOW(main_window) );
+      gtk_window_set_position( GTK_WINDOW(freqplots_window), GTK_WIN_POS_CENTER_ON_PARENT );
 
       /* The transport buttons carry the sweep state, so a freshly built
        * window takes its face and its tooltips from the readout. */
@@ -824,8 +804,7 @@ on_main_freqplots_activate(
 
       /* Request geometry and show after all widget state restorations
        * so sizing is the last layout operation */
-      Set_Window_Geometry( freqplots_window,
-          rc_config.freqplots_x, rc_config.freqplots_y,
+      Set_Window_Geometry( freqplots_window, -1, -1,
           rc_config.freqplots_width, rc_config.freqplots_height );
       gtk_widget_show( freqplots_window );
       Update_Window_Titles();

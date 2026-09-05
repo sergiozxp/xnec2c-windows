@@ -813,16 +813,12 @@ rc_config_vars_t rc_config_vars[] = {
 		.vars = { &rc_config.opt_write_patch_currents},
 		.widgets = CONFIG_WIDGET_SINGLE( &main_window_builder, "optimizer_write_patch_currents", NULL ) },
 
-	// The *_is_open values below default to "1" for backward compatiblity.  It
-	// still does not open the window if width/height are undefined so defaults
-	// are consistent.  However, if they are defined but *_is_open is not defined
-	// (ie, <= v4.1.12) then the specified windows will open.  After the first
-	// run the new version will use xnec2c.conf for *_is_open values.
+	/* Secondary-window open/closed state is session-only in the Windows port. */
 	{ .desc = "Frequency Plots window is open", .format = "%d",
-		.vars = { &rc_config.freqplots_is_open }, .def = { { .i = 1 } } },
+		.vars = { &rc_config.freqplots_is_open }, .def = { { .i = 0 } } },
 
 	{ .desc = "Radiation Pattern Window window is open", .format = "%d",
-		.vars = { &rc_config.rdpattern_is_open }, .def = { { .i = 1 } } },
+		.vars = { &rc_config.rdpattern_is_open }, .def = { { .i = 0 } } },
 
 	{ .desc = "Symbol Overrides Window is open", .format = "%d",
 		.vars = { &rc_config.sy_overrides_is_open } },
@@ -1263,44 +1259,6 @@ Set_Window_Geometry(
 
 } /* Set_Window_Geometry() */
 
-/*------------------------------------------------------------------------*/
-
-/* Restore_Windows()
- *
- * Restores the rdpattern and freq plots windows
- */
-  static gboolean
-Restore_Windows( gpointer dat )
-{
-  GtkWidget *widget;
-
-  /* Open frequency plots window if state data available */
-  if( rc_config.main_loop_start || isFlagSet(SUPPRESS_INTERMEDIATE_REDRAWS) ||
-	  (rc_config.freqplots_is_open && rc_config.freqplots_width && rc_config.freqplots_height))
-  {
-    widget = Builder_Get_Object( main_window_builder, "main_freqplots" );
-    gtk_menu_item_activate( GTK_MENU_ITEM(widget) );
-  }
-
-  /* Open radiation pattern window if state data available */
-  if( rc_config.rdpattern_is_open && rc_config.rdpattern_width && rc_config.rdpattern_height)
-  {
-    widget = Builder_Get_Object( main_window_builder, "main_rdpattern" );
-    gtk_menu_item_activate( GTK_MENU_ITEM(widget) );
-  }
-
-  /* Open symbol overrides window if state data available */
-  if( rc_config.sy_overrides_is_open && rc_config.sy_overrides_width && rc_config.sy_overrides_height)
-  {
-    widget = Builder_Get_Object( main_window_builder, "show_sy_overrides" );
-    gtk_menu_item_activate( GTK_MENU_ITEM(widget) );
-  }
-
-  return( FALSE );
-}
-
-/*------------------------------------------------------------------------*/
-
 /* Restore_GUI_State()
  *
  * Restores the state of the GUI including window geometry
@@ -1330,7 +1288,8 @@ Restore_GUI_State( void )
       rc_config.main_width, rc_config.main_height );
   gtk_widget_show( main_window );
 
-  g_idle_add( Restore_Windows, NULL );
+  /* Start every interactive session with only the main window.  Secondary
+   * windows are opened exclusively by the user in the current session. */
 
 } /* Restore_GUI_State() */
 
@@ -1469,6 +1428,17 @@ Read_Config( void )
     rc_config_set_default(rc_config_find_by_field(&rc_config.ant_temp_custom_t_sky));
   if (rc_config.ant_temp_custom_t_earth <= ANT_TEMP_K_MIN)
     rc_config_set_default(rc_config_find_by_field(&rc_config.ant_temp_custom_t_earth));
+
+  /* Never restore operations from the previous run.  Keep user preferences,
+   * but discard all secondary-window/session geometry before the GUI is shown. */
+  rc_config.freqplots_is_open = 0;
+  rc_config.rdpattern_is_open = 0;
+  rc_config.sy_overrides_is_open = 0;
+  rc_config.freqplots_x = rc_config.freqplots_y = -1;
+  rc_config.rdpattern_x = rc_config.rdpattern_y = -1;
+  rc_config.nec2_edit_x = rc_config.nec2_edit_y = -1;
+  rc_config.sy_overrides_x = rc_config.sy_overrides_y = -1;
+  rc_config.nec2_edit_width = rc_config.nec2_edit_height = 0;
 
   Restore_GUI_State();
 
