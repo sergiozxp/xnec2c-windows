@@ -1,0 +1,38 @@
+name: Apply version 59 fixes
+
+on:
+  push:
+    branches:
+      - version-59
+    paths:
+      - .github/workflows/apply-version-59.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply scoped source edits
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 ci/apply-version-59.py
+          git diff --check
+          git diff -- src/mathlib.c src/rc_config.c src/callback_func.c src/callbacks.c
+
+      - name: Commit source edits
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/mathlib.c src/rc_config.c src/callback_func.c src/callbacks.c
+          git commit -m "Version 59: align Windows startup and Frequency Plots state"
+          git push origin HEAD:version-59
