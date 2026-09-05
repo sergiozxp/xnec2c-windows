@@ -1,0 +1,38 @@
+name: Apply baseline UI fixes
+
+on:
+  push:
+    branches:
+      - improve/ui-baseline-20260905
+    paths:
+      - ci/baseline-ui-fixes.patch
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git apply --check ci/baseline-ui-fixes.patch
+          git apply ci/baseline-ui-fixes.patch
+          git diff --check
+
+      - name: Commit patched sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/rc_config.c src/callbacks.c src/callback_func.c src/mathlib.c
+          git commit -m "Make baseline window behavior deterministic"
+          git push origin HEAD:improve/ui-baseline-20260905
