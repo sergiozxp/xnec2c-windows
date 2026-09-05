@@ -760,8 +760,11 @@ on_main_freqplots_activate(
     if( Main_Freqplots_Activate() )
     {
       freqplots_window = create_freqplots_window( &freqplots_window_builder );
-      gtk_window_set_transient_for( GTK_WINDOW(freqplots_window), GTK_WINDOW(main_window) );
-      gtk_window_set_position( GTK_WINDOW(freqplots_window), GTK_WIN_POS_CENTER_ON_PARENT );
+      /* Keep Frequency Plots as an independent top-level window on Windows.
+       * Do not replay old coordinates and avoid transient-parent ownership,
+       * which can terminate the Win32 process after another child window
+       * has been closed. */
+      gtk_window_set_position( GTK_WINDOW(freqplots_window), GTK_WIN_POS_CENTER );
 
       /* The transport buttons carry the sweep state, so a freshly built
        * window takes its face and its tooltips from the readout. */
