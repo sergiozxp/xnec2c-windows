@@ -25,6 +25,15 @@ jobs:
         run: |
           set -euo pipefail
           git show "$GITHUB_SHA:ci/windows-ui-fixes.patch" > /tmp/windows-ui-fixes.patch
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('/tmp/windows-ui-fixes.patch')
+          s = p.read_text()
+          s = s.replace(
+              '       /* The transport buttons carry the sweep state, so a freshly built window\n        * takes its face and its tooltips from the readout. */',
+              '       /* The transport buttons carry the sweep state, so a freshly built\n        * window takes its face and its tooltips from the readout. */')
+          p.write_text(s)
+          PY
           git fetch origin main
           git checkout -B main origin/main
           git apply --check /tmp/windows-ui-fixes.patch
