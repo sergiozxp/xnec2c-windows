@@ -984,18 +984,15 @@ on_freqplots_window_delete_event(
     GdkEvent        *event,
     gpointer         user_data)
 {
-  /* Capture window state before destroy */
-  get_freqplots_window_state();
+  /* The title-bar X is only an alternate entry point to the existing
+   * View -> Frequency Plots action.  Do not maintain a second close path. */
+  GtkWidget *menuitem = Builder_Get_Object(main_window_builder, "main_freqplots");
 
-  /* Close freq plots window without confirmation dialog */
-  if( !rc_config.confirm_quit )
-  {
-    Gtk_Widget_Destroy( &freqplots_window );
-    return( TRUE );
-  }
+  if( menuitem != NULL &&
+      gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem)) )
+    gtk_menu_item_activate(GTK_MENU_ITEM(menuitem));
 
-  kill_window = freqplots_window;
-  Delete_Event( _("Are you sure you wish to close this window?") );
+  /* The View action owns destruction of the window. */
   return( TRUE );
 }
 
@@ -1304,18 +1301,15 @@ on_rdpattern_window_delete_event(
     GdkEvent        *event,
     gpointer         user_data)
 {
-  /* Capture window state before destroy */
-  get_rdpattern_window_state();
+  /* The title-bar X is only an alternate entry point to the existing
+   * View -> Radiation Pattern action.  Do not maintain a second close path. */
+  GtkWidget *menuitem = Builder_Get_Object(main_window_builder, "main_rdpattern");
 
-  /* Close rdpattern window without confirmation dialog */
-  if( !rc_config.confirm_quit )
-  {
-    Gtk_Widget_Destroy( &rdpattern_window );
-    return( TRUE );
-  }
+  if( menuitem != NULL &&
+      gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem)) )
+    gtk_menu_item_activate(GTK_MENU_ITEM(menuitem));
 
-  kill_window = rdpattern_window;
-  Delete_Event( _("Are you sure you wish to close this window?") );
+  /* The View action owns destruction of the window. */
   return( TRUE );
 }
 
