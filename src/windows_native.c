@@ -1,3 +1,7 @@
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "windows_native.h"
 
 #ifdef XNEC2C_NATIVE_WINDOWS
