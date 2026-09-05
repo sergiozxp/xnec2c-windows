@@ -1,0 +1,34 @@
+name: Apply stateless config
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - version-75-clean-session
+    paths:
+      - ci/apply-stateless-config.py
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: version-75-clean-session
+          fetch-depth: 0
+      - name: Apply stateless configuration policy
+        run: python3 ci/apply-stateless-config.py
+      - name: Commit source change
+        run: |
+          if git diff --quiet -- src/rc_config.c; then
+            echo "No source changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/rc_config.c
+          git commit -m "Windows: make GUI configuration stateless"
+          git push origin HEAD:version-75-clean-session
