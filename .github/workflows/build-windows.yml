@@ -20,7 +20,7 @@ jobs:
   build:
     name: MSYS2 UCRT64 / Cairo
     runs-on: windows-2022
-    timeout-minutes: 45
+    timeout-minutes: 50
 
     defaults:
       run:
@@ -36,13 +36,25 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Verify pinned upstream ancestry
+      - name: Verify pinned stable base and upstream ancestry
         shell: pwsh
         run: |
+          $stable = "7ac07d0b5fdd346e3526f9364410a63b48a72fed"
           git cat-file -e "$env:UPSTREAM_COMMIT^{commit}"
           git merge-base --is-ancestor $env:UPSTREAM_COMMIT HEAD
-          if ($LASTEXITCODE -ne 0) {
-            throw "Pinned upstream commit is not an ancestor of HEAD"
+          if ($LASTEXITCODE -ne 0) { throw "Pinned upstream commit is not an ancestor of HEAD" }
+          git merge-base --is-ancestor $stable HEAD
+          if ($LASTEXITCODE -ne 0) { throw "Stable Build #97 commit is not an ancestor of HEAD" }
+
+      - name: Ensure MSIX branch does not modify functional source
+        shell: pwsh
+        run: |
+          $stable = "7ac07d0b5fdd346e3526f9364410a63b48a72fed"
+          $changed = @(git diff --name-only "$stable..HEAD")
+          $forbidden = @($changed | Where-Object { $_ -match '^src/' -or $_ -match '^resources/' })
+          if ($forbidden.Count -gt 0) {
+            $forbidden | ForEach-Object { Write-Host "Forbidden functional change: $_" }
+            throw "MSIX packaging branch must not modify functional source"
           }
 
       - name: Set up MSYS2 UCRT64
@@ -116,21 +128,13 @@ jobs:
           $package = Join-Path $PWD "dist/$env:ARTIFACT_NAME"
           $exe = Join-Path $package "bin/xnec2c.exe"
           $launcher = Join-Path $package "xnec2c-launcher.exe"
-          if (-not (Test-Path -LiteralPath $exe)) {
-            throw "Portable xnec2c.exe was not produced"
-          }
-          if (-not (Test-Path -LiteralPath $launcher)) {
-            throw "Native Windows launcher was not produced"
-          }
+          if (-not (Test-Path -LiteralPath $exe)) { throw "Portable xnec2c.exe was not produced" }
+          if (-not (Test-Path -LiteralPath $launcher)) { throw "Native Windows launcher was not produced" }
           $dlls = @(Get-ChildItem -LiteralPath (Join-Path $package "bin") -Filter *.dll)
-          if ($dlls.Count -eq 0) {
-            throw "No runtime DLLs were packaged"
-          }
+          if ($dlls.Count -eq 0) { throw "No runtime DLLs were packaged" }
           $launcherProcess = Start-Process -FilePath $launcher -ArgumentList "--version" `
             -WorkingDirectory $env:TEMP -PassThru -Wait
-          if ($launcherProcess.ExitCode -ne 0) {
-            throw "Launcher smoke test failed with exit code $($launcherProcess.ExitCode)"
-          }
+          if ($launcherProcess.ExitCode -ne 0) { throw "Launcher smoke test failed with exit code $($launcherProcess.ExitCode)" }
           Get-FileHash -Algorithm SHA256 -LiteralPath $launcher
           Get-FileHash -Algorithm SHA256 -LiteralPath $exe
           Write-Host "Packaged $($dlls.Count) runtime DLLs"
@@ -138,6 +142,10 @@ jobs:
       - name: Build per-user Inno Setup installer
         shell: pwsh
         run: ./packaging/windows/build-installer.ps1
+
+      - name: Build and validate MSIX package
+        shell: pwsh
+        run: ./packaging/windows/build-msix.ps1
 
       - name: Upload portable Windows artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -153,6 +161,17 @@ jobs:
         with:
           name: xnec2c-windows-x64-setup
           path: dist/installer/Xnec2c-4.4.18-Windows-x64-Setup.exe
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+
+      - name: Upload MSIX artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: xnec2c-windows-x64-msix
+          path: |
+            dist/msix/Xnec2c-4.4.18-Windows-x64.msix
+            dist/msix/Xnec2c-MSIX-Development.cer
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
