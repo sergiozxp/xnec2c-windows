@@ -1,0 +1,82 @@
+name: Apply version 85 restart and native link
+
+on:
+  push:
+    branches:
+      - version-85-restart-stop
+    paths:
+      - '.github/workflows/apply-version-85.yml'
+      - 'ci/apply-version-85-trigger.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: version-85-restart-stop
+          fetch-depth: 0
+
+      - name: Reapply accepted colors and NEC resources menu from stable 83
+        run: |
+          git cherry-pick --no-commit ca830b2427a121175d18daa79fd6cf7b4734f0b9
+
+      - name: Apply native Windows URL and Stop restart behavior
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          # Native Windows browser launch in main.c.
+          p = Path('src/main.c')
+          s = p.read_text()
+          anchor = '#include <time.h>\n'
+          if anchor not in s:
+              raise SystemExit('main.c time include anchor not found')
+          s = s.replace(anchor, anchor + '''#ifdef XNEC2C_NATIVE_WINDOWS\n#include <windows.h>\n#include <shellapi.h>\n#endif\n''', 1)
+
+          old = '''static void\non_nec_resources_activate(GtkMenuItem *item, gpointer user_data)\n{\n  GError *error = NULL;\n  (void)item;\n  (void)user_data;\n\n  if( !gtk_show_uri_on_window(GTK_WINDOW(main_window),\n        "https://antenas.charlygolf.com/", GDK_CURRENT_TIME, &error) )\n  {\n    pr_warn("cannot open NEC resources URL: %s\\n",\n        error ? error->message : "unknown error");\n    g_clear_error(&error);\n  }\n}\n'''
+          new = '''static void\non_nec_resources_activate(GtkMenuItem *item, gpointer user_data)\n{\n  (void)item;\n  (void)user_data;\n\n#ifdef XNEC2C_NATIVE_WINDOWS\n  /* Use the native Windows shell so the user's configured default browser\n   * opens the URL without depending on GIO URI handler discovery. */\n  HINSTANCE result = ShellExecuteW(NULL, L"open",\n      L"https://antenas.charlygolf.com/", NULL, NULL, SW_SHOWNORMAL);\n  if( (INT_PTR)result <= 32 )\n    pr_warn("cannot open NEC resources URL (ShellExecuteW error %ld)\\n",\n        (long)(INT_PTR)result);\n#else\n  GError *error = NULL;\n  if( !gtk_show_uri_on_window(GTK_WINDOW(main_window),\n        "https://antenas.charlygolf.com/", GDK_CURRENT_TIME, &error) )\n  {\n    pr_warn("cannot open NEC resources URL: %s\\n",\n        error ? error->message : "unknown error");\n    g_clear_error(&error);\n  }\n#endif\n}\n'''
+          if old not in s:
+              raise SystemExit('main.c NEC resources callback block not found')
+          p.write_text(s.replace(old, new, 1))
+
+          # Error dialog Stop becomes a full clean process restart on native Windows.
+          p = Path('src/callbacks.c')
+          s = p.read_text()
+          anchor = '#include <pthread.h>\n'
+          if anchor not in s:
+              raise SystemExit('callbacks.c pthread include anchor not found')
+          s = s.replace(anchor, anchor + '''#ifdef XNEC2C_NATIVE_WINDOWS\n#include <windows.h>\n#endif\n''', 1)
+
+          old = '''void on_error_stopbutton_clicked(\n    GtkButton *button, gpointer user_data) __attribute__((noreturn));\n  void\non_error_stopbutton_clicked(\n    GtkButton       *button,\n    gpointer         user_data)\n{\n  ClearFlag( ERROR_CONDX );\n  Gtk_Widget_Destroy( &error_dialog );\n  gtk_main();\n  exit(0);\n}\n'''
+          new = '''void on_error_stopbutton_clicked(\n    GtkButton *button, gpointer user_data) __attribute__((noreturn));\n  void\non_error_stopbutton_clicked(\n    GtkButton       *button,\n    gpointer         user_data)\n{\n  (void)button;\n  (void)user_data;\n\n#ifdef XNEC2C_NATIVE_WINDOWS\n  /* A fatal NEC/parser error can leave global solver state inconsistent.\n   * Do not attempt an in-process reset. Launch a fresh copy of this exact\n   * executable with no NEC argument, then terminate the damaged process. */\n  wchar_t executable[MAX_PATH];\n  STARTUPINFOW startup = {0};\n  PROCESS_INFORMATION process = {0};\n  DWORD length;\n\n  length = GetModuleFileNameW(NULL, executable, MAX_PATH);\n  startup.cb = sizeof(startup);\n\n  if( length == 0 || length >= MAX_PATH ||\n      !CreateProcessW(executable, NULL, NULL, NULL, FALSE, 0,\n          NULL, NULL, &startup, &process) )\n  {\n    MessageBoxW(NULL,\n        L"Xnec2c could not restart automatically. Please start it again manually.",\n        L"Xnec2c restart", MB_OK | MB_ICONERROR);\n    ExitProcess(1);\n  }\n\n  CloseHandle(process.hThread);\n  CloseHandle(process.hProcess);\n  ExitProcess(0);\n#else\n  ClearFlag( ERROR_CONDX );\n  Gtk_Widget_Destroy( &error_dialog );\n  gtk_main();\n  exit(0);\n#endif\n}\n'''
+          if old not in s:
+              raise SystemExit('callbacks.c Stop callback block not found')
+          p.write_text(s.replace(old, new, 1))
+
+          # ShellExecuteW lives in shell32 on MinGW.
+          p = Path('src/Makefile.am')
+          s = p.read_text()
+          anchor = 'xnec2c_LDFLAGS += -Wl,--export-all-symbols\n'
+          if anchor not in s:
+              raise SystemExit('Makefile Windows linker anchor not found')
+          p.write_text(s.replace(anchor, anchor + 'xnec2c_LDADD += -lshell32\n', 1))
+          PY
+
+      - name: Verify intended scope
+        run: |
+          git diff --check
+          git diff -- src/main.c src/callbacks.c src/Makefile.am src/prerender/prerender_color.c resources/themes.ini
+          printf '%s\n' "$(git diff --name-only | sort)"
+
+      - name: Commit version 85 source changes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/main.c src/callbacks.c src/Makefile.am src/prerender/prerender_color.c resources/themes.ini
+          git commit -m 'Windows: restart cleanly from error Stop and use native NEC link'
+          git push origin HEAD:version-85-restart-stop
