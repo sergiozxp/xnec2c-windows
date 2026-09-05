@@ -1,0 +1,45 @@
+name: Apply unified window close
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - version-76-unified-window-close
+    paths:
+      - ci/apply-unified-window-close.py
+      - .github/workflows/apply-unified-window-close.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: version-76-unified-window-close
+          fetch-depth: 0
+
+      - name: Apply close-path change
+        run: python3 ci/apply-unified-window-close.py
+
+      - name: Verify only intended callbacks changed
+        run: |
+          git diff --check
+          git diff -- src/callbacks.c
+          grep -A18 -n 'on_freqplots_window_delete_event' src/callbacks.c
+          grep -A18 -n 'on_rdpattern_window_delete_event' src/callbacks.c
+
+      - name: Commit source change
+        run: |
+          if git diff --quiet -- src/callbacks.c; then
+            echo 'No source change to commit'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/callbacks.c
+          git commit -m 'Windows: route secondary-window X through View menu'
+          git push
