@@ -694,7 +694,7 @@ on_main_freqplots_activate(
   {
     if( Main_Freqplots_Activate() )
     {
-      if (rc_config.freqplots_x < 0 || rc_config.rdpattern_y < 0)
+      if (rc_config.freqplots_x < 0 || rc_config.freqplots_y < 0)
       {
           Get_GUI_State();
           rc_config.freqplots_x = rc_config.main_x + rc_config.main_width;
