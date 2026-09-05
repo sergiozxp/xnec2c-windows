@@ -126,3 +126,4 @@ index f1acd29..0000000 100644
 +  gtk_window_set_position( GTK_WINDOW(nec2_edit_window), GTK_WIN_POS_CENTER );
    gtk_widget_show( nec2_edit_window );
    Update_Window_Titles();
+
