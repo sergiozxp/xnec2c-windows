@@ -5,7 +5,7 @@ on:
     branches:
       - improve/ui-baseline-20260905
     paths:
-      - ci/baseline-ui-fixes.patch
+      - ci/apply-baseline-ui-fixes.py
 
 permissions:
   contents: write
@@ -19,12 +19,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Apply patch
+      - name: Apply source edits
         shell: bash
         run: |
           set -euo pipefail
-          git apply --check ci/baseline-ui-fixes.patch
-          git apply ci/baseline-ui-fixes.patch
+          python3 ci/apply-baseline-ui-fixes.py
           git diff --check
 
       - name: Commit patched sources
