@@ -1204,6 +1204,21 @@ freqplots_cleanup( void )
   void
 _Plot_Frequency_Data( freqplots_view_t *v, cairo_t *cr )
 {
+  /* Clear first, before any validity guard.  A failed NEC load deliberately
+   * removes ENABLE_EXCITN/results; returning before this clear left the pixels
+   * of the previous antenna visible in Frequency Plots. */
+  /* Clear drawingarea to the active theme's background surface; foreground
+   * roles are contrast-solved against this same surface. */
+  const theme_t *th = theme_active();
+  cairo_set_source_rgb( cr, (double)th->colors[THEME_ROLE_BACKGROUND].r,
+      (double)th->colors[THEME_ROLE_BACKGROUND].g,
+      (double)th->colors[THEME_ROLE_BACKGROUND].b );
+  cairo_rectangle(
+      cr, 0.0, 0.0,
+      (double)v->width,
+      (double)v->height );
+  cairo_fill( cr );
+
   /* Abort plotting if main window is to be closed
    * or when plots drawing area not available */
   if( isFlagClear(PLOT_ENABLED) ||
@@ -1225,18 +1240,6 @@ _Plot_Frequency_Data( freqplots_view_t *v, cairo_t *cr )
 
   if (v->fr_plots == NULL)
 	  return; // nothing to do here...
-
-  /* Clear drawingarea to the active theme's background surface; foreground
-   * roles are contrast-solved against this same surface. */
-  const theme_t *th = theme_active();
-  cairo_set_source_rgb( cr, (double)th->colors[THEME_ROLE_BACKGROUND].r,
-      (double)th->colors[THEME_ROLE_BACKGROUND].g,
-      (double)th->colors[THEME_ROLE_BACKGROUND].b );
-  cairo_rectangle(
-      cr, 0.0, 0.0,
-      (double)v->width,
-      (double)v->height );
-  cairo_fill( cr );
 
   /* Begin a new depth-buffered frame; plot types deposit segments and
    * deferred text, flushed together after all panels are drawn. */

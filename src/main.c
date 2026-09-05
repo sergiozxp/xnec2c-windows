@@ -599,7 +599,10 @@ Open_Input_File( gpointer arg )
 
   /* Open NEC2 input file */
   if( strlen(rc_config.input_file) == 0 )
+  {
+    ClearFlag( INPUT_PENDING );
     return( FALSE );
+  }
 
   /* Hold freq_data_lock across data reset and reallocation so draw
    * handlers (which may fire during g_idle_add_once_sync flush loops)
@@ -610,10 +613,13 @@ Open_Input_File( gpointer arg )
 
   mem_array_free(&freqplots_main_view()->fr_plots);
 
-  Open_File( &input_fp, rc_config.input_file, "r");
+  /* Opening the file is part of the load transaction.  Do not enter the
+   * parsers with a NULL/invalid FILE handle when the open itself fails. */
+  ok = Open_File( &input_fp, rc_config.input_file, "r" );
 
   /* Read input file, record failures */
-  ok = Read_Comments() && Read_Geometry() && Read_Commands();
+  if( ok )
+    ok = Read_Comments() && Read_Geometry() && Read_Commands();
 
   /* Zero validity flags and invalidate the result set under lock so draw
    * and save handlers cannot observe stale fstep=1 paired with
@@ -627,9 +633,19 @@ Open_Input_File( gpointer arg )
   g_rec_mutex_unlock(&freq_data_lock);
   if( !ok )
   {
-    /* Close plot/rdpat windows if open */
-    Gtk_Widget_Destroy( &rdpattern_window );
-    Gtk_Widget_Destroy( &freqplots_window );
+    /* A failed load is a completed transaction too: release the file and
+     * INPUT_PENDING before any interactive callbacks run.  Leaving the flag
+     * set caused every later Open_Input_File() call to be rejected as reentry. */
+    Close_File( &input_fp );
+    ClearFlag( INPUT_PENDING );
+
+    /* Keep the existing presentation windows open, but invalidate every view
+     * so none of them can continue to present results from the previous deck. */
+    Queue_Structure_Rebuild( TRUE );
+    if( rdpattern_window != NULL )
+      Queue_Radiation_Redraw( TRUE );
+    if( freqplots_window != NULL )
+      freqplots_redraw_all( TRUE );
 
     /* Batch mode has no operator to dismiss the editor; Stop() already
      * scheduled the quit, so opening it here only loops the read/allocate
