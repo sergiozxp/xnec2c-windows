@@ -1,0 +1,136 @@
+name: Fix version 85 Windows wrapper
+
+on:
+  push:
+    branches:
+      - version-85-restart-stop
+    paths:
+      - '.github/workflows/fix-version85-windows-wrapper.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: version-85-restart-stop
+          fetch-depth: 0
+
+      - name: Move Win32 API calls behind isolated wrapper
+        shell: bash
+        run: |
+          cat > src/windows_native.h <<'EOF'
+          #ifndef XNEC2C_WINDOWS_NATIVE_H
+          #define XNEC2C_WINDOWS_NATIVE_H
+
+          int windows_open_nec_resources(void);
+          int windows_restart_self(void);
+
+          #endif
+          EOF
+
+          cat > src/windows_native.c <<'EOF'
+          #include "windows_native.h"
+
+          #ifdef XNEC2C_NATIVE_WINDOWS
+          #define WIN32_LEAN_AND_MEAN
+          #include <windows.h>
+          #include <shellapi.h>
+
+          int
+          windows_open_nec_resources(void)
+          {
+            HINSTANCE result = ShellExecuteW(NULL, L"open",
+                L"https://antenas.charlygolf.com/", NULL, NULL, SW_SHOWNORMAL);
+            return (INT_PTR)result > 32;
+          }
+
+          int
+          windows_restart_self(void)
+          {
+            wchar_t executable[MAX_PATH];
+            STARTUPINFOW startup = {0};
+            PROCESS_INFORMATION process = {0};
+            DWORD length;
+
+            length = GetModuleFileNameW(NULL, executable, MAX_PATH);
+            startup.cb = sizeof(startup);
+
+            if( length == 0 || length >= MAX_PATH ||
+                !CreateProcessW(executable, NULL, NULL, NULL, FALSE, 0,
+                    NULL, NULL, &startup, &process) )
+            {
+              MessageBoxW(NULL,
+                  L"Xnec2c could not restart automatically. Please start it again manually.",
+                  L"Xnec2c restart", MB_OK | MB_ICONERROR);
+              return 0;
+            }
+
+            CloseHandle(process.hThread);
+            CloseHandle(process.hProcess);
+            return 1;
+          }
+
+          #else
+
+          int windows_open_nec_resources(void) { return 0; }
+          int windows_restart_self(void) { return 0; }
+
+          #endif
+          EOF
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path('src/main.c')
+          s = p.read_text()
+          s = s.replace('#ifdef XNEC2C_NATIVE_WINDOWS\n#include <windows.h>\n#include <shellapi.h>\n#endif\n', '', 1)
+          inc = '#include "color/color_palette.h"\n'
+          if '#include "windows_native.h"' not in s:
+              s = s.replace(inc, inc + '#include "windows_native.h"\n', 1)
+          old = '''#ifdef XNEC2C_NATIVE_WINDOWS\n  /* Use the native Windows shell so the user's configured default browser\n   * opens the URL without depending on GIO URI handler discovery. */\n  HINSTANCE result = ShellExecuteW(NULL, L"open",\n      L"https://antenas.charlygolf.com/", NULL, NULL, SW_SHOWNORMAL);\n  if( (INT_PTR)result <= 32 )\n    pr_warn("cannot open NEC resources URL (ShellExecuteW error %ld)\\n",\n        (long)(INT_PTR)result);\n#else\n'''
+          new = '''#ifdef XNEC2C_NATIVE_WINDOWS\n  if( !windows_open_nec_resources() )\n    pr_warn("cannot open NEC resources URL with the Windows shell\\n");\n#else\n'''
+          if old not in s:
+              raise SystemExit('native URL block not found')
+          p.write_text(s.replace(old, new, 1))
+
+          p = Path('src/callbacks.c')
+          s = p.read_text()
+          s = s.replace('#ifdef XNEC2C_NATIVE_WINDOWS\n#include <windows.h>\n#endif\n', '', 1)
+          inc = '#include "rc_config.h"\n'
+          if '#include "windows_native.h"' not in s:
+              s = s.replace(inc, inc + '#include "windows_native.h"\n', 1)
+          start = s.index('#ifdef XNEC2C_NATIVE_WINDOWS\n  /* A fatal NEC/parser error can leave global solver state inconsistent.')
+          end_marker = '#else\n  ClearFlag( ERROR_CONDX );'
+          end = s.index(end_marker, start)
+          replacement = '''#ifdef XNEC2C_NATIVE_WINDOWS\n  /* Do not attempt to repair potentially corrupted solver state in-process.\n   * Launch a clean copy of this exact executable, then terminate this one. */\n  if( windows_restart_self() )\n    exit(0);\n  exit(1);\n#else\n  ClearFlag( ERROR_CONDX );'''
+          s = s[:start] + replacement + s[end + len(end_marker):]
+          p.write_text(s)
+
+          p = Path('src/Makefile.am')
+          s = p.read_text()
+          anchor = '    main.c          main.h \\\n'
+          if anchor not in s:
+              raise SystemExit('Makefile source anchor not found')
+          if 'windows_native.c windows_native.h' not in s:
+              s = s.replace(anchor, anchor + '    windows_native.c windows_native.h \\\n', 1)
+          p.write_text(s)
+          PY
+
+      - name: Verify wrapper fix
+        run: |
+          git diff --check
+          grep -n 'windows_native' src/main.c src/callbacks.c src/Makefile.am
+          grep -n -A14 'on_error_stopbutton_clicked' src/callbacks.c
+          ! grep -n '#include <windows.h>' src/main.c src/callbacks.c
+
+      - name: Commit wrapper fix
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/main.c src/callbacks.c src/Makefile.am src/windows_native.c src/windows_native.h
+          git commit -m 'Windows: isolate native restart and browser APIs'
+          git push origin HEAD:version-85-restart-stop
