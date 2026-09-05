@@ -24,3 +24,4 @@ for name, pat in patterns.items():
 
 p.write_text(s, encoding='utf-8')
 print('Applied stateless configuration policy to src/rc_config.c')
+# Trigger marker: stateless-session source application.
