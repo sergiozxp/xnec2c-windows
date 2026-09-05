@@ -30,12 +30,12 @@ New-Item -ItemType Directory -Force -Path $assets | Out-Null
 Add-Type -AssemblyName System.Drawing
 function New-Xnec2cLogo {
   param([string]$Path, [int]$Width, [int]$Height)
-  $bmp = New-Object System.Drawing.Bitmap($Width, $Height)
+  $bmp = [System.Drawing.Bitmap]::new($Width, $Height)
   $g = [System.Drawing.Graphics]::FromImage($bmp)
   try {
     $g.Clear([System.Drawing.Color]::White)
     $penWidth = [Math]::Max(2, [Math]::Round([Math]::Min($Width,$Height) / 12))
-    $pen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(21,101,192), $penWidth)
+    $pen = [System.Drawing.Pen]::new([System.Drawing.Color]::FromArgb(21,101,192), $penWidth)
     try {
       $margin = [Math]::Round([Math]::Min($Width,$Height) * 0.22)
       $cx = $Width / 2.0
@@ -60,7 +60,7 @@ $manifest = $template.Replace("@IDENTITY_NAME@", $IdentityName) `
                     .Replace("@PUBLISHER@", $Publisher) `
                     .Replace("@PUBLISHER_DISPLAY_NAME@", $PublisherDisplayName) `
                     .Replace("@VERSION@", $Version)
-[System.IO.File]::WriteAllText((Join-Path $layout "AppxManifest.xml"), $manifest, (New-Object System.Text.UTF8Encoding($false)))
+[System.IO.File]::WriteAllText((Join-Path $layout "AppxManifest.xml"), $manifest, [System.Text.UTF8Encoding]::new($false))
 
 $sdkBin = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin" -Directory |
   Where-Object { $_.Name -match '^10\.0\.' } |
