@@ -10419,6 +10419,15 @@ A double carries about 15 digits, so a reading of 3 leaves 12 sound ones and a r
                       <object class="GtkMenu" id="menuitem1_menu">
                         <property name="can-focus">False</property>
                         <child>
+                          <object class="GtkMenuItem" id="main_clear">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">_Clear</property>
+                            <property name="use-underline">True</property>
+                            <signal name="activate" handler="on_clear_activate" swapped="no"/>
+                          </object>
+                        </child>
+                        <child>
                           <object class="GtkImageMenuItem" id="main_new">
                             <property name="label">gtk-new</property>
                             <property name="visible">True</property>

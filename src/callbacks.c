@@ -277,6 +277,86 @@ on_main_window_key_press_event(
 }
 
 
+/*------------------------------------------------------------------------*/
+
+/* Reset_To_Clean_State()
+ *
+ * Return xnec2c to the same content/window state as a fresh start: only the
+ * main window remains open, no NEC deck is selected, and auxiliary-window
+ * restore state is cleared.  Preferences unrelated to session/window state
+ * (theme, math library, confirmation settings, etc.) are preserved.
+ */
+  void
+Reset_To_Clean_State( gboolean persist )
+{
+  freq_sweep_stop_request();
+  if( freq_sweep_active() )
+    Stop_Frequency_Loop();
+
+  Close_File( &input_fp );
+
+  /* Close every user-facing secondary window/dialog owned here. */
+  Gtk_Widget_Destroy( &rdpattern_window );
+  Gtk_Widget_Destroy( &freqplots_window );
+  Gtk_Widget_Destroy( &nec2_edit_window );
+  Gtk_Widget_Destroy( &sy_overrides_window );
+  Gtk_Widget_Destroy( &file_chooser );
+  Gtk_Widget_Destroy( &error_dialog );
+  Gtk_Widget_Destroy( &nec2_save_dialog );
+  Gtk_Widget_Destroy( &animate_dialog );
+  render_settings_hide();
+
+  /* Invalidate the loaded model. render_check() will then display the same
+   * "File ▸ Open to load an NEC file" message used on a fresh startup. */
+  g_rec_mutex_lock( &freq_data_lock );
+  freq_sweep_results_clear();
+  calc_data.freq_step = -1;
+  g_rec_mutex_unlock( &freq_data_lock );
+
+  data.n = data.np = data.m = data.mp = 0;
+  calc_data.FR_cards = 0;
+  calc_data.steps_total = 0;
+  calc_data.fmhz_save = 0.0;
+  rc_config.input_file[0] = '\0';
+
+  /* Clear only session/window restoration state.  In particular, editor
+   * width/height previously caused File -> Edit to reopen on a later run. */
+  rc_config.rdpattern_is_open = 0;
+  rc_config.rdpattern_x = rc_config.rdpattern_y = 0;
+  rc_config.rdpattern_width = rc_config.rdpattern_height = 0;
+  rc_config.freqplots_is_open = 0;
+  rc_config.freqplots_x = rc_config.freqplots_y = 0;
+  rc_config.freqplots_width = rc_config.freqplots_height = 0;
+  rc_config.nec2_edit_x = rc_config.nec2_edit_y = 0;
+  rc_config.nec2_edit_width = rc_config.nec2_edit_height = 0;
+  rc_config.sy_overrides_is_open = 0;
+  rc_config.sy_overrides_x = rc_config.sy_overrides_y = 0;
+  rc_config.sy_overrides_width = rc_config.sy_overrides_height = 0;
+
+  ClearFlag( INPUT_PENDING );
+  ClearFlag( OPEN_INPUT );
+  ClearFlag( OPEN_NEW_NEC2 );
+  ClearFlag( NEC2_SAVE );
+
+  Update_Window_Titles();
+  Queue_Structure_Rebuild( TRUE );
+
+  if( persist )
+    Save_Config();
+}
+
+/*------------------------------------------------------------------------*/
+
+  void
+on_clear_activate(
+    GtkMenuItem     *menuitem,
+    gpointer         user_data)
+{
+  Reset_To_Clean_State( TRUE );
+}
+
+/*------------------------------------------------------------------------*/
+
   void
 on_new_activate(
     GtkMenuItem     *menuitem,

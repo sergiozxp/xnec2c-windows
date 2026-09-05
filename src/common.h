@@ -1437,6 +1437,8 @@ void Gtk_Widget_Destroy(GtkWidget **widget);
 void on_main_window_destroy(GObject *object, gpointer user_data);
 gboolean on_main_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 gboolean on_main_window_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
+void Reset_To_Clean_State(gboolean persist);
+void on_clear_activate(GtkMenuItem *menuitem, gpointer user_data);
 void on_new_activate(GtkMenuItem *menuitem, gpointer user_data);
 void on_open_input_activate(GtkMenuItem *menuitem, gpointer user_data);
 void on_main_save_activate(GtkMenuItem *menuitem, gpointer user_data);
