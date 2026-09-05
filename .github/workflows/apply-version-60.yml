@@ -1,0 +1,35 @@
+name: Apply version 60 fix
+
+on:
+  push:
+    branches: [version-60]
+    paths:
+      - 'ci/apply-version-60-fix.py'
+      - '.github/workflows/apply-version-60.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Apply scoped source edits
+        run: python3 ci/apply-version-60-fix.py
+      - name: Commit source edits
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/main.c src/freqplots/freqplots_core.c
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo 'No source changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Version 60: recover cleanly from invalid NEC files'
+          git push origin HEAD:version-60
