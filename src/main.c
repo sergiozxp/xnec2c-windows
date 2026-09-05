@@ -632,31 +632,10 @@ Open_Input_File( gpointer arg )
   g_rec_mutex_unlock(&freq_data_lock);
   if( !ok )
   {
-    /* Any failed NEC load returns to the same clean state used at startup.
-     * This is deliberately stronger than merely clearing INPUT_PENDING:
-     * partial geometry from a failed parser must never survive into the next
-     * File -> Open attempt. */
-    Close_File( &input_fp );
-
-    Gtk_Widget_Destroy( &rdpattern_window );
-    Gtk_Widget_Destroy( &freqplots_window );
-    if( nec2_edit_window != NULL )
-      Gtk_Widget_Destroy( &nec2_edit_window );
-
-    /* Make render_check() select STATUS_MSG_OPEN_FILE exactly as at startup. */
-    data.n = data.np = data.m = data.mp = 0;
-    calc_data.freq_step = -1;
-    calc_data.FR_cards = 0;
-    calc_data.steps_total = 0;
-    rc_config.input_file[0] = '\0';
-
-    ClearFlag( INPUT_PENDING );
-    ClearFlag( OPEN_INPUT );
-    ClearFlag( OPEN_NEW_NEC2 );
-
-    Update_Window_Titles();
-    Queue_Structure_Rebuild( TRUE );
-
+    /* Parser/open failures use the same deterministic clean state exposed by
+     * File -> Clear.  Do not persist here: a malformed input file should not
+     * silently rewrite otherwise unrelated user preferences. */
+    Reset_To_Clean_State( FALSE );
     return( FALSE );
   } /* if( !ok ) */
 
