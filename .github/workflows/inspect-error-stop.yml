@@ -6,6 +6,7 @@ on:
       - version-85-restart-stop
     paths:
       - '.github/workflows/inspect-error-stop.yml'
+      - 'ci/inspect-error-stop-trigger.txt'
 
 jobs:
   inspect:
