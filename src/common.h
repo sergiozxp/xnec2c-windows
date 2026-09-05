@@ -1934,6 +1934,7 @@ void freqplots_pointer_replay(freqplots_view_t *view);
 fp_panel_t freqplots_panel_at(freqplots_view_t *view, double px, double py);
 freqplots_view_t *freqplots_main_view(void);
 void freqplots_redraw_all(gboolean force);
+void freqplots_clear_data_display(void);
 int freqplots_count_selected(void);
 void freqplots_open_panel(fp_panel_t panel);
 void freqplots_close_panel(fp_panel_t panel);

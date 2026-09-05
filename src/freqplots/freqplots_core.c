@@ -581,7 +581,10 @@ Display_Frequency_Data( void )
   fstep = fp_selected_fstep();
 
   if( fstep < 0 )
+  {
+    freqplots_clear_data_display();
     return;
+  }
 
   meas_calc(&meas, fstep, calc_data.ex_port);
 
@@ -659,6 +662,34 @@ Display_Frequency_Data( void )
           freqplots_window_builder, "freqplots_gt_entry")), txt );
 
 } /* Display_Frequency_Data() */
+
+/*-----------------------------------------------------------------------*/
+
+/* Clear scalar readouts that belong to the previously valid model. */
+void
+freqplots_clear_data_display( void )
+{
+  static const char *entry_ids[] = {
+    "freqplots_maxgain_entry",
+    "freqplots_fmhz_entry",
+    "freqplots_vswr_entry",
+    "freqplots_zreal_entry",
+    "freqplots_zimag_entry",
+    "freqplots_ant_temp_tot_entry",
+    "freqplots_ant_temp_entry",
+    "freqplots_gt_entry"
+  };
+
+  if( freqplots_window_builder == NULL )
+    return;
+
+  for( unsigned i = 0; i < G_N_ELEMENTS(entry_ids); i++ )
+  {
+    GtkWidget *entry = Builder_Get_Object(freqplots_window_builder, entry_ids[i]);
+    if( entry != NULL )
+      gtk_entry_set_text(GTK_ENTRY(entry), "—");
+  }
+}
 
 /*-----------------------------------------------------------------------*/
 
@@ -1204,8 +1235,18 @@ freqplots_cleanup( void )
   void
 _Plot_Frequency_Data( freqplots_view_t *v, cairo_t *cr )
 {
-  /* Abort plotting if main window is to be closed
-   * or when plots drawing area not available */
+  /* Always erase the previous frame first.  A failed NEC load deliberately
+   * clears ENABLE_EXCITN/results, so the validity guard below must not leave
+   * the old antenna's pixels on screen. */
+  const theme_t *th = theme_active();
+  cairo_set_source_rgb( cr, (double)th->colors[THEME_ROLE_BACKGROUND].r,
+      (double)th->colors[THEME_ROLE_BACKGROUND].g,
+      (double)th->colors[THEME_ROLE_BACKGROUND].b );
+  cairo_rectangle(cr, 0.0, 0.0, (double)v->width, (double)v->height);
+  cairo_fill(cr);
+
+  /* Abort plotting if main window is to be closed or no valid excitation
+   * exists for the current model. */
   if( isFlagClear(PLOT_ENABLED) ||
       isFlagClear(ENABLE_EXCITN) )
     return;
@@ -1225,18 +1266,6 @@ _Plot_Frequency_Data( freqplots_view_t *v, cairo_t *cr )
 
   if (v->fr_plots == NULL)
 	  return; // nothing to do here...
-
-  /* Clear drawingarea to the active theme's background surface; foreground
-   * roles are contrast-solved against this same surface. */
-  const theme_t *th = theme_active();
-  cairo_set_source_rgb( cr, (double)th->colors[THEME_ROLE_BACKGROUND].r,
-      (double)th->colors[THEME_ROLE_BACKGROUND].g,
-      (double)th->colors[THEME_ROLE_BACKGROUND].b );
-  cairo_rectangle(
-      cr, 0.0, 0.0,
-      (double)v->width,
-      (double)v->height );
-  cairo_fill( cr );
 
   /* Begin a new depth-buffered frame; plot types deposit segments and
    * deferred text, flushed together after all panels are drawn. */

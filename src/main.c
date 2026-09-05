@@ -563,6 +563,7 @@ Open_Input_File( gpointer arg )
 {
   static char prev_input_file[PATH_MAX] = "";
   gboolean ok, new;
+  int previous_steps_total;
   GtkWidget *widget;
 
   /* Reject reentry while a load holds input_fp, so the Close_File below
@@ -577,29 +578,50 @@ Open_Input_File( gpointer arg )
    * waiting for Stop_Frequency_Loop() and deadlock. */
   SetFlag( INPUT_PENDING );
 
-  /* Invalidate freq loop preconditions before Stop_Frequency_Loop so that
-   * the GTK event flush inside Stop_Frequency_Loop cannot re-entrantly
-   * start a new freq loop via Start_Frequency_Loop_Greenline.  The
-   * existing steps_total < 1 guard in freq_loop_start_internal rejects
-   * any call that arrives during the flush. */
+  /* Snapshot the old sweep size, then invalidate the loop preconditions
+   * before Stop_Frequency_Loop so no nested GTK iteration can restart it. */
   g_rec_mutex_lock(&freq_data_lock);
+  previous_steps_total = calc_data.steps_total;
   calc_data.FR_cards    = 0;
   calc_data.steps_total = 0;
+  calc_data.freq_step   = -1;
   g_rec_mutex_unlock(&freq_data_lock);
 
-  /* Always call Stop_Frequency_Loop: the thread retires the sweep state
-   * on normal exit, so checking that state alone would skip cleanup,
-   * leaking pth_freq_loop and floop_state.  Stop_Frequency_Loop is
-   * idempotent — it checks pth_freq_loop internally and no-ops safely. */
+  /* Retire any running sweep before clearing its retained-result state. */
   Stop_Frequency_Loop();
+
+  /* A new load invalidates the old model before any parser runs.  This is
+   * essential for geometry/read errors, because Read_Commands() is normally
+   * the function that clears these validity flags and it may never be reached. */
+  g_rec_mutex_lock(&freq_data_lock);
+  ClearFlag( ENABLE_RDPAT | ENABLE_NEAREH | ENABLE_EXCITN );
+  freq_sweep_results_clear();
+  if( save.fstep != NULL )
+    for( int i = 0; i <= previous_steps_total; i++ )
+      save.fstep[i] = 0;
+  mem_array_free(&freqplots_main_view()->fr_plots);
+  g_rec_mutex_unlock(&freq_data_lock);
+
+  /* Present the invalidated state immediately.  Frequency Plots clears its
+   * canvas even with ENABLE_EXCITN unset, so no previous-deck pixels survive. */
+  Queue_Structure_Rebuild( TRUE );
+  if( rdpattern_window != NULL )
+    Queue_Radiation_Redraw( TRUE );
+  if( freqplots_window != NULL )
+  {
+    freqplots_clear_data_display();
+    freqplots_redraw_all( TRUE );
+  }
 
   /* Close open files if any */
   Close_File( &input_fp );
 
-
   /* Open NEC2 input file */
   if( strlen(rc_config.input_file) == 0 )
+  {
+    ClearFlag( INPUT_PENDING );
     return( FALSE );
+  }
 
   /* Hold freq_data_lock across data reset and reallocation so draw
    * handlers (which may fire during g_idle_add_once_sync flush loops)
@@ -610,10 +632,13 @@ Open_Input_File( gpointer arg )
 
   mem_array_free(&freqplots_main_view()->fr_plots);
 
-  Open_File( &input_fp, rc_config.input_file, "r");
+  /* Opening the file is part of the load transaction.  Never enter a parser
+   * with an invalid FILE handle. */
+  ok = Open_File( &input_fp, rc_config.input_file, "r" );
 
-  /* Read input file, record failures */
-  ok = Read_Comments() && Read_Geometry() && Read_Commands();
+  /* Read input file only when the open itself succeeded. */
+  if( ok )
+    ok = Read_Comments() && Read_Geometry() && Read_Commands();
 
   /* Zero validity flags and invalidate the result set under lock so draw
    * and save handlers cannot observe stale fstep=1 paired with
@@ -627,9 +652,36 @@ Open_Input_File( gpointer arg )
   g_rec_mutex_unlock(&freq_data_lock);
   if( !ok )
   {
-    /* Close plot/rdpat windows if open */
-    Gtk_Widget_Destroy( &rdpattern_window );
-    Gtk_Widget_Destroy( &freqplots_window );
+    /* Parsing may have partially repopulated model state before the error.
+     * Collapse it to an unambiguously empty model and release the load guard
+     * before any editor or file-chooser callback can run. */
+    g_rec_mutex_lock(&freq_data_lock);
+    ClearFlag( ENABLE_RDPAT | ENABLE_NEAREH | ENABLE_EXCITN );
+    freq_sweep_results_clear();
+    if( save.fstep != NULL )
+      for( int i = 0; i <= calc_data.steps_total; i++ )
+        save.fstep[i] = 0;
+    calc_data.FR_cards    = 0;
+    calc_data.steps_total = 0;
+    calc_data.freq_step   = -1;
+    data.n = 0;
+    data.m = 0;
+    mem_array_free(&freqplots_main_view()->fr_plots);
+    g_rec_mutex_unlock(&freq_data_lock);
+
+    Close_File( &input_fp );
+    ClearFlag( INPUT_PENDING );
+
+    /* Keep all presentation windows open, but make every one show the same
+     * empty/no-valid-model state. */
+    Queue_Structure_Rebuild( TRUE );
+    if( rdpattern_window != NULL )
+      Queue_Radiation_Redraw( TRUE );
+    if( freqplots_window != NULL )
+    {
+      freqplots_clear_data_display();
+      freqplots_redraw_all( TRUE );
+    }
 
     /* Batch mode has no operator to dismiss the editor; Stop() already
      * scheduled the quit, so opening it here only loops the read/allocate
