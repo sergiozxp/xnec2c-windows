@@ -1,0 +1,128 @@
+diff --git a/src/mathlib.c b/src/mathlib.c
+index 23961a3..0000000 100644
+--- a/src/mathlib.c
++++ b/src/mathlib.c
+@@ -681,7 +681,7 @@ void set_mathlib_batch(GtkWidget *widget, mathlib_t *lib)
+ 		return;
+ 	}
+ 
+-	if (!FORKED)
++	if (widget != NULL && !FORKED)
+ 		Notice(GTK_BUTTONS_OK, _("Batch Math Library"),
+ 			_("Selecting a batched math library has no effect unless -j is specified on the command line. "
+ 			"(However, this selection will be saved for next time xnec2c is opened.)\n"));
+diff --git a/src/rc_config.c b/src/rc_config.c
+index a48cec2..0000000 100644
+--- a/src/rc_config.c
++++ b/src/rc_config.c
+@@ -1267,30 +1267,12 @@ Set_Window_Geometry(
+   static gboolean
+ Restore_Windows( gpointer dat )
+ {
+-  GtkWidget *widget;
+-
+-  /* Open frequency plots window if state data available */
+-  if( rc_config.main_loop_start || isFlagSet(SUPPRESS_INTERMEDIATE_REDRAWS) ||
+-	  (rc_config.freqplots_is_open && rc_config.freqplots_width && rc_config.freqplots_height))
+-  {
+-    widget = Builder_Get_Object( main_window_builder, "main_freqplots" );
+-    gtk_menu_item_activate( GTK_MENU_ITEM(widget) );
+-  }
+-
+-  /* Open radiation pattern window if state data available */
+-  if( rc_config.rdpattern_is_open && rc_config.rdpattern_width && rc_config.rdpattern_height)
+-  {
+-    widget = Builder_Get_Object( main_window_builder, "main_rdpattern" );
+-    gtk_menu_item_activate( GTK_MENU_ITEM(widget) );
+-  }
+-
+-  /* Open symbol overrides window if state data available */
+-  if( rc_config.sy_overrides_is_open && rc_config.sy_overrides_width && rc_config.sy_overrides_height)
+-  {
+-    widget = Builder_Get_Object( main_window_builder, "show_sy_overrides" );
+-    gtk_menu_item_activate( GTK_MENU_ITEM(widget) );
+-  }
++  (void)dat;
++
++  /* Windows baseline policy: every interactive session starts with only
++   * the Main window.  Geometry and widget preferences remain persistent,
++   * but secondary windows are opened only by an explicit user action. */
+ 
+   return( FALSE );
+ }
+@@ -1481,10 +1463,18 @@ get_rdpattern_window_state( void )
+ {
+   GtkWidget *widget;
+ 
+-  /* Get geometry of radiation patterns window */
+-  rc_config.rdpattern_is_open = Get_Window_Geometry( rdpattern_window,
+-      &(rc_config.rdpattern_x), &(rc_config.rdpattern_y),
+-      &(rc_config.rdpattern_width), &(rc_config.rdpattern_height) );
++  /* Preserve the last normal geometry.  A maximized window is a temporary
++   * display state and must not overwrite the size/position used next time. */
++  if( rdpattern_window != NULL &&
++      gtk_window_is_maximized(GTK_WINDOW(rdpattern_window)) )
++    rc_config.rdpattern_is_open = 1;
++  else
++    rc_config.rdpattern_is_open = Get_Window_Geometry( rdpattern_window,
++        &(rc_config.rdpattern_x), &(rc_config.rdpattern_y),
++        &(rc_config.rdpattern_width), &(rc_config.rdpattern_height) );
+ 
+   /* Get state of widgets in radiation patterns window */
+   if( rdpattern_window )
+@@ -1520,10 +1510,17 @@ get_freqplots_window_state( void )
+ get_freqplots_window_state( void )
+ {
+-  /* Get geometry of frequency plots window */
+-  rc_config.freqplots_is_open = Get_Window_Geometry( freqplots_window,
+-      &(rc_config.freqplots_x), &(rc_config.freqplots_y),
+-      &(rc_config.freqplots_width), &(rc_config.freqplots_height) );
++  /* Preserve the last normal geometry instead of recording the maximized
++   * frame as the next requested window size. */
++  if( freqplots_window != NULL &&
++      gtk_window_is_maximized(GTK_WINDOW(freqplots_window)) )
++    rc_config.freqplots_is_open = 1;
++  else
++    rc_config.freqplots_is_open = Get_Window_Geometry( freqplots_window,
++        &(rc_config.freqplots_x), &(rc_config.freqplots_y),
++        &(rc_config.freqplots_width), &(rc_config.freqplots_height) );
+ }
+diff --git a/src/callbacks.c b/src/callbacks.c
+index 6b8c305..0000000 100644
+--- a/src/callbacks.c
++++ b/src/callbacks.c
+@@ -648,7 +648,10 @@ on_main_rdpattern_activate(
+ 
+   } /* if( gtk_check_menu_item_get_active(...) ) */
+   else if( isFlagSet(DRAW_ENABLED) )
++  {
++    get_rdpattern_window_state();
+     Gtk_Widget_Destroy( &rdpattern_window );
++  }
+ }
+@@ -755,7 +758,10 @@ on_main_freqplots_activate(
+     else gtk_check_menu_item_set_active(
+         GTK_CHECK_MENU_ITEM(menuitem), FALSE );
+   }
+   else if( isFlagSet(PLOT_ENABLED) )
++  {
++    get_freqplots_window_state();
+     Gtk_Widget_Destroy( &freqplots_window );
++  }
+ }
+diff --git a/src/callback_func.c b/src/callback_func.c
+index f1acd29..0000000 100644
+--- a/src/callback_func.c
++++ b/src/callback_func.c
+@@ -592,9 +592,11 @@ Open_Nec2_Editor( int action )
+ {
+   nec2_edit_window = create_nec2_editor( &nec2_editor_builder );
++  /* Keep the editor deterministic on Windows: preserve its size, but let
++   * GTK center it instead of replaying stale/cascading screen coordinates. */
+   Set_Window_Geometry( nec2_edit_window,
+-      rc_config.nec2_edit_x, rc_config.nec2_edit_y,
++      -1, -1,
+       rc_config.nec2_edit_width, rc_config.nec2_edit_height );
++  gtk_window_set_position( GTK_WINDOW(nec2_edit_window), GTK_WIN_POS_CENTER );
+   gtk_widget_show( nec2_edit_window );
+   Update_Window_Titles();
