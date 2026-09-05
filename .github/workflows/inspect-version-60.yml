@@ -1,0 +1,31 @@
+name: Inspect version 60
+
+on:
+  push:
+    branches: [version-60]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Show Open_Input_File
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('src/main.c').read_text()
+          start=s.index('Open_Input_File( gpointer arg )')
+          end=s.index('} /* Open_Input_File() */', start)+len('} /* Open_Input_File() */')
+          print(s[start:end])
+          PY
+      - name: Find frequency plot reset and cache code
+        shell: bash
+        run: |
+          grep -RInE 'freq_loop_data|freq_sweep_has_results|freqplots.*(clear|reset|invalidate)|calc_data\.ngraph|PLOT_ENABLED' src | head -n 300
