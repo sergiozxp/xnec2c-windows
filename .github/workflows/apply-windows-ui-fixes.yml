@@ -31,6 +31,6 @@ jobs:
           git apply /tmp/windows-ui-fixes.patch
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add resources/xnec2c.glade src/callbacks.c src/common.h src/main.c
-          git commit -m "Add Clear command and deterministic clean state"
+          git add src/callback_func.c src/callbacks.c src/main.c src/rc_config.c
+          git commit -m "Make window sessions deterministic and non-persistent"
           git push origin HEAD:main
