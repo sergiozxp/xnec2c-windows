@@ -709,7 +709,7 @@ void set_mathlib_batch(GtkWidget *widget, mathlib_t *lib)
 		return;
 	}
 
-	if (!FORKED)
+	if (widget != NULL && !FORKED)
 		Notice(GTK_BUTTONS_OK, _("Batch Math Library"),
 			_("Selecting a batched math library has no effect unless -j is specified on the command line. "
 			"(However, this selection will be saved for next time xnec2c is opened.)\n"));

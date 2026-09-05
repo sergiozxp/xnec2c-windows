@@ -590,8 +590,9 @@ Open_Nec2_Editor( int action )
 {
   nec2_edit_window = create_nec2_editor( &nec2_editor_builder );
   Set_Window_Geometry( nec2_edit_window,
-      rc_config.nec2_edit_x, rc_config.nec2_edit_y,
+      -1, -1,
       rc_config.nec2_edit_width, rc_config.nec2_edit_height );
+  gtk_window_set_position( GTK_WINDOW(nec2_edit_window), GTK_WIN_POS_CENTER );
   gtk_widget_show( nec2_edit_window );
   Update_Window_Titles();
 

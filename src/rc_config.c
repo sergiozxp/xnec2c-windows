@@ -1272,30 +1272,11 @@ Set_Window_Geometry(
   static gboolean
 Restore_Windows( gpointer dat )
 {
-  GtkWidget *widget;
+  (void)dat;
 
-  /* Open frequency plots window if state data available */
-  if( rc_config.main_loop_start || isFlagSet(SUPPRESS_INTERMEDIATE_REDRAWS) ||
-	  (rc_config.freqplots_is_open && rc_config.freqplots_width && rc_config.freqplots_height))
-  {
-    widget = Builder_Get_Object( main_window_builder, "main_freqplots" );
-    gtk_menu_item_activate( GTK_MENU_ITEM(widget) );
-  }
-
-  /* Open radiation pattern window if state data available */
-  if( rc_config.rdpattern_is_open && rc_config.rdpattern_width && rc_config.rdpattern_height)
-  {
-    widget = Builder_Get_Object( main_window_builder, "main_rdpattern" );
-    gtk_menu_item_activate( GTK_MENU_ITEM(widget) );
-  }
-
-  /* Open symbol overrides window if state data available */
-  if( rc_config.sy_overrides_is_open && rc_config.sy_overrides_width && rc_config.sy_overrides_height)
-  {
-    widget = Builder_Get_Object( main_window_builder, "show_sy_overrides" );
-    gtk_menu_item_activate( GTK_MENU_ITEM(widget) );
-  }
-
+  /* Windows baseline policy: every interactive session starts with only
+   * the Main window. Geometry and widget preferences remain persistent,
+   * but secondary windows are opened only by an explicit user action. */
   return( FALSE );
 }
 
@@ -1520,10 +1501,15 @@ get_rdpattern_window_state( void )
 {
   GtkWidget *widget;
 
-  /* Get geometry of radiation patterns window */
-  rc_config.rdpattern_is_open = Get_Window_Geometry( rdpattern_window,
-      &(rc_config.rdpattern_x), &(rc_config.rdpattern_y),
-      &(rc_config.rdpattern_width), &(rc_config.rdpattern_height) );
+  /* Preserve the last normal geometry. A maximized window is a temporary
+   * display state and must not overwrite the geometry used next time. */
+  if( rdpattern_window != NULL &&
+      gtk_window_is_maximized(GTK_WINDOW(rdpattern_window)) )
+    rc_config.rdpattern_is_open = 1;
+  else
+    rc_config.rdpattern_is_open = Get_Window_Geometry( rdpattern_window,
+        &(rc_config.rdpattern_x), &(rc_config.rdpattern_y),
+        &(rc_config.rdpattern_width), &(rc_config.rdpattern_height) );
 
   /* Get state of widgets in radiation patterns window */
   if( rdpattern_window )
@@ -1557,10 +1543,15 @@ get_rdpattern_window_state( void )
   void
 get_freqplots_window_state( void )
 {
-  /* Get geometry of frequency plots window */
-  rc_config.freqplots_is_open = Get_Window_Geometry( freqplots_window,
-      &(rc_config.freqplots_x), &(rc_config.freqplots_y),
-      &(rc_config.freqplots_width), &(rc_config.freqplots_height) );
+  /* Preserve the last normal geometry instead of recording the maximized
+   * frame as the next requested window size. */
+  if( freqplots_window != NULL &&
+      gtk_window_is_maximized(GTK_WINDOW(freqplots_window)) )
+    rc_config.freqplots_is_open = 1;
+  else
+    rc_config.freqplots_is_open = Get_Window_Geometry( freqplots_window,
+        &(rc_config.freqplots_x), &(rc_config.freqplots_y),
+        &(rc_config.freqplots_width), &(rc_config.freqplots_height) );
 }
 
 /*------------------------------------------------------------------------*/

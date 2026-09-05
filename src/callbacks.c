@@ -642,7 +642,10 @@ on_main_rdpattern_activate(
 
   } /* if( gtk_check_menu_item_get_active(...) ) */
   else if( isFlagSet(DRAW_ENABLED) )
+  {
+    get_rdpattern_window_state();
     Gtk_Widget_Destroy( &rdpattern_window );
+  }
 }
 
 
@@ -758,7 +761,10 @@ on_main_freqplots_activate(
         GTK_CHECK_MENU_ITEM(menuitem), FALSE );
   }
   else if( isFlagSet(PLOT_ENABLED) )
+  {
+    get_freqplots_window_state();
     Gtk_Widget_Destroy( &freqplots_window );
+  }
 }
 
 
