@@ -9,9 +9,9 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-if ([string]::IsNullOrWhiteSpace($IdentityName)) { $IdentityName = "Xnec2c.Windows.Dev" }
-if ([string]::IsNullOrWhiteSpace($Publisher)) { $Publisher = "CN=Xnec2c Windows Development" }
-if ([string]::IsNullOrWhiteSpace($PublisherDisplayName)) { $PublisherDisplayName = "Xnec2c Windows" }
+if ([string]::IsNullOrWhiteSpace($IdentityName)) { $IdentityName = "CharlyGolf.Xnec2c" }
+if ([string]::IsNullOrWhiteSpace($Publisher)) { $Publisher = "CN=22DE0707-9E03-4F93-9B58-1F1C7076D4F9" }
+if ([string]::IsNullOrWhiteSpace($PublisherDisplayName)) { $PublisherDisplayName = "CharlyGolf" }
 
 $repo = (Resolve-Path (Join-Path $PSScriptRoot "../..")).Path
 $packageRootPath = (Resolve-Path (Join-Path $repo $PackageRoot)).Path
