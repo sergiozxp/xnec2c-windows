@@ -91,8 +91,16 @@ Export-Certificate -Cert $cert -FilePath $cer | Out-Null
 
 & $signTool sign /fd SHA256 /f $pfx /p "xnec2c-ci-msix" $msix
 if ($LASTEXITCODE -ne 0) { throw "signtool sign failed" }
-& $signTool verify /pa /v $msix
-if ($LASTEXITCODE -ne 0) { throw "signtool verify failed" }
+
+# Trust the ephemeral certificate only while validating the CI package.
+Import-Certificate -FilePath $cer -CertStoreLocation "Cert:\CurrentUser\Root" | Out-Null
+try {
+  & $signTool verify /pa /v $msix
+  if ($LASTEXITCODE -ne 0) { throw "signtool verify failed" }
+} finally {
+  Remove-Item -Force "Cert:\CurrentUser\Root\$($cert.Thumbprint)" -ErrorAction SilentlyContinue
+  Remove-Item -Force "Cert:\CurrentUser\My\$($cert.Thumbprint)" -ErrorAction SilentlyContinue
+}
 
 # Do not publish the ephemeral private key.
 Remove-Item -Force $pfx
