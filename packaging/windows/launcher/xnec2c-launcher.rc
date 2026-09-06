@@ -1,7 +1,5 @@
 #include <windows.h>
 
-1 ICON "xnec2c.ico"
-
 1 RT_MANIFEST "xnec2c-launcher.manifest"
 
 1 VERSIONINFO

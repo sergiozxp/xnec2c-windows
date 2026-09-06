@@ -38,7 +38,7 @@ UsePreviousGroup=yes
 UsePreviousTasks=yes
 Uninstallable=yes
 UninstallDisplayName={#MyAppName} {#MyAppVersion}
-UninstallDisplayIcon={app}\{#MyAppExeName}
+UninstallDisplayIcon={app}\xnec2c.ico
 CloseApplications=yes
 RestartApplications=no
 RestartIfNeededByRun=no
@@ -67,11 +67,12 @@ Name: "fileassoc"; Description: "Associate .nec antenna model files with Xnec2c"
 
 [Files]
 Source: "*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\packaging\windows\launcher\xnec2c.ico"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{group}\Xnec2c"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"
+Name: "{group}\Xnec2c"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\xnec2c.ico"
 Name: "{group}\Uninstall Xnec2c"; Filename: "{uninstallexe}"
-Name: "{userdesktop}\Xnec2c"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: desktopicon
+Name: "{userdesktop}\Xnec2c"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\xnec2c.ico"; Tasks: desktopicon
 
 #if EnableNecAssociation
 [Registry]

@@ -136,8 +136,9 @@ jobs:
             -WorkingDirectory $env:TEMP -PassThru -Wait
           if ($launcherProcess.ExitCode -ne 0) { throw "Launcher smoke test failed with exit code $($launcherProcess.ExitCode)" }
           Add-Type -AssemblyName System.Drawing
-          $launcherIcon = [System.Drawing.Icon]::ExtractAssociatedIcon($launcher)
-          if ($null -eq $launcherIcon) { throw "Launcher does not contain a Windows icon" }
+          $iconPath = Join-Path $PWD "packaging/windows/launcher/xnec2c.ico"
+          if (-not (Test-Path -LiteralPath $iconPath)) { throw "Windows icon was not produced" }
+          $launcherIcon = New-Object System.Drawing.Icon($iconPath)
           $launcherIcon.Dispose()
           Get-FileHash -Algorithm SHA256 -LiteralPath $launcher
           Get-FileHash -Algorithm SHA256 -LiteralPath $exe
