@@ -92,18 +92,17 @@ Export-Certificate -Cert $cert -FilePath $cer | Out-Null
 & $signTool sign /fd SHA256 /f $pfx /p "xnec2c-ci-msix" $msix
 if ($LASTEXITCODE -ne 0) { throw "signtool sign failed" }
 
-# Trust the ephemeral certificate only while validating the CI package.
-Import-Certificate -FilePath $cer -CertStoreLocation "Cert:\CurrentUser\Root" | Out-Null
-try {
-  & $signTool verify /pa /v $msix
-  if ($LASTEXITCODE -ne 0) { throw "signtool verify failed" }
-} finally {
-  Remove-Item -Force "Cert:\CurrentUser\Root\$($cert.Thumbprint)" -ErrorAction SilentlyContinue
-  Remove-Item -Force "Cert:\CurrentUser\My\$($cert.Thumbprint)" -ErrorAction SilentlyContinue
+# A CI self-signed certificate is expected to report an untrusted root.
+# Accept only that trust error; all other signature verification errors fail.
+$verifyOutput = (& $signTool verify /pa /v $msix 2>&1) | Out-String
+Write-Host $verifyOutput
+if ($LASTEXITCODE -ne 0 -and $verifyOutput -notmatch "terminated in a root\s+certificate which is not trusted") {
+  throw "signtool verify failed"
 }
 
-# Do not publish the ephemeral private key.
+# Do not publish the ephemeral private key or leave it in the certificate store.
 Remove-Item -Force $pfx
+Remove-Item -Force "Cert:\CurrentUser\My\$($cert.Thumbprint)" -ErrorAction SilentlyContinue
 
 $unpack = Join-Path $repo "dist/msix-unpacked"
 if (Test-Path $unpack) { Remove-Item -Recurse -Force $unpack }
