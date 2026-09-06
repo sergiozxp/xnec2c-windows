@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: windows-ucrt64-${{ github.workflow }}-${{ github.ref }}
@@ -175,3 +175,24 @@ jobs:
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
+
+      - name: Package portable ZIP for rebuild release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/release/v4.4.18-windows.1-rebuild.1'
+        shell: pwsh
+        run: |
+          $zip = Join-Path $PWD 'dist/Xnec2c-4.4.18-Windows-x64-Portable.zip'
+          Compress-Archive -Path 'dist/xnec2c-windows-x64-ucrt64/*' -DestinationPath $zip -CompressionLevel Optimal
+          Get-FileHash -Algorithm SHA256 -LiteralPath $zip
+
+      - name: Publish rebuild release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/release/v4.4.18-windows.1-rebuild.1'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v4.4.18-windows.1-rebuild.1 `
+            'dist/installer/Xnec2c-4.4.18-Windows-x64-Setup.exe' `
+            'dist/Xnec2c-4.4.18-Windows-x64-Portable.zip' `
+            --target "$env:GITHUB_SHA" `
+            --title 'Xnec2c 4.4.18 for Windows — stable rebuild 1' `
+            --notes 'Clean rebuild based on v4.4.18-windows.1 commit 8a3ce2773507f5c21dbcb11b1e8aa3babf716a5c. Functional source is unchanged. Built for Windows x64 with MSYS2 UCRT64, GTK 3 and Cairo; OpenGL is disabled. Includes Setup installer and portable ZIP. The installer is unsigned, so Microsoft SmartScreen may display a warning.'
