@@ -56,10 +56,10 @@ New-Xnec2cLogo (Join-Path $assets "Square150x150Logo.png") 150 150
 New-Xnec2cLogo (Join-Path $assets "Wide310x150Logo.png") 310 150
 
 $template = Get-Content -Raw (Join-Path $PSScriptRoot "AppxManifest.xml.in")
-$manifest = $template.Replace("@IDENTITY_NAME@", $IdentityName) `
-                    .Replace("@PUBLISHER@", $Publisher) `
-                    .Replace("@PUBLISHER_DISPLAY_NAME@", $PublisherDisplayName) `
-                    .Replace("@VERSION@", $Version)
+$manifest = $template.Replace("@IDENTITY_NAME@", $IdentityName)
+$manifest = $manifest.Replace("@PUBLISHER@", $Publisher)
+$manifest = $manifest.Replace("@PUBLISHER_DISPLAY_NAME@", $PublisherDisplayName)
+$manifest = $manifest.Replace("@VERSION@", $Version)
 [System.IO.File]::WriteAllText((Join-Path $layout "AppxManifest.xml"), $manifest, [System.Text.UTF8Encoding]::new($false))
 
 $sdkBin = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin" -Directory |
