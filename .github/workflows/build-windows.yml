@@ -135,6 +135,10 @@ jobs:
           $launcherProcess = Start-Process -FilePath $launcher -ArgumentList "--version" `
             -WorkingDirectory $env:TEMP -PassThru -Wait
           if ($launcherProcess.ExitCode -ne 0) { throw "Launcher smoke test failed with exit code $($launcherProcess.ExitCode)" }
+          Add-Type -AssemblyName System.Drawing
+          $launcherIcon = [System.Drawing.Icon]::ExtractAssociatedIcon($launcher)
+          if ($null -eq $launcherIcon) { throw "Launcher does not contain a Windows icon" }
+          $launcherIcon.Dispose()
           Get-FileHash -Algorithm SHA256 -LiteralPath $launcher
           Get-FileHash -Algorithm SHA256 -LiteralPath $exe
           Write-Host "Packaged $($dlls.Count) runtime DLLs"

@@ -30,23 +30,27 @@ New-Item -ItemType Directory -Force -Path $assets | Out-Null
 Add-Type -AssemblyName System.Drawing
 function New-Xnec2cLogo {
   param([string]$Path, [int]$Width, [int]$Height)
+  $sourcePath = Join-Path $repo "files/xnec2c.png"
+  if (-not (Test-Path -LiteralPath $sourcePath -PathType Leaf)) {
+    throw "Original Xnec2c icon not found: $sourcePath"
+  }
+
+  $source = [System.Drawing.Image]::FromFile($sourcePath)
   $bmp = [System.Drawing.Bitmap]::new($Width, $Height)
   $g = [System.Drawing.Graphics]::FromImage($bmp)
   try {
-    $g.Clear([System.Drawing.Color]::White)
-    $penWidth = [Math]::Max(2, [Math]::Round([Math]::Min($Width,$Height) / 12))
-    $pen = [System.Drawing.Pen]::new([System.Drawing.Color]::FromArgb(21,101,192), $penWidth)
-    try {
-      $margin = [Math]::Round([Math]::Min($Width,$Height) * 0.22)
-      $cx = $Width / 2.0
-      $half = ([Math]::Min($Width,$Height) / 2.0) - $margin
-      $g.DrawLine($pen, $cx-$half, ($Height/2.0)-$half, $cx+$half, ($Height/2.0)+$half)
-      $g.DrawLine($pen, $cx+$half, ($Height/2.0)-$half, $cx-$half, ($Height/2.0)+$half)
-    } finally { $pen.Dispose() }
+    $g.Clear([System.Drawing.Color]::Transparent)
+    $g.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+    $g.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
+    $size = [Math]::Min($Width, $Height)
+    $x = [Math]::Floor(($Width - $size) / 2)
+    $y = [Math]::Floor(($Height - $size) / 2)
+    $g.DrawImage($source, $x, $y, $size, $size)
     $bmp.Save($Path, [System.Drawing.Imaging.ImageFormat]::Png)
   } finally {
     $g.Dispose()
     $bmp.Dispose()
+    $source.Dispose()
   }
 }
 
