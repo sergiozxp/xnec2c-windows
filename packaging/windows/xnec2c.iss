@@ -31,6 +31,7 @@ InfoBeforeFile=..\..\UPSTREAM.md
 Compression=lzma2/max
 SolidCompression=yes
 WizardStyle=modern
+SetupIconFile=..\..\files\xnec2c.ico
 SetupLogging=yes
 UsePreviousAppDir=yes
 UsePreviousGroup=yes

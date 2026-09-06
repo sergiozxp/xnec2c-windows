@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: windows-ucrt64-${{ github.workflow }}-${{ github.ref }}
@@ -62,6 +62,7 @@ jobs:
             mingw-w64-ucrt-x86_64-gsl
             mingw-w64-ucrt-x86_64-gtk3
             mingw-w64-ucrt-x86_64-librsvg
+            mingw-w64-ucrt-x86_64-imagemagick
             mingw-w64-ucrt-x86_64-pkgconf
 
       - name: Verify toolchain and upstream manifest
@@ -72,6 +73,13 @@ jobs:
           test "$XNEC2C_UPSTREAM_COMMIT" = "$UPSTREAM_COMMIT"
           gcc --version
           pkg-config --modversion gtk+-3.0 gsl gmodule-2.0
+
+      - name: Generate native Windows icon
+        run: |
+          set -euxo pipefail
+          magick files/xnec2c.png -define icon:auto-resize=256,128,64,48,32,24,16 files/xnec2c.ico
+          test -s files/xnec2c.ico
+          identify files/xnec2c.ico
 
       - name: Generate configure scripts
         run: autoreconf --force --install
@@ -169,3 +177,25 @@ jobs:
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
+
+      - name: Package portable ZIP for release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'Release Windows icon build')
+        shell: pwsh
+        run: |
+          $zip = Join-Path $PWD 'dist/Xnec2c-4.4.18-Windows-x64-Portable.zip'
+          Compress-Archive -Path 'dist/xnec2c-windows-x64-ucrt64/*' -DestinationPath $zip -CompressionLevel Optimal
+          Get-FileHash -Algorithm SHA256 -LiteralPath $zip
+
+      - name: Publish latest Windows release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'Release Windows icon build')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v4.4.18-windows.2 `
+            'dist/installer/Xnec2c-4.4.18-Windows-x64-Setup.exe' `
+            'dist/Xnec2c-4.4.18-Windows-x64-Portable.zip' `
+            --target "$env:GITHUB_SHA" `
+            --title 'Xnec2c 4.4.18 for Windows — icon edition' `
+            --notes 'Clean Windows build from the stable main branch. The official Xnec2c icon is embedded in the launcher and installer and is shown in Start Menu and desktop shortcuts. Includes the Setup installer and portable ZIP. The installer is currently unsigned, so Microsoft SmartScreen behavior can vary by PC and file reputation.' `
+            --latest
