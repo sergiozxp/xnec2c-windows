@@ -143,76 +143,10 @@ jobs:
         shell: pwsh
         run: |
           $iss = Get-Content -LiteralPath 'packaging/windows/xnec2c.iss' -Raw
-          if ($iss -notmatch '(?m)^MinVersion=10\.0\s*
-      - name: Build and validate MSIX package
-        shell: pwsh
-        run: ./packaging/windows/build-msix.ps1
-
-      - name: Upload portable Windows artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: ${{ env.ARTIFACT_NAME }}
-          path: dist/${{ env.ARTIFACT_NAME }}/
-          if-no-files-found: error
-          retention-days: 14
-          compression-level: 6
-
-      - name: Upload Windows installer artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: xnec2c-windows-x64-setup
-          path: dist/installer/Xnec2c-4.4.18-Windows-x64-Setup.exe
-          if-no-files-found: error
-          retention-days: 14
-          compression-level: 0
-
-      - name: Upload MSIX artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: xnec2c-windows-x64-msix
-          path: |
-            dist/msix/Xnec2c-4.4.18-Windows-x64.msix
-            dist/msix/Xnec2c-MSIX-Development.cer
-          if-no-files-found: error
-          retention-days: 14
-          compression-level: 0
-) {
+          if ($iss -notmatch '(?m)^MinVersion=10\.0\s*$') {
             throw 'Installer must target Windows 10 or newer (MinVersion=10.0)'
           }
-          if ($iss -match '(?m)^MinVersion=10\.0\.22000\s*
-      - name: Build and validate MSIX package
-        shell: pwsh
-        run: ./packaging/windows/build-msix.ps1
-
-      - name: Upload portable Windows artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: ${{ env.ARTIFACT_NAME }}
-          path: dist/${{ env.ARTIFACT_NAME }}/
-          if-no-files-found: error
-          retention-days: 14
-          compression-level: 6
-
-      - name: Upload Windows installer artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: xnec2c-windows-x64-setup
-          path: dist/installer/Xnec2c-4.4.18-Windows-x64-Setup.exe
-          if-no-files-found: error
-          retention-days: 14
-          compression-level: 0
-
-      - name: Upload MSIX artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: xnec2c-windows-x64-msix
-          path: |
-            dist/msix/Xnec2c-4.4.18-Windows-x64.msix
-            dist/msix/Xnec2c-MSIX-Development.cer
-          if-no-files-found: error
-          retention-days: 14
-          compression-level: 0
-) {
+          if ($iss -match '(?m)^MinVersion=10\.0\.22000\s*$') {
             throw 'Windows 11-only installer requirement detected'
           }
 
