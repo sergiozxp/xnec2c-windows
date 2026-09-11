@@ -46,15 +46,15 @@ static GtkWidget *transform_dialog(const char *title, GtkGrid **grid_out)
   GtkWidget *dialog = gtk_dialog_new_with_buttons(title,
       main_window != NULL ? GTK_WINDOW(main_window) : NULL,
       GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-      _("_Cancel"), GTK_RESPONSE_CANCEL,
-      _("_Apply"), GTK_RESPONSE_OK, NULL);
+      _("_Close"), GTK_RESPONSE_CLOSE,
+      _("_Apply"), GTK_RESPONSE_APPLY, NULL);
   GtkWidget *content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
   GtkWidget *grid = gtk_grid_new();
   gtk_container_set_border_width(GTK_CONTAINER(grid), 12);
   gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
   gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
   gtk_box_pack_start(GTK_BOX(content), grid, TRUE, TRUE, 0);
-  gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
+  gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_APPLY);
   *grid_out = GTK_GRID(grid);
   return dialog;
 }
@@ -106,14 +106,7 @@ static gboolean ensure_geometry_editor(gboolean *opened_for_transform)
   }
   if( nec2_edit_window == NULL )
   {
-    Open_Nec2_Editor(NEC2_EDITOR_RELOAD);
-    if( rc_config.input_file[0] == '\0' )
-      return geom_store != NULL;
-    /* The editor is used as the existing, proven card model, but a transform
-     * selected from the main window must not expose that implementation
-     * detail to the user.  Hiding it before returning to the GTK main loop
-     * prevents the transient window from being painted. */
-    gtk_widget_hide(nec2_edit_window);
+    Open_Nec2_Editor_Hidden(NEC2_EDITOR_RELOAD);
     *opened_for_transform = TRUE;
   }
   return geom_store != NULL;
@@ -235,7 +228,7 @@ void on_transform_move_activate(GtkMenuItem *menuitem, gpointer user_data)
   move_preview_changed(GTK_SPIN_BUTTON(sz), &preview);
   gtk_widget_show_all(dialog);
 
-  if( gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_OK )
+  while( gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_APPLY )
   {
     double dz = gtk_spin_button_get_value(GTK_SPIN_BUTTON(sz));
     double resulting = height + dz;
@@ -247,11 +240,21 @@ void on_transform_move_activate(GtkMenuItem *menuitem, gpointer user_data)
           -resulting);
       gint response = gtk_dialog_run(GTK_DIALOG(warning));
       gtk_widget_destroy(warning);
-      if( response != GTK_RESPONSE_OK ) { gtk_widget_destroy(dialog); return; }
+      if( response != GTK_RESPONSE_OK ) continue;
     }
-    add_gm(0.0, 0.0, 0.0,
+    if( add_gm(0.0, 0.0, 0.0,
         gtk_spin_button_get_value(GTK_SPIN_BUTTON(sx)),
-        gtk_spin_button_get_value(GTK_SPIN_BUTTON(sy)), dz);
+        gtk_spin_button_get_value(GTK_SPIN_BUTTON(sy)), dz) )
+    {
+      height += dz;
+      preview.current = height;
+      gtk_spin_button_set_value(GTK_SPIN_BUTTON(sx), 0.0);
+      gtk_spin_button_set_value(GTK_SPIN_BUTTON(sy), 0.0);
+      gtk_spin_button_set_value(GTK_SPIN_BUTTON(sz), 0.0);
+      snprintf(text, sizeof(text), _("Current minimum height: %.4f m"), height);
+      gtk_label_set_text(GTK_LABEL(current), text);
+      move_preview_changed(GTK_SPIN_BUTTON(sz), &preview);
+    }
   }
   gtk_widget_destroy(dialog);
 }
@@ -289,7 +292,7 @@ void on_transform_rotate_activate(GtkMenuItem *menuitem, gpointer user_data)
   gtk_grid_attach(grid, note, 0, 4, 3, 1);
   gtk_widget_show_all(dialog);
 
-  if( gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_OK )
+  while( gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_APPLY )
   {
     double a = gtk_spin_button_get_value(GTK_SPIN_BUTTON(angle));
     int selected = gtk_combo_box_get_active(GTK_COMBO_BOX(axis));
@@ -380,7 +383,7 @@ void on_transform_scale_activate(GtkMenuItem *menuitem, gpointer user_data)
   g_signal_connect(factor, "value-changed", G_CALLBACK(scale_factor_changed), &link);
   gtk_widget_show_all(dialog);
 
-  if( gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_OK )
+  while( gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_APPLY )
   {
     double scale = gtk_spin_button_get_value(GTK_SPIN_BUTTON(factor));
     if( add_gs(scale) &&

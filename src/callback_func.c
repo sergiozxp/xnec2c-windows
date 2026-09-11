@@ -580,20 +580,20 @@ Filechooser_Response(
 
 /*-----------------------------------------------------------------------*/
 
-/* Open_Nec2_Editor()
+/* Open_Nec2_Editor_Internal()
  *
- * Opens NEC2 editor window and fills
- * tree view according to action flag
+ * Creates and fills the NEC2 editor model.  Whole-antenna transforms use the
+ * hidden variant so the editor window is never mapped on screen.
  */
-  void
-Open_Nec2_Editor( int action )
+  static void
+Open_Nec2_Editor_Internal( int action, gboolean visible )
 {
   nec2_edit_window = create_nec2_editor( &nec2_editor_builder );
   Set_Window_Geometry( nec2_edit_window,
       -1, -1,
       rc_config.nec2_edit_width, rc_config.nec2_edit_height );
   gtk_window_set_position( GTK_WINDOW(nec2_edit_window), GTK_WIN_POS_CENTER );
-  gtk_widget_show( nec2_edit_window );
+  if( visible ) gtk_widget_show( nec2_edit_window );
   Update_Window_Titles();
 
   cmnt_treeview = GTK_TREE_VIEW(
@@ -614,7 +614,19 @@ Open_Nec2_Editor( int action )
 
   Update_Window_Titles();
 
-} /* Open_Nec2_Editor() */
+} /* Open_Nec2_Editor_Internal() */
+
+  void
+Open_Nec2_Editor( int action )
+{
+  Open_Nec2_Editor_Internal(action, TRUE);
+}
+
+  void
+Open_Nec2_Editor_Hidden( int action )
+{
+  Open_Nec2_Editor_Internal(action, FALSE);
+}
 
 /*-----------------------------------------------------------------------*/
 
@@ -833,4 +845,3 @@ Gtk_Widget_Destroy( GtkWidget **widget )
 } /* Gtk_Widget_Destroy() */
 
 /*------------------------------------------------------------------*/
-

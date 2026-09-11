@@ -1406,6 +1406,7 @@ void structure_view_apply(void);
 GtkWidget *Open_Filechooser(GtkFileChooserAction action, char *pattern, char *prefix, char *filename, char *foldername);
 void Filechooser_Response(GtkDialog *dialog, gint response_id, int saveas_width, int saveas_height);
 void Open_Nec2_Editor(int action);
+void Open_Nec2_Editor_Hidden(int action);
 gboolean Nec2_Apply_Checkbutton(void);
 void Gtk_Quit(void);
 /* Exit-cleanup orchestration: named by-owner teardown invoked once after the
