@@ -95,68 +95,95 @@ static gboolean minimum_height(double *height)
   return TRUE;
 }
 
-static gboolean ensure_geometry_editor(gboolean *opened_for_transform)
+static gboolean transform_ready(void)
 {
-  *opened_for_transform = FALSE;
   if( data.n <= 0 && data.m <= 0 )
   {
     Notice(GTK_BUTTONS_OK, _("Transform antenna"),
         _("Open a valid NEC antenna model before applying a transformation."));
     return FALSE;
   }
-  if( nec2_edit_window == NULL )
+  if( nec2_edit_window != NULL )
   {
-    Open_Nec2_Editor_Hidden(NEC2_EDITOR_RELOAD);
-    *opened_for_transform = TRUE;
+    Notice(GTK_BUTTONS_OK, _("Transform antenna"),
+        _("Close the NEC2 Editor before using Transform."));
+    return FALSE;
   }
-  return geom_store != NULL;
+  if( rc_config.input_file[0] == '\0' )
+  {
+    Notice(GTK_BUTTONS_OK, _("Transform antenna"),
+        _("Open a saved NEC antenna file before applying a transformation."));
+    return FALSE;
+  }
+  return TRUE;
 }
 
 static gboolean insert_geometry_card(const char *name, const gint iv[2],
     const gdouble fv[7])
 {
-  GtkTreeModel *model;
-  GtkTreeIter iter, before;
-  gboolean valid, found_ge = FALSE, opened_for_transform = FALSE;
+  gchar *contents = NULL, *output, *line, *cursor, *insert_at = NULL;
+  gsize length = 0, prefix_len;
+  GError *error = NULL;
+  gchar card[192];
+  const gchar *newline;
+  gboolean new_file = FALSE;
 
-  if( !ensure_geometry_editor(&opened_for_transform) ) return FALSE;
-  model = GTK_TREE_MODEL(geom_store);
-  valid = gtk_tree_model_get_iter_first(model, &before);
-  while( valid )
+  if( !transform_ready() ) return FALSE;
+  if( !g_file_get_contents(rc_config.input_file, &contents, &length, &error) )
   {
-    gchar *row_name = NULL;
-    gtk_tree_model_get(model, &before, GEOM_COL_NAME, &row_name, -1);
-    if( row_name != NULL && strcmp(row_name, "GE") == 0 ) found_ge = TRUE;
-    g_free(row_name);
-    if( found_ge ) break;
-    valid = gtk_tree_model_iter_next(model, &before);
-  }
-  if( !found_ge )
-  {
-    Notice(GTK_BUTTONS_OK, _("Transform antenna"),
-        _("The geometry has no GE termination card."));
-    if( opened_for_transform ) Gtk_Widget_Destroy(&nec2_edit_window);
+    Notice(GTK_BUTTONS_OK, _("Transform antenna"), "%s", error->message);
+    g_error_free(error);
     return FALSE;
   }
 
-  gtk_list_store_insert_before(geom_store, &iter, &before);
-  Zero_Store(geom_store, &iter, GEOM_NUM_COLS, GEOM_COL_NAME, -1);
-  gtk_list_store_set(geom_store, &iter,
-      GEOM_COL_NAME, name,
-      GEOM_COL_I1, iv[0], GEOM_COL_I2, iv[1],
-      GEOM_COL_F1, fv[0], GEOM_COL_F2, fv[1],
-      GEOM_COL_F3, fv[2], GEOM_COL_F4, fv[3],
-      GEOM_COL_F5, fv[4], GEOM_COL_F6, fv[5],
-      GEOM_COL_F7, fv[6], -1);
-  SetFlag(NEC2_EDIT_SAVE);
-  if( opened_for_transform )
+  cursor = contents;
+  while( *cursor != '\0' )
   {
-    /* Apply immediately to the file/model and dispose of the hidden editor.
-     * An editor that was already open remains open and keeps its normal
-     * unsaved-edit workflow. */
-    Save_Nec2_Input_File(nec2_edit_window, rc_config.input_file);
-    Gtk_Widget_Destroy(&nec2_edit_window);
+    line = cursor;
+    while( g_ascii_isspace(*line) && *line != '\r' && *line != '\n' ) line++;
+    if( line[0] == 'G' && line[1] == 'E' &&
+        (line[2] == '\0' || g_ascii_isspace(line[2])) )
+    {
+      insert_at = cursor;
+      break;
+    }
+    cursor = strchr(cursor, '\n');
+    if( cursor == NULL ) break;
+    cursor++;
   }
+
+  if( insert_at == NULL )
+  {
+    g_free(contents);
+    Notice(GTK_BUTTONS_OK, _("Transform antenna"),
+        _("The geometry has no GE termination card."));
+    return FALSE;
+  }
+
+  newline = strstr(contents, "\r\n") != NULL ? "\r\n" : "\n";
+  g_snprintf(card, sizeof(card),
+      "%s %5d %5d %12.5E %12.5E %12.5E %12.5E %12.5E %12.5E %12.5E%s",
+      name, iv[0], iv[1], fv[0], fv[1], fv[2], fv[3], fv[4], fv[5], fv[6],
+      newline);
+  prefix_len = (gsize)(insert_at - contents);
+  output = g_malloc(prefix_len + strlen(card) + (length - prefix_len) + 1);
+  memcpy(output, contents, prefix_len);
+  memcpy(output + prefix_len, card, strlen(card));
+  memcpy(output + prefix_len + strlen(card), insert_at, length - prefix_len);
+  output[length + strlen(card)] = '\0';
+
+  if( !g_file_set_contents(rc_config.input_file, output,
+        (gssize)(length + strlen(card)), &error) )
+  {
+    Notice(GTK_BUTTONS_OK, _("Transform antenna"), "%s", error->message);
+    g_error_free(error);
+    g_free(output);
+    g_free(contents);
+    return FALSE;
+  }
+  g_free(output);
+  g_free(contents);
+  Open_Input_File(&new_file);
   return TRUE;
 }
 
@@ -203,11 +230,10 @@ void on_transform_move_activate(GtkMenuItem *menuitem, gpointer user_data)
 
   if( !minimum_height(&height) )
   {
-    gboolean opened_for_transform;
-    ensure_geometry_editor(&opened_for_transform);
-    if( opened_for_transform ) Gtk_Widget_Destroy(&nec2_edit_window);
+    transform_ready();
     return;
   }
+  if( !transform_ready() ) return;
   dialog = transform_dialog(_("Move antenna"), &grid);
   sx = number_spin(0.0, -1000000.0, 1000000.0, 0.1, 4);
   sy = number_spin(0.0, -1000000.0, 1000000.0, 0.1, 4);
@@ -264,13 +290,7 @@ void on_transform_rotate_activate(GtkMenuItem *menuitem, gpointer user_data)
   GtkGrid *grid;
   GtkWidget *dialog, *axis, *angle, *ccw, *cw, *note;
   (void)menuitem; (void)user_data;
-  if( data.n <= 0 && data.m <= 0 )
-  {
-    gboolean opened_for_transform;
-    ensure_geometry_editor(&opened_for_transform);
-    if( opened_for_transform ) Gtk_Widget_Destroy(&nec2_edit_window);
-    return;
-  }
+  if( !transform_ready() ) return;
 
   dialog = transform_dialog(_("Rotate antenna"), &grid);
   axis = gtk_combo_box_text_new();
@@ -348,11 +368,10 @@ void on_transform_scale_activate(GtkMenuItem *menuitem, gpointer user_data)
   (void)menuitem; (void)user_data;
   if( !minimum_height(&height) )
   {
-    gboolean opened_for_transform;
-    ensure_geometry_editor(&opened_for_transform);
-    if( opened_for_transform ) Gtk_Widget_Destroy(&nec2_edit_window);
+    transform_ready();
     return;
   }
+  if( !transform_ready() ) return;
 
   current_freq = calc_data.freq_mhz > 0.0 ? calc_data.freq_mhz : 1.0;
   dialog = transform_dialog(_("Scale antenna"), &grid);
