@@ -638,11 +638,6 @@ NULL
 "main_save", \
 "main_save_as", \
 "struct_save_as_gnuplot", \
-"main_transform_menuitem", \
-"main_transform_menu", \
-"main_transform_move", \
-"main_transform_rotate", \
-"main_transform_scale", \
 "optimizer_output", \
 "confirm_quit", \
 "main_quit", \

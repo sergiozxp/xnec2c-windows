@@ -140,6 +140,26 @@ jobs:
           Get-FileHash -Algorithm SHA256 -LiteralPath $exe
           Write-Host "Packaged $($dlls.Count) runtime DLLs"
 
+      - name: Smoke-test packaged GUI startup
+        shell: pwsh
+        run: |
+          $package = Join-Path $PWD "dist/$env:ARTIFACT_NAME"
+          $launcher = Join-Path $package "xnec2c-launcher.exe"
+          $stdout = Join-Path $env:RUNNER_TEMP "xnec2c-gui-stdout.txt"
+          $stderr = Join-Path $env:RUNNER_TEMP "xnec2c-gui-stderr.txt"
+          $process = Start-Process -FilePath $launcher -WorkingDirectory $package `
+            -RedirectStandardOutput $stdout -RedirectStandardError $stderr -PassThru
+
+          Start-Sleep -Seconds 8
+          if ($process.HasExited) {
+            Write-Host "xnec2c exited during the GUI startup smoke test."
+            if (Test-Path $stdout) { Get-Content $stdout }
+            if (Test-Path $stderr) { Get-Content $stderr }
+            throw "Packaged GUI exited prematurely with code $($process.ExitCode)."
+          }
+
+          Stop-Process -Id $process.Id -Force
+
       - name: Build per-user Inno Setup installer
         shell: pwsh
         run: ./packaging/windows/build-installer.ps1
