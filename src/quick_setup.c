@@ -211,8 +211,15 @@ static void on_frequency_activate(GtkMenuItem *item, gpointer unused)
 {
   GtkWidget *dialog, *content, *grid, *start, *stop, *points;
   gint response;
+  double default_start = 1.0, default_stop = 30.0;
   (void)item; (void)unused;
   if( !setup_ready() ) return;
+
+  if( calc_data.FR_cards > 0 && calc_data.freq_loop_data != NULL )
+  {
+    default_start = calc_data.freq_loop_data[0].min_freq;
+    default_stop = calc_data.freq_loop_data[calc_data.FR_cards - 1].max_freq;
+  }
 
   dialog = gtk_dialog_new_with_buttons(_("Frequency sweep"),
       GTK_WINDOW(main_window), GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -223,10 +230,8 @@ static void on_frequency_activate(GtkMenuItem *item, gpointer unused)
   gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
   gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
   gtk_box_pack_start(GTK_BOX(content), grid, TRUE, TRUE, 0);
-  start = number_spin(calc_data.freq > 0.0 ? calc_data.freq : 1.0,
-      0.000001, 1000000.0, 0.1, 6);
-  stop = number_spin(calc_data.freq > 0.0 ? calc_data.freq : 30.0,
-      0.000001, 1000000.0, 0.1, 6);
+  start = number_spin(default_start, 0.000001, 1000000.0, 0.1, 6);
+  stop = number_spin(default_stop, 0.000001, 1000000.0, 0.1, 6);
   points = number_spin(calc_data.steps_total > 1 ? calc_data.steps_total : 101,
       1.0, 100000.0, 1.0, 0);
   attach_row(GTK_GRID(grid), 0, _("Start frequency"), start, _("MHz"));
