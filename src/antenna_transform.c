@@ -95,15 +95,27 @@ static gboolean minimum_height(double *height)
   return TRUE;
 }
 
-static gboolean ensure_geometry_editor(void)
+static gboolean ensure_geometry_editor(gboolean *opened_for_transform)
 {
+  *opened_for_transform = FALSE;
   if( data.n <= 0 && data.m <= 0 )
   {
     Notice(GTK_BUTTONS_OK, _("Transform antenna"),
         _("Open a valid NEC antenna model before applying a transformation."));
     return FALSE;
   }
-  if( nec2_edit_window == NULL ) Open_Nec2_Editor(NEC2_EDITOR_RELOAD);
+  if( nec2_edit_window == NULL )
+  {
+    Open_Nec2_Editor(NEC2_EDITOR_RELOAD);
+    if( rc_config.input_file[0] == '\0' )
+      return geom_store != NULL;
+    /* The editor is used as the existing, proven card model, but a transform
+     * selected from the main window must not expose that implementation
+     * detail to the user.  Hiding it before returning to the GTK main loop
+     * prevents the transient window from being painted. */
+    gtk_widget_hide(nec2_edit_window);
+    *opened_for_transform = TRUE;
+  }
   return geom_store != NULL;
 }
 
@@ -112,9 +124,9 @@ static gboolean insert_geometry_card(const char *name, const gint iv[2],
 {
   GtkTreeModel *model;
   GtkTreeIter iter, before;
-  gboolean valid, found_ge = FALSE;
+  gboolean valid, found_ge = FALSE, opened_for_transform = FALSE;
 
-  if( !ensure_geometry_editor() ) return FALSE;
+  if( !ensure_geometry_editor(&opened_for_transform) ) return FALSE;
   model = GTK_TREE_MODEL(geom_store);
   valid = gtk_tree_model_get_iter_first(model, &before);
   while( valid )
@@ -130,6 +142,7 @@ static gboolean insert_geometry_card(const char *name, const gint iv[2],
   {
     Notice(GTK_BUTTONS_OK, _("Transform antenna"),
         _("The geometry has no GE termination card."));
+    if( opened_for_transform ) Gtk_Widget_Destroy(&nec2_edit_window);
     return FALSE;
   }
 
@@ -143,7 +156,14 @@ static gboolean insert_geometry_card(const char *name, const gint iv[2],
       GEOM_COL_F5, fv[4], GEOM_COL_F6, fv[5],
       GEOM_COL_F7, fv[6], -1);
   SetFlag(NEC2_EDIT_SAVE);
-  gtk_window_present(GTK_WINDOW(nec2_edit_window));
+  if( opened_for_transform )
+  {
+    /* Apply immediately to the file/model and dispose of the hidden editor.
+     * An editor that was already open remains open and keeps its normal
+     * unsaved-edit workflow. */
+    Save_Nec2_Input_File(nec2_edit_window, rc_config.input_file);
+    Gtk_Widget_Destroy(&nec2_edit_window);
+  }
   return TRUE;
 }
 
@@ -190,7 +210,9 @@ void on_transform_move_activate(GtkMenuItem *menuitem, gpointer user_data)
 
   if( !minimum_height(&height) )
   {
-    ensure_geometry_editor();
+    gboolean opened_for_transform;
+    ensure_geometry_editor(&opened_for_transform);
+    if( opened_for_transform ) Gtk_Widget_Destroy(&nec2_edit_window);
     return;
   }
   dialog = transform_dialog(_("Move antenna"), &grid);
@@ -239,7 +261,13 @@ void on_transform_rotate_activate(GtkMenuItem *menuitem, gpointer user_data)
   GtkGrid *grid;
   GtkWidget *dialog, *axis, *angle, *ccw, *cw, *note;
   (void)menuitem; (void)user_data;
-  if( data.n <= 0 && data.m <= 0 ) { ensure_geometry_editor(); return; }
+  if( data.n <= 0 && data.m <= 0 )
+  {
+    gboolean opened_for_transform;
+    ensure_geometry_editor(&opened_for_transform);
+    if( opened_for_transform ) Gtk_Widget_Destroy(&nec2_edit_window);
+    return;
+  }
 
   dialog = transform_dialog(_("Rotate antenna"), &grid);
   axis = gtk_combo_box_text_new();
@@ -315,7 +343,13 @@ void on_transform_scale_activate(GtkMenuItem *menuitem, gpointer user_data)
   scale_link_t link;
   double height = 0.0, current_freq;
   (void)menuitem; (void)user_data;
-  if( !minimum_height(&height) ) { ensure_geometry_editor(); return; }
+  if( !minimum_height(&height) )
+  {
+    gboolean opened_for_transform;
+    ensure_geometry_editor(&opened_for_transform);
+    if( opened_for_transform ) Gtk_Widget_Destroy(&nec2_edit_window);
+    return;
+  }
 
   current_freq = calc_data.freq_mhz > 0.0 ? calc_data.freq_mhz : 1.0;
   dialog = transform_dialog(_("Scale antenna"), &grid);
