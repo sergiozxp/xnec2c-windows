@@ -172,6 +172,11 @@ static gboolean insert_geometry_card(const char *name, const gint iv[2],
   memcpy(output + prefix_len + strlen(card), insert_at, length - prefix_len);
   output[length + strlen(card)] = '\0';
 
+  /* Windows does not allow GLib's atomic replace while xnec2c still owns an
+   * open FILE handle for the input model.  Release it before g_file_set_contents
+   * creates and renames its temporary file; Open_Input_File below restores the
+   * handle and rebuilds the geometry on both success and failure. */
+  Close_File(&input_fp);
   if( !g_file_set_contents(rc_config.input_file, output,
         (gssize)(length + strlen(card)), &error) )
   {
@@ -179,6 +184,7 @@ static gboolean insert_geometry_card(const char *name, const gint iv[2],
     g_error_free(error);
     g_free(output);
     g_free(contents);
+    Open_Input_File(&new_file);
     return FALSE;
   }
   g_free(output);
