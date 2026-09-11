@@ -25,6 +25,7 @@ xnec2c_SOURCES = \
     calculations.c  calculations.h \
     cmnd_edit.c     cmnd_edit.h \
     geom_edit.c     geom_edit.h \
+    antenna_transform.c antenna_transform.h \
     gnuplot.c       gnuplot.h \
     touchstone.c    touchstone.h \
     rdpattern_ui.c   rdpattern_ui.h \

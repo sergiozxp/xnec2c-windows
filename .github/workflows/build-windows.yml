@@ -47,6 +47,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Stable Build #97 commit is not an ancestor of HEAD" }
 
       - name: Ensure MSIX branch does not modify functional source
+        if: startsWith(github.ref_name, 'feature/msix-store-package')
         shell: pwsh
         run: |
           $stable = "7ac07d0b5fdd346e3526f9364410a63b48a72fed"

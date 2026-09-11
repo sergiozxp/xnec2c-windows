@@ -1,5 +1,12 @@
 # Changelog
 
+## Antenna transform preview
+
+- Add a Transform menu with whole-antenna Move, Rotate, and Scale dialogs.
+- Show current and resulting minimum height when moving a model.
+- Support frequency-linked scaling and optional preservation of minimum height.
+- Store transformations as standard NEC GM and GS cards before GE.
+
 Este archivo registra los cambios de la integración Windows. El historial de
 cambios del proyecto original se conserva en `ChangeLog` y `doc/xnec2c.html`.
 
