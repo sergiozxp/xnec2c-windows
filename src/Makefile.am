@@ -24,6 +24,7 @@ xnec2c_SOURCES = \
     quit.c \
     calculations.c  calculations.h \
     busy_status.c   busy_status.h \
+    quick_setup.c   quick_setup.h \
     cmnd_edit.c     cmnd_edit.h \
     geom_edit.c     geom_edit.h \
     antenna_transform.c antenna_transform.h \
