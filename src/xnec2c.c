@@ -32,6 +32,7 @@
 #include "plot_freqdata.h"
 #include "rdpattern_ui.h"
 #include "structure_ui.h"
+#include "busy_status.h"
 
 #define BATCH_RDPAT_DEFAULT_PX 800
 
@@ -2200,6 +2201,8 @@ freq_loop_complete( void )
 
   freq_sweep_run_end();
 
+  if( !rc_config.batch_mode ) busy_status_sweep_end_async();
+
   freq_sweep_controls_refresh();
 }
 
@@ -2299,6 +2302,7 @@ freq_loop_start_internal( int scan_lo )
     return FALSE;
 
   floop_state = freq_loop_begin( scan_lo );
+  if( !rc_config.batch_mode ) busy_status_sweep_begin();
 
   /* Intermediate-step draws use force=FALSE and are gated by
    * SUPPRESS_INTERMEDIATE_REDRAWS inside redraw_schedule(). */
@@ -2422,6 +2426,7 @@ Start_Frequency_Loop_Greenline( void )
   void
 Stop_Frequency_Loop( void )
 {
+  gboolean was_active = freq_sweep_active();
   freq_sweep_stop_request();
 
   if( !rc_config.disable_pthread_freqloop )
@@ -2461,6 +2466,7 @@ Stop_Frequency_Loop( void )
   }
 
   freq_sweep_controls_refresh();
+  if( was_active && !rc_config.batch_mode ) busy_status_sweep_end();
 } /* Stop_Frequency_Loop() */
 
 /**
@@ -2599,4 +2605,3 @@ Incident_Field_Loop( void )
 } /* Incident_Field_Loop() */
 
 /*-----------------------------------------------------------------------*/
-

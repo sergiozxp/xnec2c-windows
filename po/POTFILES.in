@@ -9,6 +9,7 @@ resources/xnec2c.glade
 src/args.c
 src/args.h
 src/antenna_transform.c
+src/busy_status.c
 src/antenna_transform.h
 src/branch_hints.h
 src/cairo/cairo_axes.c

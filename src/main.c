@@ -35,6 +35,7 @@
 #include "themes/theme.h"
 #include "color/color_palette.h"
 #include "windows_native.h"
+#include "busy_status.h"
 
 /* Forward declaration — full sy_overrides.h conflicts with openblas via gsl */
 extern void sy_overrides_close_if_empty(void);
@@ -660,6 +661,7 @@ Open_Input_File( gpointer arg )
    * this Open_Input_File() to return, but Open_Input_File() would be
    * waiting for Stop_Frequency_Loop() and deadlock. */
   SetFlag( INPUT_PENDING );
+  if( !rc_config.batch_mode ) busy_status_load_begin();
 
   /* Invalidate freq loop preconditions before Stop_Frequency_Loop so that
    * the GTK event flush inside Stop_Frequency_Loop cannot re-entrantly
@@ -683,7 +685,11 @@ Open_Input_File( gpointer arg )
 
   /* Open NEC2 input file */
   if( strlen(rc_config.input_file) == 0 )
+  {
+    ClearFlag( INPUT_PENDING );
+    if( !rc_config.batch_mode ) busy_status_load_end();
     return( FALSE );
+  }
 
   /* Hold freq_data_lock across data reset and reallocation so draw
    * handlers (which may fire during g_idle_add_once_sync flush loops)
@@ -726,6 +732,8 @@ Open_Input_File( gpointer arg )
         Nec2_Input_File_Treeview( NEC2_EDITOR_CLEAR );
     }
 
+    ClearFlag( INPUT_PENDING );
+    if( !rc_config.batch_mode ) busy_status_load_end();
     return( FALSE );
   } /* if( !ok ) */
 
@@ -929,6 +937,8 @@ Open_Input_File( gpointer arg )
 
   /* Close symbol overrides window if no symbols defined */
   sy_overrides_close_if_empty();
+
+  if( !rc_config.batch_mode ) busy_status_load_end();
 
   return( FALSE );
 } /* Open_Input_File() */
