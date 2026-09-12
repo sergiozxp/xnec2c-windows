@@ -66,6 +66,7 @@ ff_presentation_recompute(int fstep)
 {
   int nth, nph, pts_idx, pol;
   double r, r_min, r_max;
+  double radius_normalizer = 1.0;
   ff_pre_t *fp;
 
   /* Radiation Pattern owns an independent publication bank.  A selected
@@ -111,7 +112,17 @@ ff_presentation_recompute(int fstep)
   double g = rad_pattern[fstep].gtot[idx] +
              Polarization_Factor(pol, fstep, idx);
   r_max = Scale_Gain_Resolved(g, fstep, idx, t_sky, t_earth);
-  if( r_max < FF_PATTERN_MIN_RADIUS )
+  /* Very low absolute gain (for example -42.94 dB in linear-power mode)
+   * produces a valid shape whose raw radius is visually microscopic.  The
+   * legacy fallback enlarged only the axes, leaving every pattern vertex near
+   * zero.  Normalize the whole geometry together; readouts and legend retain
+   * the original dB values from rad_pattern[]. */
+  if( !noise_mode && r_max > 0.0 && r_max < FF_PATTERN_MIN_RADIUS )
+  {
+    radius_normalizer = 1.0 / r_max;
+    r_max = 1.0;
+  }
+  else if( r_max <= 0.0 )
     r_max = 1.0;
 
   idx = rad_pattern[fstep].min_gain_idx[pol];
@@ -119,6 +130,7 @@ ff_presentation_recompute(int fstep)
                        Polarization_Factor(pol, fstep, idx);
   double color_gain = (actual_gain < COLOR_MIN_GAIN) ? COLOR_MIN_GAIN : actual_gain;
   r_min = Scale_Gain_Resolved(color_gain, fstep, idx, t_sky, t_earth);
+  r_min *= radius_normalizer;
 
   /* Noise-mode rotation parameters; the rotation is published on fp so the
    * far-zone field resolver carries its tangents into this same frame. */
@@ -138,6 +150,7 @@ ff_presentation_recompute(int fstep)
       double gain_v = rad_pattern[fstep].gtot[pts_idx] +
                       Polarization_Factor(pol, fstep, pts_idx);
       r = Scale_Gain_Resolved(gain_v, fstep, pts_idx, t_sky, t_earth);
+      r *= radius_normalizer;
 
       fp->vertices[pts_idx].r = r;
 
