@@ -60,6 +60,24 @@ hide_main_sweep_controls( void )
   g_list_free(children);
 }
 
+static void
+clear_frequency_plot_readouts( void )
+{
+  static const char *const entry_ids[] = {
+    "freqplots_vswr_entry", "freqplots_zreal_entry",
+    "freqplots_zimag_entry", "freqplots_maxgain_entry",
+    "freqplots_fmhz_entry", "freqplots_ant_temp_tot_entry",
+    "freqplots_ant_temp_entry", "freqplots_gt_entry"
+  };
+
+  if( freqplots_window_builder == NULL )
+    return;
+
+  for( size_t i = 0; i < G_N_ELEMENTS(entry_ids); i++ )
+    gtk_entry_set_text(GTK_ENTRY(Builder_Get_Object(
+        freqplots_window_builder, entry_ids[i])), " - - -");
+}
+
 /* Forward declaration — full sy_overrides.h conflicts with openblas via gsl */
 extern void sy_overrides_close_if_empty(void);
 
@@ -809,7 +827,12 @@ Open_Input_File( gpointer arg )
   {
     GtkWidget *box = Builder_Get_Object( freqplots_window_builder, "freqplots_box" );
     gtk_widget_show( box );
-    /* Do not activate calculations while restoring an open plot window. */
+    /* The old canvas retains its last completed frame until explicitly
+     * repainted.  Draw the newly loaded model's empty plot state now so no
+     * trace or readout from the previous NEC file survives replacement.
+     * This is presentation-only and does not activate either calculation. */
+    clear_frequency_plot_readouts();
+    freqplots_redraw_all(TRUE);
   }
 
   /* Restore main window projection settings */
