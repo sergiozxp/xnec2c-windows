@@ -2691,13 +2691,14 @@ radiation_pattern_follow_timeout( gpointer unused )
   return G_SOURCE_REMOVE;
 }
 
-void
-radiation_pattern_follow_selected_frequency( void )
+static void
+radiation_pattern_follow_selected_frequency_internal( gboolean explicit_request )
 {
   /* Opening Radiation Pattern is not a request to calculate it.  Automatic
    * following begins only after that window has published at least one RUN
-   * result; until then the green marker controls Frequency Plots alone. */
-  if( rdpattern_display_step < 0 )
+   * result.  An edit made in Radiation Pattern's own frequency control is an
+   * explicit request and is allowed to create its first result. */
+  if( !explicit_request && rdpattern_display_step < 0 )
     return;
 
   if( rdpattern_window == NULL || isFlagClear(DRAW_ENABLED) ||
@@ -2710,6 +2711,18 @@ radiation_pattern_follow_selected_frequency( void )
   if( rdpattern_follow_tag == 0 )
     rdpattern_follow_tag = g_timeout_add(30,
         radiation_pattern_follow_timeout, NULL);
+}
+
+void
+radiation_pattern_follow_selected_frequency( void )
+{
+  radiation_pattern_follow_selected_frequency_internal(FALSE);
+}
+
+void
+radiation_pattern_request_from_frequency_control( void )
+{
+  radiation_pattern_follow_selected_frequency_internal(TRUE);
 }
 
 /* Run exactly one Radiation Pattern operation at the frequency selected in

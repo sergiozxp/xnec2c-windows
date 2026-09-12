@@ -261,6 +261,9 @@ hook_orthographic(void)
 void
 hook_frequency(void)
 {
+  gboolean from_rdpattern = rdpattern_frequency != NULL &&
+      gtk_widget_has_focus(GTK_WIDGET(rdpattern_frequency));
+
   /* No frequency data loaded yet (eg config_widget_run_hooks() called from
    * Restore_GUI_State() before any NEC2 file is read); mirrors the guard
    * in freq_step_update_ui(). */
@@ -274,7 +277,11 @@ hook_frequency(void)
     return;
 
   if( rc_config.freq_apply )
+  {
     user_set_frequency(calc_data.fmhz_save);
+    if( from_rdpattern )
+      radiation_pattern_request_from_frequency_control();
+  }
   else
     freq_display_update(calc_data.fmhz_save);
 }
