@@ -307,7 +307,10 @@ wWinMain(HINSTANCE instance, HINSTANCE previous_instance,
     return 1;
   }
 
-  if (!CreateProcessW(executable, command_line, NULL, NULL, FALSE,
+  /* Preserve redirected standard handles.  Besides making command-line use
+   * behave normally, this lets the packaged-GUI smoke test report the real
+   * GTK/application diagnostic when the child exits during initialization. */
+  if (!CreateProcessW(executable, command_line, NULL, NULL, TRUE,
       CREATE_NO_WINDOW, NULL, root, &startup, &process))
   {
     error = GetLastError();
