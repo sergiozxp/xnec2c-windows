@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: windows-ucrt64-${{ github.workflow }}-${{ github.ref }}
@@ -180,6 +180,64 @@ jobs:
       - name: Build and validate MSIX package
         shell: pwsh
         run: ./packaging/windows/build-msix.ps1
+
+      - name: Prepare portable ZIP for release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/feature/antenna-transform' && github.event.head_commit.message == 'Publish Xnec2c 5.0 Windows release'
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "dist/$env:ARTIFACT_NAME" `
+            -DestinationPath "dist/Xnec2c-5.0-Windows-x64-Portable.zip" -Force
+
+      - name: Publish public Xnec2c 5.0 release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/feature/antenna-transform' && github.event.head_commit.message == 'Publish Xnec2c 5.0 Windows release'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          @'
+          ## Xnec2c 5.0 para Windows 10 y Windows 11
+
+          Primera versión de la serie 5.0, basada en Xnec2c/NEC2 y compilada para Windows x64 con MSYS2 UCRT64, GTK 3 y Cairo. OpenGL permanece desactivado para maximizar la compatibilidad.
+
+          ### Mejoras desde `8a3ce27` (`v4.4.18-windows.1`)
+
+          - Nueva herramienta para transformar la antena completa: traslación, rotación y escalado sobre los ejes X, Y y Z.
+          - Nueva ventana unificada **Setup** con barrido de frecuencias, tipo de terreno y material de antena.
+          - Setup lee los valores reales del archivo NEC abierto, incluidos terrenos y conductividades personalizados, además del radio y diámetro del conductor.
+          - Las trampas y cargas del modelo se conservan al cambiar el material de los conductores.
+          - Indicador modal y visible de cálculo/carga para evitar operaciones simultáneas mientras el modelo está ocupado.
+          - Frequency Plots y Radiation Pattern poseen ejecución y estado independientes; abrir una ventana ya no inicia automáticamente el cálculo de la otra.
+          - Sincronización bidireccional entre la línea verde de Frequency Plots, su frecuencia numérica y la frecuencia de Radiation Pattern.
+          - Al introducir manualmente una frecuencia en Radiation Pattern se recalculan ROE, impedancia y demás valores y, cuando corresponde, se genera el nuevo patrón.
+          - Frequency Plots inicia solamente con **VSWR** activo; Max Gain queda desactivado por defecto.
+          - Correcciones de actualización visual: conservación del último patrón válido, normalización de patrones de muy baja ganancia y limpieza de gráficos al cargar otro modelo.
+          - El programa pasa a identificarse como **Xnec2c 5.0 for Windows 10 and Windows 11**.
+          - Nueva información de compilación accesible desde el programa.
+          - **File → Save As** abre correctamente el diálogo de guardado y propone archivos `.nec`.
+          - Protección del archivo original: cada NEC abierto se copia internamente y todos los cambios trabajan sobre esa copia. El original solo puede reemplazarse mediante Save As y la confirmación de sobrescritura.
+          - Mejoras de diagnóstico, estabilidad del lanzador y validaciones automáticas del ejecutable, paquete portable, instalador y MSIX.
+
+          ### Descargas
+
+          - **Xnec2c-5.0-Windows-x64-Setup.exe**: instalador recomendado para Windows 10/11.
+          - **Xnec2c-5.0-Windows-x64-Portable.zip**: versión portable, sin instalación.
+          - **Xnec2c-5.0-Windows-x64.msix**: paquete MSIX para pruebas y distribución mediante Microsoft Store.
+          - **Xnec2c-MSIX-Development.cer**: certificado de desarrollo del paquete MSIX.
+
+          El instalador no está firmado digitalmente; Microsoft SmartScreen puede mostrar una advertencia. El código fuente completo y el historial de cambios permanecen disponibles públicamente en este repositorio.
+
+          Comparación completa: https://github.com/sergiozxp/xnec2c-windows/compare/8a3ce2773507f5c21dbcb11b1e8aa3babf716a5c...v5.0-windows.1
+          '@ | Set-Content -LiteralPath "$env:RUNNER_TEMP/release-notes.md" -Encoding utf8
+
+          gh release create "v5.0-windows.1" `
+            "dist/Xnec2c-5.0-Windows-x64-Setup.exe" `
+            "dist/Xnec2c-5.0-Windows-x64-Portable.zip" `
+            "dist/msix/Xnec2c-5.0-Windows-x64.msix" `
+            "dist/msix/Xnec2c-MSIX-Development.cer" `
+            --target "${{ github.sha }}" `
+            --title "Xnec2c 5.0 for Windows 10 and Windows 11" `
+            --notes-file "$env:RUNNER_TEMP/release-notes.md" `
+            --latest
 
       - name: Upload portable Windows artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
