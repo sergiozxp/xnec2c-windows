@@ -179,23 +179,7 @@ fetch_freq_data( void )
 void
 freq_display_update( double fmhz )
 {
-  gboolean invalidate_rdpattern = FALSE;
-
-  g_rec_mutex_lock(&freq_data_lock);
-  if( rdpattern_display_step >= 0 && save.freq != NULL &&
-      rdpattern_display_step <= calc_data.steps_total &&
-      !FREQ_EQ(save.freq[rdpattern_display_step], fmhz) )
-  {
-    /* Never label an old pattern with a newly selected frequency.  Selection
-     * remains calculation-free; the RP Play button publishes the replacement. */
-    if( save.rdpattern_fstep != NULL )
-      save.rdpattern_fstep[rdpattern_display_step] = 0;
-    rdpattern_display_step = -1;
-    invalidate_rdpattern = TRUE;
-  }
-
   calc_data.fmhz_save = fmhz;
-  g_rec_mutex_unlock(&freq_data_lock);
 
   /* One selected-frequency authority serves both graph windows.  The green
    * marker and the Radiation Pattern spin show the same value, while each
@@ -209,9 +193,6 @@ freq_display_update( double fmhz )
 
   freqplots_marker_show();
   opt_ui_update_selected_values();
-
-  if( invalidate_rdpattern )
-    Queue_Radiation_Redraw(TRUE);
 }
 
 /**
