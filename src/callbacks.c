@@ -955,6 +955,24 @@ on_new_freq_clicked(
   }
 }
 
+/* Enter in Radiation Pattern's frequency field is an explicit request for
+ * that window's calculation.  The generic value-changed binding first keeps
+ * Frequency Plots and the green marker synchronized; this handler then queues
+ * Radiation Pattern behind any selected-frequency plot calculation. */
+void
+on_rdpattern_frequency_activate(
+    GtkEntry       *entry,
+    gpointer        user_data)
+{
+  (void)user_data;
+
+  if( freq_sweep_active() || freq_sweep_armed() )
+    return;
+
+  user_set_frequency(gtk_spin_button_get_value(GTK_SPIN_BUTTON(entry)));
+  radiation_pattern_request_from_frequency_control();
+}
+
 
   void
 on_filechooserdialog_response(

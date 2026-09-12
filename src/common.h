@@ -1464,6 +1464,7 @@ void on_freqplots_save_activate(GtkMenuItem *menuitem, gpointer user_data);
 void on_freqplots_save_as_activate(GtkMenuItem *menuitem, gpointer user_data);
 void on_freqplots_save_as_gnuplot_activate(GtkMenuItem *menuitem, gpointer user_data);
 void on_freqplots_zo_spinbutton_value_changed(GtkSpinButton *spinbutton, gpointer user_data);
+void on_rdpattern_frequency_activate(GtkEntry *entry, gpointer user_data);
 void freqplots_populate_port_combo(void);
 GtkWidget *freqplots_port_combo_new(freqplots_view_t *view);
 void freqplots_refresh_port_combos(void);
