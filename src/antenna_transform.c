@@ -241,9 +241,9 @@ void on_transform_move_activate(GtkMenuItem *menuitem, gpointer user_data)
   }
   if( !transform_ready() ) return;
   dialog = transform_dialog(_("Move antenna"), &grid);
-  sx = number_spin(0.0, -1000000.0, 1000000.0, 0.1, 4);
-  sy = number_spin(0.0, -1000000.0, 1000000.0, 0.1, 4);
-  sz = number_spin(0.0, -1000000.0, 1000000.0, 0.1, 4);
+  sx = number_spin(0.0, -1000000.0, 1000000.0, 0.1, 1);
+  sy = number_spin(0.0, -1000000.0, 1000000.0, 0.1, 1);
+  sz = number_spin(0.0, -1000000.0, 1000000.0, 0.1, 1);
   grid_row(grid, 0, _("Along X"), sx, _("m"));
   grid_row(grid, 1, _("Along Y"), sy, _("m"));
   grid_row(grid, 2, _("Along Z"), sz, _("m"));
@@ -304,7 +304,7 @@ void on_transform_rotate_activate(GtkMenuItem *menuitem, gpointer user_data)
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(axis), _("Y axis"));
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(axis), _("Z axis"));
   gtk_combo_box_set_active(GTK_COMBO_BOX(axis), 2);
-  angle = number_spin(90.0, 0.0, 360.0, 1.0, 2);
+  angle = number_spin(90.0, 0.0, 360.0, 0.1, 1);
   grid_row(grid, 0, _("Around"), axis, NULL);
   grid_row(grid, 1, _("Angle"), angle, _("deg"));
   ccw = gtk_radio_button_new_with_label(NULL, _("Counter-clockwise (CCW)"));
@@ -381,9 +381,9 @@ void on_transform_scale_activate(GtkMenuItem *menuitem, gpointer user_data)
 
   current_freq = calc_data.freq_mhz > 0.0 ? calc_data.freq_mhz : 1.0;
   dialog = transform_dialog(_("Scale antenna"), &grid);
-  oldf = number_spin(current_freq, 0.000001, 1000000.0, 0.1, 6);
-  newf = number_spin(current_freq, 0.000001, 1000000.0, 0.1, 6);
-  factor = number_spin(1.0, 0.000001, 1000000.0, 0.01, 6);
+  oldf = number_spin(current_freq, 0.001, 1000000.0, 0.001, 3);
+  newf = number_spin(current_freq, 0.001, 1000000.0, 0.001, 3);
+  factor = number_spin(1.0, 0.001, 1000000.0, 0.001, 3);
   grid_row(grid, 0, _("Reference frequency"), oldf, _("MHz"));
   grid_row(grid, 1, _("New frequency"), newf, _("MHz"));
   grid_row(grid, 2, _("Scale factor"), factor, NULL);

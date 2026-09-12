@@ -7,7 +7,7 @@ DISTCLEANFILES =
 bin_PROGRAMS = xnec2c
 
 xnec2c_SOURCES = \
-    main.c          main.h \
+    main.c          main.h build_info_generated.h \
     windows_native.c windows_native.h \
     args.c          args.h \
     branch_hints.h \

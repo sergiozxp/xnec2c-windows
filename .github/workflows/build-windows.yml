@@ -86,6 +86,19 @@ jobs:
           gcc --version
           pkg-config --modversion gtk+-3.0 gsl gmodule-2.0
 
+      - name: Generate build metadata
+        run: |
+          set -euo pipefail
+          build_date="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          build_commit="$(git rev-parse HEAD)"
+          printf '%s\n' \
+            '#ifndef XNEC2C_BUILD_INFO_GENERATED_H' \
+            '#define XNEC2C_BUILD_INFO_GENERATED_H' \
+            "#define XNEC2C_BUILD_DATE \"$build_date\"" \
+            "#define XNEC2C_BUILD_COMMIT \"$build_commit\"" \
+            '#define XNEC2C_BUILD_SOURCE "sergiozxp/xnec2c-windows · feature/antenna-transform"' \
+            '#endif' > src/build_info_generated.h
+
       - name: Generate configure scripts
         run: autoreconf --force --install
 

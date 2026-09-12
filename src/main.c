@@ -36,6 +36,47 @@
 #include "color/color_palette.h"
 #include "busy_status.h"
 #include "quick_setup.h"
+#include "build_info_generated.h"
+
+static void
+show_latest_build_info( GtkMenuItem *menuitem, gpointer user_data )
+{
+  GtkWidget *dialog;
+  (void)menuitem;
+  (void)user_data;
+
+  dialog = gtk_message_dialog_new(GTK_WINDOW(main_window),
+      GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+      GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+      "%s", _("Última compilación"));
+  gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog),
+      _("Versión: %s\nFecha de compilación: %s\nCommit de código fuente: %s\nCódigo fuente: %s"),
+      VERSION, XNEC2C_BUILD_DATE, XNEC2C_BUILD_COMMIT,
+      XNEC2C_BUILD_SOURCE);
+  gtk_window_set_title(GTK_WINDOW(dialog), _("Última compilación"));
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+}
+
+static void
+install_build_menu_items( void )
+{
+  GtkWidget *new_item = Builder_Get_Object(main_window_builder, "main_new");
+  GtkWidget *help_menu = Builder_Get_Object(main_window_builder,
+      "menuitem4_menu");
+  GtkWidget *build_item;
+
+  gtk_image_menu_item_set_use_stock(GTK_IMAGE_MENU_ITEM(new_item), FALSE);
+  gtk_menu_item_set_use_underline(GTK_MENU_ITEM(new_item), TRUE);
+  gtk_menu_item_set_label(GTK_MENU_ITEM(new_item), _("_New Wire"));
+
+  build_item = gtk_menu_item_new_with_label(_("Última compilación"));
+  gtk_widget_set_name(build_item, "latest_build");
+  g_signal_connect(build_item, "activate",
+      G_CALLBACK(show_latest_build_info), NULL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(help_menu), build_item);
+  gtk_widget_show(build_item);
+}
 
 /* The legacy Main transport is a third route into the common sweep.  Remove
  * it from both the visible and keyboard interfaces: graph calculation is
@@ -343,6 +384,7 @@ main (int argc, char *argv[])
   /* Create the main window */
   main_window = create_main_window( &main_window_builder );
   gtk_window_set_title( GTK_WINDOW(main_window), PACKAGE_STRING );
+  install_build_menu_items();
   hide_main_sweep_controls();
   quick_setup_install( main_window_builder );
 
