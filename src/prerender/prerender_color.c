@@ -60,15 +60,23 @@ get_segment_color_type(int seg_num)
       return SEG_COLOR_EXCITATION;
   }
 
-  /* Loaded segments — resistivity (ldtype==5) gets a distinct classification
-   * so segment_type_to_width() can assign the correct line width. */
+  /* Loaded segments.  A global material-conductivity LD 5 card commonly
+   * overlaps local trap/RLC loads.  Prefer the functional load so traps stay
+   * visible; use the resistivity classification only when no other load
+   * applies to this segment.  NEC2 still sums both loads electrically. */
+  gboolean has_resistivity = FALSE;
   for( idx = 0; idx < zload.nldseg; idx++ )
   {
     if( zload.ldsegn[idx] == seg_num )
-      return (zload.ldtype[idx] == 5)
-          ? SEG_COLOR_LOADED_RESISTIVITY
-          : SEG_COLOR_LOADED;
+    {
+      if( zload.ldtype[idx] != 5 )
+        return SEG_COLOR_LOADED;
+      has_resistivity = TRUE;
+    }
   }
+
+  if( has_resistivity )
+    return SEG_COLOR_LOADED_RESISTIVITY;
 
   return SEG_COLOR_NORMAL;
 }
