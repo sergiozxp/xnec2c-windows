@@ -377,6 +377,24 @@ Open_Filechooser(
   GtkWidget *chooser = create_filechooserdialog( &builder );
   gtk_file_chooser_set_action( GTK_FILE_CHOOSER(chooser), action );
 
+  /* The Glade dialog supplies a reusable accept button whose stock label is
+   * "Open".  Match both the window title and that button to the requested
+   * operation so Save As never presents itself as an Open dialog. */
+  GtkButton *accept = GTK_BUTTON(Builder_Get_Object(builder,
+      "filechooser_open"));
+  if( action == GTK_FILE_CHOOSER_ACTION_SAVE )
+  {
+    gtk_window_set_title(GTK_WINDOW(chooser), _("Save As"));
+    gtk_button_set_label(accept, "gtk-save-as");
+    gtk_button_set_use_stock(accept, TRUE);
+  }
+  else
+  {
+    gtk_window_set_title(GTK_WINDOW(chooser), _("Open"));
+    gtk_button_set_label(accept, "gtk-open");
+    gtk_button_set_use_stock(accept, TRUE);
+  }
+
   /* Create and set a filter for the file pattern */
   GtkFileFilter *filter = gtk_file_filter_new();
   gtk_file_filter_add_pattern( filter, pattern );

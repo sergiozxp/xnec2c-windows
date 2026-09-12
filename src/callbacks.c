@@ -147,6 +147,46 @@ char *get_nec_filename_stem(char *dst, char *newext, size_t maxlen)
 	return dst;
 }
 
+/* Save the currently loaded NEC source under a new name and make that copy
+ * the active working model.  Setup and transform operations edit the source
+ * file directly, so copying it preserves every card exactly, including
+ * comments, traps and custom values. */
+static void
+save_nec_working_copy(char *filename)
+{
+  gchar *contents = NULL;
+  gsize length = 0;
+  GError *error = NULL;
+
+  if( rc_config.input_file[0] == '\0' )
+    return;
+
+  if( strcmp(rc_config.input_file, filename) != 0 )
+  {
+    if( !g_file_get_contents(rc_config.input_file, &contents, &length, &error) )
+    {
+      Notice(GTK_BUTTONS_OK, _("Save As"), "%s", error->message);
+      g_clear_error(&error);
+      return;
+    }
+
+    if( !g_file_set_contents(filename, contents, (gssize)length, &error) )
+    {
+      Notice(GTK_BUTTONS_OK, _("Save As"), "%s", error->message);
+      g_clear_error(&error);
+      g_free(contents);
+      return;
+    }
+    g_free(contents);
+  }
+
+  Strlcpy(rc_config.input_file, filename, sizeof(rc_config.input_file));
+  Get_Dirname(rc_config.input_file, rc_config.working_dir, NULL);
+
+  gboolean new_file = TRUE;
+  Open_Input_File(&new_file);
+}
+
   void
 on_main_window_destroy(
     GObject     *object,
@@ -391,14 +431,16 @@ on_main_save_as_activate(
     gpointer         user_data)
 {
   char newfn[PATH_MAX];
-  saveas_canvas = CANVAS_STRUCTURE;
-  saveas_width  = structure_view->width;
-  saveas_height = structure_view->height;
 
-  /* Open file chooser to save structure image */
-  SetFlag( IMAGE_SAVE );
+  if( rc_config.input_file[0] == '\0' || freq_sweep_active() ||
+      isFlagSet(INPUT_PENDING) )
+    return;
+
+  mem_new(&filechooser_callback);
+  filechooser_callback->callback = save_nec_working_copy;
+  filechooser_callback->extension = ".nec";
   file_chooser = Open_Filechooser( GTK_FILE_CHOOSER_ACTION_SAVE,
-      "*.png", NULL, get_nec_filename_stem(newfn, ".png", PATH_MAX),
+      "*.nec", NULL, get_nec_filename_stem(newfn, ".nec", PATH_MAX),
       rc_config.working_dir );
 }
 
