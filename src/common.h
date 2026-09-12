@@ -2042,6 +2042,7 @@ void Stop_Frequency_Loop(void);
 void freq_loop_toggle(void);
 void freq_loop_rewind(void);
 void calculate_selected_radiation_pattern(void);
+void radiation_pattern_follow_selected_frequency(void);
 void Stop_Radiation_Pattern_Calculation(void);
 gboolean radiation_pattern_calculation_active(void);
 void reset_radiation_pattern_result(void);

@@ -69,6 +69,10 @@ fp_freq_place( freqplots_view_t *v, const fp_pointer_t *p )
 
   user_set_frequency( ifmhz / 1e6 );
 
+  /* The green line is the shared live-frequency controller.  Coalesce drag
+   * frames and regenerate Radiation Pattern from its independent pipeline. */
+  radiation_pattern_follow_selected_frequency();
+
   return( FP_LEAF_DIRTY );
 
 } /* fp_freq_place() */

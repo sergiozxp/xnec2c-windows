@@ -760,6 +760,7 @@ typedef struct
 } radiation_pattern_job_t;
 
 static radiation_pattern_job_t rdpattern_job = { 0 };
+static guint rdpattern_follow_tag = 0;
 
 freq_calculation_kind_t
 freq_calculation_active_kind( void )
@@ -2594,6 +2595,12 @@ radiation_pattern_job_thread( void *unused )
 void
 Stop_Radiation_Pattern_Calculation( void )
 {
+  if( rdpattern_follow_tag != 0 )
+  {
+    g_source_remove(rdpattern_follow_tag);
+    rdpattern_follow_tag = 0;
+  }
+
   rdpattern_job.stop_requested = TRUE;
   if( rdpattern_job.thread != NULL )
   {
@@ -2602,6 +2609,48 @@ Stop_Radiation_Pattern_Calculation( void )
   }
   rdpattern_job.running = FALSE;
   freq_sweep_controls_refresh();
+}
+
+/* Debounced green-line follower.  A drag can deliver many motion frames;
+ * calculate only its latest frequency and never overlap the one-shot worker. */
+static gboolean
+radiation_pattern_follow_timeout( gpointer unused )
+{
+  (void)unused;
+
+  if( radiation_pattern_calculation_active() )
+    return G_SOURCE_CONTINUE;
+
+  rdpattern_follow_tag = 0;
+
+  if( rdpattern_window == NULL || isFlagClear(DRAW_ENABLED) ||
+      isFlagClear(ENABLE_RDPAT) || isFlagSet(INPUT_PENDING) ||
+      calc_data.fmhz_save <= 0.0 )
+    return G_SOURCE_REMOVE;
+
+  /* A completed result at the selected MHz needs no replacement. */
+  if( rdpattern_display_step >= 0 && save.freq != NULL &&
+      RDPAT_FSTEP_AVAILABLE(rdpattern_display_step) &&
+      FREQ_EQ(save.freq[rdpattern_display_step], calc_data.fmhz_save) )
+    return G_SOURCE_REMOVE;
+
+  calculate_selected_radiation_pattern();
+  return G_SOURCE_REMOVE;
+}
+
+void
+radiation_pattern_follow_selected_frequency( void )
+{
+  if( rdpattern_window == NULL || isFlagClear(DRAW_ENABLED) ||
+      isFlagClear(ENABLE_RDPAT) || isFlagSet(INPUT_PENDING) )
+    return;
+
+  if( rdpattern_follow_tag != 0 )
+    g_source_remove(rdpattern_follow_tag);
+
+  /* Short enough to feel live, long enough to collapse dense mouse motion. */
+  rdpattern_follow_tag = g_timeout_add(120,
+      radiation_pattern_follow_timeout, NULL);
 }
 
 /* Run exactly one Radiation Pattern operation at the frequency selected in
