@@ -68,7 +68,10 @@ ff_presentation_recompute(int fstep)
   double r, r_min, r_max;
   ff_pre_t *fp;
 
-  if( ff_pre == NULL || fstep < 0 || !save.fstep[fstep] )
+  /* Radiation Pattern owns an independent publication bank.  A selected
+   * frequency may intentionally have no Frequency Plot point, so gating the
+   * presentation on save.fstep[] leaves valid RP data permanently invisible. */
+  if( ff_pre == NULL || !RDPAT_FSTEP_AVAILABLE(fstep) )
     return;
   int total = fpat.nth * fpat.nph;
 

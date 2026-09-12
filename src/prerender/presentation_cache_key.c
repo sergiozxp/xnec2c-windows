@@ -38,7 +38,11 @@ presentation_cache_key_build(int fstep)
   k.ant_temp_elevation     = rc_config.ant_temp_elevation;
   k.ant_temp_custom_t_sky  = rc_config.ant_temp_custom_t_sky;
   k.ant_temp_custom_t_earth = rc_config.ant_temp_custom_t_earth;
-  k.freq_mhz               = calc_data.freq_mhz;
+  /* The Radiation Pattern display step is independent of the Frequency Plot
+   * selection; key the cache with the frequency stored in this RP slot. */
+  k.freq_mhz               = (save.freq != NULL && fstep >= 0 &&
+                              fstep <= calc_data.steps_total)
+      ? save.freq[fstep] : calc_data.freq_mhz;
   k.palette_gen            = color_palette_generation();
 
   /* max/min gain detect child-process data updates at same fstep.
