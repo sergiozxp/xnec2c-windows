@@ -1,7 +1,8 @@
 # Xnec2c para Windows
 
 Este repositorio mantiene una integración mínima y reproducible de
-[Xnec2c](https://github.com/KJ7LNW/xnec2c) para Windows 11 x64. La primera
+[Xnec2c](https://github.com/KJ7LNW/xnec2c) 5.0 para Windows 10 y Windows 11
+x64. La primera
 etapa produce una aplicación nativa con MSYS2/UCRT64, GTK 3 y el renderizador
 Cairo; OpenGL queda desactivado expresamente.
 
@@ -15,7 +16,8 @@ UCRT64, los módulos y datos de ejecución de GTK necesarios, un lanzador
 - Repositorio oficial: <https://github.com/KJ7LNW/xnec2c>
 - Commit: `a0245e6c0ed4c44909993a83db9e2a162fa81a60`
 - Fecha del commit: 2026-08-24
-- Versión declarada por `configure.ac`: `4.4.18`
+- Versión de esta edición para Windows: `5.0`
+- Versión de la fuente upstream: `4.4.18`
 - Configuración de esta etapa: `--disable-opengl`
 
 El commit elegido es un snapshot posterior al tag `v4.4.18`: se usa porque el

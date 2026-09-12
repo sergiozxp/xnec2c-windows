@@ -194,7 +194,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: xnec2c-windows-x64-setup
-          path: dist/installer/Xnec2c-4.4.18-Windows-x64-Setup.exe
+          path: dist/installer/Xnec2c-5.0-Windows-x64-Setup.exe
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
@@ -204,7 +204,7 @@ jobs:
         with:
           name: xnec2c-windows-x64-msix
           path: |
-            dist/msix/Xnec2c-4.4.18-Windows-x64.msix
+            dist/msix/Xnec2c-5.0-Windows-x64.msix
             dist/msix/Xnec2c-MSIX-Development.cer
           if-no-files-found: error
           retention-days: 14

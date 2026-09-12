@@ -1,7 +1,7 @@
-# Compilar Xnec2c en Windows 11 x64
+# Compilar Xnec2c 5.0 en Windows 10 y Windows 11 x64
 
 Este procedimiento reproduce el job de GitHub Actions en una instalación local
-de Windows 11. Todos los comandos de build deben ejecutarse en la terminal
+de Windows 10 o Windows 11. Todos los comandos de build deben ejecutarse en la terminal
 **MSYS2 UCRT64**, no en MSYS, MINGW64, PowerShell ni WSL.
 
 ## 1. Instalar MSYS2 y las dependencias
@@ -73,8 +73,8 @@ Valide el ejecutable dentro del entorno de build:
 ldd ./src/xnec2c.exe
 ```
 
-La salida de versión conserva `4.4.18` porque ese es el valor declarado por el
-snapshot upstream fijado.
+La salida del programa declara `5.0`. La procedencia técnica conserva por
+separado `4.4.18`, que es la versión del snapshot upstream fijado.
 
 ## 4. Crear el paquete portable
 

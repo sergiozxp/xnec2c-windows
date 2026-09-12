@@ -1,5 +1,5 @@
 #define MyAppName "Xnec2c"
-#define MyAppVersion "4.4.18"
+#define MyAppVersion "5.0"
 #define MyAppExeName "xnec2c-launcher.exe"
 
 ; File association support is intentionally disabled for this stage. Set this
@@ -22,7 +22,8 @@ DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
-MinVersion=10.0.22000
+; Windows 10 (build 10240) and every later Windows 10/11 release.
+MinVersion=10.0.10240
 SourceDir=..\..\dist\xnec2c-windows-x64-ucrt64
 OutputDir=..\installer
 OutputBaseFilename=Xnec2c-{#MyAppVersion}-Windows-x64-Setup
@@ -48,7 +49,7 @@ ChangesAssociations=yes
 #else
 ChangesAssociations=no
 #endif
-VersionInfoVersion=4.4.18.0
+VersionInfoVersion=5.0.0.0
 VersionInfoCompany=KJ7LNW and Xnec2c contributors
 VersionInfoDescription=Xnec2c per-user installer
 VersionInfoProductName={#MyAppName}

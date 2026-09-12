@@ -667,7 +667,7 @@ rc_config_vars_t rc_config_vars[] = {
 		.def = { { .i = -1 }, { .i = -1 } } },
 
 	{ .desc = "Frequency Plots Window Max Gain toggle button state", .format = "%d",
-		.vars = { &rc_config.freqplots_gmax_togglebutton }, .def = { { .i = 1 } },
+		.vars = { &rc_config.freqplots_gmax_togglebutton },
 		.widgets = CONFIG_WIDGET_SINGLE( &freqplots_window_builder,
 			"freqplots_gmax_togglebutton", hook_freqplots_panel_select ) },
 

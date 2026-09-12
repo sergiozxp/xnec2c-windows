@@ -4,7 +4,7 @@ param(
   [string]$IdentityName = $env:XNEC2C_MSIX_IDENTITY_NAME,
   [string]$Publisher = $env:XNEC2C_MSIX_PUBLISHER,
   [string]$PublisherDisplayName = $env:XNEC2C_MSIX_PUBLISHER_DISPLAY_NAME,
-  [string]$Version = "4.4.18.0"
+  [string]$Version = "5.0.0.0"
 )
 
 $ErrorActionPreference = "Stop"
@@ -73,7 +73,7 @@ $signTool = Join-Path $sdkBin.FullName "x64\signtool.exe"
 if (-not (Test-Path $makeAppx)) { throw "makeappx.exe not found: $makeAppx" }
 if (-not (Test-Path $signTool)) { throw "signtool.exe not found: $signTool" }
 
-$msix = Join-Path $outputDirPath "Xnec2c-4.4.18-Windows-x64.msix"
+$msix = Join-Path $outputDirPath "Xnec2c-5.0-Windows-x64.msix"
 & $makeAppx pack /d $layout /p $msix /o
 if ($LASTEXITCODE -ne 0) { throw "makeappx pack failed" }
 

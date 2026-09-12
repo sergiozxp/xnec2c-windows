@@ -9,7 +9,7 @@ $scriptDirectory = Split-Path -Parent $MyInvocation.MyCommand.Path
 $repositoryRoot = (Resolve-Path -LiteralPath (Join-Path $scriptDirectory '..\..')).Path
 $portableDirectory = Join-Path $repositoryRoot 'dist\xnec2c-windows-x64-ucrt64'
 $installerScript = Join-Path $scriptDirectory 'xnec2c.iss'
-$expectedSetup = Join-Path $repositoryRoot 'dist\installer\Xnec2c-4.4.18-Windows-x64-Setup.exe'
+$expectedSetup = Join-Path $repositoryRoot 'dist\installer\Xnec2c-5.0-Windows-x64-Setup.exe'
 
 $requiredFiles = @(
     (Join-Path $portableDirectory 'xnec2c-launcher.exe'),

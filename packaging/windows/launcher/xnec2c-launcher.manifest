@@ -3,7 +3,7 @@
   <assemblyIdentity
     type="win32"
     name="Xnec2c.Windows.Launcher"
-    version="4.4.18.0"
+    version="5.0.0.0"
     processorArchitecture="amd64" />
   <description>Xnec2c console-free portable launcher</description>
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">

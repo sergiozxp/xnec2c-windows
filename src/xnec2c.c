@@ -181,14 +181,34 @@ freq_display_update( double fmhz )
 {
   calc_data.fmhz_save = fmhz;
 
-  /* One selected-frequency authority serves both graph windows.  The green
-   * marker and the Radiation Pattern spin show the same value, while each
-   * graph retains its own calculation controller and result memory. */
+  /* One selected-frequency authority serves every frequency control.  Keep
+   * both numeric spinners and the Frequency Plots readout aligned with the
+   * green marker even when the change originated in the plot itself. */
+  if( mainwin_frequency != NULL )
+  {
+    SIGNAL_BLOCK(mainwin_frequency, on_config_widget_changed);
+    gtk_spin_button_set_value(mainwin_frequency, fmhz);
+    SIGNAL_UNBLOCK(mainwin_frequency, on_config_widget_changed);
+  }
+
   if( rdpattern_frequency != NULL )
   {
     SIGNAL_BLOCK(rdpattern_frequency, on_config_widget_changed);
     gtk_spin_button_set_value(rdpattern_frequency, fmhz);
     SIGNAL_UNBLOCK(rdpattern_frequency, on_config_widget_changed);
+  }
+
+  if( freqplots_window_builder != NULL )
+  {
+    char txt[16];
+    GtkWidget *entry = GTK_WIDGET(Builder_Get_Object(
+        freqplots_window_builder, "freqplots_fmhz_entry"));
+
+    if( entry != NULL )
+    {
+      snprintf(txt, sizeof(txt), "%.3f", fmhz);
+      gtk_entry_set_text(GTK_ENTRY(entry), txt);
+    }
   }
 
   freqplots_marker_show();
