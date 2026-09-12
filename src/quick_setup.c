@@ -201,7 +201,7 @@ typedef struct {
   int points, ground_index, material_index;
   double ground_dielectric, ground_conductivity;
   double radius_min, radius_max;
-  gboolean has_radius, custom_ground;
+  gboolean has_radius, custom_ground, custom_material;
 } setup_values_t;
 
 typedef struct {
@@ -329,7 +329,10 @@ static void read_setup_values(setup_values_t *values)
     else if( nearly_equal(values->conductivity, material_presets[5].conductivity) )
       values->material_index = 5;
     else
-      values->material_index = 7;
+    {
+      values->material_index = -1;
+      values->custom_material = TRUE;
+    }
   }
 }
 
@@ -361,9 +364,11 @@ static void material_changed(GtkComboBox *combo, gpointer user_data)
 {
   material_controls_t *controls = user_data;
   int idx = gtk_combo_box_get_active(combo);
-  gboolean custom = idx >= 0 && material_presets[idx].user_value;
+  gboolean custom = idx == (int)G_N_ELEMENTS(material_presets)
+      || (idx >= 0 && idx < (int)G_N_ELEMENTS(material_presets)
+          && material_presets[idx].user_value);
 
-  if( idx > 0 && !custom )
+  if( idx > 0 && idx < (int)G_N_ELEMENTS(material_presets) && !custom )
     gtk_spin_button_set_value(controls->conductivity,
         material_presets[idx].conductivity);
   gtk_widget_set_sensitive(GTK_WIDGET(controls->conductivity), custom);
@@ -376,7 +381,7 @@ static void on_setup_activate(GtkMenuItem *item, gpointer unused)
   GtkWidget *dialog, *content, *outer, *frame, *box, *row;
   GtkWidget *start, *stop, *points, *ground, *material, *conductivity;
   GtkWidget *dimension;
-  gchar dimension_text[256], custom_ground[160];
+  gchar dimension_text[256], custom_ground[160], custom_material[160];
   int i;
   (void)item; (void)unused;
   if( !setup_ready() ) return;
@@ -413,7 +418,7 @@ static void on_setup_activate(GtkMenuItem *item, gpointer unused)
   if( values.custom_ground )
   {
     g_snprintf(custom_ground, sizeof(custom_ground),
-        _("Current custom ground (Er %.6g, conductivity %.6g S/m)"),
+        _("Custom value (Er %.12g, conductivity %.12g S/m)"),
         values.ground_dielectric, values.ground_conductivity);
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(ground), custom_ground);
     gtk_combo_box_set_active(GTK_COMBO_BOX(ground), G_N_ELEMENTS(ground_presets));
@@ -428,7 +433,16 @@ static void on_setup_activate(GtkMenuItem *item, gpointer unused)
   for( i = 0; i < (int)G_N_ELEMENTS(material_presets); i++ )
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(material),
         _(material_presets[i].label));
-  gtk_combo_box_set_active(GTK_COMBO_BOX(material), values.material_index);
+  if( values.custom_material )
+  {
+    g_snprintf(custom_material, sizeof(custom_material),
+        _("Custom value (conductivity %.12g S/m)"), values.conductivity);
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(material), custom_material);
+    gtk_combo_box_set_active(GTK_COMBO_BOX(material),
+        G_N_ELEMENTS(material_presets));
+  }
+  else
+    gtk_combo_box_set_active(GTK_COMBO_BOX(material), values.material_index);
   gtk_box_pack_start(GTK_BOX(row), labelled_spin(_("Material"), material, ""),
       TRUE, TRUE, 0);
   conductivity = number_spin(values.conductivity > 0.0 ? values.conductivity
@@ -495,7 +509,8 @@ static void on_setup_activate(GtkMenuItem *item, gpointer unused)
     if( material_idx == 0 ) material_replacement = NULL;
     else
     {
-      sigma = material_presets[material_idx].user_value
+      sigma = (material_idx == (int)G_N_ELEMENTS(material_presets)
+          || material_presets[material_idx].user_value)
           ? gtk_spin_button_get_value(GTK_SPIN_BUTTON(conductivity))
           : material_presets[material_idx].conductivity;
       g_snprintf(material_card, sizeof(material_card),
