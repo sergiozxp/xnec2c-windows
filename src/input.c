@@ -90,6 +90,7 @@ input_data_free( void )
   mem_array_free( &save.ip );
   mem_array_free( &save.freq );
   mem_array_free( &save.fstep );
+  mem_array_free( &save.rdpattern_fstep );
 
   mem_array_free( &zload.zarray );
   mem_array_free( &zload.ldsegn );
@@ -1166,6 +1167,7 @@ freq_card_append( int steps )
   calc_data.steps_total += steps;
   mem_array_realloc(&save.freq, calc_data.steps_total + 1);
   mem_array_realloc(&save.fstep, calc_data.steps_total + 1);
+  mem_array_realloc(&save.rdpattern_fstep, calc_data.steps_total + 1);
 
   return( fld );
 }

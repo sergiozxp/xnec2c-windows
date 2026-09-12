@@ -454,8 +454,8 @@ on_optimizer_output_toggled(
 
     if (!gtk_check_menu_item_get_active( GTK_CHECK_MENU_ITEM(w)))
         gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(w), TRUE);
-    else if(!freq_sweep_complete())
-      Start_Frequency_Loop();
+    /* Enabling the optimizer does not calculate.  The Frequency Plot Play
+     * button remains the sole interactive start of its sweep. */
 
     // Do an initial write in case the optimizer is waiting for the .csv:
     if (freq_sweep_complete())
@@ -751,8 +751,7 @@ on_main_freqplots_activate(
       gtk_widget_show( freqplots_window );
       Update_Window_Titles();
 
-      if( (rc_config.main_loop_start || isFlagSet(SUPPRESS_INTERMEDIATE_REDRAWS)) && !freq_sweep_has_results())
-        Start_Frequency_Loop();
+      /* Opening the Frequency Plot window never starts a calculation. */
 
     } /* if( Main_Freqplots_Activate() */
     else gtk_check_menu_item_set_active(
@@ -5224,7 +5223,14 @@ on_loop_start_clicked(
     GtkButton       *button,
     gpointer         user_data)
 {
-  freq_loop_toggle();
+  if( freqplots_window_builder != NULL &&
+      GTK_WIDGET(button) == Builder_Get_Object(freqplots_window_builder,
+        "plot_loop_start") )
+    freq_loop_toggle();
+  else if( rdpattern_window_builder != NULL &&
+      GTK_WIDGET(button) == Builder_Get_Object(rdpattern_window_builder,
+        "rdpatttern_loop_start") )
+    calculate_selected_radiation_pattern();
 }
 
 
@@ -5233,7 +5239,14 @@ on_loop_reset_clicked(
     GtkButton       *button,
     gpointer         user_data)
 {
-  freq_loop_rewind();
+  if( freqplots_window_builder != NULL &&
+      GTK_WIDGET(button) == Builder_Get_Object(freqplots_window_builder,
+        "plot_loop_reset") )
+    freq_loop_rewind();
+  else if( rdpattern_window_builder != NULL &&
+      GTK_WIDGET(button) == Builder_Get_Object(rdpattern_window_builder,
+        "rdpattern_loop_reset") )
+    reset_radiation_pattern_result();
 }
 
 static GtkWidget *aboutdialog = NULL;
@@ -5524,4 +5537,3 @@ on_escape_key_press_event(
   }
   else return( FALSE );
 }
-

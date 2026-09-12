@@ -6,6 +6,7 @@
 
 /* Interpolation method names for config and UI */
 noise_temp_t *noise_temp = NULL;
+noise_temp_t *freqplot_noise_temp = NULL;
 
 const char *ant_temp_method_names[ANT_TEMP_METHOD_COUNT] = {
 	[ANT_TEMP_SNAP]     = "Snap",
@@ -842,6 +843,24 @@ int meas_has_impedance(int idx)
 void meas_calc(measurement_t *m, int idx, int port)
 {
 	g_rec_mutex_lock(&freq_data_lock);
+	rad_pattern_t *saved_pattern = rad_pattern;
+	noise_temp_t *saved_noise = noise_temp;
+	/* Standalone measurement tests and non-GUI utilities do not allocate the
+	 * Frequency Plot bank.  They retain the caller-provided legacy bank; the
+	 * application always has the dedicated bank after NEC buffer allocation. */
+	if (freqplot_rad_pattern != NULL)
+		rad_pattern = freqplot_rad_pattern;
+	if (freqplot_noise_temp != NULL)
+		noise_temp = freqplot_noise_temp;
+	_meas_calc(m, idx, port);
+	rad_pattern = saved_pattern;
+	noise_temp = saved_noise;
+	g_rec_mutex_unlock(&freq_data_lock);
+}
+
+void meas_calc_radiation_pattern(measurement_t *m, int idx, int port)
+{
+	g_rec_mutex_lock(&freq_data_lock);
 	_meas_calc(m, idx, port);
 	g_rec_mutex_unlock(&freq_data_lock);
 }
@@ -983,4 +1002,3 @@ void meas_write_data(FILE *fp, char *delim)
 {
 	meas_write_data_enc(fp, delim, "", "");
 }
-

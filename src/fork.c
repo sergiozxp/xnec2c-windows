@@ -54,10 +54,11 @@ void Child_Process( int num_child )
   abort();
 }
 
-int Get_Freq_Data( int idx, int fstep )
+int Get_Freq_Data( int idx, int fstep, int calculation_kind )
 {
   (void)idx;
   (void)fstep;
+  (void)calculation_kind;
   BUG("Get_Freq_Data called in a native Windows build\n");
   return 0;
 }
@@ -126,6 +127,7 @@ fork_xfer_frqdata( int idx, fork_frqdata_t *frq, pipe_fn_t pipe_fn )
   fork_field_t fields[] = {
     { frq->mathlib_id, sizeof(frq->mathlib_id) },
     { &frq->threads,   sizeof(frq->threads)    },
+    { &frq->calculation_kind, sizeof(frq->calculation_kind) },
     { &frq->freq_mhz,  sizeof(frq->freq_mhz)   },
   };
 
@@ -384,7 +386,8 @@ Read_Pipe( int idx, char *str, ssize_t len)
 enum freq_field_cond {
   FREQ_COND_ALWAYS,
   FREQ_COND_RDPAT,
-  FREQ_COND_NEAREH
+  FREQ_COND_RDPATTERN_ONLY,
+  FREQ_COND_NEAREH_RDPATTERN_ONLY
 };
 
 typedef struct {
@@ -409,13 +412,17 @@ static size_t size_patch_flow(void)     { return (size_t)data.m  * 4 * sizeof(fl
  * the current flag state.
  */
 static gboolean
-freq_field_active(int cond)
+freq_field_active(int cond, freq_calculation_kind_t calculation_kind)
 {
   switch (cond)
   {
     case FREQ_COND_ALWAYS: return TRUE;
     case FREQ_COND_RDPAT:  return isFlagSet(ENABLE_RDPAT);
-    case FREQ_COND_NEAREH: return isFlagSet(ENABLE_NEAREH);
+    case FREQ_COND_RDPATTERN_ONLY:
+      return calculation_kind == FREQ_CALCULATION_RDPATTERN;
+    case FREQ_COND_NEAREH_RDPATTERN_ONLY:
+      return calculation_kind == FREQ_CALCULATION_RDPATTERN &&
+             isFlagSet(ENABLE_NEAREH);
     default: abort();
   }
 }
@@ -429,8 +436,15 @@ freq_field_active(int cond)
  * field table is therefore evaluated identically by both caller sites.
  */
 static int
-freq_fields_xfer(int fstep, int pipe_idx, pipe_fn_t pipe_fn)
+freq_fields_xfer(int fstep, int pipe_idx, pipe_fn_t pipe_fn,
+                 freq_calculation_kind_t calculation_kind)
 {
+  rad_pattern_t *pattern_bank =
+      calculation_kind == FREQ_CALCULATION_PLOTS
+        ? freqplot_rad_pattern : rad_pattern;
+  noise_temp_t *temperature_bank =
+      calculation_kind == FREQ_CALCULATION_PLOTS
+        ? freqplot_noise_temp : noise_temp;
   /* Local (non-static) array; runtime pointer values go directly in initializers */
   freq_field_t fields[] = {
     /* Current and charge data */
@@ -450,39 +464,39 @@ freq_fields_xfer(int fstep, int pipe_idx, pipe_fn_t pipe_fn)
     /* Transfer interaction-matrix factorization health. */
     { &solver_cond[fstep],             NULL,             sizeof(*solver_cond),   FREQ_COND_ALWAYS },
     /* Radiation pattern data */
-    { rad_pattern[fstep].gtot,         size_nphth_dbl, 0,                        FREQ_COND_RDPAT  },
-    { rad_pattern[fstep].tilt,         size_nphth_dbl, 0,                        FREQ_COND_RDPAT  },
-    { rad_pattern[fstep].axrt,         size_nphth_dbl, 0,                        FREQ_COND_RDPAT  },
-    { rad_pattern[fstep].max_gain,     NULL,           NUM_POL * sizeof(double), FREQ_COND_RDPAT  },
-    { rad_pattern[fstep].min_gain,     NULL,           NUM_POL * sizeof(double), FREQ_COND_RDPAT  },
-    { rad_pattern[fstep].max_gain_tht, NULL,           NUM_POL * sizeof(double), FREQ_COND_RDPAT  },
-    { rad_pattern[fstep].max_gain_phi, NULL,           NUM_POL * sizeof(double), FREQ_COND_RDPAT  },
-    { rad_pattern[fstep].max_gain_idx, NULL,           NUM_POL * sizeof(int),    FREQ_COND_RDPAT  },
-    { rad_pattern[fstep].min_gain_idx, NULL,           NUM_POL * sizeof(int),    FREQ_COND_RDPAT  },
-    { rad_pattern[fstep].sens,         size_nphth_int, 0,                        FREQ_COND_RDPAT  },
-    { rad_pattern[fstep].phasor,       size_nphth_phasor, 0,                     FREQ_COND_RDPAT  },
-    { &rad_pattern[fstep].efficiency,  NULL,           sizeof(double),           FREQ_COND_RDPAT  },
+    { pattern_bank[fstep].gtot,         size_nphth_dbl, 0,                        FREQ_COND_RDPAT  },
+    { pattern_bank[fstep].tilt,         size_nphth_dbl, 0,                        FREQ_COND_RDPAT  },
+    { pattern_bank[fstep].axrt,         size_nphth_dbl, 0,                        FREQ_COND_RDPAT  },
+    { pattern_bank[fstep].max_gain,     NULL,           NUM_POL * sizeof(double), FREQ_COND_RDPAT  },
+    { pattern_bank[fstep].min_gain,     NULL,           NUM_POL * sizeof(double), FREQ_COND_RDPAT  },
+    { pattern_bank[fstep].max_gain_tht, NULL,           NUM_POL * sizeof(double), FREQ_COND_RDPAT  },
+    { pattern_bank[fstep].max_gain_phi, NULL,           NUM_POL * sizeof(double), FREQ_COND_RDPAT  },
+    { pattern_bank[fstep].max_gain_idx, NULL,           NUM_POL * sizeof(int),    FREQ_COND_RDPAT  },
+    { pattern_bank[fstep].min_gain_idx, NULL,           NUM_POL * sizeof(int),    FREQ_COND_RDPAT  },
+    { pattern_bank[fstep].sens,         size_nphth_int, 0,                        FREQ_COND_RDPAT  },
+    { pattern_bank[fstep].phasor,       size_nphth_phasor, 0,                     FREQ_COND_RDPAT  },
+    { &pattern_bank[fstep].efficiency,  NULL,           sizeof(double),           FREQ_COND_RDPAT  },
     /* Per-fstep noise temperature table (allocated alongside rad_pattern[]) */
-    { &noise_temp[fstep],              NULL,              sizeof(noise_temp_t),  FREQ_COND_RDPAT  },
+    { &temperature_bank[fstep],        NULL,              sizeof(noise_temp_t),  FREQ_COND_RDPAT  },
     /* Per-fstep structure colors (patch flow + cmin/cmax range scalars) */
-    { struct_colors[fstep].patch_flow_data, size_patch_flow, 0,                FREQ_COND_ALWAYS },
-    { &struct_colors[fstep].wire_crnt_cmin, NULL,          sizeof(float),       FREQ_COND_ALWAYS },
-    { &struct_colors[fstep].wire_crnt_cmax, NULL,          sizeof(float),       FREQ_COND_ALWAYS },
-    { &struct_colors[fstep].wire_chrg_cmin, NULL,          sizeof(float),       FREQ_COND_ALWAYS },
-    { &struct_colors[fstep].wire_chrg_cmax, NULL,          sizeof(float),       FREQ_COND_ALWAYS },
-    { &struct_colors[fstep].patch_crnt_cmin, NULL,         sizeof(float),       FREQ_COND_ALWAYS },
-    { &struct_colors[fstep].patch_crnt_cmax, NULL,         sizeof(float),       FREQ_COND_ALWAYS },
+    { struct_colors[fstep].patch_flow_data, size_patch_flow, 0,                FREQ_COND_RDPATTERN_ONLY },
+    { &struct_colors[fstep].wire_crnt_cmin, NULL,          sizeof(float),       FREQ_COND_RDPATTERN_ONLY },
+    { &struct_colors[fstep].wire_crnt_cmax, NULL,          sizeof(float),       FREQ_COND_RDPATTERN_ONLY },
+    { &struct_colors[fstep].wire_chrg_cmin, NULL,          sizeof(float),       FREQ_COND_RDPATTERN_ONLY },
+    { &struct_colors[fstep].wire_chrg_cmax, NULL,          sizeof(float),       FREQ_COND_RDPATTERN_ONLY },
+    { &struct_colors[fstep].patch_crnt_cmin, NULL,         sizeof(float),       FREQ_COND_RDPATTERN_ONLY },
+    { &struct_colors[fstep].patch_crnt_cmax, NULL,         sizeof(float),       FREQ_COND_RDPATTERN_ONLY },
     /* Near field data: the phasor and spatial extent only; color and
      * geometry derive in the parent at draw and never cross the pipe */
-    { near_field_fstep[fstep].points,  size_nf_points, 0,                        FREQ_COND_NEAREH },
-    { &near_field_fstep[fstep].r_max,  NULL,           sizeof(double),           FREQ_COND_NEAREH },
+    { near_field_fstep[fstep].points,  size_nf_points, 0,                        FREQ_COND_NEAREH_RDPATTERN_ONLY },
+    { &near_field_fstep[fstep].r_max,  NULL,           sizeof(double),           FREQ_COND_NEAREH_RDPATTERN_ONLY },
   };
 
   int nfields = (int)(sizeof(fields) / sizeof(fields[0]));
 
   for (int i = 0; i < nfields; i++)
   {
-    if (!freq_field_active(fields[i].cond))
+    if (!freq_field_active(fields[i].cond, calculation_kind))
       continue;
 
     size_t sz = fields[i].get_size ? fields[i].get_size() : fields[i].size;
@@ -502,9 +516,9 @@ freq_fields_xfer(int fstep, int pipe_idx, pipe_fn_t pipe_fn)
  * input impedances etc) from child processes to parent.
  */
   static void
-Pass_Freq_Data( void )
+Pass_Freq_Data( freq_calculation_kind_t calculation_kind )
 {
-  freq_fields_xfer(0, num_child_procs, Write_Pipe);
+  freq_fields_xfer(0, num_child_procs, Write_Pipe, calculation_kind);
 
 } /* Pass_Freq_Data() */
 
@@ -556,9 +570,15 @@ Child_Process( int num_child )
         /* Set flags */
         freq_sweep_run_begin();
 
-        /* Calculate freq data */
-        New_Frequency();
-        Pass_Freq_Data();
+        /* Execute the operation selected by the originating graph. */
+        if( frq.calculation_kind == FREQ_CALCULATION_PLOTS )
+          Calculate_Frequency_Plot_Data();
+        else if( frq.calculation_kind == FREQ_CALCULATION_RDPATTERN )
+          Calculate_Radiation_Pattern_Data();
+        else
+          BUG( "invalid frequency calculation kind %d\n",
+               frq.calculation_kind );
+        Pass_Freq_Data(frq.calculation_kind);
         break;
 
       default:
@@ -651,9 +671,10 @@ static ssize_t PRead_Pipe(int idx, char *str, ssize_t len)
  * Be sure to hold the freq_data_lock mutex when calling this function.
  */
   int
-Get_Freq_Data( int idx, int fstep )
+Get_Freq_Data( int idx, int fstep, int calculation_kind )
 {
-  if (!freq_fields_xfer(fstep, idx, PRead_Pipe))
+  if (!freq_fields_xfer(fstep, idx, PRead_Pipe,
+                        (freq_calculation_kind_t)calculation_kind))
     return 0;
 
   /* Parent publication point: the child's counter never crosses the pipe,
@@ -667,4 +688,3 @@ Get_Freq_Data( int idx, int fstep )
 #endif /* XNEC2C_NATIVE_WINDOWS */
 
 /*------------------------------------------------------------------------*/
-

@@ -37,6 +37,29 @@
 #include "busy_status.h"
 #include "quick_setup.h"
 
+/* The legacy Main transport is a third route into the common sweep.  Remove
+ * it from both the visible and keyboard interfaces: graph calculation is
+ * owned exclusively by the Play button in each graph window. */
+static void
+hide_main_sweep_controls( void )
+{
+  GtkWidget *grid = Builder_Get_Object(main_window_builder, "main_grid1");
+  GList *children = gtk_container_get_children(GTK_CONTAINER(grid));
+
+  for( GList *node = children; node != NULL; node = node->next )
+  {
+    gint column = 0;
+    gtk_container_child_get(GTK_CONTAINER(grid), GTK_WIDGET(node->data),
+        "left-attach", &column, NULL);
+    if( column >= 6 )
+    {
+      gtk_widget_set_sensitive(GTK_WIDGET(node->data), FALSE);
+      gtk_widget_hide(GTK_WIDGET(node->data));
+    }
+  }
+  g_list_free(children);
+}
+
 /* Forward declaration — full sy_overrides.h conflicts with openblas via gsl */
 extern void sy_overrides_close_if_empty(void);
 
@@ -302,6 +325,7 @@ main (int argc, char *argv[])
   /* Create the main window */
   main_window = create_main_window( &main_window_builder );
   gtk_window_set_title( GTK_WINDOW(main_window), PACKAGE_STRING );
+  hide_main_sweep_controls();
   quick_setup_install( main_window_builder );
 
   /* The transport buttons carry the sweep state, so a freshly built window
@@ -325,8 +349,8 @@ main (int argc, char *argv[])
   /* Read GUI state config file and reset geometry */
   Read_Config();
 
-  if (rc_config.batch_mode)
-	  rc_config.main_loop_start = 1;
+  /* A saved interactive auto-start preference must not calculate on launch. */
+  rc_config.main_loop_start = 0;
 
   /* If input file is specified, get the working directory */
   if( strlen(rc_config.input_file) )
@@ -584,9 +608,8 @@ Open_Input_File( gpointer arg )
 
   /* Invalidate freq loop preconditions before Stop_Frequency_Loop so that
    * the GTK event flush inside Stop_Frequency_Loop cannot re-entrantly
-   * start a new freq loop via Start_Frequency_Loop_Greenline.  The
-   * existing steps_total < 1 guard in freq_loop_start_internal rejects
-   * any call that arrives during the flush. */
+   * start a new calculation.  The steps_total < 1 guard in the dispatcher
+   * rejects any call that arrives during the flush. */
   g_rec_mutex_lock(&freq_data_lock);
   calc_data.FR_cards    = 0;
   calc_data.steps_total = 0;
@@ -631,7 +654,10 @@ Open_Input_File( gpointer arg )
   freq_sweep_results_clear();
   if( ok && save.fstep != NULL )
     for( int i = 0; i <= calc_data.steps_total; i++ )
+    {
       save.fstep[i] = 0;
+      save.rdpattern_fstep[i] = 0;
+    }
 
   g_rec_mutex_unlock(&freq_data_lock);
   if( !ok )
@@ -748,9 +774,9 @@ Open_Input_File( gpointer arg )
         GTK_SPIN_BUTTON(widget), (gdouble)rc_config.rdpattern_zoom_spinbutton );
     }
 
-    /* Simulate activation of main rdpattern button */
+    /* Restore presentation only.  Loading/replacing a file never calculates. */
     if( isFlagClear(SUPPRESS_INTERMEDIATE_REDRAWS) && !rc_config.main_loop_start)
-      Main_Rdpattern_Activate( FALSE );
+      Main_Rdpattern_Activate( TRUE );
 
     /* Re-apply the persisted radiation-pattern field mode for the reloaded
      * file; the rc_config enum selects far-field gain or near E/H field */
@@ -781,8 +807,7 @@ Open_Input_File( gpointer arg )
   {
     GtkWidget *box = Builder_Get_Object( freqplots_window_builder, "freqplots_box" );
     gtk_widget_show( box );
-    if( rc_config.main_loop_start || isFlagSet(SUPPRESS_INTERMEDIATE_REDRAWS) )
-      Main_Freqplots_Activate();
+    /* Do not activate calculations while restoring an open plot window. */
   }
 
   /* Restore main window projection settings */
@@ -806,19 +831,8 @@ Open_Input_File( gpointer arg )
     ClearFlag( XNEC2C_START );
   }
 
-  if( rc_config.main_loop_start || isFlagSet(SUPPRESS_INTERMEDIATE_REDRAWS) )
-  {
-    if( calc_data.steps_total >= 1 )
-      Start_Frequency_Loop();
-    else if( rc_config.batch_mode )
-      g_idle_add_once( (GSourceOnceFunc)batch_finish_no_steps, NULL );
-    else
-    {
-      /* Read_Commands registers a default FR card, so an accepted deck
-       * sweeps at least one step; a non-batch context arriving here with
-       * none has no sweep to dispatch and stays interactive. */
-    }
-  }
+  /* Loading is complete.  No calculation is dispatched here: each graph
+   * remains idle until its own Play button is pressed. */
 
   /* Release the pending-start announcement raised for the plots window: a
    * sweep that started has already consumed it, and one that never started

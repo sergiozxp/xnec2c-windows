@@ -159,7 +159,7 @@ child_proc_t **child_procs = NULL;
 int num_child_procs = 0;
 
 /* Recursive lock for frequency data to prevent use of data populated by
-   Get_Freq_Data() and New_Frequency() before it is done filling the data
+   Get_Freq_Data() and the selected graph calculation before it finishes
    buffers.  Recursive so the idle wrapper can hold the lock while flushing
    GTK events that fire draw handlers which re-acquire it. */
 GRecMutex freq_data_lock;
@@ -184,6 +184,7 @@ guint floop_tag = 0;
 
 /* Radiation pattern data */
 rad_pattern_t *rad_pattern = NULL;
+rad_pattern_t *freqplot_rad_pattern = NULL;
 
 /* Per-frequency-step near field storage */
 near_field_t *near_field_fstep = NULL;
@@ -263,4 +264,3 @@ zload_t zload;
 comments_t comments = { 0, NULL };
 
 /*------------------------------------------------------------------------*/
-

@@ -623,7 +623,7 @@ void Save_Validation_Tree(void)
 		return;
 	}
 
-	/* The frequency loop populates near_field_fstep[] per step: New_Frequency()
+	/* The Radiation Pattern operation populates near_field_fstep[] per step:
 	 * runs the full single-frequency solve for every step in the non-forked
 	 * path and calls Near_Field_Pattern() (xnec2c.c, gated only on
 	 * ENABLE_NEAREH), which writes the step's slot. No batch recompute is

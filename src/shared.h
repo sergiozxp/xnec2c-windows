@@ -117,7 +117,7 @@ extern view_t
 extern int num_child_procs;
 
 /* Recursive lock for frequency data to prevent use of data populated by
-   Get_Freq_Data() and New_Frequency() before it is done filling the data
+   Get_Freq_Data() and the selected graph calculation before it finishes
    buffers.  Recursive so the idle wrapper can hold the lock while flushing
    GTK events that fire draw handlers which re-acquire it. */
 extern GRecMutex freq_data_lock;
@@ -215,6 +215,7 @@ extern guint floop_tag;
 
 /* Radiation pattern data */
 extern rad_pattern_t *rad_pattern ;
+extern rad_pattern_t *freqplot_rad_pattern ;
 
 /* Per-frequency-step near field storage */
 extern near_field_t *near_field_fstep;

@@ -1024,6 +1024,7 @@ typedef struct
 
   double *freq; /* My addition, frequencies used in freq loop */
   char *fstep;  /* My addition, freq loop steps that returned results */
+  char *rdpattern_fstep; /* Radiation Pattern validity, independent of plots */
 
 } save_t;
 
@@ -1779,11 +1780,12 @@ void Project_on_Screen(view_t *v, double x, double y, double z, double *xs, doub
 
 #define NF_FSTEP_AVAILABLE(fs) \
     ((fs) >= 0 && (fs) <= calc_data.steps_total \
-     && save.fstep != NULL && save.fstep[(fs)] \
+     && save.rdpattern_fstep != NULL && save.rdpattern_fstep[(fs)] \
      && near_field_fstep != NULL && near_field_fstep[(fs)].points != NULL)
 
 #define RDPAT_FSTEP_AVAILABLE(fs) \
     ((fs) >= 0 && (fs) <= calc_data.steps_total \
+     && save.rdpattern_fstep != NULL && save.rdpattern_fstep[(fs)] \
      && rad_pattern != NULL && rad_pattern[(fs)].gtot != NULL \
      && rad_pattern[(fs)].max_gain != NULL \
      && rad_pattern[(fs)].min_gain != NULL)
@@ -1819,7 +1821,7 @@ void pcint(double xi, double yi, double zi, double cabi, double sabi, double sal
 void unere(double xob, double yob, double zob);
 /* fork.c */
 void Child_Process(int num_child);
-int Get_Freq_Data(int idx, int fstep);
+int Get_Freq_Data(int idx, int fstep, int calculation_kind);
 /* geom_edit.c */
 void Wire_Editor(int action);
 void Patch_Editor(int action);
@@ -2018,16 +2020,26 @@ void freq_step_refresh_ui(gboolean force);
 void freq_step_update_ui(int new_step, gboolean force);
 void Near_Field_Pattern(void);
 void Frequency_Scale_Geometry(void);
-void New_Frequency(void);
+gboolean Calculate_Frequency_Plot_Data(void);
+gboolean Calculate_Radiation_Pattern_Data(void);
+
+typedef enum
+{
+  FREQ_CALCULATION_NONE = 0,
+  FREQ_CALCULATION_PLOTS,
+  FREQ_CALCULATION_RDPATTERN
+} freq_calculation_kind_t;
 
 gboolean Frequency_Loop(gpointer udata);
 void batch_finish_no_steps(void);
 gboolean freq_loop_run_sync(void);
 gboolean Start_Frequency_Loop(void);
-gboolean Start_Frequency_Loop_Greenline(void);
 void Stop_Frequency_Loop(void);
 void freq_loop_toggle(void);
 void freq_loop_rewind(void);
+void calculate_selected_radiation_pattern(void);
+void reset_radiation_pattern_result(void);
+freq_calculation_kind_t freq_calculation_active_kind(void);
 void Incident_Field_Loop(void);
 int set_freq_step(void);
 gboolean fetch_freq_data(void);

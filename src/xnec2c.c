@@ -76,8 +76,8 @@ static double tmp1, tmp2, tmp3, tmp4, tmp5, tmp6;
 /* Set the calc_data.freq_step if it matches calc_data.freq_mhz.
  * Redo radiation pattern for a new frequency.
  *
- * If it doesn't, return 0 so the caller can run New_Frequency() and
- * use the extra buffer (in rad_pattern and other structures). */
+ * If it doesn't, return 0 so the graph Play handler can request its own
+ * calculation and use the extra result slot. */
 int set_freq_step(void)
 {
 	int fr, step;
@@ -198,8 +198,9 @@ user_set_frequency( double fmhz )
 {
   freq_display_update( fmhz );
   calc_data.freq_mhz = fmhz;
-  if( !fetch_freq_data() )
-    Start_Frequency_Loop_Greenline();
+  /* Selection is display-only.  A cache miss remains pending until the
+   * Radiation Pattern Play button explicitly requests its calculation. */
+  fetch_freq_data();
 }
 
 /* Frequency_Scale_Geometry()
@@ -656,85 +657,63 @@ Near_Field_Pattern( void )
 
 /*-----------------------------------------------------------------------*/
 
-/* New_Frequency()
- *
- * (Re)calculates all frequency-dependent parameters
- */
-  void
-New_Frequency( void )
+/* Calculate one Frequency Plot point.  Far-field values are numerical plot
+ * inputs (gain and antenna temperature), but this operation does not publish
+ * a Radiation Pattern result. */
+gboolean
+Calculate_Frequency_Plot_Data( void )
 {
-  struct timespec start, end;
-  double elapsed;
-
-  /* Excitation drives every solve below; an absent EX card leaves nothing
-   * to solve for */
-  if( isFlagClear(ENABLE_EXCITN) )
-    return;
-
-  /* Every producer below writes crnt_fstep[freq_step], and under ENABLE_NEAREH
-   * near_field_fstep[freq_step]; without a slot there is nowhere to solve into */
-  if( calc_data.freq_step < 0 || crnt_fstep == NULL )
-  {
-    BUG("New_Frequency: no destination slot (freq_step=%d)\n", calc_data.freq_step);
-    return;
-  }
+  if( isFlagClear(ENABLE_EXCITN) || calc_data.freq_step < 0 ||
+      crnt_fstep == NULL )
+    return FALSE;
 
   g_rec_mutex_lock(&freq_data_lock);
+  rad_pattern_t *saved_pattern = rad_pattern;
+  noise_temp_t *saved_noise = noise_temp;
 
-  // Only show this if you manually change frequencies:
-  clock_gettime(CLOCK_MONOTONIC, &start);
-
-  /* Frequency scaling of geometric parameters */
+  /* The NEC kernels still use legacy globals internally.  Redirect those
+   * globals for the duration of this operation so Frequency Plot owns every
+   * far-field and temperature result it produces. */
+  rad_pattern = freqplot_rad_pattern;
+  noise_temp = freqplot_noise_temp;
   Frequency_Scale_Geometry();
-
-  /* Structure segment loading */
   Structure_Impedance_Loading();
-
-  /* Calculate ground parameters */
   Ground_Parameters();
-
-  /* Fill and factor primary interaction matrix */
   Set_Interaction_Matrix();
-
-  /* Fill excitation part of matrix */
   Set_Excitation();
-
-  /* Matrix solving (netwk calls solves) */
   Set_Network_Data();
-
-  /* Calculate power loss */
   Power_Loss();
-
-  /* Calculate radiation pattern */
   Radiation_Pattern();
-
-  /* Near field calculation */
-  Near_Field_Pattern();
-
-  /* Per-fstep noise temperature table: frequency is fixed here, so all
-   * sky/earth model × method combinations are deterministic and hoistable. */
   ant_temp_fill_fstep( calc_data.freq_step );
-
-  /* Child-deterministic per-fstep prerender: no user-mutable inputs enter
-   * these functions. */
-  struct_colors_fill_fstep( calc_data.freq_step );
-
-  if( !CHILD )
-  {
-    if( save.fstep != NULL && calc_data.freq_step >= 0 )
-      save.fstep[calc_data.freq_step] = 1;
-  }
-
+  rad_pattern = saved_pattern;
+  noise_temp = saved_noise;
   g_rec_mutex_unlock(&freq_data_lock);
+  return TRUE;
+}
 
-  // Calculate elapsed time
-  clock_gettime(CLOCK_MONOTONIC, &end);
-  
-  elapsed = (end.tv_sec + (double)end.tv_nsec/1e9) - (start.tv_sec + (double)start.tv_nsec/1e9);
-  pr_info("%.6f MHz: %f seconds. (%s)\n",
-			calc_data.freq_mhz, elapsed, current_mathlib->name);
+/* Calculate one Radiation Pattern at the explicitly selected frequency. */
+gboolean
+Calculate_Radiation_Pattern_Data( void )
+{
+  if( isFlagClear(ENABLE_EXCITN) || calc_data.freq_step < 0 ||
+      crnt_fstep == NULL )
+    return FALSE;
 
-} /* New_Frequency()  */
+  g_rec_mutex_lock(&freq_data_lock);
+  Frequency_Scale_Geometry();
+  Structure_Impedance_Loading();
+  Ground_Parameters();
+  Set_Interaction_Matrix();
+  Set_Excitation();
+  Set_Network_Data();
+  Power_Loss();
+  Radiation_Pattern();
+  Near_Field_Pattern();
+  ant_temp_fill_fstep( calc_data.freq_step );
+  struct_colors_fill_fstep( calc_data.freq_step );
+  g_rec_mutex_unlock(&freq_data_lock);
+  return TRUE;
+}
 
 /*-----------------------------------------------------------------------*/
 
@@ -744,6 +723,7 @@ typedef struct
   fork_frqdata_t   frq;          /* FRQDATA payload; threads is sweep-constant */
   int              next_scan;    /* Resume point for dispatch step scan */
   int              scan_lo;      /* Lowest step index this sweep may dispatch */
+  char            *validity;     /* Result publication for this graph only */
   /* Zeroed by the allocation in freq_loop_begin(); the first Frequency_Loop()
    * call performs the sweep reset and sets it. */
   gboolean         initialized;
@@ -754,6 +734,21 @@ typedef struct
 
 /* Per-sweep state; released by the idle driver or Stop_Frequency_Loop(). */
 static freq_loop_state_t *floop_state = NULL;
+static freq_calculation_kind_t active_calculation_kind = FREQ_CALCULATION_NONE;
+static gboolean rdpattern_stop_requested = FALSE;
+
+freq_calculation_kind_t
+freq_calculation_active_kind( void )
+{
+  return active_calculation_kind;
+}
+
+static gboolean
+active_calculation_stopping( void )
+{
+  return active_calculation_kind == FREQ_CALCULATION_RDPATTERN
+      ? rdpattern_stop_requested : freq_sweep_stopping();
+}
 
 /*
  * green_line_class_t - disposition of the green-line frequency relative to the
@@ -969,7 +964,7 @@ freq_step_update_ui_idle_force( gpointer p )
  * line slot.  Returns the highest dispatchable step index (max_step).
  */
 static int
-freq_populate_steps( void )
+freq_populate_steps( freq_calculation_kind_t calculation_kind )
 {
   int step = 0, fr, card_start;
   double freq;
@@ -991,6 +986,14 @@ freq_populate_steps( void )
       }
       save.freq[step] = freq;
     }
+  }
+
+  /* Radiation Pattern is always a one-frequency operation in its independent
+   * extra slot, even when the selected MHz aliases a Frequency Plot step. */
+  if( calculation_kind == FREQ_CALCULATION_RDPATTERN )
+  {
+    save.freq[calc_data.steps_total] = calc_data.fmhz_save;
+    return calc_data.steps_total;
   }
 
   /* Admit the extra green-line slot only when its frequency is in range or
@@ -1095,12 +1098,12 @@ freq_loop_validate_result( freq_loop_state_t *state, child_proc_t *child )
  * Returns the number of computations the sweep runs at the same time.
  */
 static int
-freq_loop_derive_workers( int max_step )
+freq_loop_derive_workers( int max_step, const char *validity )
 {
   int workers = 0;
 
   for( int idx = 0; idx <= max_step; idx++ )
-    if( save.fstep[idx] == 0 )
+    if( validity[idx] == 0 )
       workers++;
 
   if( workers > calc_data.num_jobs )
@@ -1168,7 +1171,13 @@ freq_loop_dispatch( freq_loop_state_t *state, child_proc_t *child,
    * New_Frequency acquires freq_data_lock internally. */
   calc_data.freq_mhz  = freq;
   calc_data.freq_step = fstep;
-  New_Frequency();
+  if( state->frq.calculation_kind == FREQ_CALCULATION_PLOTS )
+    Calculate_Frequency_Plot_Data();
+  else if( state->frq.calculation_kind == FREQ_CALCULATION_RDPATTERN )
+    Calculate_Radiation_Pattern_Data();
+  else
+    BUG( "invalid frequency calculation kind %d\n",
+         state->frq.calculation_kind );
 
   /* Non-forked: computation is synchronous.  Child stays off the idle stack
    * with assigned_step set; freq_loop_collect_pending() handles collect
@@ -1228,7 +1237,9 @@ freq_loop_collect_pending( freq_loop_state_t *state )
       if( !freq_loop_validate_result( state, child_procs[idx] ) )
         continue;
 
-      save.fstep[child_procs[idx]->assigned_step] = 1;
+      state->validity[child_procs[idx]->assigned_step] = 1;
+      if( rc_config.batch_mode )
+        save.rdpattern_fstep[child_procs[idx]->assigned_step] = 1;
       child_procs[idx]->assigned_step = -1;
       idle_stack_push( state, child_procs[idx] );
     }
@@ -1258,7 +1269,8 @@ freq_loop_collect_pending( freq_loop_state_t *state )
 
     int child_fstep = child_procs[idx]->assigned_step;
 
-    if( !Get_Freq_Data( idx, child_fstep ) )
+    if( !Get_Freq_Data( idx, child_fstep,
+                        state->frq.calculation_kind ) )
     {
       pr_err("Failed to read data from forked child\n");
       freq_sweep_stop_request();
@@ -1269,7 +1281,9 @@ freq_loop_collect_pending( freq_loop_state_t *state )
     if( !freq_loop_validate_result( state, child_procs[idx] ) )
       continue;
 
-    save.fstep[child_fstep] = 1;
+    state->validity[child_fstep] = 1;
+    if( rc_config.batch_mode )
+      save.rdpattern_fstep[child_fstep] = 1;
     child_procs[idx]->assigned_step = -1;
     idle_stack_push( state, child_procs[idx] );
   }
@@ -1561,6 +1575,21 @@ static void
 freq_loop_finalize( freq_loop_state_t *state )
 {
   struct timespec end;
+
+  /* A Radiation Pattern calculation publishes only its selected slot.  It
+   * must not publish, select, export or wake consumers of a plot sweep. */
+  if( state->frq.calculation_kind == FREQ_CALCULATION_RDPATTERN )
+  {
+    g_idle_add_once( (GSourceOnceFunc)freq_step_update_ui_idle_force,
+        GINT_TO_POINTER(calc_data.steps_total) );
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    pr_notice("Radiation Pattern elapsed time: %f seconds. (%s)\n",
+      (end.tv_sec + (double)end.tv_nsec / 1e9) -
+      (state->t0.tv_sec + (double)state->t0.tv_nsec / 1e9),
+      (FORKED ? get_mathlib_by_id(rc_config.mathlib_batch_id)->name
+              : current_mathlib->name));
+    return;
+  }
 
   /* Only a sweep free to dispatch the whole range may claim a full result
    * set; a green-line start covers its own slot alone. */
@@ -2010,12 +2039,13 @@ Frequency_Loop( gpointer udata )
 
     state->idle_top     = -1;
     state->next_scan    = state->scan_lo;
-    state->max_step     = freq_populate_steps();
+    state->max_step     = freq_populate_steps(state->frq.calculation_kind);
 
     /* Steps are marked valid or invalid before the sweep starts, so the work
      * this sweep places, and the share of the processors each of its workers
      * receives, are known once the step extent is. */
-    int workers         = freq_loop_derive_workers( state->max_step );
+    int workers         = freq_loop_derive_workers(
+        state->max_step, state->validity );
 
     state->frq.threads  = xnec2c_threads_per_worker( workers );
 
@@ -2052,12 +2082,12 @@ Frequency_Loop( gpointer udata )
    */
   /* Dispatch phase: scan for invalid steps and dispatch to idle children */
   gboolean found_work = FALSE;
-  while( !idle_stack_empty(state) && !freq_sweep_stopping() )
+  while( !idle_stack_empty(state) && !active_calculation_stopping() )
   {
     int next = -1;
     for( idx = state->next_scan; idx <= state->max_step; idx++ )
     {
-      if( save.fstep[idx] != 0 || step_in_flight(idx) )
+      if( state->validity[idx] != 0 || step_in_flight(idx) )
         continue;
       next = idx;
       break;
@@ -2087,7 +2117,7 @@ Frequency_Loop( gpointer udata )
     return FALSE;
 
   /* STOP: drain remaining children before exiting */
-  if( freq_sweep_stopping() )
+  if( active_calculation_stopping() )
   {
     while( children_dispatched() )
     {
@@ -2146,18 +2176,24 @@ freq_loop_state_free( freq_loop_state_t **state )
  * Return: the new sweep state, owned by the caller
  */
 static freq_loop_state_t *
-freq_loop_begin( int scan_lo )
+freq_loop_begin( int scan_lo, freq_calculation_kind_t calculation_kind )
 {
   freq_loop_state_t *state = NULL;
 
   mem_new(&state);
   state->idle_top = -1;
   state->scan_lo  = scan_lo;
+  state->frq.calculation_kind = calculation_kind;
+  state->validity = (calculation_kind == FREQ_CALCULATION_RDPATTERN)
+      ? save.rdpattern_fstep : save.fstep;
   mem_array_alloc(&state->idle_stack, calc_data.num_jobs);
 
   freqplots_update_fscale_extents();
 
-  freq_sweep_run_begin();
+  if( calculation_kind == FREQ_CALCULATION_PLOTS )
+    freq_sweep_run_begin();
+  else
+    rdpattern_stop_requested = FALSE;
 
   return state;
 }
@@ -2171,7 +2207,7 @@ freq_loop_begin( int scan_lo )
 static void
 freq_loop_complete( void )
 {
-  gboolean stopped = freq_sweep_stopping();
+  gboolean stopped = active_calculation_stopping();
 
   switch( stopped )
   {
@@ -2199,7 +2235,11 @@ freq_loop_complete( void )
       break;
   }
 
-  freq_sweep_run_end();
+  if( active_calculation_kind == FREQ_CALCULATION_PLOTS )
+    freq_sweep_run_end();
+  else
+    rdpattern_stop_requested = FALSE;
+  active_calculation_kind = FREQ_CALCULATION_NONE;
 
   if( !rc_config.batch_mode ) busy_status_sweep_end_async();
 
@@ -2287,9 +2327,11 @@ freq_loop_deck_ready( void )
  * Returns TRUE on success, FALSE if preconditions are not met.
  */
 static gboolean
-freq_loop_start_internal( int scan_lo )
+freq_loop_start_internal( int scan_lo,
+                          freq_calculation_kind_t calculation_kind )
 {
-  if( !freq_loop_deck_ready() || freq_sweep_active())
+  if( !freq_loop_deck_ready() ||
+      active_calculation_kind != FREQ_CALCULATION_NONE )
     return FALSE;
 
   /* Join previous thread if it exited naturally but was never joined.
@@ -2298,10 +2340,11 @@ freq_loop_start_internal( int scan_lo )
 
   /* Re-check: the GTK event flush inside Stop_Frequency_Loop may have
    * re-entrantly started a new sweep via eval_apply_and_reload. */
-  if(freq_sweep_active())
+  if(active_calculation_kind != FREQ_CALCULATION_NONE)
     return FALSE;
 
-  floop_state = freq_loop_begin( scan_lo );
+  active_calculation_kind = calculation_kind;
+  floop_state = freq_loop_begin( scan_lo, calculation_kind );
   if( !rc_config.batch_mode ) busy_status_sweep_begin();
 
   /* Intermediate-step draws use force=FALSE and are gated by
@@ -2362,7 +2405,7 @@ Start_Frequency_Loop( void )
   if( !freq_steps_invalidate_all() )
     return FALSE;
 
-  return freq_loop_start_internal( 0 );
+  return freq_loop_start_internal( 0, FREQ_CALCULATION_PLOTS );
 }
 
 /**
@@ -2390,34 +2433,14 @@ freq_loop_run_sync( void )
   if(freq_sweep_active())
     Stop_Frequency_Loop();
 
-  state = freq_loop_begin( 0 );
+  active_calculation_kind = FREQ_CALCULATION_PLOTS;
+  state = freq_loop_begin( 0, FREQ_CALCULATION_PLOTS );
 
   freq_loop_drive( state );
   freq_loop_state_free( &state );
 
   return TRUE;
 }
-
-/**
- * Start_Frequency_Loop_Greenline - recompute only the green-line step
- *
- * Invalidates save.fstep[steps_total] so the dispatch loop recomputes
- * that slot.  Sweep steps 0..steps_total-1 remain valid.
- */
-gboolean
-Start_Frequency_Loop_Greenline( void )
-{
-  if( calc_data.fmhz_save <= 0.0 || save.fstep == NULL || calc_data.steps_total < 1 )
-    return FALSE;
-
-  g_rec_mutex_lock(&freq_data_lock);
-  save.fstep[calc_data.steps_total] = 0;
-  g_rec_mutex_unlock(&freq_data_lock);
-
-  return freq_loop_start_internal( calc_data.steps_total );
-}
-
-/*-----------------------------------------------------------------------*/
 
 /* Stop_Frequency_Loop()
  *
@@ -2426,8 +2449,12 @@ Start_Frequency_Loop_Greenline( void )
   void
 Stop_Frequency_Loop( void )
 {
-  gboolean was_active = freq_sweep_active();
-  freq_sweep_stop_request();
+  freq_calculation_kind_t stopping_kind = active_calculation_kind;
+  gboolean was_active = stopping_kind != FREQ_CALCULATION_NONE;
+  if( stopping_kind == FREQ_CALCULATION_PLOTS )
+    freq_sweep_stop_request();
+  else if( stopping_kind == FREQ_CALCULATION_RDPATTERN )
+    rdpattern_stop_requested = TRUE;
 
   if( !rc_config.disable_pthread_freqloop )
   {
@@ -2441,7 +2468,8 @@ Stop_Frequency_Loop( void )
 
     /* Commit the retirement before flushing pending GTK work so a sweep
      * started re-entrantly during that flush retains its state. */
-    freq_sweep_run_end();
+    if( stopping_kind == FREQ_CALCULATION_PLOTS )
+      freq_sweep_run_end();
 
     while( g_main_context_iteration(NULL, FALSE) ) {}
   }
@@ -2462,9 +2490,11 @@ Stop_Frequency_Loop( void )
       draining = freq_loop_collect_pending( floop_state );
 
     freq_loop_state_free(&floop_state);
-    freq_sweep_run_end();
+    if( stopping_kind == FREQ_CALCULATION_PLOTS )
+      freq_sweep_run_end();
   }
 
+  active_calculation_kind = FREQ_CALCULATION_NONE;
   freq_sweep_controls_refresh();
   if( was_active && !rc_config.batch_mode ) busy_status_sweep_end();
 } /* Stop_Frequency_Loop() */
@@ -2522,11 +2552,49 @@ freq_loop_toggle( void )
   if( freq_sweep_active() )
     freq_loop_pause();
   else if( freq_sweep_paused() )
-    freq_loop_start_internal( 0 );
+    freq_loop_start_internal( 0, FREQ_CALCULATION_PLOTS );
   else if( freq_sweep_complete() )
     freq_loop_recalculate();
   else
     Start_Frequency_Loop();
+}
+
+/* Run exactly one Radiation Pattern operation at the frequency selected in
+ * that window.  It never starts the full Frequency Plot sweep. */
+void
+calculate_selected_radiation_pattern( void )
+{
+  if( active_calculation_kind != FREQ_CALCULATION_NONE ||
+      save.rdpattern_fstep == NULL ||
+      calc_data.steps_total < 1 || calc_data.freq_mhz <= 0.0 )
+    return;
+
+  calc_data.fmhz_save = calc_data.freq_mhz;
+  g_rec_mutex_lock(&freq_data_lock);
+  save.rdpattern_fstep[calc_data.steps_total] = 0;
+  save.freq[calc_data.steps_total] = calc_data.freq_mhz;
+  g_rec_mutex_unlock(&freq_data_lock);
+
+  freq_loop_start_internal( calc_data.steps_total,
+      FREQ_CALCULATION_RDPATTERN );
+}
+
+/* Discard Radiation Pattern publication without touching Frequency Plot. */
+void
+reset_radiation_pattern_result( void )
+{
+  if( active_calculation_kind == FREQ_CALCULATION_RDPATTERN )
+    Stop_Frequency_Loop();
+
+  if( save.rdpattern_fstep != NULL )
+  {
+    g_rec_mutex_lock(&freq_data_lock);
+    for( int i = 0; i <= calc_data.steps_total; i++ )
+      save.rdpattern_fstep[i] = 0;
+    g_rec_mutex_unlock(&freq_data_lock);
+  }
+
+  Queue_Radiation_Redraw( TRUE );
 }
 
 /**

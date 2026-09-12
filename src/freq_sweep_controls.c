@@ -11,10 +11,6 @@ typedef struct {
 } sweep_control_row_t;
 
 static const sweep_control_row_t sweep_controls[] = {
-  { .builder = &main_window_builder,        .play   = "main_loop_start",
-    .image   = "main_loop_play_image",      .rewind = "main_loop_reset" },
-  { .builder = &rdpattern_window_builder,   .play   = "rdpatttern_loop_start",
-    .image   = "rdpattern_loop_play_image", .rewind = "rdpattern_loop_reset" },
   { .builder = &freqplots_window_builder,   .play   = "plot_loop_start",
     .image   = "plot_loop_play_image",      .rewind = "plot_loop_reset" },
   { .builder = NULL },
@@ -31,12 +27,15 @@ static const sweep_control_row_t sweep_controls[] = {
 static void
 freq_sweep_controls_apply( void )
 {
-  gboolean    active = freq_sweep_active();
-  const char *icon   = active ? "media-playback-pause" : "media-playback-start";
+  freq_calculation_kind_t kind = freq_calculation_active_kind();
+  gboolean    active = kind != FREQ_CALCULATION_NONE;
+  gboolean plot_active = active && kind == FREQ_CALCULATION_PLOTS;
+  const char *icon = plot_active
+      ? "media-playback-pause" : "media-playback-start";
   const char *play_tip;
   const char *rewind_tip;
 
-  if( active )
+  if( plot_active )
     play_tip = _("Pause the frequency sweep");
   else if( freq_sweep_paused() )
     play_tip = _("Resume the frequency sweep");
@@ -62,10 +61,35 @@ freq_sweep_controls_apply( void )
     gtk_widget_set_tooltip_text(
         Builder_Get_Object(*row->builder, row->play), play_tip );
 
+    gtk_widget_set_sensitive(
+        Builder_Get_Object(*row->builder, row->play),
+        !active || plot_active );
+
     GtkWidget *rewind = Builder_Get_Object( *row->builder, row->rewind );
 
     gtk_widget_set_sensitive( rewind, !active );
     gtk_widget_set_tooltip_text( rewind, rewind_tip );
+  }
+
+
+  /* Radiation Pattern is an independent, one-shot selected-frequency
+   * operation.  Its Play face never mirrors the Frequency Plot pause state. */
+  if( rdpattern_window_builder != NULL )
+  {
+    GtkWidget *play = Builder_Get_Object(
+        rdpattern_window_builder, "rdpatttern_loop_start" );
+    GtkWidget *image = Builder_Get_Object(
+        rdpattern_window_builder, "rdpattern_loop_play_image" );
+    GtkWidget *rewind = Builder_Get_Object(
+        rdpattern_window_builder, "rdpattern_loop_reset" );
+    gtk_image_set_from_icon_name(GTK_IMAGE(image), "media-playback-start",
+        GTK_ICON_SIZE_LARGE_TOOLBAR);
+    gtk_widget_set_sensitive(play, !active);
+    gtk_widget_set_sensitive(rewind, !active);
+    gtk_widget_set_tooltip_text(play,
+        active && kind == FREQ_CALCULATION_RDPATTERN
+          ? _("Calculating the selected Radiation Pattern")
+          : _("Calculate the selected Radiation Pattern"));
   }
 }
 

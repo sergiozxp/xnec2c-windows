@@ -273,6 +273,7 @@ typedef struct
 } noise_temp_t;
 
 extern noise_temp_t *noise_temp;
+extern noise_temp_t *freqplot_noise_temp;
 
 typedef struct
 {
@@ -311,6 +312,7 @@ const char *ant_temp_sky_name(int idx);
 const char *ant_temp_earth_name(int idx);
 int meas_has_impedance(int idx);
 void meas_calc(measurement_t *m, int idx, int port);
+void meas_calc_radiation_pattern(measurement_t *m, int idx, int port);
 int meas_name_idx(const char *name, int len);
 void meas_format(measurement_t *m, const char *format, char *out, int outlen);
 int meas_write_format(measurement_t *m, const char *format, FILE *fp);

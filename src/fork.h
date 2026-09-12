@@ -41,6 +41,7 @@ typedef struct
 {
   char   mathlib_id[MATHLIB_ID_LEN];
   int    threads;
+  freq_calculation_kind_t calculation_kind;
   double freq_mhz;
 } fork_frqdata_t;
 

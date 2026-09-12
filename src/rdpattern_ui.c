@@ -315,7 +315,7 @@ Update_Rdpattern_UI(void)
   /* Update TA readout in toolbar */
   {
     measurement_t meas = { .a = {0} };
-    meas_calc(&meas, fstep, calc_data.ex_port);
+    meas_calc_radiation_pattern(&meas, fstep, calc_data.ex_port);
     GtkWidget *temp_entry = Builder_Get_Object(
         rdpattern_window_builder, "rdpattern_ant_temp_entry");
     if (temp_entry)
@@ -943,13 +943,14 @@ free_rad_pattern_step(void *elem)
  * Allocates memory to the radiation pattern buffers
  */
   void
-_Alloc_Rdpattern_Buffers( int nfrq, int nth, int nph )
+alloc_pattern_bank( rad_pattern_t **bank, noise_temp_t **temperature,
+                    int nfrq, int nth, int nph )
 {
   int idx;
 
   /* Resize the outer array, freeing only the shrink tail; surviving
    * entries keep their sub-buffers for reuse by the inner alloc loop. */
-  mem_array_resize(&rad_pattern, nfrq, free_rad_pattern_step);
+  mem_array_resize(bank, nfrq, free_rad_pattern_step);
 
   /* Per-fstep angular sample count; gates the inner sub-buffer alloc so
    * the outer-array invariant holds even for a degenerate nth*nph. */
@@ -957,20 +958,29 @@ _Alloc_Rdpattern_Buffers( int nfrq, int nth, int nph )
   if( nrec > 0 )
     for( idx = 0; idx < nfrq; idx++ )
     {
-      mem_array_alloc(&rad_pattern[idx].gtot, nrec);
-      mem_array_alloc(&rad_pattern[idx].axrt, nrec);
-      mem_array_alloc(&rad_pattern[idx].tilt, nrec);
-      mem_array_alloc(&rad_pattern[idx].max_gain, NUM_POL);
-      mem_array_alloc(&rad_pattern[idx].min_gain, NUM_POL);
-      mem_array_alloc(&rad_pattern[idx].max_gain_tht, NUM_POL);
-      mem_array_alloc(&rad_pattern[idx].max_gain_phi, NUM_POL);
-      mem_array_alloc(&rad_pattern[idx].max_gain_idx, NUM_POL);
-      mem_array_alloc(&rad_pattern[idx].min_gain_idx, NUM_POL);
-      mem_array_alloc(&rad_pattern[idx].sens, nrec);
-      mem_array_alloc(&rad_pattern[idx].phasor, nrec);
+      mem_array_alloc(&(*bank)[idx].gtot, nrec);
+      mem_array_alloc(&(*bank)[idx].axrt, nrec);
+      mem_array_alloc(&(*bank)[idx].tilt, nrec);
+      mem_array_alloc(&(*bank)[idx].max_gain, NUM_POL);
+      mem_array_alloc(&(*bank)[idx].min_gain, NUM_POL);
+      mem_array_alloc(&(*bank)[idx].max_gain_tht, NUM_POL);
+      mem_array_alloc(&(*bank)[idx].max_gain_phi, NUM_POL);
+      mem_array_alloc(&(*bank)[idx].max_gain_idx, NUM_POL);
+      mem_array_alloc(&(*bank)[idx].min_gain_idx, NUM_POL);
+      mem_array_alloc(&(*bank)[idx].sens, nrec);
+      mem_array_alloc(&(*bank)[idx].phasor, nrec);
     }
-  mem_array_realloc(&noise_temp, nfrq);
-  mem_array_zero(noise_temp);
+  mem_array_realloc(temperature, nfrq);
+  mem_array_zero(*temperature);
+
+} /* alloc_pattern_bank() */
+
+  void
+_Alloc_Rdpattern_Buffers( int nfrq, int nth, int nph )
+{
+  alloc_pattern_bank(&rad_pattern, &noise_temp, nfrq, nth, nph);
+  alloc_pattern_bank(&freqplot_rad_pattern, &freqplot_noise_temp,
+                     nfrq, nth, nph);
 
 } /* Alloc_Rdpattern_Buffers() */
 
@@ -989,12 +999,14 @@ void Alloc_Rdpattern_Buffers( int nfrq, int nth, int nph )
   void
 free_rdpattern_buffers(void)
 {
-  int nfrq = mem_array_count(rad_pattern);
-
-  for( int i = 0; i < nfrq; i++ )
+  for( int i = 0; i < mem_array_count(rad_pattern); i++ )
     free_rad_pattern_step(&rad_pattern[i]);
+  for( int i = 0; i < mem_array_count(freqplot_rad_pattern); i++ )
+    free_rad_pattern_step(&freqplot_rad_pattern[i]);
   mem_array_free(&rad_pattern);
+  mem_array_free(&freqplot_rad_pattern);
   mem_array_free(&noise_temp);
+  mem_array_free(&freqplot_noise_temp);
 
 } /* free_rdpattern_buffers() */
 
@@ -1134,4 +1146,3 @@ Viewer_Noise_Value(view_t *v, int fstep)
 }
 
 /*-----------------------------------------------------------------------*/
-
