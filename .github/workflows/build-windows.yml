@@ -230,7 +230,7 @@ jobs:
           '@ | Set-Content -LiteralPath "$env:RUNNER_TEMP/release-notes.md" -Encoding utf8
 
           gh release create "v5.0-windows.1" `
-            "dist/Xnec2c-5.0-Windows-x64-Setup.exe" `
+            "dist/installer/Xnec2c-5.0-Windows-x64-Setup.exe" `
             "dist/Xnec2c-5.0-Windows-x64-Portable.zip" `
             "dist/msix/Xnec2c-5.0-Windows-x64.msix" `
             "dist/msix/Xnec2c-MSIX-Development.cer" `
