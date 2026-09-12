@@ -790,6 +790,11 @@ typedef struct
 
 static radiation_pattern_job_t rdpattern_job = { 0 };
 static guint rdpattern_follow_tag = 0;
+/* Frequency of the last successfully published Radiation Pattern.  This
+ * cannot use save.freq[rdpattern_display_step]: Frequency Plots legitimately
+ * reuse the extra slot and overwrite that shared frequency before the new
+ * radiation calculation starts. */
+static double rdpattern_published_frequency_mhz = 0.0;
 
 freq_calculation_kind_t
 freq_calculation_active_kind( void )
@@ -2593,6 +2598,7 @@ radiation_pattern_job_complete( gpointer unused )
   if( rdpattern_job.succeeded && !rdpattern_job.stop_requested )
   {
     rdpattern_display_step = rdpattern_job.slot;
+    rdpattern_published_frequency_mhz = rdpattern_job.frequency_mhz;
     Update_Rdpattern_UI();
     Queue_Radiation_Redraw(TRUE);
   }
@@ -2684,7 +2690,7 @@ radiation_pattern_follow_timeout( gpointer unused )
   /* A completed result at the selected MHz needs no replacement. */
   if( rdpattern_display_step >= 0 && save.freq != NULL &&
       RDPAT_FSTEP_AVAILABLE(rdpattern_display_step) &&
-      FREQ_EQ(save.freq[rdpattern_display_step], calc_data.fmhz_save) )
+      FREQ_EQ(rdpattern_published_frequency_mhz, calc_data.fmhz_save) )
     return G_SOURCE_REMOVE;
 
   calculate_selected_radiation_pattern();
@@ -2779,6 +2785,7 @@ reset_radiation_pattern_result( void )
   }
 
   rdpattern_display_step = -1;
+  rdpattern_published_frequency_mhz = 0.0;
 
   Queue_Radiation_Redraw( TRUE );
 }
