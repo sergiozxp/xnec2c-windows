@@ -2562,7 +2562,6 @@ radiation_pattern_job_thread( void *unused )
   g_rec_mutex_lock(&freq_data_lock);
   previous_step = calc_data.freq_step;
   previous_frequency = calc_data.freq_mhz;
-  save.freq[rdpattern_job.slot] = rdpattern_job.frequency_mhz;
   g_rec_mutex_unlock(&freq_data_lock);
 
   if( FORKED )
@@ -2584,6 +2583,9 @@ radiation_pattern_job_thread( void *unused )
   if( rdpattern_job.succeeded && !rdpattern_job.stop_requested )
   {
     g_rec_mutex_lock(&freq_data_lock);
+    /* Publish frequency, data-validity and display selection as one completed
+     * result.  Until here the previously drawn pattern remains authoritative. */
+    save.freq[rdpattern_job.slot] = rdpattern_job.frequency_mhz;
     save.rdpattern_fstep[rdpattern_job.slot] = 1;
     g_rec_mutex_unlock(&freq_data_lock);
   }
@@ -2611,8 +2613,8 @@ Stop_Radiation_Pattern_Calculation( void )
   freq_sweep_controls_refresh();
 }
 
-/* Debounced green-line follower.  A drag can deliver many motion frames;
- * calculate only its latest frequency and never overlap the one-shot worker. */
+/* Live green-line follower.  Start during the drag, retain only its latest
+ * requested frequency, and never overlap the one-shot worker. */
 static gboolean
 radiation_pattern_follow_timeout( gpointer unused )
 {
@@ -2645,12 +2647,12 @@ radiation_pattern_follow_selected_frequency( void )
       isFlagClear(ENABLE_RDPAT) || isFlagSet(INPUT_PENDING) )
     return;
 
-  if( rdpattern_follow_tag != 0 )
-    g_source_remove(rdpattern_follow_tag);
-
-  /* Short enough to feel live, long enough to collapse dense mouse motion. */
-  rdpattern_follow_tag = g_timeout_add(120,
-      radiation_pattern_follow_timeout, NULL);
+  /* Start during the drag instead of restarting a debounce delay on every
+   * motion frame.  While NEC2 is busy the source keeps watching; as soon as
+   * the worker completes it calculates the latest mouse-selected frequency. */
+  if( rdpattern_follow_tag == 0 )
+    rdpattern_follow_tag = g_timeout_add(30,
+        radiation_pattern_follow_timeout, NULL);
 }
 
 /* Run exactly one Radiation Pattern operation at the frequency selected in
@@ -2677,10 +2679,6 @@ calculate_selected_radiation_pattern( void )
   rdpattern_job.succeeded = FALSE;
   rdpattern_job.running = TRUE;
   calc_data.fmhz_save = rdpattern_job.frequency_mhz;
-
-  g_rec_mutex_lock(&freq_data_lock);
-  save.rdpattern_fstep[rdpattern_job.slot] = 0;
-  g_rec_mutex_unlock(&freq_data_lock);
 
   busy_status_sweep_begin();
   mem_new(&rdpattern_job.thread);
