@@ -29,6 +29,12 @@
 /* Runtime config file */
 extern rc_config_t rc_config;
 
+/* The path selected by the user and the private file actually edited by the
+ * application.  Keeping them separate prevents Setup/editor operations from
+ * ever changing the selected NEC file implicitly. */
+extern char nec_source_file[FILENAME_LEN];
+extern char nec_working_file[FILENAME_LEN];
+
 /* Rad-pattern content predicates.  Each field selects its overlay only while
  * the rad-pattern window holds DRAW_ENABLED, so a closed window draws none. */
 static inline int draw_efield_active(void)

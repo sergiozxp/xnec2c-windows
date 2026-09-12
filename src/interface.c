@@ -96,10 +96,11 @@ Window_Title_Subject( char *buf, size_t len )
   {
     Strlcpy( buf, valid_comment, len );
   }
-  else if( strlen(rc_config.input_file) > 0 )
+  else if( strlen(Nec_Source_File()) > 0 )
   {
-    Get_Dirname( rc_config.input_file, NULL, &fname_idx );
-    Strlcpy( buf, &rc_config.input_file[fname_idx], len );
+    const char *source = Nec_Source_File();
+    Get_Dirname( source, NULL, &fname_idx );
+    Strlcpy( buf, &source[fname_idx], len );
   }
   else
   {
@@ -627,4 +628,3 @@ create_nec2_save_dialog( GtkBuilder **builder )
   ret = Builder_Get_Object( *builder, "nec2_save_dialog" );
   return( ret );
 }
-

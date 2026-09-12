@@ -747,6 +747,10 @@ parent_cleanup( void )
 
   engine_buffers_free();
 
+  /* The active model is disposable unless the user explicitly published it
+   * through File -> Save As. */
+  Nec_Working_Copy_Cleanup();
+
 } /* parent_cleanup() */
 
 /*-----------------------------------------------------------------------*/

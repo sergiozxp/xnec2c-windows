@@ -127,13 +127,15 @@ Check_Noise_Warnings(int fstep)
 char *get_nec_filename_stem(char *dst, char *newext, size_t maxlen)
 {
 	int i, len;
-	char *ext, *p = rc_config.input_file;
+	const char *source = Nec_Source_File();
+	char *ext;
+	const char *p = source;
 
-	len = strlen(rc_config.input_file);
+	len = strlen(source);
 	for (i = 0; i < len; i++)
 	{
-		if (rc_config.input_file[i] == '/' || rc_config.input_file[i] == '\\')
-			p = &rc_config.input_file[i+1];
+		if (source[i] == '/' || source[i] == '\\')
+			p = &source[i+1];
 	}
 
 	strncpy(dst, p, maxlen);
@@ -147,44 +149,24 @@ char *get_nec_filename_stem(char *dst, char *newext, size_t maxlen)
 	return dst;
 }
 
-/* Save the currently loaded NEC source under a new name and make that copy
- * the active working model.  Setup and transform operations edit the source
- * file directly, so copying it preserves every card exactly, including
- * comments, traps and custom values. */
+/* Publish a snapshot of the private working model.  The calculation keeps
+ * using the private file, so later edits cannot silently change this saved
+ * file either. */
 static void
 save_nec_working_copy(char *filename)
 {
-  gchar *contents = NULL;
-  gsize length = 0;
   GError *error = NULL;
 
   if( rc_config.input_file[0] == '\0' )
     return;
 
-  if( strcmp(rc_config.input_file, filename) != 0 )
+  if( !Nec_Working_Copy_Save_As(filename, &error) )
   {
-    if( !g_file_get_contents(rc_config.input_file, &contents, &length, &error) )
-    {
-      Notice(GTK_BUTTONS_OK, _("Save As"), "%s", error->message);
-      g_clear_error(&error);
-      return;
-    }
-
-    if( !g_file_set_contents(filename, contents, (gssize)length, &error) )
-    {
-      Notice(GTK_BUTTONS_OK, _("Save As"), "%s", error->message);
-      g_clear_error(&error);
-      g_free(contents);
-      return;
-    }
-    g_free(contents);
+    Notice(GTK_BUTTONS_OK, _("Save As"), "%s", error->message);
+    g_clear_error(&error);
+    return;
   }
-
-  Strlcpy(rc_config.input_file, filename, sizeof(rc_config.input_file));
-  Get_Dirname(rc_config.input_file, rc_config.working_dir, NULL);
-
-  gboolean new_file = TRUE;
-  Open_Input_File(&new_file);
+  Update_Window_Titles();
 }
 
   void

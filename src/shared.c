@@ -225,6 +225,10 @@ dataj_t dataj;
 /* pointers to input/output files */
 FILE *input_fp = NULL;
 
+/* Original/user-visible NEC path and disposable working copy. */
+char nec_source_file[FILENAME_LEN] = "";
+char nec_working_file[FILENAME_LEN] = "";
+
 /* common  /fpat/ */
 fpat_t fpat;
 

@@ -1910,6 +1910,9 @@ GtkWidget *create_nec2_save_dialog(GtkBuilder **builder);
 /* main.c */
 int main(int argc, char *argv[]);
 gboolean Open_Input_File(gpointer udata);
+const char *Nec_Source_File(void);
+gboolean Nec_Working_Copy_Save_As(const char *filename, GError **error);
+void Nec_Working_Copy_Cleanup(void);
 gboolean isChild(void);
 /* matrix.c */
 void cmset(int nrow, complex double *cmx, double rkhx, int iexkx);

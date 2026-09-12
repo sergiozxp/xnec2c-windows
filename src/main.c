@@ -37,6 +37,7 @@
 #include "busy_status.h"
 #include "quick_setup.h"
 #include "build_info_generated.h"
+#include <glib/gstdio.h>
 
 static void
 show_latest_build_info( GtkMenuItem *menuitem, gpointer user_data )
@@ -121,6 +122,94 @@ clear_frequency_plot_readouts( void )
 
 /* Forward declaration — full sy_overrides.h conflicts with openblas via gsl */
 extern void sy_overrides_close_if_empty(void);
+
+/* Return the stable, user-visible name rather than the disposable pathname
+ * used by the calculation and editing code. */
+const char *
+Nec_Source_File( void )
+{
+  return nec_source_file[0] != '\0' ? nec_source_file : rc_config.input_file;
+}
+
+/* Turn a newly selected NEC file into a private working copy.  Reloads of the
+ * already active private file (Setup, transforms, editor) are left alone. */
+static gboolean
+Nec_Working_Copy_Prepare( GError **error )
+{
+  gchar *contents = NULL, *tempname = NULL, *source = NULL;
+  gsize length = 0;
+  gint fd;
+
+  if( nec_working_file[0] != '\0' &&
+      strcmp(rc_config.input_file, nec_working_file) == 0 )
+    return TRUE;
+
+  source = g_canonicalize_filename(rc_config.input_file, NULL);
+  if( !g_file_get_contents(source, &contents, &length, error) )
+    goto fail;
+
+  fd = g_file_open_tmp("xnec2c-working-XXXXXX", &tempname, error);
+  if( fd < 0 )
+    goto fail;
+  g_close(fd, NULL);
+
+  if( !g_file_set_contents(tempname, contents, (gssize)length, error) )
+  {
+    g_unlink(tempname);
+    goto fail;
+  }
+
+  if( nec_working_file[0] != '\0' )
+    g_unlink(nec_working_file);
+  Strlcpy(nec_source_file, source, sizeof(nec_source_file));
+  Strlcpy(nec_working_file, tempname, sizeof(nec_working_file));
+  Strlcpy(rc_config.input_file, nec_working_file,
+      sizeof(rc_config.input_file));
+  Get_Dirname(nec_source_file, rc_config.working_dir, NULL);
+  g_free(contents);
+  g_free(tempname);
+  g_free(source);
+  return TRUE;
+
+fail:
+  g_free(contents);
+  g_free(tempname);
+  g_free(source);
+  return FALSE;
+}
+
+gboolean
+Nec_Working_Copy_Save_As( const char *filename, GError **error )
+{
+  gchar *contents = NULL, *destination = NULL;
+  gsize length = 0;
+
+  if( nec_working_file[0] == '\0' ||
+      !g_file_get_contents(nec_working_file, &contents, &length, error) )
+    return FALSE;
+
+  destination = g_canonicalize_filename(filename, NULL);
+  if( !g_file_set_contents(destination, contents, (gssize)length, error) )
+  {
+    g_free(contents);
+    g_free(destination);
+    return FALSE;
+  }
+
+  Strlcpy(nec_source_file, destination, sizeof(nec_source_file));
+  Get_Dirname(nec_source_file, rc_config.working_dir, NULL);
+  g_free(contents);
+  g_free(destination);
+  return TRUE;
+}
+
+void
+Nec_Working_Copy_Cleanup( void )
+{
+  if( nec_working_file[0] != '\0' )
+    g_unlink(nec_working_file);
+  nec_working_file[0] = '\0';
+}
 
 #include <getopt.h>
 #ifndef XNEC2C_NATIVE_WINDOWS
@@ -692,6 +781,20 @@ Open_Input_File( gpointer arg )
     ClearFlag( INPUT_PENDING );
     if( !rc_config.batch_mode ) busy_status_load_end();
     return( FALSE );
+  }
+
+  GError *copy_error = NULL;
+  if( !Nec_Working_Copy_Prepare(&copy_error) )
+  {
+    if( rc_config.batch_mode )
+      fprintf(stderr, "xnec2c: %s\n", copy_error->message);
+    else
+      Notice(GTK_BUTTONS_OK, _("Open NEC file"), "%s",
+          copy_error->message);
+    g_clear_error(&copy_error);
+    ClearFlag( INPUT_PENDING );
+    if( !rc_config.batch_mode ) busy_status_load_end();
+    return FALSE;
   }
 
   /* Hold freq_data_lock across data reset and reallocation so draw
