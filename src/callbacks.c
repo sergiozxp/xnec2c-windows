@@ -5254,6 +5254,35 @@ on_radiation_pattern_reset_clicked(GtkButton *button, gpointer user_data)
   reset_radiation_pattern_result();
 }
 
+/* Compatibility dispatchers retained because the stable, already-validated
+ * Glade resource names one callback for the transport rows.  The dispatch
+ * ends here: each graph immediately enters its own controller and state. */
+void
+on_loop_start_clicked(GtkButton *button, gpointer user_data)
+{
+  if( freqplots_window_builder != NULL &&
+      GTK_WIDGET(button) == Builder_Get_Object(freqplots_window_builder,
+        "plot_loop_start") )
+    on_frequency_plot_play_clicked(button, user_data);
+  else if( rdpattern_window_builder != NULL &&
+      GTK_WIDGET(button) == Builder_Get_Object(rdpattern_window_builder,
+        "rdpatttern_loop_start") )
+    on_radiation_pattern_play_clicked(button, user_data);
+}
+
+void
+on_loop_reset_clicked(GtkButton *button, gpointer user_data)
+{
+  if( freqplots_window_builder != NULL &&
+      GTK_WIDGET(button) == Builder_Get_Object(freqplots_window_builder,
+        "plot_loop_reset") )
+    on_frequency_plot_reset_clicked(button, user_data);
+  else if( rdpattern_window_builder != NULL &&
+      GTK_WIDGET(button) == Builder_Get_Object(rdpattern_window_builder,
+        "rdpattern_loop_reset") )
+    on_radiation_pattern_reset_clicked(button, user_data);
+}
+
 static GtkWidget *aboutdialog = NULL;
   void
 on_about_activate(

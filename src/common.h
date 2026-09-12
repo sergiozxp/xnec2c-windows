@@ -1742,6 +1742,8 @@ void on_frequency_plot_play_clicked(GtkButton *button, gpointer user_data);
 void on_frequency_plot_reset_clicked(GtkButton *button, gpointer user_data);
 void on_radiation_pattern_play_clicked(GtkButton *button, gpointer user_data);
 void on_radiation_pattern_reset_clicked(GtkButton *button, gpointer user_data);
+void on_loop_start_clicked(GtkButton *button, gpointer user_data);
+void on_loop_reset_clicked(GtkButton *button, gpointer user_data);
 void on_about_activate(GtkMenuItem *menuitem, gpointer user_data);
 void on_aboutdialog_close(GtkDialog *dialog, gpointer user_data);
 void on_aboutdialog_destroy(GObject *object, gpointer user_data);
