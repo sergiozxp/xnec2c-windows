@@ -257,6 +257,10 @@ wWinMain(HINSTANCE instance, HINSTANCE previous_instance,
   UNREFERENCED_PARAMETER(show_command);
 
   startup.cb = sizeof(startup);
+  startup.dwFlags = STARTF_USESTDHANDLES;
+  startup.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
+  startup.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+  startup.hStdError = GetStdHandle(STD_ERROR_HANDLE);
 
   if (!get_launcher_directory(root,
       sizeof(root) / sizeof(root[0])))
