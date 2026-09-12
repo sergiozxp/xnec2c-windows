@@ -66,7 +66,7 @@ install_build_menu_items( void )
       "menuitem4_menu");
   GtkWidget *build_item;
 
-  gtk_image_menu_item_set_use_stock(GTK_IMAGE_MENU_ITEM(new_item), FALSE);
+  g_object_set(G_OBJECT(new_item), "use-stock", FALSE, NULL);
   gtk_menu_item_set_use_underline(GTK_MENU_ITEM(new_item), TRUE);
   gtk_menu_item_set_label(GTK_MENU_ITEM(new_item), _("_New Wire"));
 
