@@ -555,6 +555,12 @@ on_main_rdpattern_activate(
           rdpattern_window_builder, "rdpattern_incline_spinbutton") );
     rdpattern_frequency = GTK_SPIN_BUTTON(Builder_Get_Object(
           rdpattern_window_builder, "rdpattern_freq_spinbutton") );
+    /* GtkSpinButton's activate signal is emitted specifically when the user
+     * confirms an entered frequency with Enter.  Connect it here instead of
+     * altering the large Glade resource, and treat it as an explicit request
+     * to rebuild Radiation Pattern after Frequency Plots finishes. */
+    g_signal_connect(rdpattern_frequency, "activate",
+        G_CALLBACK(on_rdpattern_frequency_activate), NULL);
     rdpattern_zoom = GTK_SPIN_BUTTON(Builder_Get_Object(
           rdpattern_window_builder, "rdpattern_zoom_spinbutton") );
     rdpattern_fstep_entry = GTK_ENTRY(Builder_Get_Object(
