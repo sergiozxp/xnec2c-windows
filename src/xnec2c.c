@@ -212,6 +212,8 @@ freq_display_update( double fmhz )
   }
 
   freqplots_marker_show();
+  if( isFlagSet(PLOT_ENABLED) )
+    freqplots_redraw_all(TRUE);
   opt_ui_update_selected_values();
 }
 
@@ -229,9 +231,16 @@ user_set_frequency( double fmhz )
 {
   freq_display_update( fmhz );
   calc_data.freq_mhz = fmhz;
-  /* Selection is display-only.  A cache miss remains pending until the
-   * Radiation Pattern Play button explicitly requests its calculation. */
-  fetch_freq_data();
+  /* A manual frequency must update Frequency Plots.  Reuse an existing sweep
+   * point when possible; otherwise calculate the extra green-line slot so
+   * VSWR, impedance, gain and the other plots receive selected-frequency
+   * values. */
+  if( !fetch_freq_data() )
+    Start_Frequency_Loop_Greenline();
+
+  /* If Radiation Pattern has already been run, its one-shot waits behind the
+   * Frequency Plots job and then follows the same selected frequency. */
+  radiation_pattern_follow_selected_frequency();
 }
 
 /* Frequency_Scale_Geometry()
@@ -2406,6 +2415,27 @@ Start_Frequency_Loop( void )
 }
 
 /**
+ * Start_Frequency_Loop_Greenline - calculate only the selected-frequency slot
+ *
+ * Keeps the completed FR sweep intact and invalidates only its extra slot.
+ * This is used by both numeric frequency controls and by the draggable green
+ * marker when the selected frequency is not already a cached sweep point.
+ */
+gboolean
+Start_Frequency_Loop_Greenline( void )
+{
+  if( calc_data.fmhz_save <= 0.0 || save.fstep == NULL ||
+      calc_data.steps_total < 1 )
+    return FALSE;
+
+  g_rec_mutex_lock(&freq_data_lock);
+  save.fstep[calc_data.steps_total] = 0;
+  g_rec_mutex_unlock(&freq_data_lock);
+
+  return freq_loop_start_internal(calc_data.steps_total);
+}
+
+/**
  * freq_loop_run_sync - run a full sweep to completion on the calling thread
  *
  * The sweep runs inline rather than through the thread or idle driver, so the
@@ -2640,7 +2670,8 @@ radiation_pattern_follow_timeout( gpointer unused )
 {
   (void)unused;
 
-  if( radiation_pattern_calculation_active() )
+  if( radiation_pattern_calculation_active() || freq_sweep_active() ||
+      freq_sweep_armed() )
     return G_SOURCE_CONTINUE;
 
   rdpattern_follow_tag = 0;
@@ -2663,6 +2694,12 @@ radiation_pattern_follow_timeout( gpointer unused )
 void
 radiation_pattern_follow_selected_frequency( void )
 {
+  /* Opening Radiation Pattern is not a request to calculate it.  Automatic
+   * following begins only after that window has published at least one RUN
+   * result; until then the green marker controls Frequency Plots alone. */
+  if( rdpattern_display_step < 0 )
+    return;
+
   if( rdpattern_window == NULL || isFlagClear(DRAW_ENABLED) ||
       isFlagClear(ENABLE_RDPAT) || isFlagSet(INPUT_PENDING) )
     return;

@@ -2038,6 +2038,7 @@ gboolean Frequency_Loop(gpointer udata);
 void batch_finish_no_steps(void);
 gboolean freq_loop_run_sync(void);
 gboolean Start_Frequency_Loop(void);
+gboolean Start_Frequency_Loop_Greenline(void);
 void Stop_Frequency_Loop(void);
 void freq_loop_toggle(void);
 void freq_loop_rewind(void);
