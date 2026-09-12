@@ -5219,34 +5219,39 @@ on_ground2_ok_button_clicked(
 
 
   void
-on_loop_start_clicked(
+on_frequency_plot_play_clicked(
     GtkButton       *button,
     gpointer         user_data)
 {
-  if( freqplots_window_builder != NULL &&
-      GTK_WIDGET(button) == Builder_Get_Object(freqplots_window_builder,
-        "plot_loop_start") )
-    freq_loop_toggle();
-  else if( rdpattern_window_builder != NULL &&
-      GTK_WIDGET(button) == Builder_Get_Object(rdpattern_window_builder,
-        "rdpatttern_loop_start") )
-    calculate_selected_radiation_pattern();
+  (void)button;
+  (void)user_data;
+  freq_loop_toggle();
 }
 
-
-  void
-on_loop_reset_clicked(
+void
+on_frequency_plot_reset_clicked(
     GtkButton       *button,
     gpointer         user_data)
 {
-  if( freqplots_window_builder != NULL &&
-      GTK_WIDGET(button) == Builder_Get_Object(freqplots_window_builder,
-        "plot_loop_reset") )
-    freq_loop_rewind();
-  else if( rdpattern_window_builder != NULL &&
-      GTK_WIDGET(button) == Builder_Get_Object(rdpattern_window_builder,
-        "rdpattern_loop_reset") )
-    reset_radiation_pattern_result();
+  (void)button;
+  (void)user_data;
+  freq_loop_rewind();
+}
+
+void
+on_radiation_pattern_play_clicked(GtkButton *button, gpointer user_data)
+{
+  (void)button;
+  (void)user_data;
+  calculate_selected_radiation_pattern();
+}
+
+void
+on_radiation_pattern_reset_clicked(GtkButton *button, gpointer user_data)
+{
+  (void)button;
+  (void)user_data;
+  reset_radiation_pattern_result();
 }
 
 static GtkWidget *aboutdialog = NULL;

@@ -1738,8 +1738,10 @@ void on_ground2_new_button_clicked(GtkButton *button, gpointer user_data);
 void on_ground2_cancel_button_clicked(GtkButton *button, gpointer user_data);
 void on_ground2_apply_button_clicked(GtkButton *button, gpointer user_data);
 void on_ground2_ok_button_clicked(GtkButton *button, gpointer user_data);
-void on_loop_start_clicked(GtkButton *button, gpointer user_data);
-void on_loop_reset_clicked(GtkButton *button, gpointer user_data);
+void on_frequency_plot_play_clicked(GtkButton *button, gpointer user_data);
+void on_frequency_plot_reset_clicked(GtkButton *button, gpointer user_data);
+void on_radiation_pattern_play_clicked(GtkButton *button, gpointer user_data);
+void on_radiation_pattern_reset_clicked(GtkButton *button, gpointer user_data);
 void on_about_activate(GtkMenuItem *menuitem, gpointer user_data);
 void on_aboutdialog_close(GtkDialog *dialog, gpointer user_data);
 void on_aboutdialog_destroy(GObject *object, gpointer user_data);
@@ -1821,7 +1823,7 @@ void pcint(double xi, double yi, double zi, double cabi, double sabi, double sal
 void unere(double xob, double yob, double zob);
 /* fork.c */
 void Child_Process(int num_child);
-int Get_Freq_Data(int idx, int fstep, int calculation_kind);
+int Get_Freq_Data(int idx, int fstep);
 /* geom_edit.c */
 void Wire_Editor(int action);
 void Patch_Editor(int action);
@@ -2038,6 +2040,8 @@ void Stop_Frequency_Loop(void);
 void freq_loop_toggle(void);
 void freq_loop_rewind(void);
 void calculate_selected_radiation_pattern(void);
+void Stop_Radiation_Pattern_Calculation(void);
+gboolean radiation_pattern_calculation_active(void);
 void reset_radiation_pattern_result(void);
 freq_calculation_kind_t freq_calculation_active_kind(void);
 void Incident_Field_Loop(void);

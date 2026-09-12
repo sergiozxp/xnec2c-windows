@@ -218,7 +218,7 @@ rdpattern_viewer_readout(void)
 
   g_rec_mutex_lock(&freq_data_lock);
 
-  fstep = calc_data.freq_step;
+  fstep = rdpattern_display_step;
 
   /* The view outlives its window: under shared projection a structure
    * rotation reaches this callback after Rdpattern_Window_Killed()
@@ -264,7 +264,7 @@ Update_Rdpattern_UI(void)
 
   g_rec_mutex_lock(&freq_data_lock);
 
-  fstep = calc_data.freq_step;
+  fstep = rdpattern_display_step;
   if( isFlagClear(DRAW_ENABLED) || !RDPAT_FSTEP_AVAILABLE(fstep) )
   {
     g_rec_mutex_unlock(&freq_data_lock);
@@ -309,8 +309,8 @@ Update_Rdpattern_UI(void)
   rdpattern_viewer_readout();
 
   /* Display frequency step */
-  if( calc_data.freq_step >= 0 )
-    Display_Fstep( rdpattern_fstep_entry, calc_data.freq_step );
+  if( rdpattern_display_step >= 0 )
+    Display_Fstep( rdpattern_fstep_entry, rdpattern_display_step );
 
   /* Update TA readout in toolbar */
   {
@@ -368,7 +368,7 @@ Validate_Nearfield_Animation( void )
     return( FALSE );
   }
 
-  int fstep = calc_data.freq_step;
+  int fstep = rdpattern_display_step;
   if( !NF_FSTEP_AVAILABLE(fstep) )
   {
     Notice( GTK_BUTTONS_OK, _("Near Field Animation"), "%s",
@@ -570,7 +570,7 @@ Set_Gain_Style( int gs )
   if (noise)
   {
     g_rec_mutex_lock(&freq_data_lock);
-    Check_Noise_Warnings(calc_data.freq_step);
+    Check_Noise_Warnings(rdpattern_display_step);
     g_rec_mutex_unlock(&freq_data_lock);
   }
 

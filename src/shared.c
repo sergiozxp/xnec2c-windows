@@ -185,6 +185,7 @@ guint floop_tag = 0;
 /* Radiation pattern data */
 rad_pattern_t *rad_pattern = NULL;
 rad_pattern_t *freqplot_rad_pattern = NULL;
+int rdpattern_display_step = -1;
 
 /* Per-frequency-step near field storage */
 near_field_t *near_field_fstep = NULL;

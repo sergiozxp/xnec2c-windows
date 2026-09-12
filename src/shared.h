@@ -216,6 +216,7 @@ extern guint floop_tag;
 /* Radiation pattern data */
 extern rad_pattern_t *rad_pattern ;
 extern rad_pattern_t *freqplot_rad_pattern ;
+extern int rdpattern_display_step;
 
 /* Per-frequency-step near field storage */
 extern near_field_t *near_field_fstep;

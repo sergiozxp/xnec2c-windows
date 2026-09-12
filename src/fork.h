@@ -30,6 +30,7 @@ enum P2CH_COMND
 {
   INFILE = 0,
   FRQDATA,
+  RDPDATA,
   NUM_FKCMNDS
 };
 
@@ -41,11 +42,11 @@ typedef struct
 {
   char   mathlib_id[MATHLIB_ID_LEN];
   int    threads;
-  freq_calculation_kind_t calculation_kind;
   double freq_mhz;
 } fork_frqdata_t;
 
 void fork_send_infile( int idx );
 void fork_send_frqdata( int idx, fork_frqdata_t *frq );
+gboolean fork_calculate_radiation_pattern(int fstep, double freq_mhz);
 
 #endif

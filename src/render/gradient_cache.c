@@ -292,7 +292,7 @@ gradient_cache_update(gradient_cache_t *cache, int w, int h)
   if( w <= 0 || h <= 0 )
     return;
 
-  int fstep = calc_data.freq_step;
+  int fstep = rdpattern_display_step;
   presentation_cache_key_t cur_key =
       presentation_cache_key_build(fstep);
 

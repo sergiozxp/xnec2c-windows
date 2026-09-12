@@ -620,6 +620,7 @@ Open_Input_File( gpointer arg )
    * leaking pth_freq_loop and floop_state.  Stop_Frequency_Loop is
    * idempotent — it checks pth_freq_loop internally and no-ops safely. */
   Stop_Frequency_Loop();
+  Stop_Radiation_Pattern_Calculation();
 
   /* Close open files if any */
   Close_File( &input_fp );
@@ -639,6 +640,7 @@ Open_Input_File( gpointer arg )
   g_rec_mutex_lock(&freq_data_lock);
 
   calc_data.freq_step = -1;
+  rdpattern_display_step = -1;
 
   mem_array_free(&freqplots_main_view()->fr_plots);
 

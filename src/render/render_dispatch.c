@@ -242,7 +242,8 @@ render_check(view_type_t view_type)
     return r;
   }
 
-  r.fstep = calc_data.freq_step;
+  r.fstep = (view_type == VIEW_RDPATTERN)
+      ? rdpattern_display_step : calc_data.freq_step;
 
   if( view_type == VIEW_STRUCTURE )
   {
