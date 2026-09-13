@@ -182,14 +182,14 @@ jobs:
         run: ./packaging/windows/build-msix.ps1
 
       - name: Prepare portable ZIP for release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/feature/antenna-transform' && github.event.head_commit.message == 'Publish Xnec2c 5.0 Windows release'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/feature/antenna-transform' && github.event.head_commit.message == 'Publish Xnec2c 5.0 Windows release 2'
         shell: pwsh
         run: |
           Compress-Archive -Path "dist/$env:ARTIFACT_NAME" `
             -DestinationPath "dist/Xnec2c-5.0-Windows-x64-Portable.zip" -Force
 
       - name: Publish public Xnec2c 5.0 release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/feature/antenna-transform' && github.event.head_commit.message == 'Publish Xnec2c 5.0 Windows release'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/feature/antenna-transform' && github.event.head_commit.message == 'Publish Xnec2c 5.0 Windows release 2'
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
@@ -204,6 +204,8 @@ jobs:
           - Nueva herramienta para transformar la antena completa: traslación, rotación y escalado sobre los ejes X, Y y Z.
           - Nueva ventana unificada **Setup** con barrido de frecuencias, tipo de terreno y material de antena.
           - Setup lee los valores reales del archivo NEC abierto, incluidos terrenos y conductividades personalizados, además del radio y diámetro del conductor.
+          - Setup incorpora un cuarto grupo **Radiation Pattern** que lee una tarjeta RP existente o propone valores compatibles con el terreno cuando falta.
+          - Al aplicar Setup se crea o actualiza la tarjeta RP en la copia interna, habilitando el cálculo del patrón sin modificar el archivo original.
           - Las trampas y cargas del modelo se conservan al cambiar el material de los conductores.
           - Indicador modal y visible de cálculo/carga para evitar operaciones simultáneas mientras el modelo está ocupado.
           - Frequency Plots y Radiation Pattern poseen ejecución y estado independientes; abrir una ventana ya no inicia automáticamente el cálculo de la otra.
@@ -226,16 +228,16 @@ jobs:
 
           El instalador no está firmado digitalmente; Microsoft SmartScreen puede mostrar una advertencia. El código fuente completo y el historial de cambios permanecen disponibles públicamente en este repositorio.
 
-          Comparación completa: https://github.com/sergiozxp/xnec2c-windows/compare/8a3ce2773507f5c21dbcb11b1e8aa3babf716a5c...v5.0-windows.1
+          Comparación completa: https://github.com/sergiozxp/xnec2c-windows/compare/v5.0-windows.1...v5.0-windows.2
           '@ | Set-Content -LiteralPath "$env:RUNNER_TEMP/release-notes.md" -Encoding utf8
 
-          gh release create "v5.0-windows.1" `
+          gh release create "v5.0-windows.2" `
             "dist/installer/Xnec2c-5.0-Windows-x64-Setup.exe" `
             "dist/Xnec2c-5.0-Windows-x64-Portable.zip" `
             "dist/msix/Xnec2c-5.0-Windows-x64.msix" `
             "dist/msix/Xnec2c-MSIX-Development.cer" `
             --target "${{ github.sha }}" `
-            --title "Xnec2c 5.0 for Windows 10 and Windows 11" `
+            --title "Xnec2c 5.0 for Windows 10 and Windows 11 — revision 2" `
             --notes-file "$env:RUNNER_TEMP/release-notes.md" `
             --latest
 
