@@ -9,7 +9,8 @@
 typedef enum {
   CARD_FREQUENCY,
   CARD_GROUND,
-  CARD_MATERIAL
+  CARD_MATERIAL,
+  CARD_RADIATION_PATTERN
 } card_change_t;
 
 typedef struct {
@@ -131,8 +132,10 @@ static gboolean rewrite_card(card_change_t change, const char *replacement,
     else if( change == CARD_GROUND )
       target = line_is_card(cursor, line_len, "GN")
           || line_is_card(cursor, line_len, "GD");
-    else
+    else if( change == CARD_MATERIAL )
       target = line_is_ld5(cursor, line_len);
+    else
+      target = line_is_card(cursor, line_len, "RP");
 
     if( target )
     {
@@ -147,10 +150,23 @@ static gboolean rewrite_card(card_change_t change, const char *replacement,
     {
       g_string_append_len(output, cursor, full_len);
       if( !inserted && replacement != NULL
-          && line_is_card(cursor, line_len, "GE") )
+          && ((change == CARD_RADIATION_PATTERN
+                  && line_is_card(cursor, line_len, "EN"))
+              || (change != CARD_RADIATION_PATTERN
+                  && line_is_card(cursor, line_len, "GE"))) )
       {
-        g_string_append(output, replacement);
-        g_string_append(output, newline);
+        if( change == CARD_RADIATION_PATTERN )
+        {
+          g_string_truncate(output, output->len - full_len);
+          g_string_append(output, replacement);
+          g_string_append(output, newline);
+          g_string_append_len(output, cursor, full_len);
+        }
+        else
+        {
+          g_string_append(output, replacement);
+          g_string_append(output, newline);
+        }
         inserted = TRUE;
       }
     }
@@ -162,8 +178,10 @@ static gboolean rewrite_card(card_change_t change, const char *replacement,
   {
     g_string_free(output, TRUE);
     g_free(contents);
-    Notice(GTK_BUTTONS_OK, _("Quick setup"),
-        _("The NEC file has no GE termination card."));
+    Notice(GTK_BUTTONS_OK, _("Quick setup"), "%s",
+        change == CARD_RADIATION_PATTERN
+          ? _("The NEC file has no EN termination card.")
+          : _("The NEC file has no GE termination card."));
     return FALSE;
   }
 
@@ -201,7 +219,11 @@ typedef struct {
   int points, ground_index, material_index;
   double ground_dielectric, ground_conductivity;
   double radius_min, radius_max;
-  gboolean has_radius, custom_ground, custom_material;
+  double theta_start, theta_stop, theta_step;
+  double phi_start, phi_stop, phi_step;
+  int rp_mode, rp_output;
+  double rp_distance, rp_normalization;
+  gboolean has_radius, custom_ground, custom_material, has_rp;
 } setup_values_t;
 
 typedef struct {
@@ -250,6 +272,14 @@ static void read_setup_values(setup_values_t *values)
   values->stop_freq = values->start_freq;
   values->points = MAX(1, calc_data.steps_total);
   values->ground_index = 4; /* No GN card means free space. */
+  values->theta_start = 0.0;
+  values->theta_stop = 180.0;
+  values->theta_step = 1.0;
+  values->phi_start = 0.0;
+  values->phi_stop = 360.0;
+  values->phi_step = 2.0;
+  values->rp_mode = 0;
+  values->rp_output = 1000;
   if( calc_data.FR_cards > 0 && calc_data.freq_loop_data != NULL )
   {
     values->start_freq = calc_data.freq_loop_data[0].min_freq;
@@ -314,6 +344,24 @@ static void read_setup_values(setup_values_t *values)
         values->has_radius = TRUE;
       }
     }
+    else if( line_is_card(cursor, line_len, "RP") )
+    {
+      n = parse_card_fields(cursor, line_len, f, G_N_ELEMENTS(f));
+      if( n >= 8 )
+      {
+        values->has_rp = TRUE;
+        values->rp_mode = (int)f[0];
+        values->rp_output = (int)f[3];
+        values->theta_start = f[4];
+        values->theta_step = f[6];
+        values->theta_stop = f[4] + (MAX(1, (int)f[1]) - 1) * f[6];
+        values->phi_start = f[5];
+        values->phi_step = f[7];
+        values->phi_stop = f[5] + (MAX(1, (int)f[2]) - 1) * f[7];
+        if( n >= 9 ) values->rp_distance = f[8];
+        if( n >= 10 ) values->rp_normalization = f[9];
+      }
+    }
     if( end == NULL ) break;
     cursor = end + 1;
   }
@@ -334,6 +382,10 @@ static void read_setup_values(setup_values_t *values)
       values->custom_material = TRUE;
     }
   }
+
+  /* A ground-backed far field covers the upper hemisphere. */
+  if( !values->has_rp && values->ground_index != 4 )
+    values->theta_stop = 90.0;
 }
 
 static GtkWidget *section_frame(const char *title, GtkWidget **box)
@@ -380,7 +432,8 @@ static void on_setup_activate(GtkMenuItem *item, gpointer unused)
   material_controls_t material_controls;
   GtkWidget *dialog, *content, *outer, *frame, *box, *row;
   GtkWidget *start, *stop, *points, *ground, *material, *conductivity;
-  GtkWidget *dimension;
+  GtkWidget *dimension, *rp_status, *theta_start, *theta_stop, *theta_step;
+  GtkWidget *phi_start, *phi_stop, *phi_step;
   gchar dimension_text[256], custom_ground[160], custom_material[160];
   int i;
   (void)item; (void)unused;
@@ -473,6 +526,39 @@ static void on_setup_activate(GtkMenuItem *item, gpointer unused)
   g_signal_connect(material, "changed", G_CALLBACK(material_changed),
       &material_controls);
   material_changed(GTK_COMBO_BOX(material), &material_controls);
+
+  frame = section_frame(_("Radiation Pattern"), &box);
+  rp_status = gtk_label_new(values.has_rp
+      ? _("Configured in NEC file — values read from RP card")
+      : _("Not configured — suggested values will create an RP card"));
+  gtk_widget_set_halign(rp_status, GTK_ALIGN_START);
+  gtk_box_pack_start(GTK_BOX(box), rp_status, FALSE, FALSE, 0);
+
+  row = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+  theta_start = number_spin(values.theta_start, 0.0, 180.0, 1.0, 1);
+  theta_stop = number_spin(values.theta_stop, 0.0, 180.0, 1.0, 1);
+  theta_step = number_spin(values.theta_step, 0.1, 180.0, 0.5, 1);
+  gtk_box_pack_start(GTK_BOX(row), labelled_spin(_("Elevation start"),
+      theta_start, _("deg")), TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(row), labelled_spin(_("Elevation end"),
+      theta_stop, _("deg")), TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(row), labelled_spin(_("Elevation step"),
+      theta_step, _("deg")), TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(box), row, FALSE, FALSE, 0);
+
+  row = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+  phi_start = number_spin(values.phi_start, 0.0, 360.0, 1.0, 1);
+  phi_stop = number_spin(values.phi_stop, 0.0, 360.0, 1.0, 1);
+  phi_step = number_spin(values.phi_step, 0.1, 360.0, 0.5, 1);
+  gtk_box_pack_start(GTK_BOX(row), labelled_spin(_("Azimuth start"),
+      phi_start, _("deg")), TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(row), labelled_spin(_("Azimuth end"),
+      phi_stop, _("deg")), TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(row), labelled_spin(_("Azimuth step"),
+      phi_step, _("deg")), TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(box), row, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(outer), frame, FALSE, FALSE, 0);
+
   gtk_widget_show_all(dialog);
 
   while( gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_APPLY )
@@ -482,8 +568,9 @@ static void on_setup_activate(GtkMenuItem *item, gpointer unused)
     int n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(points));
     int ground_idx = gtk_combo_box_get_active(GTK_COMBO_BOX(ground));
     int material_idx = gtk_combo_box_get_active(GTK_COMBO_BOX(material));
-    double step, sigma;
-    gchar frequency_card[160], ground_card[160], material_card[160];
+    double step, sigma, t0, t1, dt, p0, p1, dp;
+    int nth, nph;
+    gchar frequency_card[160], ground_card[160], material_card[160], rp_card[200];
     const char *material_replacement = material_card;
 
     if( f1 < f0 || (n > 1 && f1 <= f0) )
@@ -492,6 +579,20 @@ static void on_setup_activate(GtkMenuItem *item, gpointer unused)
           _("End frequency must be greater than start frequency."));
       continue;
     }
+    t0 = gtk_spin_button_get_value(GTK_SPIN_BUTTON(theta_start));
+    t1 = gtk_spin_button_get_value(GTK_SPIN_BUTTON(theta_stop));
+    dt = gtk_spin_button_get_value(GTK_SPIN_BUTTON(theta_step));
+    p0 = gtk_spin_button_get_value(GTK_SPIN_BUTTON(phi_start));
+    p1 = gtk_spin_button_get_value(GTK_SPIN_BUTTON(phi_stop));
+    dp = gtk_spin_button_get_value(GTK_SPIN_BUTTON(phi_step));
+    if( t1 < t0 || p1 < p0 )
+    {
+      Notice(GTK_BUTTONS_OK, _("Radiation Pattern"),
+          _("End angles must not be smaller than start angles."));
+      continue;
+    }
+    nth = MAX(1, (int)floor((t1 - t0) / dt + 0.5) + 1);
+    nph = MAX(1, (int)floor((p1 - p0) / dp + 0.5) + 1);
     step = n > 1 ? (f1 - f0) / (double)(n - 1) : 0.0;
     g_snprintf(frequency_card, sizeof(frequency_card),
         "FR 0 %d 0 0 %.12g %.12g", n, f0, step);
@@ -516,9 +617,17 @@ static void on_setup_activate(GtkMenuItem *item, gpointer unused)
       g_snprintf(material_card, sizeof(material_card),
           "LD 5 0 0 0 %.12g 0 0", sigma);
     }
+    g_snprintf(rp_card, sizeof(rp_card),
+        "RP %d %d %d %d %.12g %.12g %.12g %.12g %.12g %.12g",
+        values.has_rp ? values.rp_mode : 0, nth, nph,
+        values.has_rp ? values.rp_output : 1000,
+        t0, p0, dt, dp,
+        values.has_rp ? values.rp_distance : 0.0,
+        values.has_rp ? values.rp_normalization : 0.0);
     if( rewrite_card(CARD_FREQUENCY, frequency_card, FALSE)
         && rewrite_card(CARD_GROUND, ground_card, FALSE)
-        && rewrite_card(CARD_MATERIAL, material_replacement, TRUE) )
+        && rewrite_card(CARD_MATERIAL, material_replacement, FALSE)
+        && rewrite_card(CARD_RADIATION_PATTERN, rp_card, TRUE) )
       break;
   }
   gtk_widget_destroy(dialog);
