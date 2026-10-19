@@ -1,5 +1,12 @@
 # Xnec2c para Windows
 
+> [!WARNING]
+> **Proyecto descontinuado.** Este port de Xnec2c para Windows ya no se mantiene ni recibirá
+> actualizaciones. El trabajo se migró a **[NEC2CG](https://nec2cg.charlygolf.com/)**, que ofrece
+> muchas más ventajas para los usuarios y es mucho más fácil de mantener al día.
+>
+> 👉 Use **https://nec2cg.charlygolf.com/** en lugar de este repositorio.
+
 Este repositorio mantiene una integración mínima y reproducible de
 [Xnec2c](https://github.com/KJ7LNW/xnec2c) para Windows 11 x64. La primera
 etapa produce una aplicación nativa con MSYS2/UCRT64, GTK 3 y el renderizador

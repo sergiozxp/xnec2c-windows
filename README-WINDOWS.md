@@ -1,5 +1,12 @@
 # Compilar Xnec2c en Windows 11 x64
 
+> [!WARNING]
+> **Proyecto descontinuado.** Este port de Xnec2c para Windows ya no se mantiene ni recibirá
+> actualizaciones. El trabajo se migró a **[NEC2CG](https://nec2cg.charlygolf.com/)**, que ofrece
+> muchas más ventajas para los usuarios y es mucho más fácil de mantener al día.
+>
+> 👉 Use **https://nec2cg.charlygolf.com/** en lugar de este repositorio.
+
 Este procedimiento reproduce el job de GitHub Actions en una instalación local
 de Windows 11. Todos los comandos de build deben ejecutarse en la terminal
 **MSYS2 UCRT64**, no en MSYS, MINGW64, PowerShell ni WSL.
